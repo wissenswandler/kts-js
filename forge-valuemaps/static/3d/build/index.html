@@ -1,0 +1,28 @@
+<!-- Content-Type: application/xhtml+xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+  <style> body { margin: 0; } </style>
+  <script src="https://unpkg.com/3d-force-graph"></script>
+</head>  
+<body>
+  <div id="1">1</div>
+<script>
+  const myGraph = ForceGraph3D()
+  ( document.getElementById('1') )
+  .dagMode('bu')
+  .graphData
+  (
+  {
+      nodes: [...Array(100).keys()].map(i => ({ id: i })),
+      links: [...Array(100).keys()]
+        .filter(id => id)
+        .map(id => ({
+          source: id,
+          target: Math.round(Math.random() * (id-1))
+        }))
+  }      
+  );
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{
+  "name": "value-maps-for-jira-custom-ui-diagram",
+  "version": "0.1.6",
+  "author": "Boran Gögetap",
+  "license": "AGPL-3.0-or-later",
+  "private": true,
+  "homepage": ".",
+  "dependencies": {
+    "@atlaskit/button": "^16.5.6",
+    "@atlaskit/css-reset": "^6.0.1",
+    "@atlaskit/form": "^8.8.4",
+    "@atlaskit/textfield": "^5.3.6",
+    "@forge/bridge": "^2.5.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
+    ,
+    "link": "npm link @kxfm/dot2svg @kxfm/visco"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "react-scripts": "^5.0.1"
+  }
+}

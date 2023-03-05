@@ -1,0 +1,21 @@
+{
+  "name": "value-maps-for-jira",
+  "version": "1.0.6",
+  "author": "Boran Gögetap",
+  "license": "AGPL-3.0-or-later",
+  "private": true,
+  "scripts": {
+    "weigh": "du static/diagram/build/ > logs/size-build.txt && du -s > logs/size-all.txt",
+    "update-kts": "npm r @kxfm/jira2dot @kxfm/dot @kxfm/svg && npm i ../kxfm-jira2dot ../kxfm-dot ../kxfm-svg"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-plugin-react-hooks": "^4.2.0"
+  },
+  "dependencies": {
+    "@forge/resolver": "^1.4.7",
+    "@kxfm/dot": "file:../kxfm-dot",
+    "@kxfm/jira2dot": "file:../kxfm-jira2dot",
+    "@kxfm/svg": "file:../kxfm-svg"
+  }
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KTS Value Map</title>
+    <meta charset="utf-8" />
+    <base target="ktsdetail" />
+    <link rel="stylesheet" href="graph.css" />
+    <script defer="" src="graph.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
+</head>
+<body>
+<div class="ktscontainer">waiting for KTS Javascript to load...</div>
+<script>
+    var graphviz;      // global variable so that Forge React can access it
+</script>
+<script type="module">  // dynamic import of Graphviz (which does not work in Forge React)
+    import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
+    graphviz = await Graphviz.load();
+</script>
+</body>
+</html>

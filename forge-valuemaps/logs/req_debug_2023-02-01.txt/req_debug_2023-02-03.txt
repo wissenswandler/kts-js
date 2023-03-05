@@ -1,0 +1,17 @@
+DEBUG   14:55:33.514  b2ead4efb0295441  [
+  '(devdebug) ',
+  {
+    payload: {},
+    context: {
+      accountId: '557058:8e85bec3-9a06-4e6a-9a85-8fe17c5f25c7',
+      localId: 'ari:cloud:ecosystem::extension/b8f62955-0fb5-4796-8356-e034c3b34762/45a230ea-a367-434a-b41d-b0c4afdc5843/static/kts-diagram-thin-server-project-page',
+      cloudId: '03f3ce7b-7d4b-4363-9370-9e6917312a51',
+      moduleKey: 'kts-diagram-thin-server-project-page',
+      extension: [Object],
+      accountType: 'ATLASSIAN',
+      installContext: 'ari:cloud:jira::site/03f3ce7b-7d4b-4363-9370-9e6917312a51',
+      license: undefined,
+      jobId: undefined
+    }
+  }
+]

@@ -1,0 +1,17 @@
+DEBUG   2023-02-01T23:12:32.356Z 46f2b62b-bda3-4ade-931b-2df51ac23e01 [
+  '(devdebug) ',
+  {
+    payload: {},
+    context: {
+      localId: 'ari:cloud:ecosystem::extension/b8f62955-0fb5-4796-8356-e034c3b34762/45a230ea-a367-434a-b41d-b0c4afdc5843/static/kts-diagram-thin-server-project-page',
+      cloudId: '03f3ce7b-7d4b-4363-9370-9e6917312a51',
+      environmentId: '45a230ea-a367-434a-b41d-b0c4afdc5843',
+      environmentType: 'DEVELOPMENT',
+      moduleKey: 'kts-diagram-thin-server-project-page',
+      siteUrl: 'https://wissenswandler.atlassian.net',
+      extension: [Object],
+      installContext: 'ari:cloud:jira::site/03f3ce7b-7d4b-4363-9370-9e6917312a51',
+      accountId: '557058:8e85bec3-9a06-4e6a-9a85-8fe17c5f25c7'
+    }
+  }
+]
