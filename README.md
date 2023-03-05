@@ -1,8 +1,8 @@
-# KTS implementation in Javascript
+# KTS: Knowledge Transformation System
 
-for node.js (CLI), Atlassian Forge, and stand-alone Browser target environments
+<img src="W.svg" width="90" height="90" align="left">
 
-## What is KTS?
+implementation in Javascript for node.js (CLI), Atlassian Forge, Observable and static-website target environments
 
 KTS stands for "Knowledge Transformation System". It is a collection of tools for creating, moving, linking, re-shaping, **visualizing and exploring** information.
 
