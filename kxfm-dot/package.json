@@ -1,7 +1,7 @@
 {
   "name": "@kxfm/dot",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "lightweight lib for the domain of GraphViz Dot language / part of KTS (Knowledge Transformation System)",
   "main": "index.js",
   "scripts": {

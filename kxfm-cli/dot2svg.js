@@ -45,7 +45,7 @@ try
 }
 catch (err)
 {
-	libPath = "https://wissenswandler.github.io/lib";
+	libPath = "https://cdn.jsdelivr.net/npm/@kxfm/visco@latest";
 	console.warn( chalk.yellowBright( `library ${testLib} does not exist. Using default ${libPath}` ) );
 }
 

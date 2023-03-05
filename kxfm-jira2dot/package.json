@@ -1,18 +1,21 @@
 {
   "name": "@kxfm/jira2dot",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "lightweight lib for transforming from Jira objects to DOT / part of KTS (Knowledge Transformation System)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-    ,
-    "build" : "npm link @kxfm/dot @kxfm/svg"
+    "test": "jira_extract_issues knowhere.atlassian.net project=KTSTESTC > issues.json",
+    "link": "npm link @kxfm/dot @kxfm/svg"
   },
   "author": "Boran Gögetap",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:wissenswandler/kts-js.git"
   },
-  "license": "AGPL-3.0-or-later"
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "@kxfm/dot": "^1.0.0",
+    "@kxfm/svg": "^1.2.0"
+  }
 }

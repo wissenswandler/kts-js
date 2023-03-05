@@ -8,7 +8,7 @@ export default class KTS4SVG
 	* rewrite GraphViz SVG to include KTS CSS and Javascript,
 	* and to fix GraphViz bug: reverse <title> and first <g> tags so that title will be effective in browser
 	*/
-	static rewrite_GraphViz_SVG_to_KTS_SVG( _svg, libPath = "https://wissenswandler.github.io/lib" )
+	static rewrite_GraphViz_SVG_to_KTS_SVG( _svg, libPath = "https://cdn.jsdelivr.net/npm/@kxfm/visco@latest" )
 	{
 		if( ! (typeof _svg === 'string')  ) 
 		{

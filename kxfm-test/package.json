@@ -4,13 +4,11 @@
   "version": "1.0.0",
   "description": "tests for libraries in KTS (Knowledge Transformation System)",
   "scripts": {
-    "build" : "npm link @kxfm/dot @kxfm/svg @kxfm/dot2svg",
-    "test_23" : "cat data/issues.json | jira-issues2dot | dot2svg"
-    ,
-    "test_3": "node dot2svg_simple-graph.js"
-    ,
-    "test_3fail": "node dot2svg_mustfail.js"
-    ,
+    "test": "npm run test_23; npm run test_3fail; npm run test_3",
+    "link": "npm link @kxfm/dot @kxfm/svg @kxfm/dot2svg",
+    "test_23": "cat data/issues.json | jira-issues2dot | dot2svg",
+    "test_3": "node dot2svg_simple-graph.js",
+    "test_3fail": "node dot2svg_mustfail.js",
     "wds": "web-dev-server --node-resolve --watch"
   },
   "author": "Boran Gögetap",
@@ -20,6 +18,9 @@
   },
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@hpcc-js/wasm": "^2.8.0"
+    "@hpcc-js/wasm": "^2.8.0",
+    "@kxfm/dot": "^1.0.0",
+    "@kxfm/dot2svg": "^1.2.0",
+    "@kxfm/svg": "^1.2.0"
   }
 }
