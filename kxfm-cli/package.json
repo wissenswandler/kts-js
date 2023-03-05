@@ -1,0 +1,47 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@hpcc-js/wasm": "^2.7.0",
+    "chalk": "^5.2.0",
+    "jira-client": "^8.2.2"
+  },
+  "name": "@kxfm/cli",
+  "version": "1.2.0",
+  "description": "Knowledge Transformation System (KTS) implementation in node.js, Command-Line Interface",
+  "bin": {
+    "jira_extract_issues": "jira_extract_issues.js",
+    "jira-issues2dot": "jira-issues2dot.js",
+    "dot2svg": "dot2svg.js"
+  },
+  "scripts": {
+    "build": "npm link @kxfm/jira2dot @kxfm/dot @kxfm/dot2svg @kxfm/svg",
+    "clean": "git clean -fX",
+    "test": "npm run test123",
+    "test1": "jira_extract_issues knowhere.atlassian.net project=KTSTESTC > issues.json",
+    "test2": "cat issues.json | jira-issues2dot > graph.dot",
+    "test3": "dot2svg -f",
+    "test123": "jira_extract_issues knowhere.atlassian.net project=KTSTESTC | jira-issues2dot | dot2svg > graph.svg",
+    "test123v": "npm run test123 && npm run testv",
+    "testv": "firefox graph.svg"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:wissenswandler/kts-js.git"
+  },
+  "keywords": [
+    "KTS",
+    "causality",
+    "information",
+    "visualization",
+    "valuestream"
+  ],
+  "author": "Boran Gögetap",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://bitbucket.org/wissenswandler/kts-node/issues"
+  },
+  "homepage": "https://bitbucket.org/wissenswandler/kts-node#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

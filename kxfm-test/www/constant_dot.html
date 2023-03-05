@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Constant DOT to SVG</title>
+    <meta charset="utf-8" />
+    <base target="ktsdetail" />
+    <link rel="stylesheet" href="../lib/graph.css" />
+    <style> .ktscontainer { float: left; } </style>
+    <script defer="" src="../lib/graph.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
+</head>
+<body>
+<div class="ktscontainer">waiting for KTS Javascript to load...</div>
+<div class="ktscontainer">waiting for KTS Javascript to load...</div>
+</body>
+<script type="module">
+    devdebug( "importing graphviz" );
+    import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
+
+    import Tdot2svgStrings from "@kxfm/dot2svg/Tdot2svgStrings.js";
+
+    devdebug( "loading graphviz" );
+    let transformer = new Tdot2svgStrings(  await Graphviz.load() );
+
+    devdebug( "transforming DOT->SVG" );
+    transformer.render( "digraph{cause->effect}", ".ktscontainer" );
+    transformer.render( "digraph{hip->hop}"     , ".ktscontainer:nth-child(2)" );
+    devdebug( "HTML BODY done." );
+</script>
+</html>

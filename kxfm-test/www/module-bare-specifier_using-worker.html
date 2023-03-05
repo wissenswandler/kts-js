@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Worker DOT to SVG</title>
+    <meta charset="utf-8" />
+    <base target="ktsdetail" />
+    <link rel="stylesheet" href="../lib/graph.css" />
+    <script defer="" src="../lib/graph.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
+</head>
+<body>
+<div class="ktscontainer">waiting for KTS Javascript to load...</div>
+</body>
+<script>
+    var worker;
+</script>
+<script id="worker_declaration" type="javascript/worker">
+  // This script won't be parsed by JS engines because its type is javascript/worker.
+var transformer = null; // re-usable, expensive graphviz instance (takes 500 ms to load)
+
+import Tdot2svgStrings from "@kxfm/dot2svg/Tdot2svgStrings.js";
+
+console.debug( "KTS worker importing graphviz" );
+import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
+
+// waiting for promise here on module top-level (both with .then OR await) causes the worker to hang without trace of error
+
+console.debug( "KTS worker waiting for connection..." );
+addEventListener
+(   "connect", async connection_event =>
+{
+    console.debug( "KTS worker received new connection..." );
+    if( transformer )
+    {
+        console.debug( "KTS worker reusing graphviz" );
+    }
+    else
+    {
+        console.debug( "KTS worker LOADING graphviz" );
+        transformer = new Tdot2svgStrings( await Graphviz.load() );
+    }
+
+    const port = connection_event.ports[0];
+    
+    port.addEventListener
+    (   'message', message_event =>
+    {
+        console.debug( "KTS worker received request, returning SVG" );
+        port.postMessage(  transformer.dot2svg( message_event.data )  );
+        //port.postMessage(  '<svg><text x="10" y="20">pong ' + i++ + '</svg></svg>'  );
+    }
+    );
+    port.start();
+    console.debug( "KTS worker waiting for messages..." );
+}
+);
+</script>
+<script type="module">
+    import KTS4SVG from "@kxfm/svg/index.js";
+
+    const worker_blob = new Blob([
+        document.querySelector('#worker_declaration').textContent
+    ], { type: "text/javascript" })
+    const worker_url = window.URL.createObjectURL( worker_blob );
+
+    devdebug( "constructing worker" );
+    worker = new SharedWorker( "graphviz-worker.js" /*worker_url*/ , {type: "module"} );
+    worker.port.addEventListener
+    ( "message", function(svgmessage) 
+    {
+        devdebug( "received message from worker" );
+        KTS4SVG.integrate_svg_into_page( svgmessage.data, ".ktscontainer" );
+	    on_svg_load();	// depends on global function, currently declared by graph.js
+    }, false
+    );
+    worker.port.start();
+
+    devdebug( "calling worker ..." );
+    worker.port.postMessage( "digraph{root_cause -> intermediate_cause -> intermediate_effect -> symptom secondary_cause -> intermediate_effect}" );
+    
+    devdebug( "HTML BODY done." );
+</script>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "@kxfm/test",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "tests for libraries in KTS (Knowledge Transformation System)",
+  "scripts": {
+    "build" : "npm link @kxfm/dot @kxfm/svg @kxfm/dot2svg",
+    "test_23" : "cat data/issues.json | jira-issues2dot | dot2svg"
+    ,
+    "test_3": "node dot2svg_simple-graph.js"
+    ,
+    "test_3fail": "node dot2svg_mustfail.js"
+    ,
+    "wds": "web-dev-server --node-resolve --watch"
+  },
+  "author": "Boran Gögetap",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:wissenswandler/kts-js.git"
+  },
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "@hpcc-js/wasm": "^2.8.0"
+  }
+}

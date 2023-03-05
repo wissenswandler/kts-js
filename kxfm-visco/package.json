@@ -1,0 +1,14 @@
+{
+  "name": "@kxfm/visco",
+  "version": "1.2.0",
+  "description": "Visual Cortex (VisCo) = lightweight JS + CSS lib for exploring SVG graphs / part of KTS (Knowledge Transformation System)",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Boran Gögetap",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:wissenswandler/kts-js.git"
+  },  
+  "license": "AGPL-3.0-or-later"
+}

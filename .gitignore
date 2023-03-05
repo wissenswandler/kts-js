@@ -1,0 +1,9 @@
+node_modules/
+
+issues.json
+!kxfm-test/data/issues.json
+
+graph.dot
+
+*.svg
+!kxfm-test/CEPDI/*.svg
