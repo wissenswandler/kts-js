@@ -3,7 +3,8 @@
   "version": "1.2.0",
   "description": "Visual Cortex (VisCo) = lightweight JS + CSS lib for exploring SVG graphs / part of KTS (Knowledge Transformation System)",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "link": "echo '(nothing to link in this package)'"
   },
   "author": "Boran Gögetap",
   "repository": {

@@ -3,8 +3,7 @@ import { invoke } from '@forge/bridge'
 import { view   } from '@forge/bridge'
 import Edit from './Edit';
   
-import Tdot2svgStrings from "@kxfm/dot2svg/Tdot2svgStrings.js";
-
+import {Tdot2svgStrings} from "@kxfm/dot2svg/Tdot2svgStrings.js";
 // import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js" // The target environment doesn't support dynamic import() syntax so it's not possible to use external type 'module' within a script
 
 /*

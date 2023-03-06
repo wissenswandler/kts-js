@@ -5,7 +5,8 @@
   "description": "lightweight lib for the domain of GraphViz Dot language / part of KTS (Knowledge Transformation System)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "link": "echo '(nothing to link in this package)'"
   },
   "author": "Boran Gögetap",
   "repository": {

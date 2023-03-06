@@ -17,7 +17,7 @@
     devdebug( "importing graphviz" );
     import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
 
-    import Tdot2svgStrings from "@kxfm/dot2svg/Tdot2svgStrings.js";
+    import {Tdot2svgStrings} from "@kxfm/dot2svg/Tdot2svgStrings.js";
 
     devdebug( "loading graphviz" );
     let transformer = new Tdot2svgStrings(  await Graphviz.load() );

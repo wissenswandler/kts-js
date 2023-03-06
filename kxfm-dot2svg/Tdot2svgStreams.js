@@ -6,14 +6,14 @@
  */
 
 // streams come without import
-import KTS4dot2svg from './Tdot2svgStrings.js';
+import {Tdot2svgStrings} from './Tdot2svgStrings.js';
 
-export default class Tdot2svgStreams
+export class Tdot2svgStreams
 {
 
 static build_diagram_from_stdin( libPath, graphviz )
 {
-	let transformer = new KTS4dot2svg( graphviz );
+	let transformer = new Tdot2svgStrings( graphviz );
 
 	process.stdin.resume();
 	process.stdin.setEncoding('utf8');

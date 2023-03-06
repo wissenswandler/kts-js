@@ -6,9 +6,9 @@
  */
 
 import fs from 'fs';
-import KTS4dot2svg from './Tdot2svgStrings.js';
+import {Tdot2svgStrings} from './Tdot2svgStrings.js';
 
-export default class Tdot2svgFiles
+export class Tdot2svgFiles
 {
 
 /*
@@ -25,7 +25,7 @@ static build_diagram_from_file( dotsource_filename, svgproduct_filename, graphvi
 			return console.error(chalk.red(err));
 		}
 
-		let transformer = new KTS4dot2svg( graphviz );
+		let transformer = new Tdot2svgStrings( graphviz );
 
 		const svg_kts = transformer.build_diagram_from_string( data, libPath );
 

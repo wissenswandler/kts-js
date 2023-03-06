@@ -3,7 +3,7 @@
 */
 
 import { Graphviz } from "@hpcc-js/wasm/graphviz";
-import Tdot2svgStrings from '@kxfm/dot2svg/Tdot2svgStrings.js';
+import {Tdot2svgStrings} from '@kxfm/dot2svg/Tdot2svgStrings.js';
 const transformer = new Tdot2svgStrings(  await Graphviz.load() );
 
 console.warn( "Expecting:" )

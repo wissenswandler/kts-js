@@ -1,6 +1,6 @@
 var transformer = null; // re-usable, expensive graphviz instance (takes 500 ms to load)
 
-import Tdot2svgStrings from "@kxfm/dot2svg/Tdot2svgStrings.js";
+import {Tdot2svgStrings} from "@kxfm/dot2svg/Tdot2svgStrings.js";
 
 console.debug( "KTS worker importing graphviz" );
 import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";

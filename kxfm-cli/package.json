@@ -20,7 +20,7 @@
   "scripts": {
     "link": "npm link @kxfm/jira2dot @kxfm/dot @kxfm/dot2svg @kxfm/svg",
     "clean": "git clean -fX",
-    "test": "npm run test123",
+    "test": "npm run test123 && npm run test1 && npm run test2 && npm run test3",
     "test1": "jira_extract_issues knowhere.atlassian.net project=KTSTESTC > issues.json",
     "test2": "cat issues.json | jira-issues2dot > graph.dot",
     "test3": "dot2svg -f",

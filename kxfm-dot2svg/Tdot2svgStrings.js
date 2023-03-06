@@ -7,7 +7,7 @@
 import KTS4Dot from '@kxfm/dot';
 import KTS4SVG from '@kxfm/svg';
 
-export default class Tdot2svgStrings
+export class Tdot2svgStrings
 {
 	// standard image size to be used for both dimensions
 	static IMAGE_SIZE = 16;

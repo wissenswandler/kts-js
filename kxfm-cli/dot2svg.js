@@ -11,8 +11,8 @@
 import { exit } from 'process';
 import fs from 'fs'
 import chalk from 'chalk'	
-import streamTransformer	from '@kxfm/dot2svg/Tdot2svgStreams.js'
-import fileTransformer		from '@kxfm/dot2svg/Tdot2svgFiles.js'
+import {Tdot2svgStreams}	from '@kxfm/dot2svg'
+import {Tdot2svgFiles}		from '@kxfm/dot2svg'
 
 import { Graphviz } from "@hpcc-js/wasm/graphviz";
 const graphviz = await Graphviz.load();
@@ -88,7 +88,7 @@ if( ! Boolean( process.stdin.isTTY ) && process.argv.length === 2 )
 		console.warn( chalk.yellowBright ( `ignoring command line argument "${process.argv[2]}" because we are piped to.` ) )
 	}
 	console.warn(chalk.green("reading DOT source from stdin. Type CTRL-D to signal end of your input..."));
-	streamTransformer.build_diagram_from_stdin( libPath, graphviz );
+	Tdot2svgStreams.build_diagram_from_stdin( libPath, graphviz );
 }
 else
 {
@@ -158,5 +158,5 @@ function watch_sourcefile_to_build_productfile( dotsource_filename, svgproduct_f
 function log_and_build_diagram_from_file( log_comment, dotsource_filename, svgproduct_filename, graphviz, libPath )
 {
 	console.warn(  chalk.grey( log_comment )  );
-	fileTransformer.build_diagram_from_file( dotsource_filename, svgproduct_filename, graphviz, libPath )
+	Tdot2svgFiles.build_diagram_from_file( dotsource_filename, svgproduct_filename, graphviz, libPath )
 }
