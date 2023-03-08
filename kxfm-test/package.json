@@ -1,11 +1,13 @@
 {
   "name": "@kxfm/test",
   "type": "module",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "tests for libraries in KTS (Knowledge Transformation System)",
   "scripts": {
-    "test": "npm run test_23; npm run test_3fail; npm run test_3",
+    "create_object_1" : "echo 'graph{rankdir=LR object--b--c--d--e--f}' | dot2svg > object_b__f.svg",
+    "create_object_2" : "echo 'graph{rankdir=LR object--w--x--y--z}'    | dot2svg > object_w__z.svg",
     "link": "npm link @kxfm/dot @kxfm/svg @kxfm/dot2svg",
+    "test": "npm run test_23; npm run test_3fail; npm run test_3",
     "test_23": "cat data/issues.json | jira-issues2dot | dot2svg",
     "test_3": "node dot2svg_simple-graph.js",
     "test_3fail": "node dot2svg_mustfail.js",

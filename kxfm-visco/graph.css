@@ -416,6 +416,14 @@ p.disabled  {
 }
 
 /*
+ * document layout
+ */
+
+.left  { float: left;  }
+.clear { float: clear; }
+
+
+/*
  *
  * (unsuccessful) experiments
  *

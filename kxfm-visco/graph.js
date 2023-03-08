@@ -83,7 +83,7 @@ function e( symbol )
     return;
   }
 
-  throw( "don't know how to execute statement ==>" + symbol + "<==" );
+  console.warn( "don't know how to execute statement ==>" + symbol + "<== (may be OK for multi-diagram document)" );
 }
 
 /*
@@ -97,15 +97,27 @@ function click( elm ) { return onclick( document, elm, null ) }
  * count max distances from clicked node both ways (north and south),
  * then travel the longer path because that is more interesting
  */
-function onclick( document, elm, event )
+function onclick( dom, elm, event )
 {
- console.debug( "entering via click event in document.doctype.nodeName: " + document.doctype.nodeName );
+  if( event ) event.preventDefault();
+
+  let elmSelector ="svg";
+  if( dom.document )
+    document = dom.document;
+
+  if( dom.elmSelector )
+    elmSelector = dom.elmSelector + " svg";
+
+  dom = { document: document, elmSelector: elmSelector };
+  devdebug( "dom = " + JSON.stringify( dom ) );
+
+  devdebug(  "entering onclick() in document.doctype.nodeName: " + document.doctype.nodeName + " with element: " + elm + (event ? " via EVENT" : " via API" )  );
 
   if( typeof elm === 'string' )
   {
     id = elm;
-    console.debug( "converting ID " + id + " string to document element" )
-    elm = document.getElementById( id )
+    devdebug( "converting ID " + id + " string to document element" )
+    elm = dom.document.getElementById( id ) // TODO: in intersecting diagrams, this may not be unique!!
     if( !elm )
     {
       console.error( "cannot find element with id " + id ); 
@@ -117,7 +129,6 @@ function onclick( document, elm, event )
 
  console.info( node_name_by_id( id ) );
 
- if( event ) event.preventDefault()
 
  if( NEXT_CLICK_MEMORY == 'R' )
  {
@@ -128,7 +139,7 @@ function onclick( document, elm, event )
  var myTags = [	calculate_travel_tag( id, DIRECTION_SOUTH ) ,
  		calculate_travel_tag( id, DIRECTION_NORTH ) ]
 
- let max_distance = Array.from(  [0,1], dir => start_travel( document, elm , [0,0], dir, MISSION_COUNT )  )
+ let max_distance = Array.from(  [0,1], dir => start_travel( elm , [0,0], dir, MISSION_COUNT )  )
 
  if( max_distance[0] + max_distance[1] == 0 ) { console.info("no neighbors"); return }
 
@@ -138,10 +149,10 @@ function onclick( document, elm, event )
  {
   if( NEXT_CLICK_DIRECTION == DIRECTION_BOTH )
   {
-    start_travel_both_ways ( document, elm , max_distance );
+    start_travel_both_ways ( elm , max_distance );
   }
   else
-    start_travel ( document, elm , max_distance , NEXT_CLICK_DIRECTION )
+    start_travel ( elm , max_distance , NEXT_CLICK_DIRECTION )
  }
  else
  if( max_distance[0] == max_distance[1] )
@@ -151,11 +162,11 @@ function onclick( document, elm, event )
    && visitorTags.includes( myTags[ 1 ] ) ) 	// been the other way, too
   {
     console.info( "cleaning up" )
-    erase_both_ways( document, elm , max_distance )
+    erase_both_ways( elm , max_distance )
   }
   else //follow both
   {
-    start_travel_both_ways ( document, elm , max_distance );
+    start_travel_both_ways ( elm , max_distance );
   }
  }
  else // paths are not equally long
@@ -168,12 +179,12 @@ function onclick( document, elm, event )
 	  ||
 	  max_distance[ 1- direction ] == 0			// no reverse path
        )
-        erase_both_ways( document, elm, max_distance )			// ... reverse not an option
+        erase_both_ways( elm, max_distance )			// ... reverse not an option
       else
-        start_travel ( document, elm , max_distance , 1- direction)	// travel reversed direction
+        start_travel ( elm , max_distance , 1- direction)	// travel reversed direction
     }
     else
-        start_travel ( document, elm , max_distance ,    direction)	// travel direction of longer, untravelled path
+        start_travel ( elm , max_distance ,    direction)	// travel direction of longer, untravelled path
  }
  NEXT_CLICK_DIRECTION = -1
   
@@ -185,21 +196,21 @@ function calculate_travel_tag( id, direction )
  return id + "-going-" + direction
 }
 
-function erase_both_ways( document, elm , max_distance )
+function erase_both_ways( elm , max_distance )
 {
-  start_travel ( document, elm , max_distance , DIRECTION_SOUTH, MISSION_ERASE )
+  start_travel ( elm , max_distance , DIRECTION_SOUTH, MISSION_ERASE )
 
   elm.setAttribute( "tag1", "dummy" ) // set dummy tag so that next travel does not terminate on already cleared node
 
-  start_travel ( document, elm , max_distance , DIRECTION_NORTH, MISSION_ERASE )
+  start_travel ( elm , max_distance , DIRECTION_NORTH, MISSION_ERASE )
 
   console.log( "erasing " + REASONING[DIRECTION_NORTH] + " and " + REASONING[DIRECTION_SOUTH] + " of " + node_name_by_id( elm.id ) )
 }
 
-function start_travel_both_ways( document, elm , max_distance )
+function start_travel_both_ways( elm , max_distance )
 {
-  start_travel ( document, elm , max_distance , DIRECTION_SOUTH );
-  start_travel ( document, elm , max_distance , DIRECTION_NORTH );
+  start_travel ( elm , max_distance , DIRECTION_SOUTH );
+  start_travel ( elm , max_distance , DIRECTION_NORTH );
   console.log( "showing " + REASONING[DIRECTION_NORTH] + " and " + REASONING[DIRECTION_SOUTH] + " of " + node_name_by_id( elm.id ) )
 }
 
@@ -210,14 +221,14 @@ function node_name_by_id( id )
 }
 
 
-function start_travel( document, elm , max_distance, direction, mission = calculate_travel_tag( id , direction ) )
+function start_travel( elm , max_distance, direction, mission = calculate_travel_tag( id , direction ) )
 {
   visited = 0
   console.debug( "going " + DIRSTRING [ direction ] + " for max " + max_distance[ direction ] + " steps" + ( mission ? (" on mission " + mission ) : "..." )  )
 
-  document.querySelectorAll( "[distance]"  ).forEach(   (svgElm) => {  svgElm.removeAttribute( "distance" )  }   ) 
+  elm.ownerSVGElement.querySelectorAll( "[distance]"  ).forEach(   svgElm => {  svgElm.removeAttribute( "distance" )  }   ) 
 
-  let dist = travel_node( document,	elm , 0 ,
+  let dist = travel_node( elm , 0 ,
     direction == DIRECTION_SOUTH ? 0 : max_distance[DIRECTION_NORTH] ,
     max_distance[direction]+1 ,
     direction,
@@ -242,16 +253,16 @@ function start_travel( document, elm , max_distance, direction, mission = calcul
 /*
  * recursive coloring travel, node hop
  */
-function travel_node( document, elm , current_dist, current_rank , total_ranks , direction , tag )
+function travel_node( elm , current_dist, current_rank , total_ranks , direction , tag )
 {
  ++visited; // console.log( "  entering n " + elm.id + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
  if(  set_visitor_tags( elm , current_dist, current_rank , total_ranks , direction , tag )  )
  {
-  let edges = document.querySelectorAll(  next_edges_selector( elm.id , direction )  )
+  let edges = elm.ownerSVGElement.querySelectorAll(  next_edges_selector( elm.id , direction )  )
   if( edges.length == 0 ) return 0 // terminate recursion and 'count' this node
   else
   // recurse and increment color rank IF travelling South (color rank decreases from edge to next node, in positive flow direction)
-  return Math.max(   ... Array.from(  edges, edge => travel_edge( document, edge , current_dist, current_rank + 1 - direction , total_ranks , direction , tag )
+  return Math.max(   ... Array.from(  edges, edge => travel_edge( edge , current_dist, current_rank + 1 - direction , total_ranks , direction , tag )
   )   )
  }
  else return -1 // terminate recursion and undo count of this node (it gets added by the previous travel_edge on call stack)
@@ -260,17 +271,17 @@ function travel_node( document, elm , current_dist, current_rank , total_ranks ,
 /*
  * recursive coloring travel, edge hop, adding 1 to recursive distance _assuming_ that the folowing node 'counts'
  */
-function travel_edge( document, elm , current_dist, current_rank , total_ranks , direction , tag )
+function travel_edge( elm , current_dist, current_rank , total_ranks , direction , tag )
 {
  // console.log( "  entering e " + elm.id + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
 
- if( document.querySelector( '[id^="' + elm.id + '"] > g > a > path[stroke-dasharray]' ) ) return 0
+ if( elm.ownerSVGElement.querySelector( '[id^="' + elm.id + '"] > g > a > path[stroke-dasharray]' ) ) return 0
 
  set_visitor_tags( elm , current_dist, current_rank , total_ranks , direction , tag ) 
 
  // recurse and decrement color rank IF travelling North (color rank decreases from edge to next node, in positive flow direction)
- return 1 + travel_node(   document,
-                       document.getElementById(  elm.id.split( NODE_SEPARATOR )[ direction ]  ),
+ return 1 + travel_node(
+                       elm.ownerSVGElement.querySelector( "#" + elm.id.split( NODE_SEPARATOR )[ direction ]  ),
                        1+current_dist, current_rank - direction , total_ranks , direction , tag   )
 }
 
@@ -443,8 +454,8 @@ i : { text : "keep [i]ntersecting paths (clear the rest) = inverse of [o]",		f :
 ,
 j : { text : "concentrate on intersection (= shortcut for [i] + [F] )",		f : function(document)
     {
-      execute_keyboard_function( document, "i" )
-      execute_keyboard_function( document, "F" )
+      execute_kts_action( document, "i" )
+      execute_kts_action( document, "F" )
       }
       ,
       s : 41
@@ -525,11 +536,11 @@ U : { text : "copy [U]rl of focussed node to clipboard",		f : function(document)
       post : () => console.log( '"' + clipText + '" is now on system clipboard' )
     }
 ,
-v : { text : "activating [v]isual mode (= inverse of [h])",	f : (document) => activate_visual_mode(document)
+v : { text : "activating [v]isual mode (= inverse of [h])",	f : dom => activate_visual_mode( dom )
       ,
       s : 10
       ,
-      filter : () => isHyperlinkModeActive()
+      filter : dom => isHyperlinkModeActive( dom )
       ,
       post : "Visual mode activated. Click on any node to explore the diagram, if you like."
     }
@@ -752,21 +763,28 @@ function findParentGraphNode( svgElm )
 
 function press( key )	// shortcut without document parameter
 {
-  return execute_keyboard_function( document, key )
+  return execute_kts_action( document, key )
 }
 
 function onpress( document, key )	//convenience of shorter function name for HTML documents
 {
-  return execute_keyboard_function( document, key )
+  return execute_kts_action( document, key )
 }
-function execute_keyboard_function( document, key )
+function execute_kts_action( dom, key )
 {
-  try{
-    console.debug( "entering via keyboard event in document.doctype.nodeName: " + document.doctype.nodeName );
+  let elmSelector ="svg";
+  if( dom.document )
+    document = dom.document;
+  if( dom.elmSelector )
+    elmSelector = dom.elmSelector + " svg";
+
+  try
+  {
+    console.debug( "entering execute_kts_action() with document.doctype.nodeName: " + document.doctype.nodeName ); // HTML case
   }
   catch( e )
   {
-    console.debug( "entering via keyboard event in document.childNodes[0].localName: " + document.childNodes[0].localName );
+    console.debug( "entering execute_kts_action() in document.childNodes[0].localName: " + document.childNodes[0].localName ); // SVG case
   }
 
   let ktsFunction = kts_actions[ key ];
@@ -777,16 +795,16 @@ function execute_keyboard_function( document, key )
 
   devdebug( key )
 
-      ktsFunction["f"]    (document)
+      ktsFunction["f"]    (dom)                // execute the action
   if( ktsFunction["post"] )
     if( typeof ktsFunction["post"] === "function" )
-      ktsFunction["post"] (document)
+      ktsFunction["post"] (dom)                // execute the postfunction
     else
       console.log
-      ( ktsFunction["post"]  )
+    ( ktsFunction["post"]  )                        // log post-action text
   else
       console.log
-      ( ktsFunction["text"]  )
+    ( ktsFunction["text"]  )                        // log action label text
 
   //document.querySelectorAll( ".yellow_flash" ).forEach(  (action) => action.classList.remove( "yellow_flash" )  )
   //document.querySelector( "#" + action_css_id( key ) ).classList.add( "yellow_flash" )
@@ -797,7 +815,6 @@ function execute_keyboard_function( document, key )
 function filterAllActions( document )
 {
   devdebug( "filterAllActions()" )
-  //console.debug( "KTS stack: " + new Error("dummy").stack );
 
   for (let key in kts_actions)
   {
@@ -971,9 +988,9 @@ function generateKeyboardShortcutButtons( document )
  * activate the visual mode = traverse the graph by clicking on nodes
  * implemented via onclick event handler on each graph node
  */
-function activate_visual_mode(document)
+function activate_visual_mode( dom )
 {
- document.querySelectorAll( "g.node" ).forEach(    (svgElm) => {   svgElm.onclick = (event) => { onclick(document, svgElm, event) }   }    )
+  dom.document.querySelectorAll( dom.elmSelector + " g.node" ).forEach(    svgElm => {   svgElm.onclick = event => { onclick(dom, svgElm, event) }   }    )
 }
 
 function activate_hyperlink_mode(document)
@@ -1035,8 +1052,18 @@ function on_keydown(event)
 
     if( event.key in kts_actions )
     {
-      execute_keyboard_function( document, event.key )
-      handled = true
+      try
+      {
+        execute_kts_action( document, event.key )
+        handled = true
+      }
+      catch( e )
+      {
+        if( e == "TypeError: panZoomInstance is undefined" )
+          console.info( "panZoomInstance is undefined - handling zoom natively");
+        else
+          console.error( e )
+      }
     }
     else
     {
@@ -1065,10 +1092,10 @@ function execute_url_command()
   return true;
 }
 
-function analyze_graph()
+function analyze_graph( all_nodes )
 {
-  let distances =     Array.from( all_nodes ).map( (elm) => { let result = {}; result[elm.id] = start_travel( document, elm , [0,0], DIRECTION_NORTH, MISSION_COUNT); return result } )    ;
-  distances.push( ... Array.from( all_nodes ).map( (elm) => { let result = {}; result[elm.id] = start_travel( document, elm , [0,0], DIRECTION_SOUTH, MISSION_COUNT); return result } )  ) ;
+  let distances =     Array.from( all_nodes ).map( elm => { let result = {}; result[elm.id] = start_travel( elm , [0,0], DIRECTION_NORTH, MISSION_COUNT); return result } )    ;
+  distances.push( ... Array.from( all_nodes ).map( elm => { let result = {}; result[elm.id] = start_travel( elm , [0,0], DIRECTION_SOUTH, MISSION_COUNT); return result } )  ) ;
   let sorted_distances = distances.map( (o) => Object.entries(o) ).sort( (a,b) => b[0][1] - a[0][1] );
   let maximum_longdistance = sorted_distances[0][0][1];
   console.info( distances.length + " nodes in graph, longest path = " + (maximum_longdistance+1) );
@@ -1135,12 +1162,29 @@ function resize_pan_zoom()
   panZoomInstance.fit();
 }
 
-function on_svg_load ()
+/*
+ * entry point for HTML/SVG documents upon loading static SVG
+ * OR after creating dynamic SVG inside an HTML document
+ * which implies that this function may be called multiple times in the lifetime of one HTML document
+ */
+function on_svg_load( dom )
 {
-  if( document.querySelector( 'svg' ) )
+  let elmSelector ="svg";
+  if( dom.document )
+    document = dom.document;
+
+  if( dom.elmSelector )
+    elmSelector = dom.elmSelector;
+
+  devdebug( "on_svg_load() with document " + document + " and selector ==>" + elmSelector +"<==" );
+
+  dom = {document:document, elmSelector:elmSelector};
+  
+  if( document.querySelector( elmSelector ) )
   {
     // depends on SVG diagram
-    all_nodes = document.querySelectorAll( "g.node" );
+    all_nodes = document.querySelectorAll( elmSelector + " g.node" );
+    devdebug( "found here " + all_nodes.length + " nodes" );
 
     devdebug( "adding listeners" );
     add_key_listener();
@@ -1149,16 +1193,16 @@ function on_svg_load ()
     generateKeyboardShortcutButtons( document ); // inside SVG diagram in case of SVG (vs HTML) document
     if( all_nodes.length == 0 )
     {
-      execute_keyboard_function(document,"Escape");
-      execute_keyboard_function(document,"Escape");
+      execute_kts_action(document,"Escape");
+      execute_kts_action(document,"Escape");
       console.log( "This diagram is empty. Try creating issues in Jira so they show up here." ); return null; 
     }
-    execute_keyboard_function( document, "v" );  // visual mode = on by default
+    activate_visual_mode( dom ); // visual mode = on by default
 
     if( ! execute_url_command() && ! multiple_kts_diagrams() )
     {
-      devdebug( "analyzing graph" );
-      analyze_graph();
+      //devdebug( "analyzing graph" );
+      //analyze_graph( all_nodes );
     }
 
     devdebug( "init_pan_zoom()" );
@@ -1183,7 +1227,7 @@ function highlight_node( id )
  * browser lifecycle actions
  */
 
-window.addEventListener(  "load", (event) => on_svg_load( event )  );
+window.addEventListener(  "load", (event) => on_svg_load( {document:document} )  );
 
 var _log = console.log;
 var _error = console.error;

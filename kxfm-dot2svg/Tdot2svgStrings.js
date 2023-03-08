@@ -106,7 +106,7 @@ render( dot_string, elmSelector, context )
 
 	KTS4SVG.integrate_svg_into_page( svgtag, elmSelector, context );
 
-	on_svg_load();	// depends on global function, currently declared by graph.js
+	on_svg_load( {elmSelector:elmSelector} );	// depends on global function, currently declared by graph.js
 }
 
 

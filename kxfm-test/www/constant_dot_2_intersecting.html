@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Constant DOT to SVG</title>
+    <meta charset="utf-8" />
+    <base target="ktsdetail" />
+    <link rel="stylesheet" href="../lib/graph.css" />
+    <style> .ktscontainer { float: left; } </style>
+    <script defer="" src="../lib/graph.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
+</head>
+<body>
+<div class="ktscontainer">KTS warming up...</div>
+<div class="ktscontainer">KTS warming up...</div>
+<object class="clear" id="object_1" data="object_b__f.svg" type="image/svg+xml" ></object>
+<object class="clear" id="object_2" data="object_w__z.svg" type="image/svg+xml" ></object>
+<div class="ktscontainer">
+</div>
+<div class="ktscontainer">
+</div>
+</body>
+<script type="module">
+    devdebug( "importing graphviz" );
+    import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
+
+    import {Tdot2svgStrings} from "@kxfm/dot2svg/Tdot2svgStrings.js";
+
+    devdebug( "loading graphviz" );
+    let transformer = new Tdot2svgStrings(  await Graphviz.load() );
+
+    devdebug( "transforming DOT->SVG" );
+    transformer.render( "digraph{aa->b->c->d->ep ll->m->n->o->ep  }" , ".ktscontainer:nth-child(1)" );
+    transformer.render( "digraph{aa->b->   d->ez v->w->y->ez v->w }" , ".ktscontainer:nth-child(2)" );
+    devdebug( "HTML BODY done." );
+
+    var object_1_doc;
+    window.addEventListener
+    (   "load", () =>
+    {
+        object_1_doc = document.getElementById( "object_1" ).getSVGDocument()
+        onclick( {document:object_1_doc}, "object" )
+    }
+    )
+
+</script>
+</html>

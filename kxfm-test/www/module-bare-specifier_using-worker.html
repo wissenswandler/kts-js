@@ -70,7 +70,7 @@ addEventListener
     {
         devdebug( "received message from worker" );
         KTS4SVG.integrate_svg_into_page( svgmessage.data, ".ktscontainer" );
-	    on_svg_load();	// depends on global function, currently declared by graph.js
+	    on_svg_load( ".ktscontainer" );	// depends on global function, currently declared by graph.js
     }, false
     );
     worker.port.start();
