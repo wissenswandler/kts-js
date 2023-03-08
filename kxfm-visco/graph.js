@@ -79,7 +79,7 @@ function e( symbol )
   let elm = document.getElementById( symbol );
   if( elm )
   {
-    click( elm );
+    explore( elm );
     return;
   }
 
@@ -87,9 +87,15 @@ function e( symbol )
 }
 
 /*
- * shortcut function for conclick
+ * shortcut function for explore_3()
  */
-function click( elm ) { return onclick( document, elm, null ) }
+function explore( elm ) { return explore_3( {document:document}, elm, null ) }
+function   click( elm ) { return explore ( elm ) }
+
+function explore_nested( object_tag, elm_id )
+{
+  return explore(  document.getElementById( object_tag ).getSVGDocument().getElementById( elm_id )  );
+}
 
 /*
  * KTS response on a click: traverse the graph and present that path by coloring the nodes and edges
@@ -97,32 +103,51 @@ function click( elm ) { return onclick( document, elm, null ) }
  * count max distances from clicked node both ways (north and south),
  * then travel the longer path because that is more interesting
  */
-function onclick( dom, elm, event )
+function explore_3( dom, elm, event )
 {
   if( event ) event.preventDefault();
 
-  let elmSelector ="svg";
+  devdebug( "script's doctype " + document.doctype.nodeName );
+  
+  let elmSelector = "svg";
   if( dom.document )
+  {
     document = dom.document;
-
+    devdebug( "using document from dom: " + document );
+  }
+  else
+  devdebug( "using document from global scope: " + document );
+  
   if( dom.elmSelector )
-    elmSelector = dom.elmSelector + " svg";
-
+  {
+    elmSelector = dom.elmSelector;
+    devdebug( "using elmSelector from dom: " + elmSelector );
+  } 
+  else
+  devdebug( "using default elmSelector: " + elmSelector );
+  
   dom = { document: document, elmSelector: elmSelector };
   devdebug( "dom = " + JSON.stringify( dom ) );
-
-  devdebug(  "entering onclick() in document.doctype.nodeName: " + document.doctype.nodeName + " with element: " + elm + (event ? " via EVENT" : " via API" )  );
+  
+  devdebug(  "entering explore_3() in document.doctype.nodeName: " + document.doctype.nodeName + " with element: " + elm + (event ? " via EVENT" : " via API" )  );
+  devdebug( "   dom doctype " + document.doctype.nodeName );
 
   if( typeof elm === 'string' )
   {
     id = elm;
     devdebug( "converting ID " + id + " string to document element" )
-    elm = dom.document.getElementById( id ) // TODO: in intersecting diagrams, this may not be unique!!
-    if( !elm )
+    let elms = dom.document.querySelectorAll( elmSelector + " #" + id ) // TODO: in intersecting diagrams, this may not be unique!!
+    if( elms.length == 0 )
     {
-      console.error( "cannot find element with id " + id ); 
+      console.error( 'cannot find element with id "' + id + '" in document ' + document );
       return
     }
+    if( elms.length > 1 )
+    {
+      console.warn( "found " + elms.length + " elements with id " + id + " - using first one." );
+      console.warn( "caller could supply more specific selector than '" + elmSelector + "'" );
+    }
+    elm = elms[0];
   }
   id = elm.id
   focussed = elm
@@ -280,9 +305,11 @@ function travel_edge( elm , current_dist, current_rank , total_ranks , direction
  set_visitor_tags( elm , current_dist, current_rank , total_ranks , direction , tag ) 
 
  // recurse and decrement color rank IF travelling North (color rank decreases from edge to next node, in positive flow direction)
- return 1 + travel_node(
-                       elm.ownerSVGElement.querySelector( "#" + elm.id.split( NODE_SEPARATOR )[ direction ]  ),
-                       1+current_dist, current_rank - direction , total_ranks , direction , tag   )
+ return 1 + travel_node
+  (
+    elm.ownerSVGElement.querySelector( "#" + elm.id.split( NODE_SEPARATOR )[ direction ]  ),
+    1+current_dist, current_rank - direction , total_ranks , direction , tag   
+  )
 }
 
 /*
@@ -990,7 +1017,7 @@ function generateKeyboardShortcutButtons( document )
  */
 function activate_visual_mode( dom )
 {
-  dom.document.querySelectorAll( dom.elmSelector + " g.node" ).forEach(    svgElm => {   svgElm.onclick = event => { onclick(dom, svgElm, event) }   }    )
+  dom.document.querySelectorAll( dom.elmSelector + " g.node" ).forEach(    svgElm => {   svgElm.onclick = event => { explore_3(dom, svgElm, event) }   }    )
 }
 
 function activate_hyperlink_mode(document)
@@ -1104,7 +1131,7 @@ function analyze_graph( all_nodes )
 
   // select a random element from the fundamental nodes [Copilot]
   if( true )
-    click
+    explore
     (
       Object.keys
       (
@@ -1115,7 +1142,7 @@ function analyze_graph( all_nodes )
   else // highlighting all longest paths tends to be too much for most diagrams (majority of nodes colored, which is the opposite of the highlighting what we want to achieve) fundamental_nodes.forEach
   ( (o) => 
     {
-      click 
+      explore 
       ( 
         Object.keys 
         (

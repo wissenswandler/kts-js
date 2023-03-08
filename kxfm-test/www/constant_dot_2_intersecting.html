@@ -10,10 +10,10 @@
     <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
 </head>
 <body>
-<div class="ktscontainer">KTS warming up...</div>
-<div class="ktscontainer">KTS warming up...</div>
-<object class="clear" id="object_1" data="object_b__f.svg" type="image/svg+xml" ></object>
-<object class="clear" id="object_2" data="object_w__z.svg" type="image/svg+xml" ></object>
+<div class="ktscontainer d1">KTS warming up...</div>
+<div class="ktscontainer d2">KTS warming up...</div>
+<object class="clear d3" id="object_1" data="object_b__f.svg" type="image/svg+xml" ></object>
+<object class="clear d4" id="object_2" data="object_w__z.svg" type="image/svg+xml" ></object>
 <div class="ktscontainer">
 </div>
 <div class="ktscontainer">
@@ -37,8 +37,9 @@
     window.addEventListener
     (   "load", () =>
     {
-        object_1_doc = document.getElementById( "object_1" ).getSVGDocument()
-        onclick( {document:object_1_doc}, "object" )
+        explore_nested( "object_1", "b" );
+        explore_3      ( {elmSelector: ".d1"}, "b" );
+        explore_3      ( {elmSelector: ".d2"}, "b" );
     }
     )
 
