@@ -136,7 +136,7 @@ static safeAdd( set, o )
 static jiraIssueArray2dotString( issueArray, jiraInstance )
 {
 
-    const issueSet = new JiraIssueSet( issueArray.map( (i) => [ i.id, i ] ) );
+    const issueSet = new JiraIssueSet(   issueArray.map(  i  =>  [ i.id, i ]  )   );
     const linkSet  = new JiraIssueLinkSet();   
 
     // add all issues from issuelinks to the set [mostly Copilot]
@@ -186,8 +186,6 @@ static jiraIssueArray2dotString( issueArray, jiraInstance )
         }
     );
 
-    //console.warn("issueSet.size: " + issueSet.size);
-
     return this.jiraGraph2dotString( { nodes: issueSet, edges: linkSet }, jiraInstance );
 }
 
@@ -233,10 +231,11 @@ node [
                 + "# self: " + issue.self + "\n"
                 + "<" + issue.key + ">"
                 + " [ "
-                + this.renderHtmlLabel( issue, jiraInstance )
+                + this.renderLabel( issue, jiraInstance )
                 + KTS4Dot.renderAttributeIfExists( "tooltip" , issue.fields.description )
                 + this.renderURL( issue, jiraInstance )
                 + KTS4Dot.renderAttributeIfExists( "style" , issue.dot_style ) // [Copilot !!]
+                + ' class=type_' + issue.fields.issuetype.id
                 + " ]";
         }
     );
@@ -285,7 +284,13 @@ node [
             let styleOrLabel = style ? style : KTS4Dot.renderAttributeIfExists( "label" , reverse_impact ? outwardLabel : inwardLabel ) ;
             let hasLabel = styleOrLabel.indexOf( "label=" ) >= 0;
             dotString += '\n{'
-            + ' edge [' + styleOrLabel + ']' + ' # link type: "' + predicateName + '"'
+            + ' edge ['
+            + styleOrLabel
+            + ' class="type_' + p.id
+            + (predicateName.startsWith('-') ? " impact_negative" : "" )
+            + '"'
+            + ']'
+            + ' # link type: "' + predicateName + '"'
 
             /*
             * render edges
@@ -318,8 +323,13 @@ node [
     return dotString + "\n}";
 }
 
-static renderHtmlLabel( issue, jiraInstance )
+static renderLabel( issue, jiraInstance )
 {
+    if( issue.fields.summary.length === 1  &&  issue.fields.issuetype.name.toLowerCase().startsWith("op") )
+    {
+        return `shape=circle label="${KTS4Dot.safeAttribute( issue.fields.summary )}"`;
+    }
+
     let typeSearchAttribute = "";
     if( issue.isMeta )
     {
@@ -336,8 +346,8 @@ static renderHtmlLabel( issue, jiraInstance )
   <TD CELLPADDING="0"${typeSearchAttribute}><IMG SRC="${issue.fields.issuetype.iconUrl}" /></TD>
   <TD COLSPAN='3'>${KTS4SVG.escapeHtml( issue.fields.summary )}</TD>
  </TR> <TR>
-  <TD${typeSearchAttribute} COLSPAN="2" SIDES="LBR" ALIGN="LEFT"><FONT POINT-SIZE='8'>${issue.fields.issuetype.name}</FONT></TD>
-  <TD><FONT POINT-SIZE='8'>${issue.fields.status.name}</FONT></TD>
+  <TD${typeSearchAttribute} COLSPAN="2" SIDES="LBR" ALIGN="LEFT"><FONT POINT-SIZE='8'>${KTS4SVG.escapeHtml(issue.fields.issuetype.name)}</FONT></TD>
+  <TD><FONT POINT-SIZE='8'>${KTS4SVG.escapeHtml(issue.fields.status.name)}</FONT></TD>
   <TD ALIGN='RIGHT'><FONT POINT-SIZE='8'>${issue.key}</FONT></TD>
 </TR> </TABLE>>`;   // tag <I> in <FONT> causes the italic line to be v-aligned slightly higher than the non-italic line; this is not even fixed by a VALIGN="BOTTOM", so I remove the <I>
 }
