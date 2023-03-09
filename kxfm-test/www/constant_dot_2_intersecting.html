@@ -5,15 +5,19 @@
     <meta charset="utf-8" />
     <base target="ktsdetail" />
     <link rel="stylesheet" href="../lib/graph.css" />
-    <style> .ktscontainer { float: left; } </style>
+    <style> .ktscontainer { float: left; } object { width: 100%; } </style>
     <script defer="" src="../lib/graph.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
 </head>
 <body>
-<div class="ktscontainer d1">KTS warming up...</div>
-<div class="ktscontainer d2">KTS warming up...</div>
-<object class="clear d3" id="object_1" data="object_b__f.svg" type="image/svg+xml" ></object>
-<object class="clear d4" id="object_2" data="object_w__z.svg" type="image/svg+xml" ></object>
+<div class="ktscontainer" id="d1">KTS warming up...</div>
+<div class="ktscontainer" id="d2">KTS warming up...</div>
+<object id="d3" data="object_b__f.svg" type="image/svg+xml" ></object>
+<object id="d4" data="object_w__z.svg" type="image/svg+xml" ></object>
+<object id="nothing">nothing</object>
+<p>This HTML document contains 4 graph diagrams with intersecting sets of node IDs.</p>
+<p>The KTS API allows specific selection of such nodes within their containing diagrams, if the ID is not unique across the HTML page.</p>
+<p>The KTS  UI is aware of such cases and limits exploration upon clicks to containing diagrams, as users would intuitively expect.</p>
 <div class="ktscontainer">
 </div>
 <div class="ktscontainer">
@@ -29,19 +33,28 @@
     let transformer = new Tdot2svgStrings(  await Graphviz.load() );
 
     devdebug( "transforming DOT->SVG" );
-    transformer.render( "digraph{aa->b->c->d->ep ll->m->n->o->ep  }" , ".ktscontainer:nth-child(1)" );
-    transformer.render( "digraph{aa->b->   d->ez v->w->y->ez v->w }" , ".ktscontainer:nth-child(2)" );
-    devdebug( "HTML BODY done." );
-
-    var object_1_doc;
+    transformer.render( "digraph{aa->b->c->d->ep ll->m->n->o->ep  }" , "#d1" );
+    transformer.render( "digraph{aa->b->   d->ez v->w->y->ez v->w }" , "#d2" );
+    
     window.addEventListener
     (   "load", () =>
     {
-        explore_nested( "object_1", "b" );
-        explore_3      ( {elmSelector: ".d1"}, "b" );
-        explore_3      ( {elmSelector: ".d2"}, "b" );
+        //explore( "does_not_exist" ); // must not break page
+        
+        //explore_3     ( {elmSelector: "#d1"}, "b" );
+        //explore_3     ( {elmSelector: "#d2"}, "b" );
+        //explore_nested( "d3", "b" );
+        //explore_nested( "d4", "object" );
+        
+        //explore( "m" ); // unique across page
+        
+        //explore( "z" ); // unique across page but nested in SVG OBJECT
+        // explore_nested( "d4", "z" ); // this would be the more specific call instead of the above
     }
     )
-
+    devdebug( "HTML BODY done." );
 </script>
+    <p><button onclick="explore( 'b' )">explore b</button> ambigious</p>
+    <p><button onclick="explore( 'm' )">explore m</button> unique across page</p>
+    <p><button onclick="explore( 'z' )">explore z</button> unique across page but nested in SVG OBJECT</p>
 </html>

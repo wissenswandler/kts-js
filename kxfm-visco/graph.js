@@ -109,7 +109,7 @@ function explore_3( dom, elm, event )
 
   devdebug( "script's doctype " + document.doctype.nodeName );
   
-  let elmSelector = "svg";
+  let elmSelector = "";
   if( dom.document )
   {
     document = dom.document;
@@ -137,22 +137,58 @@ function explore_3( dom, elm, event )
     id = elm;
     devdebug( "converting ID " + id + " string to document element" )
     let elms = dom.document.querySelectorAll( elmSelector + " #" + id ) // TODO: in intersecting diagrams, this may not be unique!!
-    if( elms.length == 0 )
+    search_for_elm:
+    switch( elms.length )
     {
-      console.error( 'cannot find element with id "' + id + '" in document ' + document );
-      return
+      case 1:
+        elm = elms[0];
+        break;
+
+      case 0:
+        if( elmSelector == "" ) // only try to find it in object tags if there had been no selector
+        {
+          let nested_elms = [];
+          devdebug( "now searching inside object tags..." );
+          document.querySelectorAll( "object" ).forEach
+          ( object => 
+          {
+            if( object.getSVGDocument() && object.getSVGDocument().getElementById( id ) )
+            {
+              console.info( "found element with id " + id + " in object tag with id: " + object.id );
+              console.info( "note to script author: you can reference it directly by calling:" )
+              console.info( `  explore_nested( "${object.id}", "${id}" )` );
+              nested_elms.push( object.getSVGDocument().getElementById( id ) );
+            }
+          });
+          switch( nested_elms.length )
+          {
+            case 0: 
+              break;  // continue with error message below
+            case 1:
+              elm = nested_elms[0]; // lucky us, we found it
+              break search_for_elm;
+            default:
+              console.warn( "found " + nested_elms.length + " elements with id " + id + " in object tags - using first one." ); 
+              elm = nested_elms[0];
+              break search_for_elm;
+          }
+        }
+
+        // still not found
+        console.error( 'cannot find element with id "' + id + '" in document ' + document );
+        return;
+
+      default:
+        console.warn( "found " + elms.length + " elements with id " + id + " - using random one." );
+        console.warn( "note to script author: you could supply more specific selector than '" + elmSelector + "'" );
+
+        elm = pick_random_element( elms );
     }
-    if( elms.length > 1 )
-    {
-      console.warn( "found " + elms.length + " elements with id " + id + " - using first one." );
-      console.warn( "caller could supply more specific selector than '" + elmSelector + "'" );
-    }
-    elm = elms[0];
   }
   id = elm.id
   focussed = elm
 
- console.info( node_name_by_id( id ) );
+ console.info( node_name_by_id( id ) + " now being explored..." );
 
 
  if( NEXT_CLICK_MEMORY == 'R' )
@@ -394,6 +430,16 @@ function next_edges_selector( id, direction, tagged = false )
 
 const kts_actions = {
 
+A : { f : () => analyze_graph(),
+      s : 0
+      ,
+      filter : (document) => ! hasSelection( document )
+      ,
+      text : "[A]nalyze graph (explore one of the longest paths)"
+      ,
+      post : () => {} // prevent that action text overwrites more interesting console output from explore_graph()
+    }
+,
 B : { f : () =>
       {
         NEXT_CLICK_DIRECTION = DIRECTION_BOTH
@@ -456,7 +502,7 @@ h : { text : "activate [h]yperlink mode (= inverse of [v])", f : (document) => a
       ,
       s : 11
       ,
-      filter : () => isVisualModeActive()
+      filter : () => isVisualModeActive() && document.querySelector( 'g a[*|href]' )
       ,
       post : "Hyperlink mode activated. ( CTRL- ) Click on any node for navigating to its data source."
     }
@@ -558,7 +604,16 @@ U : { text : "copy [U]rl of focussed node to clipboard",		f : function(document)
       ,
       s:71
       ,
-      filter : () => focussed && document.querySelector( "#" + focussed.id + " g a" ).getAttribute( "xlink:href" )
+      filter : () => 
+      {
+        if( focussed )
+        {
+          let focussed_a_tag = document.querySelector( "#" + focussed.id + " g a" );
+          if( focussed_a_tag )
+            return focussed_a_tag.getAttribute( "xlink:href" );
+        }
+        return false;
+      }
       ,
       post : () => console.log( '"' + clipText + '" is now on system clipboard' )
     }
@@ -1015,14 +1070,13 @@ function generateKeyboardShortcutButtons( document )
  * activate the visual mode = traverse the graph by clicking on nodes
  * implemented via onclick event handler on each graph node
  */
-function activate_visual_mode( dom )
+function activate_visual_mode()
 {
-  dom.document.querySelectorAll( dom.elmSelector + " g.node" ).forEach(    svgElm => {   svgElm.onclick = event => { explore_3(dom, svgElm, event) }   }    )
+  document.querySelectorAll( "g.node" ).forEach( svgElm => { svgElm.onclick = event => { explore_3(dom, svgElm, event) }   }    )
 }
-
-function activate_hyperlink_mode(document)
+function activate_hyperlink_mode()
 {
-  document.querySelectorAll( "g.node" ).forEach( (svgElm) => { svgElm.onclick = "" })
+  document.querySelectorAll( "g.node" ).forEach( svgElm => { svgElm.onclick = "" })
 }
 
 function isHyperlinkModeActive()
@@ -1119,39 +1173,24 @@ function execute_url_command()
   return true;
 }
 
-function analyze_graph( all_nodes )
+function analyze_graph()
 {
   let distances =     Array.from( all_nodes ).map( elm => { let result = {}; result[elm.id] = start_travel( elm , [0,0], DIRECTION_NORTH, MISSION_COUNT); return result } )    ;
   distances.push( ... Array.from( all_nodes ).map( elm => { let result = {}; result[elm.id] = start_travel( elm , [0,0], DIRECTION_SOUTH, MISSION_COUNT); return result } )  ) ;
   let sorted_distances = distances.map( (o) => Object.entries(o) ).sort( (a,b) => b[0][1] - a[0][1] );
   let maximum_longdistance = sorted_distances[0][0][1];
   console.info( distances.length + " nodes in graph, longest path = " + (maximum_longdistance+1) );
-  console.info( "now highlighting a random 'fundamental' node ... " );
+  console.info( "now exploring a random 'fundamental' node ... " );
   let fundamental_nodes = distances.filter( (o) => Object.values(o)[0] == maximum_longdistance )
 
-  // select a random element from the fundamental nodes [Copilot]
-  if( true )
-    explore
+  explore
+  (
+    Object.keys
     (
-      Object.keys
-      (
-        fundamental_nodes[ Math.floor( Math.random() * fundamental_nodes.length ) ] 
-      )
-      [0] 
+      pick_random_element( fundamental_nodes )
     )
-  else // highlighting all longest paths tends to be too much for most diagrams (majority of nodes colored, which is the opposite of the highlighting what we want to achieve) fundamental_nodes.forEach
-  ( (o) => 
-    {
-      explore 
-      ( 
-        Object.keys 
-        (
-          o
-        )
-        [0] 
-      )
-    }
-  );
+    [0] 
+  )
   return all_nodes.length;
 }
 
@@ -1228,8 +1267,7 @@ function on_svg_load( dom )
 
     if( ! execute_url_command() && ! multiple_kts_diagrams() )
     {
-      //devdebug( "analyzing graph" );
-      //analyze_graph( all_nodes );
+      //analyze_graph();  // moved to kts_actions, so graph analysis can be triggered by user or by URL parameter
     }
 
     devdebug( "init_pan_zoom()" );
@@ -1249,12 +1287,6 @@ function highlight_node( id )
   node.classList.add( "hover" );
   console.log( "highlighted node " + id + " - you can reset that with keyboard command [e]");
 }
-
-/*
- * browser lifecycle actions
- */
-
-window.addEventListener(  "load", (event) => on_svg_load( {document:document} )  );
 
 var _log = console.log;
 var _error = console.error;
@@ -1350,3 +1382,14 @@ function reset_timer( timer_name )
   console.time( current_timer_name );
   return result;
 }
+
+function pick_random_element( array )
+{
+  return array[ Math.floor( Math.random() * array.length ) ];
+}
+
+/*
+ * browser lifecycle hook
+ * and the only expression in this module that is not a function declaration or global variable
+ */
+window.addEventListener(  "load", (event) => on_svg_load( {document:document} )  );
