@@ -12,7 +12,7 @@ export default class KTS4SVG
 	{
 		if( ! (typeof _svg === 'string')  ) 
 		{
-			console.debug( "SVG of type " + typeof _svg + " = " + _svg );
+			console.debug( "_svg of type " + typeof _svg );
 			throw new Error( "SVG is not of String type" );
 		}
 
@@ -22,8 +22,10 @@ export default class KTS4SVG
 		// which makes the diagram opaque and prevents the helptext -in the background- from being visible
 		let svg = _svg.replace( /<\/svg>/ , '<foreignObject id="fo0"><div id="htmldiv" xmlns="http://www.w3.org/1999/xhtml" /></foreignObject>\n</svg>' );
 
-		// remove width and height attributes from <svg> tag as it causes unpredictable scaling (something like 50% larger than expected)
-		svg = svg.replace( /<svg( (width|height)="\d+pt"){0,2}/g, '<svg' )
+		// for dynamic HTML: remove width and height attributes from <svg> tag as it causes unpredictable scaling (something like 50% larger than expected)
+		// for SVG to be embedded as OBJECT in HTML: keep these attributes for important sizing information
+
+		//svg = svg.replace( /<svg( (width|height)="\d+pt"){0,2}/g, '<svg' )
 
 		const svgarray = svg.split(/\r?\n/);
 

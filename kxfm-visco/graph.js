@@ -87,14 +87,47 @@ function e( symbol )
 }
 
 /*
- * shortcut function for explore_3()
+ * shortcut function, supporting optional elmSelector parameter
  */
-function explore( elm ) { return explore_3( {document:document}, elm, null ) }
+function explore( elm, elmSelector )
+{
+  if( typeof elmSelector === 'undefined' )
+    return explore_3( {document:document}, elm, null );
+  else
+    return explore_nested( elmSelector, elm );
+}
 function   click( elm ) { return explore ( elm ) }
 
-function explore_nested( object_tag, elm_id )
+function explore_nested( elmSelector, elm_id )
 {
-  return explore(  document.getElementById( object_tag ).getSVGDocument().getElementById( elm_id )  );
+  let selected = document.querySelector( elmSelector );
+  if( !selected )
+  {
+    console.error( "could not find element with selector " + elmSelector );
+    return; // don't throw from this API entry, because calling script (on HTML page) shall be allowed to continue exploring other elements
+  }
+  if(                 selected.getSVGDocument                             )
+  {
+    if(               selected.getSVGDocument().getElementById( elm_id )  )
+    {
+      return explore( selected.getSVGDocument().getElementById( elm_id )  );
+    }
+    else
+    {
+      console.error( "could not find element with id " + elm_id + " in DOCUMENT " + selected.getSVGDocument() );
+    }
+  }
+  else // selector does not point to an SVG document but perhaps to an SVG tag inside this HTML document
+  {
+    if(               selected.querySelector( "#"+elm_id )  )
+    {
+      return explore( selected.querySelector( "#"+elm_id )  );
+    }
+    else
+    {
+      console.error( "could not find element with id " + elm_id + " in ELEMENT " + selected.getSVGDocument() );
+    }
+  }
 }
 
 /*
@@ -156,7 +189,7 @@ function explore_3( dom, elm, event )
             {
               console.info( "found element with id " + id + " in object tag with id: " + object.id );
               console.info( "note to script author: you can reference it directly by calling:" )
-              console.info( `  explore_nested( "${object.id}", "${id}" )` );
+              console.info( `  explore_nested( "#${object.id}", "${id}" )` );
               nested_elms.push( object.getSVGDocument().getElementById( id ) );
             }
           });
@@ -168,8 +201,8 @@ function explore_3( dom, elm, event )
               elm = nested_elms[0]; // lucky us, we found it
               break search_for_elm;
             default:
-              console.warn( "found " + nested_elms.length + " elements with id " + id + " in object tags - using first one." ); 
-              elm = nested_elms[0];
+              console.warn( "found " + nested_elms.length + " elements with id " + id + " in object tags - using random one." ); 
+              elm = pick_random_element( nested_elms );
               break search_for_elm;
           }
         }
@@ -1072,7 +1105,7 @@ function generateKeyboardShortcutButtons( document )
  */
 function activate_visual_mode()
 {
-  document.querySelectorAll( "g.node" ).forEach( svgElm => { svgElm.onclick = event => { explore_3(dom, svgElm, event) }   }    )
+  document.querySelectorAll( "g.node" ).forEach( svgElm => { svgElm.onclick = event => { explore_3( {}, svgElm, event) }   }    )
 }
 function activate_hyperlink_mode()
 {
