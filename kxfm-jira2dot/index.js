@@ -136,7 +136,7 @@ static safeAdd( set, o )
 static jiraIssueArray2dotString( issueArray, jiraInstance )
 {
 
-    const issueSet = new JiraIssueSet(   issueArray.map(  i  =>  [ i.id, i ]  )   );
+    const issueSet = new JiraIssueSet(   issueArray.map(  i  => { i.from_selection=true; return [ i.id, i ] }  )   );
     const linkSet  = new JiraIssueLinkSet();   
 
     // add all issues from issuelinks to the set [mostly Copilot]
@@ -219,7 +219,6 @@ node [
      * render nodes first (otherwise references to nodes that are not yet defined will result in naked nodes)
      */
     jiraGraph.nodes.forEach
-    //(   key_value_pair =>
     (   issue =>
         {
             //let issue = key_value_pair[1];
@@ -235,7 +234,9 @@ node [
                 + KTS4Dot.renderAttributeIfExists( "tooltip" , issue.fields.description )
                 + this.renderURL( issue, jiraInstance )
                 + KTS4Dot.renderAttributeIfExists( "style" , issue.dot_style ) // [Copilot !!]
-                + ' class=type_' + issue.fields.issuetype.id
+                + ' class="type_' + issue.fields.issuetype.id
+                + (issue.from_selection ? " from_selection" : "" )
+                + '"'
                 + " ]";
         }
     );

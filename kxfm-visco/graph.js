@@ -431,6 +431,7 @@ function set_visitor_tags( elm , current_dist, current_rank , total_ranks , dire
          elm.setAttribute( "tag2", tag )
 
          elm.classList.remove( "dim" )
+         elm.classList.remove( "halfdim" )
 
          elm.setAttribute( "colorank",
 			    total_ranks > 9		// largest brewer scheme
@@ -502,7 +503,7 @@ e : { text : "[e]rase all color markup",
 	// cleanup tagged nodes
         document.querySelectorAll( "g"  ).forEach( (svgElm) => { remove_visitor_tags( svgElm    ) })
 	// also un-dim dimmed nodes
-        document.querySelectorAll( "g"    ).forEach( (svgElm) => { svgElm.classList.remove( "dim","hover","underline" ) })
+        //document.querySelectorAll( "g"    ).forEach( (svgElm) => { svgElm.classList.remove( "dim","hover","underline" ) })
       },
       s : 31  // with selection
       ,
@@ -519,7 +520,7 @@ e : { text : "[e]rase all color markup",
 // key 'f' also captures CTRL-F in chrome, so no more find-in-page possible
 F : { f : function(document)
       {
-        document.querySelectorAll( "g.edge:not([tag1]), g.node:not([tag1]), g.cluster" ).forEach( (svgElm) => { svgElm.classList.add( "dim" ) })
+        document.querySelectorAll( "g.edge:not([tag1]), g.node:not([tag1]), g.cluster" ).forEach( (svgElm) => { svgElm.classList.add( "dim" ); svgElm.classList.remove( "halfdim" ); })
         document.querySelectorAll( "g[tag1]"       ).forEach( (svgElm) => { remove_visitor_tags( svgElm ) })
       },
       s : 32  // with selection
@@ -969,11 +970,12 @@ function copy_selection_to_clipboard( document, separator )
  */
 function remove_visitor_tags( svgElm )
 {
-  svgElm.removeAttribute( "tag1"		)
-  svgElm.removeAttribute( "tag2"		)
-  svgElm.removeAttribute( "colorank"	)
-  svgElm.removeAttribute( "distance"	)
-  svgElm.classList.remove( "dim"		)
+  svgElm.removeAttribute( "tag1"      )
+  svgElm.removeAttribute( "tag2"      )
+  svgElm.removeAttribute( "colorank"  )
+  svgElm.removeAttribute( "distance"  )
+  svgElm.classList.remove( "dim"      )
+  svgElm.classList.remove( "halfdim"  )
 }
 
 /*
@@ -1263,10 +1265,10 @@ function resize_pan_zoom()
 function on_svg_load( dom )
 {
   let elmSelector ="svg";
-  if( dom.document )
+  if( dom?.document )
     document = dom.document;
 
-  if( dom.elmSelector )
+  if( dom?.elmSelector )
     elmSelector = dom.elmSelector;
 
   devdebug( "on_svg_load() with document " + document + " and selector ==>" + elmSelector +"<==" );
@@ -1278,6 +1280,8 @@ function on_svg_load( dom )
     // depends on SVG diagram
     all_nodes = document.querySelectorAll( elmSelector + " g.node" );
     devdebug( "found here " + all_nodes.length + " nodes" );
+
+    if( document.querySelector( elmSelector +  " .from_selection" ) ) document.querySelectorAll( elmSelector + " .node:not( .from_selection )" ).forEach( n => n.classList.add("halfdim") ) // dim all nodes except those that are direct results from datasource selection
 
     devdebug( "adding listeners" );
     add_key_listener();
