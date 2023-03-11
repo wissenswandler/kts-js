@@ -464,7 +464,7 @@ function next_edges_selector( id, direction, tagged = false )
 const kts_actions = {
 
 A : { f : () => analyze_graph(),
-      s : 0
+      s : -1
       ,
       filter : (document) => ! hasSelection( document )
       ,
@@ -533,7 +533,7 @@ F : { f : function(document)
 ,
 h : { text : "activate [h]yperlink mode (= inverse of [v])", f : (document) => activate_hyperlink_mode(document)
       ,
-      s : 11
+      s : 10+1
       ,
       filter : () => isVisualModeActive() && document.querySelector( 'g a[*|href]' )
       ,
@@ -694,26 +694,20 @@ y : { text : "[y]ank (copy) ID of focussed node to clipboard",
       post : () => console.log( '"' + clipText + '" is now on system clipboard' )
     }
 ,
-'+':{ text : "zoom in",						f : () => panZoomInstance.zoomIn(), s : 1, post : () => {}
+'+':{ s : 1,  text : "zoom in",						        filter : () => all_nodes.length > 0 && panZoomInstance
       ,
-      filter : () => all_nodes.length > 0 && panZoomInstance
+      f : () => panZoomInstance.zoomIn() ,          post : () => {}
     }
 ,
-'0':{ text : "reset (center) pan, zoom",
-      filter : () => all_nodes.length > 0 && panZoomInstance
+'0':{ s : 2,  text : "reset (center) pan, zoom",  filter : () => all_nodes.length > 0 && panZoomInstance
       ,
-      f : () => panZoomInstance.reset()
-      ,
-      s : 2
-      ,
-      post : () => console.log( "diagram is now centered and scaled to fit" )
+      f : () => panZoomInstance.reset() ,           post : () => {}
     }
 ,
-'-':{ text : "zoom out",						f : () => panZoomInstance.zoomOut(), s : 3, post : () => {}
+'-':{ s : 3,  text : "zoom out",						      filter : () => all_nodes.length > 0 && panZoomInstance
       ,
-      filter : () => all_nodes.length > 0 && panZoomInstance
+      f : () => panZoomInstance.zoomOut() ,         post : () => {}
     }
-
 ,
 '?':{ text : "show this help window",						f : (document) =>
       {
@@ -1062,7 +1056,7 @@ function generateKeyboardShortcutButtons( document )
     buttonContainer.setAttribute( "id", "ktsKeyboardButtons" );
 
     // sort kts_actions by value of s(equence) key 
-    let kts_actions_sorted = Object.keys(kts_actions).sort( (a,b) => { return kts_actions[a].s > kts_actions[b].s } );
+    let kts_actions_sorted = Object.keys(kts_actions).sort( (a,b) => { return kts_actions[a].s - kts_actions[b].s } );
 
   let previous_action_ordinal = null;
     // iterate over sorted action entries
@@ -1305,6 +1299,8 @@ function on_svg_load( dom )
 
     devdebug( "init_pan_zoom()" );
     init_pan_zoom();
+
+    filterAllActions( document ); // filter as late as possible because init actions may change relevant state
 
     devdebug( "on_svg_load() done." );
   }
