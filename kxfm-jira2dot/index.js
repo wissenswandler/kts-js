@@ -269,7 +269,12 @@ node [
 
             let p = group[0].type;
 
-            let reverse_impact = ["10000", "10006"].includes( p.id );   // built-in "Blocks" and "Problem/Incident" link types
+            let impact_neutral  = p.name.startsWith('0');
+            
+            let impact_negative = p.name.startsWith('-')
+                                  ||
+                                  ["10000", "10006"].includes( p.id )   // built-in "Blocks" and "Problem/Incident" link types
+            let reverse_impact  = ["10000", "10006"].includes( p.id );   // built-in "Blocks" and "Problem/Incident" link types
             let impact_inverter = reverse_impact ? 1 : 0;
             
             let  inwardLabel =  p.inward.replace( ARROW_UP , '' ).trim();
@@ -288,7 +293,8 @@ node [
             + ' edge ['
             + styleOrLabel
             + ' class="type_' + p.id
-            + (predicateName.startsWith('-') ? " impact_negative" : "" )
+            + ( impact_negative ? " impact_negative" : "" )
+            + ( impact_neutral  ? " impact_neutral"  : "" )
             + '"'
             + ']'
             + ' # link type: "' + predicateName + '"'

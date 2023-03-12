@@ -55,6 +55,25 @@ body {
 }
 
 /*
+ * style for certain node- and edge-types
+ */
+
+.impact_negative path,
+.impact_negative polygon 
+/* not: text children */
+{ stroke: #f03b20;
+    fill: #f03b20;
+} /* ylorrd5 color scheme, color 4 */
+
+.impact_neutral path,
+.impact_neutral polygon 
+/* not: text children */
+{ stroke: grey;
+    fill: grey;
+}
+
+
+/*
  * hover effect ...
  * also works on Android with pointing device (not with pen / touch) 
  */
