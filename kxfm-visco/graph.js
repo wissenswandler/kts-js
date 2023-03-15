@@ -466,7 +466,7 @@ const kts_actions = {
 A : { f : () => analyze_graph(),
       s : -1
       ,
-      filter : (document) => ! hasSelection( document )
+      filter : document => all_nodes.length > 0  &&  ! hasSelection( document )
       ,
       text : "[A]nalyze graph (explore one of the longest paths)"
       ,
