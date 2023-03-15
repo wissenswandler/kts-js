@@ -89,7 +89,7 @@ if( !jqlText )
             console.warn( chalk.yellowBright( error ) );
 
         let cwd = process.cwd().split( path.sep ).pop();
-        jqlText = `project=${cwd} OR labels=view--${cwd}`;
+        jqlText = `project=${cwd} OR labels=view--${cwd} order by updated desc`;
         console.warn( chalk.grey( `assuming query text "${jqlText}" from DIR (supply query text in file "${JQL_TXT_FILENAME}" OR as 2. parameter, if needed)` ) )
     }
 }
