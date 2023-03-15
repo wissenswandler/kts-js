@@ -1,7 +1,8 @@
 {
   "name": "@kxfm/visco",
-  "version": "1.4.1",
+  "version": "1.4.3",
   "description": "Visual Cortex (VisCo) = lightweight JS + CSS lib for exploring SVG graphs / part of KTS (Knowledge Transformation System)",
+  "main": "graph.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "link": "echo '(nothing to link in this package)'"
