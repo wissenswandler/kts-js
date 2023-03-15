@@ -40,12 +40,16 @@
     transformer.render( "digraph{aa->b->   d->ez v->w->y->ez v->w }" , "#d2" );
     
     window.addEventListener
-    (   "load", () =>
+    (   "diagramReady", () =>
     {
-        explore( "does_not_exist" ); // must not break script
-        explore( "ll" );             // proof that script is still working
+        e( "does_not_exist" ); // must not break script
+        e( "ll" );             // proof that script is still working
+        devdebug( "still alive..." );
     }
     )
+
+    window.dispatchEvent( new Event( "diagramReady" ) );
+
     devdebug( "HTML BODY done." );
 </script>
 <p><button onclick="explore( 'm' )">explore m</button> unique across page</p>
