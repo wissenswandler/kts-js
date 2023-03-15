@@ -15,6 +15,8 @@ import chalk from 'chalk';
 import JiraExtract from './JiraExtract.js';
 import JiraInterface from './JiraInterface.js';
 
+const JQL_TXT_FILENAME = 'jql.txt';
+
 // read Jira Cloud instance name from first command line argument, **/DIR, or use default
 let jiraInstance = null;
 if( process.argv[2] )
@@ -75,18 +77,20 @@ if( !jqlText )
 {
     try
     {
-        jqlText = fs.readFileSync( path.join( process.cwd(), 'jql.txt' ) ).toString();
+        jqlText = fs.readFileSync( path.join( process.cwd(), JQL_TXT_FILENAME ) ).toString();
         // trim trailing newline from jqlText
         jqlText = jqlText.substring(0, jqlText.length - 1);
 
-        console.warn( chalk.green( `reading query text "${jqlText}" from file jql.txt` ) )
+        console.warn( chalk.green( `reading query text "${jqlText}" from file "${JQL_TXT_FILENAME}"` ) )
     }
     catch (error)
     {
-        console.warn( chalk.yellowBright( error ) );
+        if( error.code !== 'ENOENT' )
+            console.warn( chalk.yellowBright( error ) );
+
         let cwd = process.cwd().split( path.sep ).pop();
         jqlText = `project=${cwd} OR labels=view--${cwd}`;
-        console.warn( chalk.grey( `assuming query text "${jqlText}" from DIR (supply "jql.txt" OR query as 2. parameter, if needed)` ) )
+        console.warn( chalk.grey( `assuming query text "${jqlText}" from DIR (supply query text in file "${JQL_TXT_FILENAME}" OR as 2. parameter, if needed)` ) )
     }
 }
 
