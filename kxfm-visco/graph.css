@@ -130,7 +130,8 @@ svg g.dot_by_kts    text
 
 .dim { animation: dim 1s forwards } @keyframes dim { to { opacity: 0.1 } }
 
-.halfdim { animation: halfdim 1s forwards } @keyframes halfdim { to { opacity: 0.4 } }
+.querydistance_1:not([tag1]):not(.dim)
+{ animation: halfdim 1s forwards } @keyframes halfdim { to { opacity: 0.4 } }
 
 /* tagged elements are drawn with thicker lines... */
 [tag1] :not(text):not(a):not(g) { animation: asw2 .4s forwards; animation-delay: 0.2s } @keyframes asw2 { to { stroke-width: 2; stroke:blue } }

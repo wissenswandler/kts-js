@@ -431,7 +431,6 @@ function set_visitor_tags( elm , current_dist, current_rank , total_ranks , dire
          elm.setAttribute( "tag2", tag )
 
          elm.classList.remove( "dim" )
-         elm.classList.remove( "halfdim" )
 
          elm.setAttribute( "colorank",
 			    total_ranks > 9		// largest brewer scheme
@@ -520,7 +519,7 @@ e : { text : "[e]rase all color markup",
 // key 'f' also captures CTRL-F in chrome, so no more find-in-page possible
 F : { f : function(document)
       {
-        document.querySelectorAll( "g.edge:not([tag1]), g.node:not([tag1]), g.cluster" ).forEach( (svgElm) => { svgElm.classList.add( "dim" ); svgElm.classList.remove( "halfdim" ); })
+        document.querySelectorAll( "g.edge:not([tag1]), g.node:not([tag1]), g.cluster" ).forEach(  svgElm => svgElm.classList.add( "dim" )  )
         document.querySelectorAll( "g[tag1]"       ).forEach( (svgElm) => { remove_visitor_tags( svgElm ) })
       },
       s : 32  // with selection
@@ -975,7 +974,6 @@ function remove_visitor_tags( svgElm )
   svgElm.removeAttribute( "colorank"  )
   svgElm.removeAttribute( "distance"  )
   svgElm.classList.remove( "dim"      )
-  svgElm.classList.remove( "halfdim"  )
 }
 
 /*
@@ -1280,8 +1278,6 @@ function on_svg_load( dom )
     // depends on SVG diagram
     all_nodes = document.querySelectorAll( elmSelector + " g.node" );
     devdebug( "found here " + all_nodes.length + " nodes" );
-
-    if( document.querySelector( elmSelector +  " .from_selection" ) ) document.querySelectorAll( elmSelector + " .node:not( .from_selection )" ).forEach( n => n.classList.add("halfdim") ) // dim all nodes except those that are direct results from datasource selection
 
     devdebug( "adding listeners" );
     add_key_listener();

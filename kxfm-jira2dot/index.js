@@ -136,7 +136,7 @@ static safeAdd( set, o )
 static jiraIssueArray2dotString( issueArray, jiraInstance )
 {
 
-    const issueSet = new JiraIssueSet(   issueArray.map(  i  => { i.from_selection=true; return [ i.id, i ] }  )   );
+    const issueSet = new JiraIssueSet(   issueArray.map(  i  => { i.querydistance_0=true; return [ i.id, i ] }  )   );
     const linkSet  = new JiraIssueLinkSet();   
 
     // add all issues from issuelinks to the set [mostly Copilot]
@@ -160,6 +160,7 @@ static jiraIssueArray2dotString( issueArray, jiraInstance )
                     {
                         if( link.outwardIssue )
                         {
+                            link.outwardIssue.querydistance_1 = true;
                             this.safeAdd( issueSet, link.outwardIssue );
 
                             link.o_id = issue.id;
@@ -169,6 +170,7 @@ static jiraIssueArray2dotString( issueArray, jiraInstance )
                         }
                         if( link.inwardIssue )
                         {
+                            link.inwardIssue.querydistance_1 = true;
                             this.safeAdd( issueSet, link.inwardIssue );
 
                             link.s_id = issue.id;
@@ -235,7 +237,8 @@ node [
                 + this.renderURL( issue, jiraInstance )
                 + KTS4Dot.renderAttributeIfExists( "style" , issue.dot_style ) // [Copilot !!]
                 + ' class="type_' + issue.fields.issuetype.id
-                + (issue.from_selection ? " from_selection" : "" )
+                + (issue.querydistance_0 ? " querydistance_0" : "" )
+                + (issue.querydistance_1 ? " querydistance_1" : "" )
                 + '"'
                 + " ]";
         }
@@ -269,12 +272,21 @@ node [
 
             let p = group[0].type;
 
-            let impact_neutral  = p.name.startsWith('0');
-            
-            let impact_negative = p.name.startsWith('-')
+            let impact_neutral  = p.name.startsWith(  '0' );
+
+            let impact_negative = p.name.startsWith( '-'  )
                                   ||
                                   ["10000", "10006"].includes( p.id )   // built-in "Blocks" and "Problem/Incident" link types
-            let reverse_impact  = ["10000", "10006"].includes( p.id );   // built-in "Blocks" and "Problem/Incident" link types
+            let reverse_impact  = ["10000", "10006"].includes( p.id )   // built-in "Blocks" and "Problem/Incident" link types
+                                  ||
+                                  p.name.startsWith(  '2' )
+                                  ||
+                                  p.name.startsWith( '-2' )
+                                  ||
+                                   p.inward.endsWith( ARROW_DN )
+                                  ||
+                                  p.outward.endsWith( ARROW_UP )
+                                  
             let impact_inverter = reverse_impact ? 1 : 0;
             
             let  inwardLabel =  p.inward.replace( ARROW_UP , '' ).trim();
@@ -316,6 +328,7 @@ node [
                     + "["
                     + ( hasLabel ? 'labeltooltip="' + KTS4Dot.safeAttribute( tooltip ) + '"' : '' )
                     +                  ' tooltip="' + KTS4Dot.safeAttribute( tooltip ) + '"'
+                    + ( (s.querydistance_1 || o.querydistance_1) ? " class=querydistance_1" : "" )
                     + "]";
                 }
             );
