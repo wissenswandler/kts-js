@@ -1,0 +1,4 @@
+16	static/diagram/build/static/css
+1172	static/diagram/build/static/js
+1192	static/diagram/build/static
+1284	static/diagram/build/

@@ -1,0 +1,17 @@
+{
+  "name": "KTS",
+  "description": "Knowledge Transformation System, JavaScript implementation (this parent not for NPM distribution)",
+  "scripts": {
+    "publish-npms": "for d in kxfm-* ; do pushd $d; npm publish --access public ; popd; done"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/wissenswandler/kts-js.git"
+  },
+  "author": "Boran Gögetap",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://bitbucket.org/wissenswandler/kts-js/issues"
+  },
+  "homepage": "https://bitbucket.org/wissenswandler/kts-js#readme"
+}
