@@ -10,8 +10,9 @@
     <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
 </head>
 <body>
-<div class="ktscontainer">waiting for KTS Javascript to load...</div>
-<div class="ktscontainer">waiting for KTS Javascript to load...</div>
+<div class="ktscontainer" id="d1">KTS warming up...</div>
+<div class="ktscontainer" id="d2">KTS warming up...</div>
+<p>This HTML document contains 2 graph diagrams with no intersecting node IDs.</p>
 </body>
 <script type="module">
     devdebug( "importing graphviz" );
@@ -23,8 +24,9 @@
     let transformer = new Tdot2svgStrings(  await Graphviz.load() );
 
     devdebug( "transforming DOT->SVG" );
-    transformer.render( "digraph{cause->effect}", ".ktscontainer" );
-    transformer.render( "digraph{hip->hop}"     , ".ktscontainer:nth-child(2)" );
+    transformer.render( "digraph{cause->effect}", "#d1" );
+    transformer.render( "digraph{hip->hop}"     , "#d2" );
+    on_svg_load();
     devdebug( "HTML BODY done." );
 </script>
 </html>

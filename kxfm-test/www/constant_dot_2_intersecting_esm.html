@@ -6,51 +6,58 @@
     <base target="ktsdetail" />
     <link rel="stylesheet" href="../lib/graph.css" />
     <style> .ktscontainer { float: left; } object, p { clear:both; display: block; } </style>
-    <script defer="" src="../lib/graph.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
 </head>
 <body>
 <div class="ktscontainer" id="d1">KTS warming up...</div>
 <div class="ktscontainer" id="d2">KTS warming up...</div>
-<p>This HTML document contains 2 graph diagrams with intersecting sets of node IDs.</p>
+<object id="nothing"></object>
+<p>This HTML document contains 4 graph diagrams with intersecting sets of node IDs. Vertical diagrams are dynamically created SVG tags on this HTML page. Horizontal diagrams are embedded SVG OBJECTS. Technically, these SVG OBJECTS are separate documents.</p>
 
 <p>The KTS  UI is aware of such cases and limits exploration upon clicks to containing diagrams, as users would intuitively expect.</p>
 
 <p>The KTS API allows specific selection of nodes within their containing diagrams. If a node's ID is unique across the whole page (including objects), then KTS can find it anywhere.</p>
-
 </body>
 <script type="module">
-    devdebug( "importing graphviz" );
+    console.debug( "importing graphviz" );
     import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
 
     import {Tdot2svgStrings} from "@kxfm/dot2svg/Tdot2svgStrings.js";
+    //import {explore} from "@kxfm/visco/graph.js";   // Uncaught SyntaxError: ambiguous indirect export: explore
+    //import {explore} from "../libs/graph.js";   // Loading module from “http://localhost:8000/libs/graph.js” was blocked because of a disallowed MIME type (“text/plain”).
+    //let visco = await import( "@kxfm/visco/graph.js" )  // later: Uncaught TypeError: visco.explore is not a function
+    //let visco = await import( "@kxfm/visco" )  // later: Uncaught TypeError: visco.explore is not a function
+    //visco = reqire ( "../lib/graph.js" );   // Uncaught ReferenceError: reqire is not defined
 
-    devdebug( "loading graphviz" );
+    console.debug( "loading graphviz" );
     let transformer = new Tdot2svgStrings(  await Graphviz.load() );
 
-    devdebug( "transforming DOT->SVG" );
+    console.debug( "transforming DOT->SVG" );
     transformer.render( "digraph{aa->b->c->d->ep ll->m->n->o->ep  }" , "#d1" );
     transformer.render( "digraph{aa->b->   d->ez v->w->y->ez v->w }" , "#d2" );
-    on_svg_load();
     
     window.addEventListener
     (   "diagramReady", () =>
     {
-        e( "does_not_exist" ); // must not break script
-        e( "ll" );             // proof that script is still working
-        devdebug( "still alive..." );
+        visco.explore( "does_not_exist" ); // must not break script
+        visco.explore( "ll" );             // proof that script is still working
+        console.debug( "still alive..." );
     }
     )
 
     window.dispatchEvent( new Event( "diagramReady" ) );
 
-    devdebug( "HTML BODY done." );
+    console.debug( "HTML BODY done." );
 </script>
 <p><button onclick="explore( 'm' )">explore m</button> unique across page</p>
+<p><button onclick="explore( 'z' )">explore z</button> unique across page but nested in SVG OBJECT</p>
 
 <p><button onclick="explore( 'b'        )">explore b  </button> ambigious, triggers random picks between two instances (objects not searched)</p>
 <p><button onclick="explore( 'b', '#d1' )">explore b 1</button> specific pick of 1. b</p>
 <p><button onclick="explore( 'b', '#d2' )">explore b 2</button> specific pick of 2. b                </p>
+<p><button onclick="explore( 'b', '#d3' )">explore b 3</button> specific pick of 3. b (inside object)</p>
+
+<p><button onclick="explore( 'object' )">explore object</button> nested and ambigious, triggers random picks between two instance (and logs info about more specific API call to pick either one)</p>
 
 <hr />
 <p><button onclick="explore( 'does_not_exist' )">explore "does_not_exist"</button> shall log error but must not break page</p>

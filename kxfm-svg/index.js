@@ -109,9 +109,9 @@ static integrate_svg_into_page( svgtag, elmSelector, context )
 	}
 	outElement.innerHTML = svgtag;
 
-	if( multiple_kts_diagrams() )
+	if( KTS4SVG.multiple_kts_diagrams() )
 	{
-		devdebug( "no SVG scaling because multiple diagrams in this body" );
+		console.debug( "KTS: no SVG scaling because multiple diagrams in this body" );
 	}
 	else
 	{
@@ -145,5 +145,11 @@ static integrate_svg_into_page( svgtag, elmSelector, context )
 		catch (e) { console.error( e.stack + "...\nNo SVG tag?") }
 	} 
 }	// end of integrate_svg_into_page()
+
+
+static multiple_kts_diagrams()
+{
+  return document.querySelectorAll( ".ktscontainer" ).length > 1;
+}
 
 } // end of class KTS4SVG

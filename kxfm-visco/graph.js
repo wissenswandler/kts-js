@@ -1324,7 +1324,7 @@ function on_svg_load( dom )
 {
   devdebug( "on_svg_load() found total of " + document.querySelectorAll("svg").length + " SVG tags on document in scope" );
 
-  sd = new SubDocument( dom );
+  let sd = new SubDocument( dom );
 
   if( sd.querySelector( "svg" )  )
   {
@@ -1438,9 +1438,10 @@ function devdebug( message_object, new_timer_name = null )
   switch( permutation )
   {
     case "current_timer_null__and__new_timer_null":
-      console.time( "KTS init" );
+      //console.time( "KTS init" );
+      reset_timer( "KTS init" );
     case "current_timer_set___and__new_timer_null":
-      reset_timer( "" + message_object);
+      //reset_timer( "" + message_object);
       break;
     case "current_timer_set___and__new_timer_set":
     case "current_timer_null__and__new_timer_set":
@@ -1474,6 +1475,8 @@ function pick_random_element( array )
  * browser lifecycle hook
  * and the only expression in this module that is not a function declaration or global variable
  */
+try
+{
 window.addEventListener
 ( "load",
   (event) =>
@@ -1482,44 +1485,41 @@ window.addEventListener
     return on_svg_load( {document:document} );
   }
 );
+} catch(e) { /* most likely outside Browser environment */ }
 
 /*
  * module exports for hybrid = classic / ESM module usage
+ * NOTE: MUST RUN AS COMMONJS (not MODULE) for module and module.exports to be defined
  */
 
+/*
 if (typeof module !== "undefined" && typeof module.exports !== "undefined")
 {
-  module.exports = { on_svg_load : on_svg_load } ;
+  module.exports =
+  {
+    on_svg_load : on_svg_load 
+    ,
+    explore       : explore
+    ,
+    press       : press
+  } ;
   devdebug( "module.exports set" );
 }
 else
 {
   devdebug( "NO module.exports" );
 }
+*/
+
 
 if (typeof exports !== "undefined")
 {
   exports.on_svg_load = on_svg_load ;
+  exports.explore     = explore ;
+  exports.press       = press ;
   devdebug( "exports set" );
 }
 else
 {
   devdebug( "NO exports" );
 }
-
-if (typeof define === "function" && define.amd)
-{
-  define
-  ( [], function()
-  {
-    return on_svg_load ;
-  }
-  );
-  devdebug( "module function exported 1" );
-}
-else
-{
-  devdebug( "NO define" ); 
-}
-
-devdebug( "module function exported 2" );
