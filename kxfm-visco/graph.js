@@ -94,17 +94,17 @@ function explore( elm, elmSelector )
   if( typeof elmSelector === 'undefined' )
     return explore_3( {document:document}, elm, null );
   else
-    return explore_nested( elmSelector, elm );
+    return explore_nested( elm, elmSelector );
 }
 function   click( elm ) { return explore ( elm ) }
 
-function explore_nested( elmSelector, elm_id )
+function explore_nested( elm_id, elmSelector)
 {
   let selected = document.querySelector( elmSelector );
   if( !selected )
   {
     console.error( "could not find element with selector " + elmSelector );
-    return; // don't throw from this API entry, because calling script (on HTML page) shall be allowed to continue exploring other elements
+    return; // don't throw from this API entry, because calling script (on HTML page) shall be allowed to continue exploring other elements without catching
   }
   if(                 selected.getSVGDocument                             )
   {
@@ -138,7 +138,6 @@ function explore_nested( elmSelector, elm_id )
  */
 function explore_3( dom, elm, event )
 {
-  if( event ) event.preventDefault();
 
   devdebug( "script's doctype " + document.doctype.nodeName );
   
@@ -189,7 +188,7 @@ function explore_3( dom, elm, event )
             {
               console.info( "found element with id " + id + " in object tag with id: " + object.id );
               console.info( "note to script author: you can reference it directly by calling:" )
-              console.info( `  explore_nested( "#${object.id}", "${id}" )` );
+              console.info( `  explore_nested( "${id}", "#${object.id}" )` );
               nested_elms.push( object.getSVGDocument().getElementById( id ) );
             }
           });
@@ -213,11 +212,19 @@ function explore_3( dom, elm, event )
 
       default:
         console.warn( "found " + elms.length + " elements with id " + id + " - using random one." );
-        console.warn( "note to script author: you could supply more specific selector than '" + elmSelector + "'" );
+        console.warn( "note to script author: you could supply a more specific selector than '" + elmSelector + "'" );
 
         elm = pick_random_element( elms );
     }
   }
+
+  explore_element( elm, event );
+}
+
+function explore_element( elm, event )
+{  
+  if( event ) event.preventDefault();
+
   id = elm.id
   focussed = elm
 
@@ -1096,7 +1103,7 @@ function generateKeyboardShortcutButtons( document )
  */
 function activate_visual_mode()
 {
-  document.querySelectorAll( "g.node" ).forEach( svgElm => { svgElm.onclick = event => { explore_3( {}, svgElm, event) }   }    )
+  document.querySelectorAll( "g.node" ).forEach( svgElm => { svgElm.onclick = event => {  explore_element( svgElm, event )  }   }    )
 }
 function activate_hyperlink_mode()
 {
@@ -1281,7 +1288,7 @@ class SubDocument
     else
     if( typeof dom === "string" )
     {
-      if(  document.querySelector( dom )?.getSVGDocument()  )
+      if( document.querySelector( dom )?.getSVGDocument )
       {
         this.document = document.querySelector( dom ).getSVGDocument();
         this.selector = "";

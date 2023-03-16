@@ -38,6 +38,7 @@
     devdebug( "transforming DOT->SVG" );
     transformer.render( "digraph{aa->b->c->d->ep ll->m->n->o->ep  }" , "#d1" );
     transformer.render( "digraph{aa->b->   d->ez v->w->y->ez v->w }" , "#d2" );
+    on_svg_load();
     
     window.addEventListener
     (   "diagramReady", () =>
@@ -62,8 +63,13 @@
 
 <p><button onclick="explore( 'object' )">explore object</button> nested and ambigious, triggers random picks between two instance (and logs info about more specific API call to pick either one)</p>
 
-<p><button onclick="press('e','#d3')">clear SVG OBJECT #1</button></p>
-<p><button onclick="press('e','#d4')">clear SVG OBJECT #2</button></p>
+<hr />
+<p><button onclick="press('i','#d1')">intersect SVG #1     </button></p>
+<p><button onclick="press('i','#d2')">intersect SVG #2     </button></p>
+<p><button onclick="press('e','#d1')">clear SVG #1         </button></p>
+<p><button onclick="press('e','#d2')">clear SVG #2         </button></p>
+<p><button onclick="press('e','#d3')">clear SVG #3 (Object)</button></p>
+<p><button onclick="press('e','#d4')">clear SVG #4 (Object)</button></p>
 
 <hr />
 <p><button onclick="explore( 'does_not_exist' )">explore "does_not_exist"</button> shall log error but must not break page</p>
