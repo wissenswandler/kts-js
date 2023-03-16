@@ -79,7 +79,7 @@ function e( symbol )
   let elm = document.getElementById( symbol );
   if( elm )
   {
-    explore( elm );
+    explore_element( elm );
     return;
   }
 
@@ -89,22 +89,25 @@ function e( symbol )
 function   click( elm ) { return explore( elm ) }
 
 /*
- * shortcut function, supporting optional elmSelector parameter
+ * Script API to explore graph element by id, supporting optional selector parameter
  */
-function explore( elm, elmSelector )
+function explore( elm_id, selector )
 {
-  if( typeof elmSelector === 'undefined' )
-    return explore_elm_or_id( elm );
+  if( typeof selector === 'undefined' )
+    return explore_elm_id( elm_id );
   else
-    return explore_nested( elm, elmSelector );
+    return explore_nested( elm_id, selector );
 }
 
-function explore_nested( elm_id, elmSelector)
+/*
+ * handles lookup of graph element by id, nested in a tag as defined by CSS selector
+ */
+function explore_nested( elm_id, selector)
 {
-  let selected = document.querySelector( elmSelector );
+  let selected = document.querySelector( selector );
   if( !selected )
   {
-    console.error( "could not find element with selector " + elmSelector );
+    console.error( "could not find element with selector " + selector );
     return; // don't throw from this API entry, because calling script (on HTML page) shall be allowed to continue exploring other elements without catching
   }
   if(                         selected.getSVGDocument                             )
@@ -132,68 +135,73 @@ function explore_nested( elm_id, elmSelector)
 }
 
 /*
- * KTS response on a click: traverse the graph and present that path by coloring the nodes and edges
- *
- * count max distances from clicked node both ways (north and south),
- * then travel the longer path because that is more interesting
+ * handles page-wide lookup of graph element by id
+ * and forwards to explore_element()
  */
-function explore_elm_or_id( elm )
+function explore_elm_id( elm )
 {
-  if( typeof elm === 'string' )
+  if( typeof elm !== 'string' ) throw "explore_elm_id() expects a string as parameter, but got " + typeof elm;
+
+  id = elm;
+  devdebug( "converting ID " + id + " string to document element" )
+  let elms = document.querySelectorAll( "#" + id )
+  search_for_elm:
+  switch( elms.length )
   {
-    id = elm;
-    devdebug( "converting ID " + id + " string to document element" )
-    let elms = document.querySelectorAll( "#" + id )
-    search_for_elm:
-    switch( elms.length )
-    {
-      case 1:
-        elm = elms[0];
-        break;
+    case 1:
+      elm = elms[0];
+      break;
 
-      case 0:
-          let nested_elms = [];
-          devdebug( "now searching inside object tags..." );
-          document.querySelectorAll( "object" ).forEach
-          ( object => 
+    case 0:
+        let nested_elms = [];
+        devdebug( "now searching inside object tags..." );
+        document.querySelectorAll( "object" ).forEach
+        ( object => 
+        {
+          if( object.getSVGDocument() && object.getSVGDocument().getElementById( id ) )
           {
-            if( object.getSVGDocument() && object.getSVGDocument().getElementById( id ) )
-            {
-              console.info( "found element with id " + id + " in object tag with id: " + object.id );
-              console.info( "note to script author: you can reference it directly by calling:" )
-              console.info( `  explore( "${id}", "#${object.id}" )` );
-              nested_elms.push( object.getSVGDocument().getElementById( id ) );
-            }
-          });
-          switch( nested_elms.length )
-          {
-            case 0: 
-              break;  // continue with error message below
-            case 1:
-              elm = nested_elms[0]; // lucky us, we found it
-              break search_for_elm;
-            default:
-              console.warn( "found " + nested_elms.length + " elements with id '" + id + "' in object tags - using random one." ); 
-              console.warn( "note to script author: you could call explore(elm, selector) with a CSS selector to narrow down elm" );
-              elm = pick_random_element( nested_elms );
-              break search_for_elm;
+            console.info( "found element with id " + id + " in object tag with id: " + object.id );
+            console.info( "note to script author: you can reference it directly by calling:" )
+            console.info( `  explore( "${id}", "#${object.id}" )` );
+            nested_elms.push( object.getSVGDocument().getElementById( id ) );
           }
+        });
+        switch( nested_elms.length )
+        {
+          case 0: 
+            break;  // continue with error message below
+          case 1:
+            elm = nested_elms[0]; // lucky us, we found it
+            break search_for_elm;
+          default:
+            console.warn( "found " + nested_elms.length + " elements with id '" + id + "' in object tags - using random one." ); 
+            console.warn( "note to script author: you could call explore(elm, selector) with a CSS selector to narrow down elm" );
+            elm = pick_random_element( nested_elms );
+            break search_for_elm;
+        }
 
-        // still not found
-        console.error( 'cannot find element with id "' + id + '" in document ' + document );
-        return;
+      // still not found
+      console.error( 'cannot find element with id "' + id + '" in document ' + document );
+      return;
 
-      default:
-        console.warn( "found " + elms.length + " elements with id '" + id + "' - using random one." );
-        console.warn( "note to script author: you could call explore(elm, selector) with a CSS selector to narrow down elm" );
+    default:
+      console.warn( "found " + elms.length + " elements with id '" + id + "' - using random one." );
+      console.warn( "note to script author: you could call explore(elm, selector) with a CSS selector to narrow down elm" );
 
-        elm = pick_random_element( elms );
-    }
+      elm = pick_random_element( elms );
   }
 
   explore_element( elm );
 }
 
+/*
+ * KTS response on a click: traverse the graph and present that path by coloring the nodes and edges
+ *
+ * count max distances from clicked node both ways (north and south),
+ * then travel the longer path because that is more interesting
+ * 
+ * This core function also gets called from the explore() script API
+ */
 function explore_element( elm, event )
 {  
   if( event ) event.preventDefault();
@@ -446,7 +454,7 @@ const kts_actions = {
 A : { f : () => analyze_graph(),
       s : -1
       ,
-      filter : document => all_nodes.length > 0  &&  ! hasSelection( document )
+      filter : document => all_nodes.length > 0  &&  ! hasSelectionOrIsDimmed( document )
       ,
       text : "[A]nalyze graph (explore one of the longest paths)"
       ,
@@ -476,22 +484,21 @@ d : { text : "[d]im selected nodes (= inverse of [F])",
       post : "Selection dimmed."
     }
 ,
-e : { text : "[e]rase all color markup",
+e : { text : "r[e]store all colors",
       f : (document) =>
       {
-	// cleanup tagged nodes
+	      // cleanup tagged nodes
         document.querySelectorAll( "g"  ).forEach( (svgElm) => { remove_visitor_tags( svgElm    ) })
-	// also un-dim dimmed nodes
-        //document.querySelectorAll( "g"    ).forEach( (svgElm) => { svgElm.classList.remove( "dim","hover","underline" ) })
+        focussed = null;
       },
       s : 31  // with selection
       ,
-      filter : (document) => hasSelection( document )
+      filter : (document) => hasSelectionOrIsDimmed( document )
       ,
       post : () =>
       {
-        let message = "Erased all color markup.";
-        if( isVisualModeActive() ) message += " Click on any node to explore the diagram, if you like."
+        let message = "Restored all color.";
+        if( isVisualModeActive() ) message += " You can click on any node to explore the diagram."
         console.log( message );
       }
     }
@@ -876,7 +883,7 @@ function execute_kts_action( document, key )
     throw( "wrong command - press '?' for help" )
   }
 
-  devdebug( key )
+  devdebug( "[" + key + "] received"  )
 
       ktsFunction["f"]    (document)                // execute the action
   if( ktsFunction["post"] )
@@ -1096,6 +1103,10 @@ function hasSelection( document )
 {
   return document.querySelectorAll( "g.node[tag1]" ).length > 0
 }
+function hasSelectionOrIsDimmed( document )
+{
+  return document.querySelectorAll( "g[tag1], g.dim" ).length > 0
+}
 
 function hasIntersection( document )
 {
@@ -1119,16 +1130,24 @@ function getParametersByName(name)
 
 function add_key_listener ( document )
 {
-//  document.querySelector( 'svg' ).
-  window.
-  addEventListener("keydown", on_keydown, true);
+  if( document.querySelectorAll( 'svg' ).length == 1 )
+  {
+      document.querySelector   ( 'svg' ).addEventListener(  "keydown", event => on_keydown( event, document )  );
+      devdebug( "added key listener to svg inside " + document?.selector );
+  }
+/*  else
+  {*/
+      window                            .addEventListener(  "keydown", on_keydown  );
+      devdebug( "added key listener to window" );
+/*  }*/
 }
 
-function on_keydown(event)
+function on_keydown(event, doc = document)
 {
-  if (event.defaultPrevented) {
-    return; // Should do nothing if the default action has been cancelled
-  }
+  devdebug( "on_keydown, event: " + event + ", document: " + doc );
+  devdebug( "key event target: " + event.target );
+
+  if (event.defaultPrevented) return;
 
   let handled = false;
   if (event.key !== undefined)
@@ -1137,10 +1156,10 @@ function on_keydown(event)
 
     if( event.key in kts_actions )
     {
+      handled = true
       try
       {
-        execute_kts_action( document, event.key )
-        handled = true
+        execute_kts_action( doc, event.key )
       }
       catch( e )
       {
@@ -1152,13 +1171,13 @@ function on_keydown(event)
     }
     else
     {
-      console.debug( event.key )
+      devdebug( "[" + event.key + "] not implemented as KTS Action" )
     }
   }
 
   if (handled) {
-    // Suppress "double action" if event handled
-    event.preventDefault();
+    //event.preventDefault();
+    event.stopPropagation();
   }
 }
 
@@ -1280,6 +1299,10 @@ class SubDocument
     }
   }
 
+  getElementById( id )
+  {
+    return this.document.getElementById( id );
+  }
   querySelector( selector )
   {
     return this.document.querySelector( this.selector + " " + selector );
@@ -1490,7 +1513,6 @@ else
   devdebug( "NO module.exports" );
 }
 */
-
 
 if (typeof exports !== "undefined")
 {

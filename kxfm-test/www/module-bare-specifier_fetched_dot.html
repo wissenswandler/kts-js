@@ -31,7 +31,7 @@
     {
       devdebug( "transforming DOT->SVG" );
       transformer.render( dot_string, ".ktscontainer" )  
-      on_svg_load();
+      on_svg_load( ".ktscontainer" );
       devdebug( "HTML BODY done." );
     }
     );

@@ -31,19 +31,12 @@
     devdebug( "transforming DOT->SVG" );
     transformer.render( "digraph{aa->b->c->d->ep ll->m->n->o->ep  }" , "#d1" );
     transformer.render( "digraph{aa->b->   d->ez v->w->y->ez v->w }" , "#d2" );
-    on_svg_load();
+    on_svg_load( "#d1" );
+    on_svg_load( "#d2" );
+
+    e( "does_not_exist" ); // must not break script
+    e( "ll" );             // proof that script is still working
     
-    window.addEventListener
-    (   "diagramReady", () =>
-    {
-        e( "does_not_exist" ); // must not break script
-        e( "ll" );             // proof that script is still working
-        devdebug( "still alive..." );
-    }
-    )
-
-    window.dispatchEvent( new Event( "diagramReady" ) );
-
     devdebug( "HTML BODY done." );
 </script>
 <p><button onclick="explore( 'm' )">explore m</button> unique across page</p>
