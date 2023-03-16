@@ -744,7 +744,7 @@ y : { text : "[y]ank (copy) ID of focussed node to clipboard",
 'Escape':
   { text : "1x = shrink, 2x = hide this help window",			f : (document) => 
     {
-      set_actions_display_mode( (ACTIONS_DISPLAY_MODE_NAME.length + ACTIONS_DISPLAY_MODE - 1) % ACTIONS_DISPLAY_MODE_NAME.length , document);
+      set_actions_display_mode( Math.max(0, ACTIONS_DISPLAY_MODE - 1) , document);
     }
     ,
     s : 91  // help tools
@@ -1236,9 +1236,10 @@ function init_pan_zoom( document )
     return;
   }
 
-  if( !svgPanZoom )
+  if( typeof svgPanZoom === "undefined" )
   {
     console.warn( "svgPanZoom not available to KTS (not imported within scope of this script)" );
+    console.warn( "you can try importing it like this: <script src='https://unpkg.com/svg-pan-zoom/dist/svg-pan-zoom.min.js'></script> or <script src='https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js'></script>" );
     return;
   }
 
