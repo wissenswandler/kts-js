@@ -86,17 +86,18 @@ function e( symbol )
   console.warn( "don't know how to execute statement ==>" + symbol + "<== (may be OK for multi-diagram document)" );
 }
 
+function   click( elm ) { return explore( elm ) }
+
 /*
  * shortcut function, supporting optional elmSelector parameter
  */
 function explore( elm, elmSelector )
 {
   if( typeof elmSelector === 'undefined' )
-    return explore_3( {document:document}, elm, null );
+    return explore_elm_or_id( elm );
   else
     return explore_nested( elm, elmSelector );
 }
-function   click( elm ) { return explore ( elm ) }
 
 function explore_nested( elm_id, elmSelector)
 {
@@ -106,11 +107,11 @@ function explore_nested( elm_id, elmSelector)
     console.error( "could not find element with selector " + elmSelector );
     return; // don't throw from this API entry, because calling script (on HTML page) shall be allowed to continue exploring other elements without catching
   }
-  if(                 selected.getSVGDocument                             )
+  if(                         selected.getSVGDocument                             )
   {
-    if(               selected.getSVGDocument().getElementById( elm_id )  )
+    if(                       selected.getSVGDocument().getElementById( elm_id )  )
     {
-      return explore( selected.getSVGDocument().getElementById( elm_id )  );
+      return explore_element( selected.getSVGDocument().getElementById( elm_id )  );
     }
     else
     {
@@ -119,9 +120,9 @@ function explore_nested( elm_id, elmSelector)
   }
   else // selector does not point to an SVG document but perhaps to an SVG tag inside this HTML document
   {
-    if(               selected.querySelector( "#"+elm_id )  )
+    if(                       selected.querySelector( "#"+elm_id )  )
     {
-      return explore( selected.querySelector( "#"+elm_id )  );
+      return explore_element( selected.querySelector( "#"+elm_id )  );
     }
     else
     {
@@ -136,39 +137,13 @@ function explore_nested( elm_id, elmSelector)
  * count max distances from clicked node both ways (north and south),
  * then travel the longer path because that is more interesting
  */
-function explore_3( dom, elm, event )
+function explore_elm_or_id( elm )
 {
-
-  devdebug( "script's doctype " + document.doctype.nodeName );
-  
-  let elmSelector = "";
-  if( dom.document )
-  {
-    document = dom.document;
-    devdebug( "using document from dom: " + document );
-  }
-  else
-  devdebug( "using document from global scope: " + document );
-  
-  if( dom.elmSelector )
-  {
-    elmSelector = dom.elmSelector;
-    devdebug( "using elmSelector from dom: " + elmSelector );
-  } 
-  else
-  devdebug( "using default elmSelector: " + elmSelector );
-  
-  dom = { document: document, elmSelector: elmSelector };
-  devdebug( "dom = " + JSON.stringify( dom ) );
-  
-  devdebug(  "entering explore_3() in document.doctype.nodeName: " + document.doctype.nodeName + " with element: " + elm + (event ? " via EVENT" : " via API" )  );
-  devdebug( "   dom doctype " + document.doctype.nodeName );
-
   if( typeof elm === 'string' )
   {
     id = elm;
     devdebug( "converting ID " + id + " string to document element" )
-    let elms = dom.document.querySelectorAll( elmSelector + " #" + id ) // TODO: in intersecting diagrams, this may not be unique!!
+    let elms = document.querySelectorAll( "#" + id )
     search_for_elm:
     switch( elms.length )
     {
@@ -177,8 +152,6 @@ function explore_3( dom, elm, event )
         break;
 
       case 0:
-        if( elmSelector == "" ) // only try to find it in object tags if there had been no selector
-        {
           let nested_elms = [];
           devdebug( "now searching inside object tags..." );
           document.querySelectorAll( "object" ).forEach
@@ -188,7 +161,7 @@ function explore_3( dom, elm, event )
             {
               console.info( "found element with id " + id + " in object tag with id: " + object.id );
               console.info( "note to script author: you can reference it directly by calling:" )
-              console.info( `  explore_nested( "${id}", "#${object.id}" )` );
+              console.info( `  explore( "${id}", "#${object.id}" )` );
               nested_elms.push( object.getSVGDocument().getElementById( id ) );
             }
           });
@@ -200,25 +173,25 @@ function explore_3( dom, elm, event )
               elm = nested_elms[0]; // lucky us, we found it
               break search_for_elm;
             default:
-              console.warn( "found " + nested_elms.length + " elements with id " + id + " in object tags - using random one." ); 
+              console.warn( "found " + nested_elms.length + " elements with id '" + id + "' in object tags - using random one." ); 
+              console.warn( "note to script author: you could call explore(elm, selector) with a CSS selector to narrow down elm" );
               elm = pick_random_element( nested_elms );
               break search_for_elm;
           }
-        }
 
         // still not found
         console.error( 'cannot find element with id "' + id + '" in document ' + document );
         return;
 
       default:
-        console.warn( "found " + elms.length + " elements with id " + id + " - using random one." );
-        console.warn( "note to script author: you could supply a more specific selector than '" + elmSelector + "'" );
+        console.warn( "found " + elms.length + " elements with id '" + id + "' - using random one." );
+        console.warn( "note to script author: you could call explore(elm, selector) with a CSS selector to narrow down elm" );
 
         elm = pick_random_element( elms );
     }
   }
 
-  explore_element( elm, event );
+  explore_element( elm );
 }
 
 function explore_element( elm, event )
