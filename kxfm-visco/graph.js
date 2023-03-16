@@ -1217,6 +1217,10 @@ function analyze_graph()
   return all_nodes.length;
 }
 
+/*
+ * will detect multiple diagrams as svg TAGS in the same document
+ * will NOT detect svg OBJECTS or iFrames (as in Jira or Observable)
+ */
 function multiple_kts_diagrams()
 {
   return document.querySelectorAll( ".ktscontainer" ).length > 1;
@@ -1229,6 +1233,12 @@ function init_pan_zoom( document )
     // because the whole document is more likely meant to be a linear document
     // rather than an explorative graph
 		devdebug( "no additional control for pan/zoom because multiple diagrams in this body" );
+    return;
+  }
+
+  if( !svgPanZoom )
+  {
+    console.warn( "svgPanZoom not available to KTS (not imported within scope of this script)" );
     return;
   }
 
