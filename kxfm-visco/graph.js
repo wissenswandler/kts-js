@@ -794,7 +794,7 @@ function set_actions_display_mode( mode, document )
       }
       catch( e ) { }
       
-      console.log( "KTS Keys hidden. Type '?' to display them again." )
+      console.log( "KTS Keys hidden. Click here and type '?' to display them again." )
       break;
 
     case 1 :
@@ -870,23 +870,17 @@ function findParentGraphNode( svgElm )
   return( findParentGraphNode( svgElm.parentNode ) );
 }
 
-function press( key )	// shortcut without document parameter
+function press( key, doc )	// shortcut with optional document parameter
 {
-  return execute_kts_action( document, key )
+  return execute_kts_action( new SubDocument(doc), key )
 }
 
 function onpress( document, key )	//convenience of shorter function name for HTML documents
 {
   return execute_kts_action( document, key )
 }
-function execute_kts_action( dom, key )
+function execute_kts_action( document, key )
 {
-  let elmSelector ="svg";
-  if( dom.document )
-    document = dom.document;
-  if( dom.elmSelector )
-    elmSelector = dom.elmSelector + " svg";
-
   try
   {
     console.debug( "entering execute_kts_action() with document.doctype.nodeName: " + document.doctype.nodeName ); // HTML case
@@ -904,10 +898,10 @@ function execute_kts_action( dom, key )
 
   devdebug( key )
 
-      ktsFunction["f"]    (dom)                // execute the action
+      ktsFunction["f"]    (document)                // execute the action
   if( ktsFunction["post"] )
     if( typeof ktsFunction["post"] === "function" )
-      ktsFunction["post"] (dom)                // execute the postfunction
+      ktsFunction["post"] (document)                // execute the postfunction
     else
       console.log
     ( ktsFunction["post"]  )                        // log post-action text
@@ -930,6 +924,8 @@ function filterAllActions( document )
     let ktsFunction = kts_actions[ key ];
     if( typeof ktsFunction["filter"] === "function" )
     {
+      try
+      {
       if( ktsFunction["filter"]( document ) )
       {
         document.querySelector( "#" + action_css_id( key ) ).classList.remove("hidden")
@@ -940,6 +936,7 @@ function filterAllActions( document )
         document.querySelector( "#" + action_css_id( key ) ).classList.add("hidden")
         document.querySelector( "#" + action_css_id( key ) + " button" ).disabled = true
       }
+      } catch( e ) { /* OK if called for a subdocument, which never contains an Action Help component */ }
     }
   }
   devdebug( "filterAllActions() done." )
@@ -1140,7 +1137,7 @@ function getParametersByName(name)
   return regex.exec(location.search);
 }
 
-function add_key_listener ()
+function add_key_listener ( document )
 {
 //  document.querySelector( 'svg' ).
   window.
@@ -1255,6 +1252,69 @@ function resize_pan_zoom()
   panZoomInstance.fit();
 }
 
+class SubDocument
+{
+  get childNodes()  { return this.document.childNodes;  }
+  get doctype()     { return this.document.doctype;     }
+
+  constructor( dom )
+  {
+    if( dom?.document )
+    {
+      this.document = dom.document;
+      if( document === dom.document )
+        devdebug( "SubDocument: passed document is identical with document in scope" )
+      else
+        devdebug( "Subdocument: passed document is DIFFERENT from document in scope" )
+    }
+    else
+    {
+      this.document = document;
+      devdebug( "SubDocument: using document from scope" )
+    }
+
+    if( dom?.elmSelector )
+    {
+      this.selector = dom.elmSelector;
+      devdebug( "SubDocument using selector: " + this.selector );
+    }
+    else
+    if( typeof dom === "string" )
+    {
+      if(  document.querySelector( dom )?.getSVGDocument()  )
+      {
+        this.document = document.querySelector( dom ).getSVGDocument();
+        this.selector = "";
+        devdebug( "SubDocument: using SVG document from selector " + dom );
+      }
+      else
+      {
+        this.selector = dom;
+        devdebug( "SubDocument using selector from string: " + dom );
+      }
+    }
+    else
+    {
+      this.selector = "";
+      devdebug( "SubDocument using empty selector." );
+    }
+  }
+
+  querySelector( selector )
+  {
+    return this.document.querySelector( this.selector + " " + selector );
+  }
+  querySelectorAll( selector )
+  {
+    return this.document.querySelectorAll( this.selector + " " + selector );
+  }
+}
+
+/*
+ * backward compatibility
+ */
+//export function on_svg_load( dom ) { return on_svg_load( dom ) }
+
 /*
  * entry point for HTML/SVG documents upon loading static SVG
  * OR after creating dynamic SVG inside an HTML document
@@ -1262,26 +1322,19 @@ function resize_pan_zoom()
  */
 function on_svg_load( dom )
 {
-  let elmSelector ="svg";
-  if( dom?.document )
-    document = dom.document;
+  devdebug( "on_svg_load() found total of " + document.querySelectorAll("svg").length + " SVG tags on document in scope" );
 
-  if( dom?.elmSelector )
-    elmSelector = dom.elmSelector;
+  sd = new SubDocument( dom );
 
-  devdebug( "on_svg_load() with document " + document + " and selector ==>" + elmSelector +"<==" );
-
-  dom = {document:document, elmSelector:elmSelector};
-  
-  if( document.querySelector( elmSelector ) )
+  if( sd.querySelector( "svg" )  )
   {
     // depends on SVG diagram
-    all_nodes = document.querySelectorAll( elmSelector + " g.node" );
+    all_nodes = sd.querySelectorAll( "g.node" );
     devdebug( "found here " + all_nodes.length + " nodes" );
 
     devdebug( "adding listeners" );
-    add_key_listener();
-    add_mouseover_listeners_to_nodes( document );
+    add_key_listener( sd );
+    add_mouseover_listeners_to_nodes( sd );
 
     generateKeyboardShortcutButtons( document ); // inside SVG diagram in case of SVG (vs HTML) document
     if( all_nodes.length == 0 )
@@ -1290,7 +1343,7 @@ function on_svg_load( dom )
       execute_kts_action(document,"Escape");
       console.log( "This diagram is empty. Try creating issues in Jira so they show up here." ); return null; 
     }
-    activate_visual_mode( dom ); // visual mode = on by default
+    activate_visual_mode(); // visual mode = on by default
 
     if( ! execute_url_command() && ! multiple_kts_diagrams() )
     {
@@ -1421,4 +1474,52 @@ function pick_random_element( array )
  * browser lifecycle hook
  * and the only expression in this module that is not a function declaration or global variable
  */
-window.addEventListener(  "load", (event) => on_svg_load( {document:document} )  );
+window.addEventListener
+( "load",
+  (event) =>
+  {
+    console.debug( "KTS handling load event in document " + document );
+    return on_svg_load( {document:document} );
+  }
+);
+
+/*
+ * module exports for hybrid = classic / ESM module usage
+ */
+
+if (typeof module !== "undefined" && typeof module.exports !== "undefined")
+{
+  module.exports = { on_svg_load : on_svg_load } ;
+  devdebug( "module.exports set" );
+}
+else
+{
+  devdebug( "NO module.exports" );
+}
+
+if (typeof exports !== "undefined")
+{
+  exports.on_svg_load = on_svg_load ;
+  devdebug( "exports set" );
+}
+else
+{
+  devdebug( "NO exports" );
+}
+
+if (typeof define === "function" && define.amd)
+{
+  define
+  ( [], function()
+  {
+    return on_svg_load ;
+  }
+  );
+  devdebug( "module function exported 1" );
+}
+else
+{
+  devdebug( "NO define" ); 
+}
+
+devdebug( "module function exported 2" );
