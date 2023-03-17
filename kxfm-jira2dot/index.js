@@ -103,7 +103,7 @@ class JiraIssueLinkSet extends UniqueSet
 
 const PARENT_PSEUDO_LINKTYPE =
 {
-    id      : "jira:field_parent"
+    id      : "jira__field__parent"
     ,
     name    : "parent -- style: arrowhead=diamond"
     ,
@@ -151,8 +151,6 @@ static jiraIssueArray2dotString( issueArray, jiraInstance )
             {
                 issue.fields.issuelinks.forEach
                 (   link =>
-                    // TODO: reverse "type 2" links
-                        
                     // note that traditional Jira semantics are in "dependency" direction,
                     // which is the opposite of "value" direction,
                     // so it appears that we reverse the direction of the edge by drawing it from the outwardIssue to the inwardIssue
@@ -287,7 +285,7 @@ node [
                                   ||
                                   p.outward.endsWith( ARROW_UP )
                                   
-            let impact_inverter = reverse_impact ? 1 : 0;
+            let impact_inverter = reverse_impact ? 1 : 0;   // TODO: move link direction inversion up to the abstract graph level, so that other renderers can use it too
             
             let  inwardLabel =  p.inward.replace( ARROW_UP , '' ).trim();
             let outwardLabel = p.outward.replace( ARROW_DN , '' ).trim();
@@ -304,10 +302,6 @@ node [
             dotString += '\n{'
             + ' edge ['
             + styleOrLabel
-            + ' class="type_' + p.id
-            + ( impact_negative ? " impact_negative" : "" )
-            + ( impact_neutral  ? " impact_neutral"  : "" )
-            + '"'
             + ']'
             + ' # link type: "' + predicateName + '"'
 
@@ -328,7 +322,11 @@ node [
                     + "["
                     + ( hasLabel ? 'labeltooltip="' + KTS4Dot.safeAttribute( tooltip ) + '"' : '' )
                     +                  ' tooltip="' + KTS4Dot.safeAttribute( tooltip ) + '"'
-                    + ( (s.querydistance_1 || o.querydistance_1) ? " class=querydistance_1" : "" )
+                    + ' class="type_' + p.id
+                    + ( impact_negative ? " impact_negative" : "" )
+                    + ( impact_neutral  ? " impact_neutral"  : "" )
+                    + ( (s.querydistance_1 || o.querydistance_1) ? " querydistance_1" : " querydistance_0" )
+                    + '"'
                     + "]";
                 }
             );

@@ -74,34 +74,6 @@ body {
 
 
 /*
- * hover effect ...
- * also works on Android with pointing device (not with pen / touch) 
- */
-
-g.node:hover,        /* applies to node or edge geometry - not to clusters */
-g.edge:hover,
-.hover  { animation: blinker 1s linear infinite alternate } @keyframes blinker { to { opacity: 0 } }
-
-g.node:hover path,    /* applies to edge outline (arrowheads ) _not filled_ geometry (not tested with arrow tail yet) */
-g.edge:hover path,
-g.edge:hover polygon
-        { stroke-dasharray:none; stroke-width: 3 }
-.hover  { stroke-dasharray:none }
-
-g.node:hover path,    /* applies to edge outline (arrowheads ) _not filled_ geometry (not tested with arrow tail yet) */
-g.edge:hover path,
-g.edge:hover text,    /*edge label*/
-g.edge:hover polygon,
-g.node:hover a[*|href]:not([*|href^='javascript']) text,
-.hover
-{ stroke: blue }
-/* hyperlinks shown blue on hover (tooltips pop up in browser on hover, so they don't need style to emphasize) */
-
-
-/* ... end hover */
-
-
-/*
  * static (not hover) EMPHASIS on additional information (tooltip, hyperlink)
  */
 
@@ -149,6 +121,33 @@ svg g.dot_by_kts    text
 /*
  * this commented style cannot fix above bug
  .edge path { animation: fillnone 1s forwards } @keyframes fillnone { to { fill:none } } */
+
+
+/*
+ * hover effect ...
+ * also works on Android with pointing device (not with pen / touch) 
+ */
+
+g.node:hover,        /* applies to node or edge geometry - not to clusters */
+g.edge:hover,
+.hover  { animation: blinker 1s infinite alternate ease-in-out } @keyframes blinker { to { opacity: 0 } }
+
+g.node:hover path,    /* applies to edge outline (arrowheads ) _not filled_ geometry (not tested with arrow tail yet) */
+g.edge:hover path,
+g.edge:hover polygon
+        { stroke-dasharray:none; stroke-width: 3 }
+.hover  { stroke-dasharray:none }
+
+g.node:hover path,    /* applies to edge outline (arrowheads ) _not filled_ geometry (not tested with arrow tail yet) */
+g.edge:hover path,
+g.edge:hover text,    /*edge label*/
+g.edge:hover polygon,
+g.node:hover a[*|href]:not([*|href^='javascript']) text,
+.hover
+{ stroke: blue; }
+/* hyperlinks shown blue on hover (tooltips pop up in browser on hover, so they don't need style to emphasize) */
+
+/* ... end hover */
 
 
 /*

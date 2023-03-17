@@ -57,7 +57,8 @@ var NEXT_CLICK_DIRECTION	= -1
 
 var id
 var visited
-var focussed
+var focussed_node
+var focussed_edge
 var clipText
 var all_nodes = []
 
@@ -207,7 +208,7 @@ function explore_element( elm, event )
   if( event ) event.preventDefault();
 
   id = elm.id
-  focussed = elm
+  focussed_node = elm
 
  console.info( node_name_by_id( id ) + " now being explored..." );
 
@@ -489,7 +490,7 @@ e : { text : "r[e]store all colors",
       {
 	      // cleanup tagged nodes
         document.querySelectorAll( "g"  ).forEach( (svgElm) => { remove_visitor_tags( svgElm    ) })
-        focussed = null;
+        focussed_node = null;
       },
       s : 31  // with selection
       ,
@@ -506,8 +507,8 @@ e : { text : "r[e]store all colors",
 // key 'f' also captures CTRL-F in chrome, so no more find-in-page possible
 F : { f : function(document)
       {
-        document.querySelectorAll( "g.edge:not([tag1]), g.node:not([tag1]), g.cluster" ).forEach(  svgElm => svgElm.classList.add( "dim" )  )
-        document.querySelectorAll( "g[tag1]"       ).forEach( (svgElm) => { remove_visitor_tags( svgElm ) })
+        document.querySelectorAll( "g.edge:not([tag1]):not(.hover), g.node:not([tag1]):not(.hover), g.cluster" ).forEach(  svgElm => svgElm.classList.add( "dim" )  )
+        document.querySelectorAll( "g[tag1] , .hover"       ).forEach( (svgElm) => { remove_visitor_tags( svgElm ) })
       },
       s : 32  // with selection
       ,
@@ -529,20 +530,28 @@ h : { text : "activate [h]yperlink mode (= inverse of [v])", f : (document) => a
 ,
 i : { text : "keep [i]ntersecting paths (clear the rest) = inverse of [o]",		f : (document) =>
     {
-      var intersection = document.querySelectorAll( "g[tag2]" )
-      if( intersection.length > 0 )
+      const hasTag1 = document.querySelector( "g[tag1]" )
+      const hasTag2 = document.querySelector( "g[tag2]" )
+      const hasHovr = document.querySelector( "g.node.hover" )
+      if( hasTag2 )
       {
-       document.querySelectorAll( "g[tag1]:not([tag2])" ).forEach( (svgElm) => { svgElm.removeAttribute( "tag1" ) })
-       console.log( " all but intersection cleared - you can [m]erge to turn the former intersection from blue to orange")
+       document.querySelectorAll( "g[tag1]:not([tag2])" ).forEach(  svgElm => svgElm.removeAttribute( "tag1" )  )
+       console.log( "all but intersecting colors cleared - you can [m]erge to turn them from blue to orange")
       }
-      else console.log( " currently no intersecting paths")
+      else
+      if( !hasTag2 && hasTag1 && hasHovr )
+      {
+       document.querySelectorAll( "g.node[tag1]:not(.hover)" ).forEach(  svgElm => svgElm.removeAttribute( "tag1" )  )
+       console.log( "kept matching types only, cleared the rest")
+      }
+      else console.log( "currently no intersecting paths")
     }
       ,
       s : 40
       ,
       filter : (document) => hasIntersection( document )
       ,
-      post : "keeping intersecting paths"
+      post : () => {} // prevent previous console.log from being overwritten
     }
 ,
 j : { text : "concentrate on intersection (= shortcut for [i] + [F] )",		f : function(document)
@@ -575,7 +584,7 @@ m : { text : "[m]erge path intersections", 				f : function(document)
       ,
       s : 42
       ,
-      filter : (document) => hasIntersection( document )
+      filter : (document) => hasIntersectingColors( document )
       ,
       post : "Selection paths merged with intersection."
     }
@@ -587,14 +596,30 @@ N : { text : "travel [N]orth (forward) direction upon next CLICK (= inverse of [
       filter : () => all_nodes.length > 0
     }
 ,
-o : { text : "keep [o]utersection (clear intersection) = inverse of [i]",		f : (document) =>
-        document.querySelectorAll("g[tag2]").forEach((svgElm) => { remove_visitor_tags(svgElm) })
+o : { text : "keep [o]utersection (clear intersection) = inverse of [i]",		f : document =>
+      {
+        const hasTag1 = document.querySelector( "g[tag1]" )
+        const hasTag2 = document.querySelector( "g[tag2]" )
+        const hasHovr = document.querySelector( "g.node.hover" )
+        if( hasTag2 )
+        {
+          document.querySelectorAll("g[tag2]").forEach( svgElm => remove_visitor_tags(svgElm) )
+          console.log( "intersecting colors cleared")
+        }
+        else
+        if( !hasTag2 && hasTag1 && hasHovr )
+        {
+          document.querySelectorAll( "g.node.hover[tag1]" ).forEach( svgElm => remove_visitor_tags(svgElm) )
+          console.log( "cleared matching types, kept the rest")
+        }
+        else console.log( "currently no intersecting paths")
+      }
       ,
       s : 43 // with intersection
       ,
       filter : (document) => hasIntersection( document )
       ,
-      post : "Intersection removed from selection."
+      post : () => {} // prevent previous console.log from being overwritten
     }
 ,
 // key 'r' also captures CTRL-R in chrome, so no more page-reload possible
@@ -617,8 +642,8 @@ S : { text : "travel [S]outh (backward) direction upon next CLICK (= inverse of 
 ,
 U : { text : "copy [U]rl of focussed node to clipboard",		f : function(document)
       {
-        clipText = document.querySelector( "#" + focussed.id + " g a" ).getAttribute( "xlink:href" ); 
-        console.info( "focussed.id: " + focussed.id + " with url: " + clipText );
+        clipText = document.querySelector( "#" + focussed_node.id + " g a" ).getAttribute( "xlink:href" ); 
+        console.info( "focussed.id: " + focussed_node.id + " with url: " + clipText );
         navigator.clipboard.writeText( clipText );
       }
       ,
@@ -626,9 +651,9 @@ U : { text : "copy [U]rl of focussed node to clipboard",		f : function(document)
       ,
       filter : () => 
       {
-        if( focussed )
+        if( focussed_node )
         {
-          let focussed_a_tag = document.querySelector( "#" + focussed.id + " g a" );
+          let focussed_a_tag = document.querySelector( "#" + focussed_node.id + " g a" );
           if( focussed_a_tag )
             return focussed_a_tag.getAttribute( "xlink:href" );
         }
@@ -650,15 +675,15 @@ v : { text : "activating [v]isual mode (= inverse of [h])",	f : dom => activate_
 y : { text : "[y]ank (copy) ID of focussed node to clipboard",
       f : function(document)
       {
-        console.info( "focussed.id: " + focussed.id );
-        navigator.clipboard.writeText( focussed.id );
+        console.info( "focussed.id: " + focussed_node.id );
+        navigator.clipboard.writeText( focussed_node.id );
       }
       ,
       s:70
       ,
-      filter : () => focussed != null
+      filter : () => focussed_node != null
       ,
-      post : () => console.log( '"' + focussed.id + '" is now on system clipboard' )
+      post : () => console.log( '"' + focussed_node.id + '" is now on system clipboard' )
     }
 ,
 ',':{ text : "copy selection to clipboard, separated by [,] (comma)",
@@ -734,11 +759,11 @@ y : { text : "[y]ank (copy) ID of focussed node to clipboard",
     {
       s : 75
       ,
-      filter : (document) => focussed && document.querySelector( "#" + focussed.id + "[tag1]" ) // focussed element is part of selection
+      filter : (document) => focussed_node && document.querySelector( "#" + focussed_node.id + "[tag1]" ) // focussed element is part of selection
       ,
       text : "Delete focussed node from selection."
       ,
-      f : (document) => remove_visitor_tags_of_single_node( focussed, document )
+      f : (document) => remove_visitor_tags_of_single_node( focussed_node, document )
     }
 ,
 'Escape':
@@ -848,13 +873,14 @@ function apply_display_style( docElmId, style )
 /*
  * recursive function to find the (transitive) parent graph node for a given SVG element
  */
-function findParentGraphNode( svgElm )
+function  findParentGraphNode( svgElm )
 {
-  if( svgElm.tagName == "g" && svgElm.classList.contains( "node" ) )
-  {
+  if( svgElm.tagName == "g" && ["node","edge"].some( c => svgElm.classList.contains( c ) ) )
     return svgElm;
-  }
-  return( findParentGraphNode( svgElm.parentNode ) );
+  let                          parent = svgElm.parentNode;
+  if(                          parent == null )
+    return                               null;
+  return( findParentGraphNode( parent ) );  // (tail) recursive call
 }
 
 function press( key, doc )	// shortcut with optional document parameter
@@ -958,6 +984,7 @@ function remove_visitor_tags( svgElm )
   svgElm.removeAttribute( "colorank"  )
   svgElm.removeAttribute( "distance"  )
   svgElm.classList.remove( "dim"      )
+  svgElm.classList.remove( "hover"    )
 }
 
 /*
@@ -966,20 +993,41 @@ function remove_visitor_tags( svgElm )
  */
 function add_mouseover_listeners_to_nodes( document )
 {
-  document.querySelectorAll( "g.node" ).forEach
-  ( (e) =>
+  document.querySelectorAll( "g.node , g.edge" ).forEach
+  ( e =>
   {
     e.addEventListener
-    ( "mouseover", (event) => on_node_focus( event ) ),
-    { options : { passive : true } }
+    ( "mouseenter", event => on_focus( event, document ) ,
+      { options : { passive : true } }
+    );
+    e.addEventListener
+    ( "mouseleave", event => on_blur(  event, document ) ,
+      { options : { passive : true } }
+    );
   }
   )
 }
-
-function on_node_focus( event )
+function on_focus( event, document )
 {
-  focussed = findParentGraphNode( event.target ) ;
+  let focussed = findParentGraphNode( event.target ) ;
   console.debug( "focussed.id: " + focussed.id );
+
+  if( focussed.classList.contains( "node" ) )
+      focussed_node = focussed;
+
+  if( focussed.classList.contains( "edge" ) )
+      focussed_edge = focussed;
+
+  let focussed_type;
+  focussed.classList.forEach( c => { if( c.startsWith( "type" ) ) focussed_type = c } )
+  console.debug( " of type: " + focussed_type );
+
+  document.querySelectorAll( '.'+focussed_type ).forEach( n => n.classList.add(    "hover" ) );
+  filterAllActions( document );
+}
+function on_blur( event, document )
+{
+  document.querySelectorAll( '.hover'          ).forEach( n => n.classList.remove( "hover" ) );
   filterAllActions( document );
 }
     
@@ -1101,17 +1149,26 @@ function isVisualModeActive()
 
 function hasSelection( document )
 {
-  return document.querySelectorAll( "g.node[tag1]" ).length > 0
+  return document.querySelectorAll( "g[tag1] , .hover"         ).length > 0
 }
 function hasSelectionOrIsDimmed( document )
 {
-  return document.querySelectorAll( "g[tag1], g.dim" ).length > 0
+  return document.querySelectorAll( "g[tag1] , .hover , g.dim" ).length > 0
 }
 
+function hasIntersectingColors( document )
+{
+  return document.querySelector( "g.node[tag2]" )
+}
+function hasIntersectionWithFocus( document )
+{
+  return document.querySelector( "g.node.hover[tag1]" )
+}
 function hasIntersection( document )
 {
-  return document.querySelectorAll( "g.node[tag2]" ).length > 0
+  return hasIntersectingColors( document ) || hasIntersectionWithFocus( document )
 }
+
 
 /*
  * from: https://stackoverflow.com/a/30070207
@@ -1396,7 +1453,7 @@ console.log = function(logMessage)
 {
   try
   {
-    let ktsConsole = document.getElementById( "ktsConsole" );
+    //let ktsConsole = document.getElementById( "ktsConsole" );
 
     //ktsConsole.classList.remove( "yellow_flash" )
     //ktsConsole.classList.add( "no_flash" )

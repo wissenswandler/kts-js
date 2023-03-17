@@ -1,7 +1,7 @@
 {
   "name": "@kxfm/visco",
   "type" : "commonjs",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "description": "Visual Cortex (VisCo) = lightweight JS + CSS lib for exploring SVG graphs / part of KTS (Knowledge Transformation System)",
   "main": "graph.js",
   "scripts": {
