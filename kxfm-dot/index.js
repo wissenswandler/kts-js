@@ -2,7 +2,7 @@
  * lightweight KTS micro library (no dependencies)
  */
 
-export default class KTS4Dot
+export class KTS4Dot
 {
 /*
  * add some required and some recommended attributes to the DOT string

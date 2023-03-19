@@ -4,8 +4,8 @@
  *
  * don't chalk here because it does not work in Forge FaaS logging
  */
-import KTS4Dot from '@kxfm/dot';
-import KTS4SVG from '@kxfm/svg';
+import {KTS4Dot} from '@kxfm/dot';
+import {KTS4SVG} from '@kxfm/svg';
 
 export class Tdot2svgStrings
 {
@@ -106,7 +106,7 @@ render( dot_string, elmSelector, context )
 
 	KTS4SVG.integrate_svg_into_page( svgtag, elmSelector, context );
 
-	//on_svg_load( {elmSelector:elmSelector} );	// depends on global function, currently declared by graph.js
+	on_svg_load( {elmSelector:elmSelector} );	// depends on global function, currently declared by graph.js
 }
 
 

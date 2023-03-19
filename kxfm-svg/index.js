@@ -2,7 +2,7 @@
  * lightweight KTS micro library (no dependencies)
  */
 
-export default class KTS4SVG
+export class KTS4SVG
 {
 	/*
 	* rewrite GraphViz SVG to include KTS CSS and Javascript,

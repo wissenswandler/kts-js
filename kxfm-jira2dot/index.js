@@ -2,8 +2,8 @@
  * lightweight KTS micro library (no external dependencies)
  */
 
-import KTS4SVG from "@kxfm/svg";
-import KTS4Dot from "@kxfm/dot";
+import {KTS4SVG} from "@kxfm/svg";
+import {KTS4Dot} from "@kxfm/dot";
 
 const ARROW_UP = '▲';
 const ARROW_DN = '▼';
