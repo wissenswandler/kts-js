@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SVG from fetched DOT</title>
+    <meta charset="utf-8" />
+    <base target="ktsdetail" />
+    <link rel="stylesheet" href="../lib/graph.css" />
+    <script defer="" src="../lib/graph.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
+</head>
+<body>
+<div class="ktscontainer">waiting for KTS Javascript to load...</div>
+</body>
+<script type="module">
+  /*
+   * Mock of the Forge React component
+   */
+  import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
+  import {Tdot2svgStrings} from "@kxfm/dot2svg/Tdot2svgStrings.js";
+  const transformer = new Tdot2svgStrings(  await Graphviz.load() );
+
+  fetch( "graph.dot" )
+    .then(    response => response.text()  )
+    .then(  dot_string => transformer.render( dot_string, ".ktscontainer" )  );
+</script>
+</html>
