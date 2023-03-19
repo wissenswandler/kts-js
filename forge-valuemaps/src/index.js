@@ -1,7 +1,7 @@
 import Resolver from '@forge/resolver';
 import api, { route } from '@forge/api';
 import { Tjira2dot }  from '@kxfm/jira2dot';
-import KTS4Dot        from '@kxfm/dot';
+import {KTS4Dot}      from '@kxfm/dot';
 
 /*
  * NOTE: package 'chalk' is not compatible with Forge,

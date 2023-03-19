@@ -57,7 +57,6 @@ function App()
                             {
                                 devdebug( "KTS invoking render()" );
                                 transformer.render( dotString, dom_elm_selector, context );
-                                on_svg_load();
                                 devdebug( "KTS done with render()" );
                             }
                             )

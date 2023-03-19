@@ -10,12 +10,9 @@
 </head>
 <body>
 <div class="ktscontainer">waiting for KTS Javascript to load...</div>
-<script>
-    var graphviz;      // global variable so that Forge React can access it
-</script>
 <script type="module">  // dynamic import of Graphviz (which does not work in Forge React)
     import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
-    graphviz = await Graphviz.load();
+    globalThis.graphviz = await Graphviz.load(); // global variable so that Forge React can access it
 </script>
 </body>
 </html>
