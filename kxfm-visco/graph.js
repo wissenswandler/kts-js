@@ -279,7 +279,7 @@ function calculate_travel_tag( id, direction )
  return id + "-going-" + direction
 }
 
-function erase_both_ways( elm , max_distance )
+function erase_both_ways( elm , max_distance = [0,0] )
 {
   start_travel ( elm , max_distance , DIRECTION_SOUTH, MISSION_ERASE )
 
@@ -1010,24 +1010,46 @@ function add_mouseover_listeners_to_nodes( document )
 function on_focus( event, document )
 {
   let focussed = findParentGraphNode( event.target ) ;
-  console.debug( "focussed.id: " + focussed.id );
+  let graph_element_class;
 
   if( focussed.classList.contains( "node" ) )
+  {
       focussed_node = focussed;
+      graph_element_class = "node";
+  }
 
   if( focussed.classList.contains( "edge" ) )
+  {
       focussed_edge = focussed;
+      graph_element_class = "edge";
+  }
 
+  if( true )
+  {
   let focussed_type;
   focussed.classList.forEach( c => { if( c.startsWith( "type" ) ) focussed_type = c } )
-  console.debug( " of type: " + focussed_type );
-
-  document.querySelectorAll( '.'+focussed_type ).forEach( n => n.classList.add(    "hover" ) );
+  document.querySelectorAll( '.' + graph_element_class + '.' + focussed_type ).forEach( n => n.classList.add( "hover" ) );
+  }
+  else
+  {
+    if( focussed == focussed_node )
+      explore_element( focussed_node );
+  }
   filterAllActions( document );
 }
 function on_blur( event, document )
 {
-  document.querySelectorAll( '.hover'          ).forEach( n => n.classList.remove( "hover" ) );
+  if( true )
+  {
+    document.querySelectorAll( '.hover' ).forEach( n => n.classList.remove( "hover" ) );
+  }
+  else
+  {
+    let focussed = findParentGraphNode( event.target ) ;
+
+    if( focussed == focussed_node )
+      erase_both_ways( focussed_node );
+  }
   filterAllActions( document );
 }
     
