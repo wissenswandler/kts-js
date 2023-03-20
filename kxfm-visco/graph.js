@@ -39,6 +39,8 @@
   */
 const NODE_SEPARATOR	= "___"
 
+var KTSDEBUG = false;
+
 const DIRECTION_NORTH	= 1	// constant to indicate direction of travel, going "up" or "North"
 const DIRECTION_SOUTH	= 0	// constant to indicate direction of travel, going "down" or "South"
 const DIRECTION_BOTH  = 2	// constant to indicate direction of travel, going "both" ways
@@ -1055,8 +1057,6 @@ function on_blur( event, document )
     
 function generateKeyboardShortcutButtons( document )
 {
-  if( document.querySelector( "#ktstools" ) ) return; // already generated, potentially from a previous SVG
-
   const NSPCE_XHTML = "http://www.w3.org/1999/xhtml"
   let doctype;
   try {
@@ -1066,84 +1066,112 @@ function generateKeyboardShortcutButtons( document )
   {
     doctype = document.childNodes[0].localName;
   }
-
-  console.debug( "generating KeyboardShortcutButtons for " + doctype + " ..." );
-
-  let helpParent;
-  let buttonContainer;
-  switch( doctype )
+  console.debug( "installing KTS tools for " + doctype + " ..." );
+  
+  try // let the whole procedure fail forgivingly if it is not possible to install the tools
   {
-  case "html":
-    helpParent = document.querySelector( ".ktscontainer" );
-    buttonContainer	= document.createElement( "div" )
-    break;
-  case "svg":
-    /*
-    // following div is necessary for getting on an HTML namespace track, otherwise the SVG namespace is used
-    helpParent = document.createElementNS(NSPCE_XHTML, "div");
-    
-    foreignObject = document.createElement( 'foreignObject' );
-    foreignObject.setAttribute( "width",  "100%");
-    foreignObject.setAttribute( "height", "100%");
-    foreignObject.height= "100%" ;
-    foreignObject.appendChild( helpParent );
-    document.getRootNode().children[0].appendChild( foreignObject );
-    // however I could not get the namespaces right, so I have above DOM written in the SVG postprocessor
-    */
-    helpParent = document.getElementById( "htmldiv" );
-    buttonContainer	= document.createElementNS( NSPCE_XHTML, "div" )
-    break;
-  }
-      
-  let ktsDiv	        		= document.createElement("div")
-  let keyboardHelpDiv			= document.createElement("div")
 
-  try
+  let ktstools = document.querySelector( "#ktstools" );
+  if(!ktstools )
   {
-    helpParent.appendChild( ktsDiv )
-    ktsDiv.setAttribute( "id", "ktstools" );
-    ktsDiv.appendChild( keyboardHelpDiv )
-    keyboardHelpDiv.setAttribute( "id", "ktsKeyboardHelp" );
-    keyboardHelpDiv.innerHTML = '<h4><span>KTS Keys and </span>Actions</h4>';
-    keyboardHelpDiv.appendChild( buttonContainer );
+      ktstools = document.createElement("div"); ktstools.setAttribute( "id", "ktstools" );
 
-    buttonContainer.setAttribute( "id", "ktsKeyboardButtons" );
-
-    // sort kts_actions by value of s(equence) key 
-    let kts_actions_sorted = Object.keys(kts_actions).sort( (a,b) => { return kts_actions[a].s - kts_actions[b].s } );
-
-  let previous_action_ordinal = null;
-    // iterate over sorted action entries
-    for( let i = 0; i < kts_actions_sorted.length; i++ )
+    let helpParent;
+    switch( doctype )
     {
-      let key = kts_actions_sorted[i];
-
-      if ( previous_action_ordinal && kts_actions[key].s - previous_action_ordinal > 1 )
-        buttonContainer.innerHTML += '<br/>'
-
-      buttonContainer.innerHTML +=
-        '<p id="' + action_css_id(key) + '"' +
-        '>' +
-        //kts_actions[key].s + " " + // visual debugging
-        '<button onclick="press( \'' + key + '\' )">' + key +
-        '</button><span> ' +
-        kts_actions[key].text +
-        '</span></p>'
-
-      previous_action_ordinal = kts_actions[key].s;
+      case "html":
+        helpParent = document.querySelector( ".ktscontainer" );
+        break;
+      case "svg":
+        /*
+        // following div is necessary for getting on an HTML namespace track, otherwise the SVG namespace is used
+        helpParent = document.createElementNS(NSPCE_XHTML, "div");
+        
+        foreignObject = document.createElement( 'foreignObject' );
+        foreignObject.setAttribute( "width",  "100%");
+        foreignObject.setAttribute( "height", "100%");
+        foreignObject.height= "100%" ;
+        foreignObject.appendChild( helpParent );
+        document.getRootNode().children[0].appendChild( foreignObject );
+        // however I could not get the namespaces right, so I have above DOM written literally in the SVG postprocessor
+        */
+        helpParent = document.getElementById( "htmldiv" );
+        break;
+      default: console.error( "unknown document type " + doctype );
     }
 
-    let htmlConsole = document.createElement("div");
-    ktsDiv.appendChild( htmlConsole );
-    htmlConsole.setAttribute( "id", "ktsConsole" );
-    htmlConsole.innerHTML = 'KTS Console here...';
+    helpParent.appendChild( ktstools );
+  }
 
-    set_actions_display_mode(   parseInt(  window.localStorage.getItem( getStorageKey() )  ), document   );
+  let buttonContainer = document.querySelector( "#ktsKeyboardButtons" );
+  if(!buttonContainer)
+  {
+    switch( doctype )
+    {
+      case "html":
+        buttonContainer	= document.createElement( "div" )
+        break;
+      case "svg":
+        buttonContainer	= document.createElementNS( NSPCE_XHTML, "div" )
+        break;
+      default: console.error( "unknown document type " + doctype );
+    }
+    buttonContainer.setAttribute( "id", "ktsKeyboardButtons" );
+  }
+
+  let keyboardHelpDiv	= document.querySelector( "#ktsKeyboardHelp" );
+  if(!keyboardHelpDiv)
+  {
+      keyboardHelpDiv	= document.createElement("div")
+      keyboardHelpDiv.setAttribute( "id", "ktsKeyboardHelp" );
+      keyboardHelpDiv.innerHTML = '<h4><span>KTS Keys and </span>Actions</h4>';
+
+      ktstools.appendChild( keyboardHelpDiv )
+
+      keyboardHelpDiv.appendChild( buttonContainer );
+      
+      // sort kts_actions by value of s(equence) key 
+      let kts_actions_sorted = Object.keys(kts_actions).sort( (a,b) => { return kts_actions[a].s - kts_actions[b].s } );
+      
+      let previous_action_ordinal = null;
+      // iterate over sorted action entries
+      for( let i = 0; i < kts_actions_sorted.length; i++ )
+      {
+        let key = kts_actions_sorted[i];
+    
+        if ( previous_action_ordinal && kts_actions[key].s - previous_action_ordinal > 1 )
+          buttonContainer.innerHTML += '<br/>'
+    
+        buttonContainer.innerHTML +=
+          '<p id="' + action_css_id(key) + '"' +
+          '>' +
+          //kts_actions[key].s + " " + // visual debugging
+          '<button onclick="press( \'' + key + '\' )">' + key +
+          '</button><span> ' +
+          kts_actions[key].text +
+          '</span></p>'
+    
+        previous_action_ordinal = kts_actions[key].s;
+      }
+  }
+
+  let htmlConsole = document.querySelector( "#ktsConsole" );
+  if(!htmlConsole)
+  {
+      htmlConsole = document.createElement("div"); htmlConsole.setAttribute( "id", "ktsConsole" );
+      ktstools.appendChild( htmlConsole );
+      htmlConsole.innerHTML = 'KTS Console here...';
+
+  }
+
+  set_actions_display_mode(   parseInt(  window.localStorage.getItem( getStorageKey() )  ), document   );
+
   }
   catch( e )
   {
     console.error( e.stack );
-    console.error( "document not prepared for help window - render SVG with KTS later then 2023-01-04" )
+    console.error( e );
+    console.error( "unexpected error with KTS Tools installation" )
   }
 }
 
@@ -1260,7 +1288,7 @@ function on_keydown(event, doc = document)
   }
 }
 
-function execute_url_command()
+function execute_url_commands()
 {
   let auto_execute_command  = getParameterByName( "exec" )
   if( auto_execute_command == "" ) return false;
@@ -1415,7 +1443,24 @@ class SubDocument
  */
 function on_svg_load( dom )
 {
-  devdebug( "on_svg_load() found total of " + document.querySelectorAll("svg").length + " SVG tags on document in scope" );
+  if( document.URL.startsWith("http://localhost") ) KTSDEBUG = true;
+
+  const n_containertags = document.querySelectorAll(".ktscontainer").length;
+  const n_svgtags = document.querySelectorAll("svg").length;
+  const n_svg_in_containertags = document.querySelectorAll(".ktscontainer svg").length;
+  devdebug( "on_svg_load() found total of " + n_containertags        + " .ktscontainer tags (empty or not) on document in scope" );
+  devdebug( "on_svg_load() found total of " + n_svgtags              + " SVG tags                 on document in scope" );
+  devdebug( "on_svg_load() found total of " + n_svg_in_containertags + " SVG inside .ktscontainer on document in scope" );
+
+  if( n_containertags == 1 && n_svg_in_containertags == 1 && n_svgtags == 1 )
+  {
+    document.querySelector(".ktscontainer").classList.add("fullpage");
+  }
+  else
+  {
+    // fix a false positive from a previous call when not all tags were rendered
+    document.querySelectorAll(".ktscontainer").forEach(  tag => tag.classList.remove("fullpage")  );
+  }
 
   let sd = new SubDocument( dom );
 
@@ -1438,7 +1483,7 @@ function on_svg_load( dom )
     }
     activate_visual_mode(); // visual mode = on by default
 
-    if( ! execute_url_command() && ! multiple_kts_diagrams() )
+    if( ! execute_url_commands() && ! multiple_kts_diagrams() )
     {
       //analyze_graph();  // moved to kts_actions, so graph analysis can be triggered by user or by URL parameter
     }
@@ -1463,14 +1508,7 @@ function highlight_node( id )
   console.log( "highlighted node " + id + " - you can reset that with keyboard command [e]");
 }
 
-var _log = console.log;
-var _error = console.error;
-var _warning = console.warning;
-
-console.error = function(errMessage){
-  _error.apply(console,arguments);
-};
-
+var    _log = console.log;
 console.log = function(logMessage)
 {
   try
@@ -1492,17 +1530,16 @@ console.log = function(logMessage)
   _log.apply(console,arguments);
 };
 
-console.warning = function(warnMessage){
-  _warning.apply(console,arguments);
-};
-
 function printToHtmlConsole( message )
 {
   try
   {
-    htmlConsole = document.getElementById( "ktsConsole" );
-    htmlConsole.innerHTML = message;
-  } catch (e) {}
+    const htmlConsole = document.getElementById( "ktsConsole" );
+    if( htmlConsole )
+      htmlConsole.innerHTML = message;
+    else
+      console.warn( "printToHtmlConsole() called but no element #ktsConsole found" );
+  } catch (e) { console.error( "printToHtmlConsole() failed: " + e ); }
 }
 
 /*
@@ -1521,6 +1558,8 @@ function getNodeLabelById( id )
 var current_timer_name = null;
 function devdebug( message_object, new_timer_name = null )
 {
+  if( !KTSDEBUG ) return;
+
   message_object = "KTS " + message_object;
 
   let c_t_status = (current_timer_name == null ? "current_timer_null" : "current_timer_set_");
@@ -1542,7 +1581,7 @@ function devdebug( message_object, new_timer_name = null )
       break;
   }
   console.debug( message_object );
-  console.timeLog( "KTS init"); // unfortunately, this prints to the "log" level, not "debug"
+  //console.timeLog( "KTS init"); // unfortunately, this prints to the "log" level, not "debug"
 }
 
 function reset_timer( timer_name )
