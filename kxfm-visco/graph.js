@@ -224,7 +224,7 @@ function explore_element( elm, event )
  var myTags = [	calculate_travel_tag( id, DIRECTION_SOUTH ) ,
  		calculate_travel_tag( id, DIRECTION_NORTH ) ]
 
- let max_distance = Array.from(  [0,1], dir => start_travel( elm , [0,0], dir, MISSION_COUNT )  )
+ let max_distance = Array.from(  [0,1], dir => start_travel( elm , [0,0], dir, MISSION_COUNT ).max_distance_found  )
 
  if( max_distance[0] + max_distance[1] == 0 ) { console.info("no neighbors"); return }
 
@@ -332,7 +332,7 @@ function start_travel( elm , max_distance, direction, mission = calculate_travel
       console.log( "showing " + REASONING[direction] + " of " + node_name_by_id( elm.id ) )
   }
 
-  return dist
+  return {n_visited:visited, max_distance_found:dist};
 }
 
 /*
@@ -1306,11 +1306,25 @@ function analyze_graph()
 {
   let distances =     Array.from( all_nodes ).map( elm => { let result = {}; result[elm.id] = start_travel( elm , [0,0], DIRECTION_NORTH, MISSION_COUNT); return result } )    ;
   distances.push( ... Array.from( all_nodes ).map( elm => { let result = {}; result[elm.id] = start_travel( elm , [0,0], DIRECTION_SOUTH, MISSION_COUNT); return result } )  ) ;
-  let sorted_distances = distances.map( (o) => Object.entries(o) ).sort( (a,b) => b[0][1] - a[0][1] );
-  let maximum_longdistance = sorted_distances[0][0][1];
-  console.info( distances.length + " nodes in graph, longest path = " + (maximum_longdistance+1) );
-  console.info( "now exploring a random 'fundamental' node ... " );
-  let fundamental_nodes = distances.filter( (o) => Object.values(o)[0] == maximum_longdistance )
+  let sorted_distances = distances.map( o => Object.entries(o) ).sort
+  ( (a,b) =>
+  {
+    let diff =  b[0][1].max_distance_found - a[0][1].max_distance_found;
+    if( diff != 0 ) return diff;
+    else
+      return    a[0][1].n_visited          - b[0][1].n_visited;
+  }
+  );
+  let maximum_longdistance = sorted_distances[0][0][1].max_distance_found;
+  let minimum_visits       = sorted_distances[0][0][1].n_visited;
+  console.info( all_nodes.length + " nodes in graph, longest path = " + (maximum_longdistance+1) + " with a minimum of " + minimum_visits + " nodes visited" );
+  let fundamental_nodes = distances.filter
+  ( o =>
+    Object.values(o)[0].max_distance_found == maximum_longdistance
+    &&
+    Object.values(o)[0].n_visited == minimum_visits 
+  );
+  console.info( "now exploring a random from " + fundamental_nodes.length + " 'fundamental' nodes ... " );
 
   explore
   (
