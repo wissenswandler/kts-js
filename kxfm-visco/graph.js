@@ -58,7 +58,7 @@ var NEXT_CLICK_MEMORY		= false
 var NEXT_CLICK_DIRECTION	= -1
 
 var id
-var visited
+var nodes_visited
 var focussed_node
 var focussed_edge
 var clipText
@@ -224,7 +224,7 @@ function explore_element( elm, event )
  var myTags = [	calculate_travel_tag( id, DIRECTION_SOUTH ) ,
  		calculate_travel_tag( id, DIRECTION_NORTH ) ]
 
- let max_distance = Array.from(  [0,1], dir => start_travel( elm , [0,0], dir, MISSION_COUNT ).max_distance_found  )
+ let max_distance = Array.from(  [0,1], dir => start_counting( elm , dir ).max_distance_found  )
 
  if( max_distance[0] + max_distance[1] == 0 ) { console.info("no neighbors"); return }
 
@@ -305,22 +305,27 @@ function node_name_by_id( id )
   return (label && label != id )  ? ( '"' + label + '" [' + id +']' ) : '"' + id + '"' ;
 }
 
-
+function start_counting( elm , direction )
+{
+  return start_travel( elm , [0,0],        direction, MISSION_COUNT );
+}
 function start_travel( elm , max_distance, direction, mission = calculate_travel_tag( id , direction ) )
 {
-  visited = 0
+  nodes_visited = 0
   console.debug( "going " + DIRSTRING [ direction ] + " for max " + max_distance[ direction ] + " steps" + ( mission ? (" on mission " + mission ) : "..." )  )
 
   elm.ownerSVGElement.querySelectorAll( "[distance]"  ).forEach(   svgElm => {  svgElm.removeAttribute( "distance" )  }   ) 
 
-  let dist = travel_node( elm , 0 ,
-    direction == DIRECTION_SOUTH ? 0 : max_distance[DIRECTION_NORTH] ,
-    max_distance[direction]+1 ,
+  travel_node( elm , 0 ,                                                // current_dist
+    direction == DIRECTION_SOUTH ? 0 : max_distance[DIRECTION_NORTH] ,  // current_rank
+    max_distance[direction]+1 ,                                         // total_ranks
     direction,
     mission
-  ) 
+  )
 
-  let logtext = "visited " + visited + " nodes with max distance of " + dist + " between";
+  let max_dist_from_tag  = Array.from(document.querySelectorAll(".node[distance]")).map( n => n.getAttribute("distance")               ).reduce( (a,b) => Math.max(a,b), 0 )
+
+  let logtext = "visited " + nodes_visited + " nodes with max distance of " + max_dist_from_tag + " between";
   switch( mission )
   {
     case MISSION_COUNT:
@@ -332,7 +337,7 @@ function start_travel( elm , max_distance, direction, mission = calculate_travel
       console.log( "showing " + REASONING[direction] + " of " + node_name_by_id( elm.id ) )
   }
 
-  return {n_visited:visited, max_distance_found:dist};
+  return {n_visited:nodes_visited, max_distance_found:max_dist_from_tag};
 }
 
 /*
@@ -340,14 +345,15 @@ function start_travel( elm , max_distance, direction, mission = calculate_travel
  */
 function travel_node( elm , current_dist, current_rank , total_ranks , direction , tag )
 {
- // console.log( "  entering n " + elm.id + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
+ //devdebug( "  entering " + elm.id.padEnd(19,' ') + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
  if(  set_visitor_tags( elm , current_dist, current_rank , total_ranks , direction , tag )  )
  {
-  ++visited;
+  ++nodes_visited;
   let edges = elm.ownerSVGElement.querySelectorAll(  next_edges_selector( elm.id , direction )  )
   if( edges.length == 0 ) return 0 // terminate recursion and 'count' this node
   else
   // recurse and increment color rank IF travelling South (color rank decreases from edge to next node, in positive flow direction)
+  // BUG: Math.max is not correct because this traversal could have taken a longer path from alternatives!
   return Math.max(   ... Array.from(  edges, edge => travel_edge( edge , current_dist, current_rank + 1 - direction , total_ranks , direction , tag )
   )   )
  }
@@ -359,14 +365,14 @@ function travel_node( elm , current_dist, current_rank , total_ranks , direction
  */
 function travel_edge( elm , current_dist, current_rank , total_ranks , direction , tag )
 {
- // console.log( "  entering e " + elm.id + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
+  //devdebug( "  entering " + elm.id.padEnd(19,' ') + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
 
- if( elm.ownerSVGElement.querySelector( '[id^="' + elm.id + '"] > g > a > path[stroke-dasharray]' ) ) return 0
+  if( elm.ownerSVGElement.querySelector( '[id^="' + elm.id + '"] > g > a > path[stroke-dasharray]' ) ) return 0
 
- set_visitor_tags( elm , current_dist, current_rank , total_ranks , direction , tag ) 
+  set_visitor_tags( elm , current_dist, current_rank , total_ranks , direction , tag ) 
 
- // recurse and decrement color rank IF travelling North (color rank decreases from edge to next node, in positive flow direction)
- return 1 + travel_node
+  // recurse and decrement color rank IF travelling North (color rank decreases from edge to next node, in positive flow direction)
+  return 1 + travel_node
   (
     elm.ownerSVGElement.querySelector( "#" + elm.id.split( NODE_SEPARATOR )[ direction ]  ),
     1+current_dist, current_rank - direction , total_ranks , direction , tag   
@@ -413,6 +419,8 @@ function set_visitor_tags( elm , current_dist, current_rank , total_ranks , dire
      ||							// OR
      ! seenBefore				)	// first time here
  {
+   //if( distance > current_dist ) devdebug( "  " + elm.id + " seen before at distance " + distance + ", now at " + current_dist );
+
    elm.setAttribute( "distance", current_dist );
 
    if( tag != MISSION_COUNT )				// tagging, not counting
@@ -433,7 +441,7 @@ function set_visitor_tags( elm , current_dist, current_rank , total_ranks , dire
    }
    return isActivated
  }
- //console.info( "   terminating travel at current d = " + current_dist )
+ //devdebug( "   terminating travel at current d = " + current_dist )
  return false
 }
 
@@ -1305,8 +1313,8 @@ function execute_url_commands()
 
 function analyze_graph()
 {
-  let distances =     Array.from( all_nodes ).map( elm => { let result = {}; result[elm.id] = start_travel( elm , [0,0], DIRECTION_NORTH, MISSION_COUNT); return result } )    ;
-  distances.push( ... Array.from( all_nodes ).map( elm => { let result = {}; result[elm.id] = start_travel( elm , [0,0], DIRECTION_SOUTH, MISSION_COUNT); return result } )  ) ;
+  let distances =     Array.from( all_nodes ).map( elm => { let result = {}; result[elm.id] = start_counting( elm , DIRECTION_NORTH ); return result } )    ;
+  distances.push( ... Array.from( all_nodes ).map( elm => { let result = {}; result[elm.id] = start_counting( elm , DIRECTION_SOUTH ); return result } )  ) ;
   let sorted_distances = distances.map( o => Object.entries(o) ).sort
   ( (a,b) =>
   {
