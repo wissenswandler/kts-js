@@ -352,12 +352,9 @@ function travel_node( elm , current_dist, current_rank , total_ranks , direction
   let edges = elm.ownerSVGElement.querySelectorAll(  next_edges_selector( elm.id , direction )  )
   if( edges.length == 0 ) return 0 // terminate recursion and 'count' this node
   else
-  // recurse and increment color rank IF travelling South (color rank decreases from edge to next node, in positive flow direction)
-  // BUG: Math.max is not correct because this traversal could have taken a longer path from alternatives!
-  return Math.max(   ... Array.from(  edges, edge => travel_edge( edge , current_dist, current_rank + 1 - direction , total_ranks , direction , tag )
-  )   )
+    // recurse and increment color rank IF travelling South (color rank decreases from edge to next node, in positive flow direction)
+    edges.forEach(  edge => travel_edge( edge , current_dist, current_rank + 1 - direction , total_ranks , direction , tag )  )
  }
- else return -1 // terminate recursion and undo count of this node (it gets added by the previous travel_edge on call stack)
 }
 
 /*
@@ -372,7 +369,7 @@ function travel_edge( elm , current_dist, current_rank , total_ranks , direction
   set_visitor_tags( elm , current_dist, current_rank , total_ranks , direction , tag ) 
 
   // recurse and decrement color rank IF travelling North (color rank decreases from edge to next node, in positive flow direction)
-  return 1 + travel_node
+  travel_node
   (
     elm.ownerSVGElement.querySelector( "#" + elm.id.split( NODE_SEPARATOR )[ direction ]  ),
     1+current_dist, current_rank - direction , total_ranks , direction , tag   
