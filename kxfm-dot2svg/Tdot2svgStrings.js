@@ -106,7 +106,19 @@ render( dot_string, elmSelector, context )
 
 	KTS4SVG.integrate_svg_into_page( svgtag, elmSelector, context );
 
-	on_svg_load( {elmSelector:elmSelector} );	// depends on global function, currently declared by graph.js
+	let consider_fullpage = true;
+	if( typeof context !== 'undefined' )
+	{
+		switch( context?.extension?.type )
+      	{
+        case 'jira:projectPage':
+		case 'jira:globalPage':
+			break;
+		default:
+			consider_fullpage = false;
+		}
+	}
+	on_svg_load( {elmSelector:elmSelector}, {consider_fullpage:consider_fullpage} );	// depends on global function, currently declared by graph.js
 }
 
 

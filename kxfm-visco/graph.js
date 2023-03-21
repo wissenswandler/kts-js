@@ -784,15 +784,14 @@ function set_actions_display_mode( mode, document )
 {
   if( document.getElementById( "ktsKeyboardHelp" ) == null )
   {
-    console.debug( "Unable to change mode because KTS Keys not initialized." )
+    console.warn( "Unable to change mode because #ktsKeyboardHelp not initialized." )
     return;
   }
 
-  console.log( "mode: " + mode )
   if( ! (mode > -1) ) mode = 2;  // session storage value is always a string, null -> "null" -> NaN; NaN equals NOTHING !!
 
   ACTIONS_DISPLAY_MODE = mode;
-  console.log( "KTS action mode set to " + mode + " (" + ACTIONS_DISPLAY_MODE_NAME[ ACTIONS_DISPLAY_MODE ] + ")" );
+  console.debug( "KTS action mode set to " + mode + " (" + ACTIONS_DISPLAY_MODE_NAME[ ACTIONS_DISPLAY_MODE ] + ")" );
 
   switch( mode )
   {
@@ -1441,7 +1440,7 @@ class SubDocument
  * OR after creating dynamic SVG inside an HTML document
  * which implies that this function may be called multiple times in the lifetime of one HTML document
  */
-function on_svg_load( dom )
+function on_svg_load( dom, options = {} )
 {
   if( document.URL.startsWith("http://localhost") ) KTSDEBUG = true;
 
@@ -1452,14 +1451,17 @@ function on_svg_load( dom )
   devdebug( "on_svg_load() found total of " + n_svgtags              + " SVG tags                 on document in scope" );
   devdebug( "on_svg_load() found total of " + n_svg_in_containertags + " SVG inside .ktscontainer on document in scope" );
 
-  if( n_containertags == 1 && n_svg_in_containertags == 1 && n_svgtags == 1 )
+  if( options?.consider_fullpage ) // e-g- in case of Jira Dashboardgadget we can see only 1-1-1 in iFrame but dont never fullpage
   {
-    document.querySelector(".ktscontainer").classList.add("fullpage");
-  }
-  else
-  {
-    // fix a false positive from a previous call when not all tags were rendered
-    document.querySelectorAll(".ktscontainer").forEach(  tag => tag.classList.remove("fullpage")  );
+    if( n_containertags == 1 && n_svg_in_containertags == 1 && n_svgtags == 1 )
+    {
+      document.querySelector(".ktscontainer").classList.add("fullpage");
+    }
+    else
+    {
+      // fix a false positive from a previous call when not all tags were rendered
+      document.querySelectorAll(".ktscontainer").forEach(  tag => tag.classList.remove("fullpage")  );
+    }
   }
 
   let sd = new SubDocument( dom );
