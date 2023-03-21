@@ -340,9 +340,10 @@ function start_travel( elm , max_distance, direction, mission = calculate_travel
  */
 function travel_node( elm , current_dist, current_rank , total_ranks , direction , tag )
 {
- ++visited; // console.log( "  entering n " + elm.id + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
+ // console.log( "  entering n " + elm.id + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
  if(  set_visitor_tags( elm , current_dist, current_rank , total_ranks , direction , tag )  )
  {
+  ++visited;
   let edges = elm.ownerSVGElement.querySelectorAll(  next_edges_selector( elm.id , direction )  )
   if( edges.length == 0 ) return 0 // terminate recursion and 'count' this node
   else
