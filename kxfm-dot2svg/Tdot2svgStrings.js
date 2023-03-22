@@ -33,7 +33,7 @@ build_diagram_from_string( dot_string, libPath )
 {
 	try
 	{
-		return KTS4SVG.rewrite_GraphViz_SVG_to_KTS_SVG(  dot2svg( dot_string ), libPath  );
+		return KTS4SVG.rewrite_GraphViz_SVG_to_KTS_SVG(  this.dot2svg( dot_string ), libPath  );
 	}
 	catch (e)
 	{
@@ -70,7 +70,9 @@ dot2svg( dot_string )
 			)
 			,
 			"svg", {   images: imageAttributeArray } 
-		);
+		)
+		.replace( /<!--.*-->/g, "" )			// easier inspection of SVG source
+		;
 	
 	} catch (e)
 	{
@@ -91,7 +93,6 @@ render( dot_string, elmSelector, context )
 	const svgdoc =	this.dot2svg( dot_string );
 	const svgtag =	svgdoc
 		.slice(		svgdoc.indexOf( "<svg" ) )	// remove XML declaration
-		.replace( /<!--.*-->/g, "" )			// easier inspection of SVG source
 		;
 
 	KTS4SVG.integrate_svg_into_page( svgtag, elmSelector, context );

@@ -14,10 +14,6 @@ static preprocess(dot_string)
     const hasRankdir    = /rankdir=/.test( dot_string );
     const hasLinebreaks =     /[\n\r]/.test( dot_string );
 
-    devdebug( "hasRankdir: " + hasRankdir );
-    devdebug( "hasLinebreaks: " + hasLinebreaks );
-
-
     return dot_string.replace
     (
         /(graph.*\{)/
