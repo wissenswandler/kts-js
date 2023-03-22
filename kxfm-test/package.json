@@ -1,7 +1,7 @@
 {
   "name": "@kxfm/test",
   "type": "module",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "tests for libraries in KTS (Knowledge Transformation System)",
   "scripts": {
     "create_object_1" : "echo 'graph{rankdir=LR object--b--c--d--e--f}' | dot2svg > object_b__f.svg",
