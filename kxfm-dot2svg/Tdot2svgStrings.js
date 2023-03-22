@@ -31,69 +31,55 @@ export class Tdot2svgStrings
  */
 build_diagram_from_string( dot_string, libPath )
 {
-  	let imageAttributeArray = Tdot2svgStrings.getImageAttributeArray( dot_string );
-
-	let kts_dot = KTS4Dot.preprocess(dot_string);
-	
-	let svg=null;
-	/*
-	 * BUG: the outer catch block never catches errors from graphviz, such as:
-	 * Error: syntax error in line 35 near '-'
-	 * instead, such error is simply logged to the console outside KTS (by hpcc-js/wasm ?)
-	 */
 	try
 	{
-		svg=this.graphviz.dot
-		(
-			this.graphviz.unflatten( kts_dot, 5, true, 5)
-			,
-			"svg"
-			,
-			{ images: imageAttributeArray } 
-		);
-		try
-		{
-			return KTS4SVG.rewrite_GraphViz_SVG_to_KTS_SVG( svg, libPath );
-		}
-		catch (e)
-		{
-			console.error( e.stack );
-			console.error( "... while post-processing SVG" );
-			console.error( "returning error SVG instead of crashing...\n~~~~~~~~" );
-			return Tdot2svgStrings.simple_svg_from_error( e );
-		}
+		return KTS4SVG.rewrite_GraphViz_SVG_to_KTS_SVG(  dot2svg( dot_string ), libPath  );
 	}
 	catch (e)
 	{
 		console.error( e.stack );
-		console.error( "... with following DOT source:\n~~~~~~~~\n" + dot_string + "\n~~~~~~~~" );
+		console.error( "... while post-processing SVG" );
 		console.error( "returning error SVG instead of crashing...\n~~~~~~~~" );
 		return Tdot2svgStrings.simple_svg_from_error( e );
 	}
 }
 
 /*
- * pure translator from DOT source string to SVG string
+ * translator from DOT source string via KTS preprocess, then unflatten, to SVG string
  */
 dot2svg( dot_string )
 {
-	let svgtag;
+	let svg;
+	let kts_dot;
+	/*
+	 * BUG: unfortunately this try block never catches errors from graphviz, such as:
+	 * Error: syntax error in line 35 near '-'
+	 * instead, such error is simply logged to the console outside KTS (by hpcc-js/wasm ?)
+	 */
 	try
 	{
-		let imageAttributeArray = Tdot2svgStrings.getImageAttributeArray( dot_string );
-		let kts_dot = KTS4Dot.preprocess(dot_string);
-		let unflat_dot = this.graphviz.unflatten( kts_dot, 5, true, 5);
-		let svgdoc = this.graphviz.dot(	unflat_dot,	"svg", {   images: imageAttributeArray } ) ;
-		svgtag = svgdoc.slice( svgdoc.indexOf( "<svg" ) )
+		const imageAttributeArray = Tdot2svgStrings.getImageAttributeArray( dot_string );
+		kts_dot = KTS4Dot.preprocess(dot_string);
+		svg = this.graphviz.dot
+		(
+			this.graphviz.unflatten
+			(
+				kts_dot
+				,
+				5, true, 5
+			)
+			,
+			"svg", {   images: imageAttributeArray } 
+		);
 	
 	} catch (e)
 	{
 		console.error( e.stack );
-		console.error( "... with following DOT source:\n~~~~~~~~\n" + dot_string + "\n~~~~~~~~" );
-		console.error( "returning error SVG instead of crashing...\n~~~~~~~~" );
-		svgtag = Tdot2svgStrings.simple_svg_from_error( e );
+		console.error( "... with following DOT source:\n~~~~~~~~\n" + dot_string + "\n~~~~~~~~" + "\ntransformed to: \n~~~~~~~~\n" + kts_dot + "\n~~~~~~~~" );
+		console.error( 'returning a synthetic "Error SVG" instead of crashing...\n~~~~~~~~' );
+		svg = Tdot2svgStrings.simple_svg_from_error( e );
 	}
-	return svgtag;
+	return svg;
 }
 
 /*
@@ -102,7 +88,11 @@ dot2svg( dot_string )
  */
 render( dot_string, elmSelector, context )
 {
-	const svgtag = this.dot2svg( dot_string );
+	const svgdoc =	this.dot2svg( dot_string );
+	const svgtag =	svgdoc
+		.slice(		svgdoc.indexOf( "<svg" ) )	// remove XML declaration
+		.replace( /<!--.*-->/g, "" )			// easier inspection of SVG source
+		;
 
 	KTS4SVG.integrate_svg_into_page( svgtag, elmSelector, context );
 
