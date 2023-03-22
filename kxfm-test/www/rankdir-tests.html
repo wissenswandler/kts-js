@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logic Tests</title>
+    <meta charset="utf-8" />
+    <base target="ktsdetail" />
+    <link rel="stylesheet" href="../lib/graph.css" />
+    <style> .ktscontainer { float: left; } object, p { clear:both; display: block; } </style>
+    <script defer="" src="../lib/graph.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
+</head>
+<body>
+
+<div class="ktscontainer" id="d1linerWithoutRankdir">KTS warming up...</div>
+<div class="ktscontainer" id="d2linerWithoutRankdir">KTS warming up...</div>
+<div class="ktscontainer" id="d1linerWithRankdir">KTS warming up...</div>
+
+<p>This HTML document contains tests for conditional injection of the DOT "rankdir" graph attribute.</p>
+
+</body>
+<script type="module">
+    import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
+    import {Tdot2svgStrings} from "@kxfm/dot2svg/Tdot2svgStrings.js";
+    let transformer = new Tdot2svgStrings(  await Graphviz.load() );
+
+
+    transformer.render( "digraph {             left -> right }" , "#d1linerWithoutRankdir" );
+    transformer.render( "digraph { rankdir=RL right -> left  }" , "#d1linerWithRankdir" );
+    transformer.render( "digraph {\n bottom -> up }" , "#d2linerWithoutRankdir" );
+    
+</script>
+</html>

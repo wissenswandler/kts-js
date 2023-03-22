@@ -11,6 +11,13 @@ export class KTS4Dot
  */
 static preprocess(dot_string)
 {
+    const hasRankdir    = /rankdir=/.test( dot_string );
+    const hasLinebreaks =     /[\n\r]/.test( dot_string );
+
+    devdebug( "hasRankdir: " + hasRankdir );
+    devdebug( "hasLinebreaks: " + hasLinebreaks );
+
+
     return dot_string.replace
     (
         /(graph.*\{)/
@@ -20,7 +27,7 @@ graph [
  color=whitesmoke       # KTS style
  fontname=Helvetica     # KTS style
  labelloc=b
- rankdir=BT             # KTS style
+ ${  (hasLinebreaks && ! hasRankdir) ? "rankdir=BT             # KTS style" : ( hasRankdir ? "" : "rankdir=LR # oneliner" ) }
  remincross=true
  splines=true
  style="filled,rounded" # KTS style
@@ -29,6 +36,7 @@ graph [
 node [ id="\\N"
  fillcolor=white # opaque nodes on top of colored clusters in background
  fontname=Helvetica     # KTS style - node's fillcolor is not inherited
+ fontsize=10            # KTS style
  height=0
  shape=box              # KTS style
  style="filled,rounded" # KTS style
@@ -40,7 +48,7 @@ edge [ id="\\T___\\H"   # KTS contract for graph traversal
  color=forestgreen
  dir=both               # convenience for defining arrow tails (attribute not needed there)
  # font family may by a serif one by default (better visual contrast between node and edge labels)
- fontsize=10            # KTS style
+ fontsize=8            # KTS style
  penwidth=2             # green lines are easier to see when drawn thicker
 ]
 `	);
