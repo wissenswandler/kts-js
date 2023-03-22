@@ -54,15 +54,20 @@ const MISSION_COUNT = "MISSION_COUNT"
 const ACTIONS_DISPLAY_MODE_NAME = ["collapsed", "reduced", "full"]
 var   ACTIONS_DISPLAY_MODE = ACTIONS_DISPLAY_MODE_NAME.length - 1;
 
+const ONFOCUS_MODE_NAME = ["explore", "same", "one"]
+var   ONFOCUS_MODE = 0;
+
 var NEXT_CLICK_MEMORY		= false
 var NEXT_CLICK_DIRECTION	= -1
 
-var id
 var nodes_visited
+var   pinned_node
+var explored_node
 var focussed_node
 var focussed_edge
 var clipText
 var all_nodes = []
+
 
 var panZoomInstance
 
@@ -145,7 +150,7 @@ function explore_elm_id( elm )
 {
   if( typeof elm !== 'string' ) throw "explore_elm_id() expects a string as parameter, but got " + typeof elm;
 
-  id = elm;
+  const id = elm;
   devdebug( "converting ID " + id + " string to document element" )
   let elms = document.querySelectorAll( "#" + id )
   search_for_elm:
@@ -197,6 +202,7 @@ function explore_elm_id( elm )
   explore_element( elm );
 }
 
+var flash_event = false;
 /*
  * KTS response on a click: traverse the graph and present that path by coloring the nodes and edges
  *
@@ -205,15 +211,20 @@ function explore_elm_id( elm )
  * 
  * This core function also gets called from the explore() script API
  */
-function explore_element( elm, event )
+function explore_element( elm, event = "script" )
 {  
-  if( event ) event.preventDefault();
+  console.info( node_name_by_id( elm.id ) + " now being explored upon " + event + " ..." );
+  
+  if( event && event.preventDefault ) event.preventDefault(); // don't follow link
 
-  id = elm.id
-  focussed_node = elm
+  const event_class_name = event?.constructor?.name;
+  const mouseclicks = event.detail; // 1 or more for mouse clicks, 0 for other mouse events, undefined for script calls
 
- console.info( node_name_by_id( id ) + " now being explored..." );
+  flash_event = ( event_class_name == "MouseEvent" && mouseclicks == 0 );
+  if( !flash_event ) remove_flashes( document );
 
+  focussed_node = elm;
+  explored_node = elm;
 
  if( NEXT_CLICK_MEMORY == 'R' )
  {
@@ -221,8 +232,8 @@ function explore_element( elm, event )
   NEXT_CLICK_MEMORY = false; return
  }
 
- var myTags = [	calculate_travel_tag( id, DIRECTION_SOUTH ) ,
- 		calculate_travel_tag( id, DIRECTION_NORTH ) ]
+ var myTags = [	calculate_travel_tag( elm.id, DIRECTION_SOUTH ) ,
+ 		calculate_travel_tag( elm.id, DIRECTION_NORTH ) ]
 
  let max_distance = Array.from(  [0,1], dir => start_counting( elm , dir ).max_distance_found  )
 
@@ -247,7 +258,8 @@ function explore_element( elm, event )
    && visitorTags.includes( myTags[ 1 ] ) ) 	// been the other way, too
   {
     console.info( "cleaning up" )
-    erase_both_ways( elm , max_distance )
+    if( !flash_event) erase_both_ways( elm )
+    if( pin ) pinned_node = null;
   }
   else //follow both
   {
@@ -260,13 +272,19 @@ function explore_element( elm, event )
 
     if(   visitorTags.includes( myTags[    direction ] )  )	// been there
     {
-      if( visitorTags.includes( myTags[ 1- direction ] )  	// been the other way, too ...
-	  ||
-	  max_distance[ 1- direction ] == 0			// no reverse path
-       )
-        erase_both_ways( elm, max_distance )			// ... reverse not an option
+      if
+      (
+        visitorTags.includes( myTags[ 1- direction ] )  	// been the other way, too ...
+	      ||
+	      max_distance[ 1- direction ] == 0			// no reverse path
+      )
+      {
+        if( !flash_event ) erase_both_ways( elm )			// ... reverse not an option
+      }
       else
+      {
         start_travel ( elm , max_distance , 1- direction)	// travel reversed direction
+      }
     }
     else
         start_travel ( elm , max_distance ,    direction)	// travel direction of longer, untravelled path
@@ -281,8 +299,9 @@ function calculate_travel_tag( id, direction )
  return id + "-going-" + direction
 }
 
-function erase_both_ways( elm , max_distance = [0,0] )
+function erase_both_ways( elm )
 {
+  const max_distance = [0,0];
   start_travel ( elm , max_distance , DIRECTION_SOUTH, MISSION_ERASE )
 
   elm.setAttribute( "tag1", "dummy" ) // set dummy tag so that next travel does not terminate on already cleared node
@@ -309,7 +328,7 @@ function start_counting( elm , direction )
 {
   return start_travel( elm , [0,0],        direction, MISSION_COUNT );
 }
-function start_travel( elm , max_distance, direction, mission = calculate_travel_tag( id , direction ) )
+function start_travel( elm , max_distance, direction, mission = calculate_travel_tag( elm.id , direction ) )
 {
   nodes_visited = 0
   console.debug( "going " + DIRSTRING [ direction ] + " for max " + max_distance[ direction ] + " steps" + ( mission ? (" on mission " + mission ) : "..." )  )
@@ -423,18 +442,31 @@ function set_visitor_tags( elm , current_dist, current_rank , total_ranks , dire
    if( tag != MISSION_COUNT )				// tagging, not counting
    {
      if(  ! elm.hasAttribute( "tag1" ) || distance > current_dist  )
-            elm.setAttribute( "tag1", tag )
+     {
+        elm.setAttribute( "tag1", tag );
+        if( flash_event )
+          elm.classList.add( "tag1_by_flash" );
+        else
+          elm.classList.remove( "tag1_by_flash" );
+
+        elm.setAttribute( "colorank",
+        total_ranks > 9		// largest brewer scheme
+        ?
+        Math.round( 1.0 * current_rank / total_ranks * 9) + "-9"
+        :
+                          current_rank                    + "-" + total_ranks )
+     }
      else
-         elm.setAttribute( "tag2", tag )
+     {
+        elm.setAttribute( "tag2", tag )
+        if( flash_event )
+          elm.classList.add( "tag2_by_flash" );
+        else
+          elm.classList.remove( "tag2_by_flash" );
+     }
 
-         elm.classList.remove( "dim" )
+      if( !flash_event ) elm.classList.remove( "dim" )
 
-         elm.setAttribute( "colorank",
-			    total_ranks > 9		// largest brewer scheme
-			    ?
-			    Math.round( 1.0 * current_rank / total_ranks * 9) + "-9"
-			    :
-			                      current_rank                    + "-" + total_ranks )
    }
    return isActivated
  }
@@ -499,6 +531,7 @@ e : { text : "r[e]store all colors",
 	      // cleanup tagged nodes
         document.querySelectorAll( "g"  ).forEach( (svgElm) => { remove_visitor_tags( svgElm    ) })
         focussed_node = null;
+          pinned_node = null;
       },
       s : 31  // with selection
       ,
@@ -784,6 +817,17 @@ y : { text : "[y]ank (copy) ID of focussed node to clipboard",
     ,
     post : () => {}
   }
+,
+'M':
+  { text : "rotate [M]ousefocus mode (explore / same / one)",			f : (document) => 
+    {
+      ONFOCUS_MODE = ( (ONFOCUS_MODE+1)%ONFOCUS_MODE_NAME.length );
+    }
+    ,
+    s : 10+2  // mode selectors
+    ,
+    post : () => console.log( 'Mousefocus mode is now: "' + ONFOCUS_MODE_NAME[ ONFOCUS_MODE ] + '"' )
+  }
 }
 
 function set_actions_display_mode( mode, document )
@@ -1019,6 +1063,8 @@ function on_focus( event, document )
   let focussed = findParentGraphNode( event.target ) ;
   let graph_element_class;
 
+  let previously_focussed_node = focussed_node;
+
   if( focussed.classList.contains( "node" ) )
   {
       focussed_node = focussed;
@@ -1031,33 +1077,81 @@ function on_focus( event, document )
       graph_element_class = "edge";
   }
 
-  if( true )
+  devdebug( "on_focus() focussed: " + node_name_by_id( focussed.id ) );
+
+  switch( ONFOCUS_MODE)
   {
-  let focussed_type;
-  focussed.classList.forEach( c => { if( c.startsWith( "type" ) ) focussed_type = c } )
-  document.querySelectorAll( '.' + graph_element_class + '.' + focussed_type ).forEach( n => n.classList.add( "hover" ) );
+    case 0: // explore
+      if( graph_element_class == "node" )
+      {
+        if( true /*focussed != pinned_node*/ )
+          explore_element( focussed_node, event );
+        else
+          devdebug( "focussed == pinned => no explore" );
+      }
+      break;
+
+    case 1: // same
+      let focussed_type;
+      focussed.classList.forEach( c => { if( c.startsWith( "type" ) ) focussed_type = c } )
+      document.querySelectorAll( '.' + graph_element_class + '.' + focussed_type ).forEach( n => n.classList.add( "hover" ) );
+      filterAllActions( document );
+      break;
+
+    case 2: // one
+      // implemented by code before switch
+      break;
+
+    default:
+      console.error( "unknown ONFOCUS_MODE: " + ONFOCUS_MODE );
   }
-  else
-  {
-    if( focussed == focussed_node )
-      explore_element( focussed_node );
-  }
-  filterAllActions( document );
 }
 function on_blur( event, document )
 {
-  if( true )
+  switch( ONFOCUS_MODE )
   {
-    document.querySelectorAll( '.hover' ).forEach( n => n.classList.remove( "hover" ) );
-  }
-  else
-  {
-    let focussed = findParentGraphNode( event.target ) ;
+    case 0: // explore
+      let focussed = findParentGraphNode( event.target ) ;
 
-    if( focussed == focussed_node )
-      erase_both_ways( focussed_node );
+      //if( graph_element_class == "node" )
+      {
+        remove_flashes( document );
+        filterAllActions( document );
+      }
+      break;
+
+    case 1: // same
+      document.querySelectorAll( '.hover' ).forEach( n => n.classList.remove( "hover" ) );
+      filterAllActions( document );
+      break;
+
+    case 2: // one
+      // nothing to do in case of blur (memorized focus remains)
+      break;
+    
+    default:
+      console.error( "unknown ONFOCUS_MODE: " + ONFOCUS_MODE );
+
   }
-  filterAllActions( document );
+  focussed_node = null;
+}
+
+function remove_flashes( document )
+{
+  document.querySelectorAll( '.tag1_by_flash' ).forEach
+  ( n => 
+  {
+    n.removeAttribute( "tag1" );
+    n.classList.remove( "tag1_by_flash" );
+  }
+  )
+  document.querySelectorAll( '.tag2_by_flash' ).forEach
+  ( n => 
+  {
+    n.removeAttribute( "tag2" );
+    n.classList.remove( "tag2_by_flash" );
+  }
+  )
 }
     
 function generateKeyboardShortcutButtons( document )
@@ -1640,30 +1734,6 @@ window.addEventListener
   }
 );
 } catch(e) { /* most likely outside Browser environment */ }
-
-/*
- * module exports for hybrid = classic / ESM module usage
- * NOTE: MUST RUN AS COMMONJS (not MODULE) for module and module.exports to be defined
- */
-
-/*
-if (typeof module !== "undefined" && typeof module.exports !== "undefined")
-{
-  module.exports =
-  {
-    on_svg_load : on_svg_load 
-    ,
-    explore       : explore
-    ,
-    press       : press
-  } ;
-  devdebug( "module.exports set" );
-}
-else
-{
-  devdebug( "NO module.exports" );
-}
-*/
 
 if (typeof exports !== "undefined")
 {

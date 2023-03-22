@@ -184,6 +184,7 @@ g.node:hover a[*|href]:not([*|href^='javascript']) text,
 [distance="3"]  * { animation-delay:0.15s }
 [distance="2"]  * { animation-delay:0.10s }
 [distance="1"]  * { animation-delay:0.05s }
+[distance="0"]  * { animation-delay:0.00s }
 
 /* travelling North, using the Yellow-Orange-Brown colorscheme by Brewer */
 
