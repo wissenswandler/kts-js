@@ -219,6 +219,8 @@ function explore_element( elm, event = "script" )
   const mouseclicks = event.detail; // 1 or more for mouse clicks, 0 for other mouse events, undefined for script calls
 
   is_flash_event = ( event_class_name == "MouseEvent" && mouseclicks == 0 );
+  devdebug( "is_flash_event = " + is_flash_event );
+
   if( !is_flash_event ) remove_flashes( document );
 
   focussed_node = elm;
@@ -338,6 +340,9 @@ function start_travel( elm , max_distance, direction, mission = calculate_travel
     mission
   )
 
+  if( mission == MISSION_COUNT )
+    elm.ownerSVGElement.querySelectorAll( "[tag0=COUNT]" ).forEach( svgElm => {  svgElm.removeAttribute( "tag0" )  }   );
+
   let max_dist_from_tag  = Array.from(elm.ownerSVGElement.querySelectorAll(".node[distance]")).map( n => n.getAttribute("distance")               ).reduce( (a,b) => Math.max(a,b), 0 )
 
   let logtext = "visited " + nodes_visited + " nodes with max distance of " + max_dist_from_tag + " between";
@@ -360,10 +365,9 @@ function start_travel( elm , max_distance, direction, mission = calculate_travel
  */
 function enter_node( elm , current_dist, current_rank , total_ranks , direction , tag )
 {
- //devdebug( "  entering " + elm.id.padEnd(19,' ') + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
+ devdebug( "  entering " + elm.id.padEnd(19,' ') + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
  if(  process_graph_element( elm , current_dist, current_rank , total_ranks , direction , tag )  )
  {
-  ++nodes_visited;
   // recurse and increment color rank IF travelling South (color rank decreases from edge to next node, in positive flow direction)
   elm
     .ownerSVGElement
@@ -382,7 +386,16 @@ function travel_edge( elm , current_dist, current_rank , total_ranks , direction
 {
   //devdebug( "  entering " + elm.id.padEnd(19,' ') + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
 
-  if( elm.ownerSVGElement.querySelector( '[id^="' + elm.id + '"] > g > a > path[stroke-dasharray]' ) ) return 0
+  if( elm.querySelector( 'path[stroke-dasharray]' ) )
+  {
+    console.info
+    (
+      "KTS NOT crossing non-solid edge on travel from " + 
+      node_name_by_id( elm.id.split( NODE_SEPARATOR )[ 1-direction ] ) + " to " + 
+      node_name_by_id( elm.id.split( NODE_SEPARATOR )[   direction ] )
+    );
+    return;
+  }
 
   process_graph_element( elm , current_dist, current_rank , total_ranks , direction , tag ) 
 
@@ -395,7 +408,7 @@ function travel_edge( elm , current_dist, current_rank , total_ranks , direction
 }
 
 /*
- * mark node as visited and return whether recursion should continue from here
+ * mark node or edge as visited and return whether recursion should continue from here
  */
 function process_graph_element( elm , current_dist, current_rank , total_ranks , direction , tag )
 {
@@ -431,8 +444,6 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
       elm.classList.add( "hover" );
     }
   }
-  //devdebug( "  " + elm.id + " isLogicalAndNode: " + isLogicalAndNode + ", isActivated: " + isActivated );
-  //devdebug( "  " + elm.id + " has " + nIncomingEdges + " incoming edges, " + nActivatedEdges + " activated" );
 
  let seenBefore = elm.hasAttribute( "distance"	)	// been here before
 
@@ -446,7 +457,13 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
 
    elm.setAttribute( "distance", current_dist );
 
-   if( tag != MISSION_COUNT )				// tagging, not counting
+   if( ! seenBefore && elm.classList.contains("node") ) ++nodes_visited;
+
+   if( tag == MISSION_COUNT )
+   {
+      elm.setAttribute( "tag0", "COUNT" );  // just mark as visited so that logic gates can be activated already during the COUNT mission for obtaining the correct path length
+   }
+   else // MISSION_TAG
    {
      if(  ! elm.hasAttribute( "tag1" ) || distance > current_dist  )
      {
@@ -470,8 +487,8 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
    }
    return isActivated
  }
- //devdebug( "   terminating travel at current d = " + current_dist )
- return false
+ else
+   return false;  // already been here on shorter or equally long path => no need to recurse
 }
 
 function set_attribute( elm, attribute_name, attribute_value, is_flash_event )
@@ -492,8 +509,16 @@ function next_edges_selector( id, direction, tagged = false )
  }
  if( direction == DIRECTION_SOUTH )
  {
-   return '[id$="' + NODE_SEPARATOR + id +
-   '"]' + (tagged ? '[tag1]' : '') + ':not( [id^="a_"] )'
+   let sel =
+          '[id$="' + NODE_SEPARATOR + id +
+   '"]' + (tagged ? '[tag1]' : '') + ':not( [id^="a_"] )';
+
+   if( tagged )
+    sel += ", " +
+          '[id$="' + NODE_SEPARATOR + id +
+   '"]' + (tagged ? '[tag0]' : '') + ':not( [id^="a_"] )';
+
+  return sel
  }
  return "error - unknown direction code"
 }
@@ -1110,13 +1135,8 @@ function on_blur( event, document )
   switch( ONFOCUS_MODE )
   {
     case 0: // explore
-      let focussed = findParentGraphNode( event.target ) ;
-
-      //if( graph_element_class == "node" )
-      {
-        remove_flashes( document );
-        filterAllActions( document );
-      }
+      remove_flashes( document );
+      filterAllActions( document );
       break;
 
     case 1: // same
@@ -1137,20 +1157,17 @@ function on_blur( event, document )
 
 function remove_flashes( document )
 {
-  document.querySelectorAll( '.tag1_by_flash' ).forEach
+  devdebug( "remove_flashes()" );
+
+  ["tag1","tag2"].forEach( t =>
+  document.querySelectorAll( '.' + t + '_by_flash' ).forEach
   ( n => 
   {
-    n.removeAttribute( "tag1" );
-    n.classList.remove( "tag1_by_flash" );
+    n.removeAttribute(  t );
+    n.classList.remove( t + "_by_flash" );
   }
   )
-  document.querySelectorAll( '.tag2_by_flash' ).forEach
-  ( n => 
-  {
-    n.removeAttribute( "tag2" );
-    n.classList.remove( "tag2_by_flash" );
-  }
-  )
+  );
   document.querySelectorAll( '.hover_by_flash' ).forEach
   ( n => 
   {
