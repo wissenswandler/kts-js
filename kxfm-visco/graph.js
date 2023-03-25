@@ -365,6 +365,11 @@ function start_travel( elm , max_distance, direction, mission = calculate_travel
  */
 function enter_node( elm , current_dist, current_rank , total_ranks , direction , tag )
 {
+ if( !elm )
+ {
+  devdebug( "  entering null node (invisible per DOT?), returning" );
+  return;
+ }
  devdebug( "  entering " + elm.id.padEnd(19,' ') + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
  if(  process_graph_element( elm , current_dist, current_rank , total_ranks , direction , tag )  )
  {
@@ -437,11 +442,15 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
     nActivatedEdges = elm.ownerSVGElement.querySelectorAll(  next_edges_selector( elm.id , DIRECTION_SOUTH, true  )  ).length;
     isActivated = nIncomingEdges == nActivatedEdges;
     if( isActivated )
+    {
       elm.classList.remove( "hover" );
+      devdebug( "  " + elm.id + " is activated" );
+    }
     else
     {
       if( is_flash_event && !elm.classList.contains( "hover" ) ) elm.classList.add( "hover_by_flash" );
       elm.classList.add( "hover" );
+      devdebug( "  " + elm.id + " is NOT activated" );
     }
   }
 
