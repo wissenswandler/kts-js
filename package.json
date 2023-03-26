@@ -2,7 +2,11 @@
   "name": "KTS",
   "description": "Knowledge Transformation System, JavaScript implementation (this parent not for NPM distribution)",
   "scripts": {
-    "publish-npms": "for d in kxfm-* ; do pushd $d; npm publish --access public ; popd; done"
+    "publish-npms" : "for d in kxfm-* ; do cd $d ; npm publish --access public ; cd -; done"
+    ,
+    "publish-links": "for d in kxfm-* ; do cd $d ; npm     link ; cd -; done"
+    ,
+    "consume-links": "for d in kxfm-* ; do cd $d ; npm run link ; cd -; done"
   },
   "repository": {
     "type": "git",
