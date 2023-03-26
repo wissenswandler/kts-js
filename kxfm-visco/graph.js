@@ -287,7 +287,7 @@ function explore_element( elm, event = "script" )
     else
         start_travel ( elm , max_distance ,    direction)	// travel direction of longer, untravelled path
  }
- NEXT_CLICK_DIRECTION = -1
+ if( !is_flash_event ) NEXT_CLICK_DIRECTION = -1
   
   filterAllActions( document );
 }
@@ -331,7 +331,9 @@ function start_travel( elm , max_distance, direction, mission = calculate_travel
   nodes_visited = 0
   console.debug( "going " + DIRSTRING [ direction ] + " for max " + max_distance[ direction ] + " steps" + ( mission ? (" on mission " + mission ) : "..." )  )
 
+  // reset helper tags that are used for one travel only
   elm.ownerSVGElement.querySelectorAll( "[distance]"  ).forEach(   svgElm => {  svgElm.removeAttribute( "distance" )  }   ) 
+  elm.ownerSVGElement.querySelectorAll( ".exit"       ).forEach(   svgElm => {  svgElm.classList.remove( "exit"    )  }   ) 
 
   enter_node( elm , 0 ,                                                // current_dist
     direction == DIRECTION_SOUTH ? 0 : max_distance[DIRECTION_NORTH] ,  // current_rank
@@ -370,18 +372,27 @@ function enter_node( elm , current_dist, current_rank , total_ranks , direction 
   devdebug( "  entering null node (invisible per DOT?), returning" );
   return;
  }
- devdebug( "  entering " + elm.id.padEnd(19,' ') + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
+ //devdebug( "  entering " + elm.id.padEnd(19,' ') + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks )
  if(  process_graph_element( elm , current_dist, current_rank , total_ranks , direction , tag )  )
  {
   // recurse and increment color rank IF travelling South (color rank decreases from edge to next node, in positive flow direction)
-  elm
+  let next_edges = elm
     .ownerSVGElement
-    .querySelectorAll(  next_edges_selector( elm.id , direction )  )
-    .forEach
-    (   edge => travel_edge
-      ( edge , current_dist, current_rank + 1 - direction , total_ranks , direction , tag )  
+    .querySelectorAll(  next_edges_selector( elm.id , direction )  );
+
+  if( next_edges.length > 0 )
+  {
+    elm.classList.add( "exit" ); // required for logic gates to know that the have been exited (after activation), as opposed to just visited
+    next_edges.forEach
+    (   edge =>
+      { 
+        travel_edge
+        (edge , current_dist, current_rank + 1 - direction , total_ranks , direction , tag );
+      }
     )
+  }
  }
+ devdebug( "  no more edges." );
 }
 
 /*
@@ -417,29 +428,29 @@ function travel_edge( elm , current_dist, current_rank , total_ranks , direction
  */
 function process_graph_element( elm , current_dist, current_rank , total_ranks , direction , tag )
 {
+  devdebug( " processng " + elm.id.padEnd(19,' ') + " at d: " + current_dist + ", r: " + current_rank + " of " + total_ranks );
+  
   if( tag == MISSION_ERASE )
   {
     if( ! elm.hasAttribute( "tag1" ) &&
     ! elm.hasAttribute( "tag2" ) ) return false	// already erased
-  // else
+    // else
     remove_visitor_tags( elm )				// otherwise clear...
     return true						// ... and continue recursion
   }
-
+  
   //
   // mission = tag or COUNT
   //
- 
-  let g_a_text = elm.querySelector( "g a text" );
-  let isLogicalAndNode = ['∧', '+' ].indexOf( g_a_text?.innerHTML ) > -1;
-
+  
+  let exitedBefore = elm.classList.contains( "exit" );
+  let isLogicalAndNode = ['∧', '+' ].indexOf(  elm.querySelector( "g a text" )?.innerHTML  )  >  -1  ;
   let isActivated = true // is this node ready to be passed? By default, yes, unless it's a logical AND node with unactivated edges
-  let nIncomingEdges;
-  let nActivatedEdges;
   if( isLogicalAndNode && direction == DIRECTION_NORTH ) // only check for Logical-And if we're travelling North, because we're checking for incoming edges
   {
-    nIncomingEdges  = elm.ownerSVGElement.querySelectorAll(  next_edges_selector( elm.id , DIRECTION_SOUTH, false )  ).length;
-    nActivatedEdges = elm.ownerSVGElement.querySelectorAll(  next_edges_selector( elm.id , DIRECTION_SOUTH, true  )  ).length;
+    let nIncomingEdges  = elm.ownerSVGElement.querySelectorAll(  next_edges_selector( elm.id , DIRECTION_SOUTH, false )  ).length;
+    let nActivatedEdges = elm.ownerSVGElement.querySelectorAll(  next_edges_selector( elm.id , DIRECTION_SOUTH, true  )  ).length;
+    devdebug( "  " + elm.id + " has " + nIncomingEdges + " incoming edges, " + nActivatedEdges + " activated; " + (!exitedBefore ? "not" : "") + " exited before" );
     isActivated = nIncomingEdges == nActivatedEdges;
     if( isActivated )
     {
@@ -453,16 +464,24 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
       devdebug( "  " + elm.id + " is NOT activated" );
     }
   }
+  
+  let seenBefore = elm.hasAttribute( "distance"	)	// been here before
+  let distance = + elm.getAttribute( "distance"	)
 
- let seenBefore = elm.hasAttribute( "distance"	)	// been here before
-
- let distance = + elm.getAttribute( "distance"	)
-
- if( distance > current_dist				// previous visit through a longer path than current visit
-     ||							// OR
-     ! seenBefore				)	// first time here
+  
+  if
+  (
+    !seenBefore 				      // first time here
+    ||
+    distance > current_dist	  // previous visit through a longer path than current visit
+    ||
+    !exitedBefore             // been at this logic gate before, but never exited it because it had not been activated
+  )	
  {
-   //if( distance > current_dist ) devdebug( "  " + elm.id + " seen before at distance " + distance + ", now at " + current_dist );
+   if( distance > current_dist )
+    devdebug( "  " + elm.id + " seen before at distance " + distance + ", now at " + current_dist );
+   else
+    devdebug( "  " + elm.id + " seen for the first time at distance " + current_dist );
 
    elm.setAttribute( "distance", current_dist );
 
@@ -494,10 +513,14 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
       if( !is_flash_event ) elm.classList.remove( "dim" )
 
    }
+   devdebug( "  " + (isActivated ? "proceed..." : "stop.") );
    return isActivated
  }
  else
-   return false;  // already been here on shorter or equally long path => no need to recurse
+  {
+    devdebug( "  " + elm.id + " seen before at distance " + distance + ", now at " + current_dist + " => no need to proceed");  // BUG: a gate which is activated for the first time must be passed now
+    return false;  // already been here on shorter or equally long path => no need to recurse
+  }
 }
 
 function set_attribute( elm, attribute_name, attribute_value, is_flash_event )
@@ -513,19 +536,16 @@ function next_edges_selector( id, direction, tagged = false )
 {
  if( direction == DIRECTION_NORTH )
  {
-   return '[id^="' +                  id + NODE_SEPARATOR +
-   '"]' 
+   return '.edge[id^="' + id + NODE_SEPARATOR + '"]'  // edge with id starting with node id + NODE_SEPARATOR
  }
  if( direction == DIRECTION_SOUTH )
  {
    let sel =
-          '[id$="' + NODE_SEPARATOR + id +
-   '"]' + (tagged ? '[tag1]' : '') + ':not( [id^="a_"] )';
+      '.edge[id$="' + NODE_SEPARATOR + id + '"]' ;  // edge with id ending with NODE_SEPARATOR + node id
 
    if( tagged )
-    sel += ", " +
-          '[id$="' + NODE_SEPARATOR + id +
-   '"]' + (tagged ? '[tag0]' : '') + ':not( [id^="a_"] )';
+    sel += '[tag1], ' +
+      '.edge[id$="' + NODE_SEPARATOR + id + '"][tag0]' ;  // same edge pattern with tag1 (color) or tag0 (counting)
 
   return sel
  }
@@ -551,7 +571,7 @@ B : { f : () =>
       },
       s : 16
       ,
-      filter : () => all_nodes.length > 0
+      filter : () => all_nodes.length > 0  &&  NEXT_CLICK_DIRECTION != DIRECTION_BOTH
       ,
       text : "travel [B]oth ways upon next CLICK"
     }
@@ -676,7 +696,7 @@ N : { text : "travel [N]orth (forward) direction upon next CLICK (= inverse of [
       ,
       s : 15
       ,
-      filter : () => all_nodes.length > 0
+      filter : () => all_nodes.length > 0  &&  NEXT_CLICK_DIRECTION != DIRECTION_NORTH
     }
 ,
 o : { text : "keep [o]utersection (clear intersection) = inverse of [i]",		f : document =>
@@ -720,7 +740,7 @@ S : { text : "travel [S]outh (backward) direction upon next CLICK (= inverse of 
       ,
       s : 17
       ,
-      filter : () => all_nodes.length > 0
+      filter : () => all_nodes.length > 0  &&  NEXT_CLICK_DIRECTION != DIRECTION_SOUTH
     }
 ,
 U : { text : "copy [U]rl of focussed node to clipboard",		f : function(document)

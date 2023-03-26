@@ -5,21 +5,28 @@
     <meta charset="utf-8" />
     <base target="ktsdetail" />
     <link rel="stylesheet" href="../lib/graph.css" />
-    <style> .ktscontainer { float: left; } object, p { clear:both; display: block; } </style>
+    <style> .ktscontainer { float: left; } h1, h2, h3, object, .clear { clear:left; display: block; } </style>
     <script defer="" src="../lib/graph.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
 </head>
 <body>
+<h2>Warmup</h2>
 <div class="ktscontainer" id="d1">KTS warming up...</div>
 <div class="ktscontainer" id="d2">KTS warming up...</div>
-<div class="ktscontainer" id="d3">KTS warming up...</div>
-<div class="ktscontainer" id="d4">KTS warming up...</div>
+
+<h2>Gate</h2>
+<div class="ktscontainer" id="g1">KTS warming up...</div>
+<div class="ktscontainer" id="g3">KTS warming up...</div>
 
 <div class="ktscontainer" id="d1-4">KTS warming up...</div>
 <div class="ktscontainer" id="d1-5">KTS warming up...</div>
 <div class="ktscontainer" id="d1-4nterrupted">KTS warming up...</div>
 
 <div class="ktscontainer" id="circle">KTS warming up...</div>
+<h2>Multigraph (+Multigate)</h2>
+<div class="ktscontainer" id="mgraph">KTS warming up...</div>
+<div class="ktscontainer" id="mgate">KTS warming up...</div>
+<h1>Explanation</h1>
 <p>This HTML document contains logical tests for graph traversal, such as circles or conditional passing through nodes.</p>
 
 </body>
@@ -28,23 +35,43 @@
     import {Tdot2svgStrings} from "@kxfm/dot2svg/Tdot2svgStrings.js";
     let transformer = new Tdot2svgStrings(  await Graphviz.load() );
 
-    transformer.render( 'digraph {                           j -> k -> l ;  i -> k       }' , "#d1" );
-    transformer.render( 'digraph {                           e -> f -> g ;  h -> f       }' , "#d2" );
-    transformer.render( 'digraph { P1[label="+" shape=circle] b1 -> P1 -> d ;  a1 -> P1       }' , "#d3" );
-    transformer.render( 'digraph { P2[label="∧" shape=circle] b2 -> P2 -> d ;  a2 -> P2 -> m ; c2 -> P2  }' , "#d4" );
+    transformer.render( 'digraph { j->k->l  o->p->q->i->k       }' , "#d1" );
+    transformer.render( 'digraph { e->f->g  h->f  h->f }' , "#d2" );
 
+    transformer.render( 'digraph { P1[label="+" shape=circle] b1->P1->d  a1->P1            }' , "#g1" );
+    transformer.render( 'digraph { P2[label="∧" shape=circle] b2->P2->d  a2->P2->m  c2->P2 }' , "#g3" );
+    
+    
+    transformer.render( 'digraph { a->b }' , "#a_b" );
     transformer.render( 'graph { x1 -- x2 -- x3 -- x4       }' , "#d1-4" );
     transformer.render( 'graph { y1 -- y2 -- y3 -- y4 -- y5 }' , "#d1-5" );
-    transformer.render( 'graph { z1 -- z2 ; z2 -- z3 [style=dashed] ; z3 -- z4  }' , "#d1-4nterrupted" );
+    transformer.render( 'graph { z1 -- <inter> ; <inter> -- <rupted> [style=dashed] ; <rupted> -- z4  }' , "#d1-4nterrupted" );
 
     transformer.render( "digraph { w -> x -> y -> z -> w }" , "#circle" );
+
+    transformer.render( `digraph { rankdir=LR
+        m1 -> m2 -> m3 
+        m1 -> m2 
+    }` , "#mgraph" );
+    transformer.render( `digraph { rankdir=LR
+        m2 [shape=circle label="+"]
+        m1 -> m2 -> m3 
+        m1 -> m2
+        m0 -> m2 
+    }` , "#mgate" );
+
+//    explore("a"); explore("b");   // a->b case with previous bug at traversal from b to a
     
+    explore("m0");
+    
+/* logic-gate-tests
     explore("j");
 
     explore("e");
     explore("h");
 
     explore("a1");
-    
+*/
+
 </script>
 </html>
