@@ -6,4 +6,4 @@ issues.json
 graph.dot
 
 *.svg
-!kxfm-test/CEPDI/*.svg
+*.pdf
