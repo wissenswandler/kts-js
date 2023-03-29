@@ -5,6 +5,7 @@
   "license": "AGPL-3.0-or-later",
   "private": true,
   "scripts": {
+    "build": "npm run update-kts && npm run weigh",
     "weigh": "du static/diagram/build/ > logs/size-build.txt && du -s > logs/size-all.txt",
     "update-kts": "npm r @kxfm/jira2dot @kxfm/dot @kxfm/svg && npm i ../kxfm-jira2dot ../kxfm-dot ../kxfm-svg"
   },
