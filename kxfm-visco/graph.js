@@ -670,16 +670,6 @@ j : { text : "concentrate on intersection (= shortcut for [i] + [F] )",		f : fun
       post : "Concentrating on intersecting paths"
     }
 ,
-l : { text : "[l]ist of selected nodes (use [,] and [ ] to put on clipboard)",
-      f : document => document.querySelectorAll( "g.node[tag1]" ).forEach( (svgElm) => { console.log( svgElm.id ) })
-      ,
-      s : 33
-      ,
-      filter : (document) => hasSelection( document )
-      ,
-      post : () => {} // prevent previous console.log from being overwritten
-    }
-,
 m : { text : "[m]erge path intersections", 				f : function(document)
     {
       document.querySelectorAll( "g[tag2]" ).forEach( (svgElm) => { svgElm.removeAttribute( "tag2" ) })
@@ -792,7 +782,7 @@ y : { text : "[y]ank (copy) ID of focussed node to clipboard",
 ',':{ text : "copy selection to clipboard, separated by [,] (comma)",
       f : (document) => copy_selection_to_clipboard( document, ',' )
       ,
-      s : 25 // with selection
+      s : 72 // with selection
       ,
       filter : (document) => hasSelection( document )
       ,
@@ -802,7 +792,7 @@ y : { text : "[y]ank (copy) ID of focussed node to clipboard",
 ' ':{ text : "[SPACE] copy selection to clipboard, separated by [ ] (space)",
       f : (document) => copy_selection_to_clipboard( document, ' ' )
       ,
-      s : 26 // with selection
+      s : 71 // with selection
       ,
       filter : (document) => hasSelection( document )
       ,
@@ -1570,6 +1560,13 @@ class SubDocument
         devdebug( "SubDocument: using SVG document from selector " + dom );
       }
       else
+      if( document.querySelector( dom ) )
+      {
+        this.document = document.querySelector( dom );
+        this.selector = "";
+        devdebug( "SubDocument: using Dom Element " + this.document + " from selector " + dom + " as new document");
+      }
+      else
       {
         this.selector = dom;
         devdebug( "SubDocument using selector from string: " + dom );
@@ -1798,3 +1795,4 @@ else
 {
   devdebug( "NO exports" );
 }
+
