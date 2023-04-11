@@ -45,8 +45,6 @@ chis_2022 [label="Channel Islands"]
 faro [label=Faröer]
 ostn [label=Oostende]
 
-kira [label=Kira]
-katr [label=Katerina class=global_type_katr]
 Jon
 Obi
 Christian
@@ -69,7 +67,6 @@ Spain
 Biscay
 Berlin
 
-miss_blue [label="Miss Blue"]
 Vega
 Greyhound
 haho [tooltip=Hanstholm]
@@ -124,18 +121,18 @@ Berlin -> susanne_berlin_2023
 susanne_berlin_2023 -> susanne_future [style=dotted arrowhead=""]
 }
 
-# Kira's lifeline
-{ edge [color="gold;0.5:silver" class=global_type_kira]
-
-kira -> len_2015 -> bogo_exit_de_2020 -> bogo_enter_se_2020 -> bogo_se -> bogo_purch_maru -> visit_2021 -> bogo_de_2022 -> bogo_enter_fr_2023_01
-
-bogo_enter_fr_2023_01 -> bogo_future [style=dotted arrowhead=""]
+  kira [class=global_type_kira label=Kira]
+{ edge [class=global_type_kira color="gold;0.5:silver"]
+  kira -> len_2015 -> bogo_exit_de_2020 -> bogo_enter_se_2020 -> bogo_se -> bogo_purch_maru -> visit_2021 -> bogo_de_2022
+->bogo_enter_fr_2023_01
+  bogo_enter_fr_2023_01 -> bogo_future [style=dotted arrowhead=""]
 }
 
-# Katerina's lifeline
-{ edge [color="green;0.5:orange" class=global_type_katr]
-katr -> len_2015 -> bogo_exit_de_2020 -> visit_2021 -> bogo_de_2022
-bogo_de_2022 -> katr_future [style=dotted arrowhead=""]
+  katr [class=global_type_katr label=Katerina]
+{ edge [class=global_type_katr color="green;0.5:orange"]
+  katr -> len_2015 -> bogo_exit_de_2020 -> visit_2021
+->bogo_de_2022
+  bogo_de_2022 -> katr_future [style=dotted arrowhead=""]
 }
 
 {Mohini Christian Obi} -> bogo_se
@@ -199,8 +196,12 @@ Cherbourg -> cherbourg1 -> cherbourg2
 
 Biscay -> biscay1
 
-{ edge [color=darkblue style=dashed]
-miss_blue -> scheveningen1 -> cherbourg1 -> cherbourg2 -> bogo_fr_2022_10 -> biscay1 -> Spain
+miss_blue [class=global_type_missblue label="Miss Blue"]
+{ edge    [class=global_type_missblue color=darkblue style=dashed]
+  miss_blue -> scheveningen1 -> cherbourg1 -> cherbourg2 -> bogo_fr_2022_10 -> biscay1
+->Spain
+edge [style=dotted arrowhead=""] node [style=invis]
+  Spain -> miss_blue_future 
 }
 
 { edge [color=silver style=dashed]

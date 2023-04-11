@@ -1153,6 +1153,18 @@ function on_focus( event, document )
         document.querySelectorAll(                             '.' + focussed_type ).forEach( n => n.classList.add( "hover" ) )
       );
       filterAllActions( document );
+      if( global_types.length == 1 )
+      {
+        let nodesOfType = document.querySelectorAll( '.node.' + global_types[0] );
+        let edgesOfType = document.querySelectorAll( '.edge.' + global_types[0] );
+        if
+        ( nodesOfType.length < 3 // start and optional future
+          && edgesOfType.length > 0
+        )
+        {
+          console.log( "showing Timeline of " + node_name_by_id( nodesOfType[0].id ) );
+        }
+      }
       break;
 
     case 2: // one
@@ -1730,7 +1742,14 @@ function getNodeLabelById( id )
   catch (e)
   {
     try { return document.querySelector( "#" + id + " > g > a > text:nth-child(2)" ).innerHTML }
-    catch (e) { return null }
+    catch (e)
+    {
+      try { return document.querySelector( "#" + id + " > text:nth-child(3)" ).innerHTML }  // for nodes without links or tables
+      catch (e)
+      {
+        return null
+      }
+    }
   } 
 }
 
