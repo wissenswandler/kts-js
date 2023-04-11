@@ -1150,16 +1150,26 @@ function on_focus( event, document )
       );
       global_types.forEach
       ( focussed_type =>
-        document.querySelectorAll(                             '.' + focussed_type ).forEach( n => n.classList.add( "hover" ) )
-      );
+      {
+        document.querySelectorAll(                        '.node.' + focussed_type ).forEach( n => n.classList.add( "hover" ) );
+        document.querySelectorAll(                        '.edge.' + focussed_type ).forEach( n =>{n.classList.add( "hover" );
+        document.querySelectorAll( "#" + n.id.split( NODE_SEPARATOR )[ DIRECTION_NORTH ]  ).forEach( n => n.classList.add( "hover" ) );
+        document.querySelectorAll( "#" + n.id.split( NODE_SEPARATOR )[ DIRECTION_SOUTH ]  ).forEach( n => n.classList.add( "hover" ) );
+        }
+        );
+      });
       filterAllActions( document );
       if( global_types.length == 1 )
       {
         let nodesOfType = document.querySelectorAll( '.node.' + global_types[0] );
         let edgesOfType = document.querySelectorAll( '.edge.' + global_types[0] );
         if
-        ( nodesOfType.length < 3 // start and optional future
-          && edgesOfType.length > 0
+        ( 
+          nodesOfType.length > 0
+          &&
+          nodesOfType.length < 3 // start and optional future
+          &&
+          edgesOfType.length > 0
         )
         {
           console.log( "showing Timeline of " + node_name_by_id( nodesOfType[0].id ) );
