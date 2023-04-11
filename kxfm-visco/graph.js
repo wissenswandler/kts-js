@@ -1135,9 +1135,23 @@ function on_focus( event, document )
       break;
 
     case 1: // same
-      let focussed_type;
-      focussed.classList.forEach( c => { if( c.startsWith( "type" ) ) focussed_type = c } )
-      document.querySelectorAll( '.' + graph_element_class + '.' + focussed_type ).forEach( n => n.classList.add( "hover" ) );
+      let focussed_types = [];
+      let   global_types = [];
+      focussed.classList.forEach
+      ( c =>
+      {
+        if( c.startsWith( "type"        ) ) focussed_types.push( c );
+        if( c.startsWith( "global_type" ) )   global_types.push( c );
+      }
+      )
+      focussed_types.forEach
+      ( focussed_type =>
+        document.querySelectorAll( '.' + graph_element_class + '.' + focussed_type ).forEach( n => n.classList.add( "hover" ) )
+      );
+      global_types.forEach
+      ( focussed_type =>
+        document.querySelectorAll(                             '.' + focussed_type ).forEach( n => n.classList.add( "hover" ) )
+      );
       filterAllActions( document );
       break;
 

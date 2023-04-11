@@ -1,0 +1,223 @@
+digraph <Timelines> {
+
+node [shape=none tooltip=""]
+
+#
+# Time
+#
+{
+node [fontsize=10]
+{ node [label=May]
+<2020_05> <2022_05>
+}
+{ node [label=June]
+<2022_06>
+}
+{ node [label=July]
+<2022_07>
+}
+{ node [label=August]
+<2022_08>
+}
+{ node [label=September]
+<2022_09>
+}
+{ node [label=October]
+<2021_10> <2022_10>
+}
+{ node [label=November]
+<2021_11> <2022_11>
+}
+edge [style=invis]
+node[fontsize=16]
+2015 -> 2020 -> <2020_05> -> 2021 -> <2021_10> -> <2021_11> -> 2022 -> <2022_05> -> <2022_06> -> <2022_07> -> <2022_08> -> <2022_09> -> <2022_10> -> <2022_11> -> 2023
+}
+
+#
+# Entities
+#
+de
+se
+dk
+nl
+fr
+chis_2022 [label="Channel Islands"]
+faro [label=Faröer]
+ostn [label=Oostende]
+
+kira [label=Kira]
+katr [label=Katerina class=global_type_katr]
+Jon
+Obi
+Christian
+Mohini
+Naghmeh
+Jesper
+Jan
+Torbjörn
+George
+Maria
+Fanny
+Filemon
+Michel
+Susanne
+
+Cherbourg
+Camaret
+Brest
+Spain
+Biscay
+Berlin
+
+miss_blue [label="Miss Blue"]
+Vega
+Greyhound
+haho [tooltip=Hanstholm]
+
+#
+# invisibles
+#
+{ node [style=invis]
+bogo_future de_future se_future dk_future lies_future nl_future maru_future katr_future naghmeh_future susanne_future
+}
+
+# Unions
+{
+node [label="❤️" ]
+len_2015 bogo_se bogo_purch_maru visit_2021 bogo_simris
+}
+
+# Separations / Neutral
+{
+node [label=" "] 
+bogo_exit_de_2020 bogo_exit_se_2022 bogo_exit_dk_2022 re1_ostn re2_ostn re1_diessen
+}
+
+
+#
+# Timelines from here
+#
+
+edge [color=grey] # default edge color grey to recognize all which are not styled explicitly
+edge [arrowhead=none]   # timelines have not arrowhead in all of their sections, except for the very last one (pointing to the future)
+
+
+  lies [class=global_type_lies label=Lies]
+{ edge [class=global_type_lies color=orange]
+lies -> haho -> faro -> re1_ostn -> bogo_be_2022_09 -> bogo_fr_2022_09 -> re2_ostn -> bogo_fr_2022_10 -> re3_ostn
+
+re3_ostn -> lies_future [style=dotted arrowhead=""]
+}
+
+  bogo [class=global_type_bogo label=Boran]
+{ edge [class=global_type_bogo color=forestgreen] 
+
+bogo -> len_2015 -> bogo_exit_de_2020 -> bogo_enter_se_2020 -> bogo_se -> bogo_purch_maru -> visit_2021 -> bogo_simris -> bogo_exit_se_2022 -> bogo_enter_dk_2022 -> haho -> bogo_exit_dk_2022 -> bogo_enter_nl_2022 -> ams_2022 -> scheveningen1 -> bogo_be_2022_09 -> bogo_fr_2022_09 -> cherbourg2 -> chis_2022 -> bogo_fr_2022_10 -> bogo_de_2022 -> bogo_enter_fr_2023_01
+
+bogo_enter_fr_2023_01 -> bogo_future [style=dotted arrowhead=""]
+}
+
+# Susanne's lifeline
+{ edge [class=global_type_sushoe]
+Susanne -> ams_2022 -> scheveningen1 -> re1_diessen -> susanne_berlin_2023
+Berlin -> susanne_berlin_2023
+susanne_berlin_2023 -> susanne_future [style=dotted arrowhead=""]
+}
+
+# Kira's lifeline
+{ edge [color="gold;0.5:silver" class=global_type_kira]
+
+kira -> len_2015 -> bogo_exit_de_2020 -> bogo_enter_se_2020 -> bogo_se -> bogo_purch_maru -> visit_2021 -> bogo_de_2022 -> bogo_enter_fr_2023_01
+
+bogo_enter_fr_2023_01 -> bogo_future [style=dotted arrowhead=""]
+}
+
+# Katerina's lifeline
+{ edge [color="green;0.5:orange" class=global_type_katr]
+katr -> len_2015 -> bogo_exit_de_2020 -> visit_2021 -> bogo_de_2022
+bogo_de_2022 -> katr_future [style=dotted arrowhead=""]
+}
+
+{Mohini Christian Obi} -> bogo_se
+
+Jon -> bogo_simris
+
+{ edge [color=pink class=global_type_naghmeh]
+Naghmeh -> bogo_se -> bogo_exit_se_2022
+bogo_exit_se_2022 -> naghmeh_future [style=dotted arrowhead=""]
+}
+
+{Maria George Jesper Jan Torbjörn} -> haho
+
+Fanny -> bogo_fr_2022_10 -> fanny_pt -> bogo_enter_fr_2023_01
+
+  maru [class=global_type_maru label=Maru]
+{ edge [class=global_type_maru color=darkslateblue style=dashed ]
+  maru -> bogo_purch_maru -> bogo_simris -> bogo_exit_se_2022 -> bogo_enter_dk_2022 -> haho -> bogo_exit_dk_2022 -> bogo_enter_nl_2022 -> ams_2022 -> scheveningen1 -> bogo_be_2022_09 -> bogo_fr_2022_09 -> cherbourg2 -> chis_2022
+->bogo_fr_2022_10
+  bogo_fr_2022_10 -> maru_future [style=dotted arrowhead=""]
+}
+
+# DE timeline
+{ edge [color="gold;0.33:red;0.33:grey40;0.33"]
+de -> len_2015 -> bogo_exit_de_2020 -> bogo_purch_maru -> visit_2021 -> bogo_de_2022
+bogo_de_2022 -> de_future [style=dotted arrowhead=""]
+}
+
+# SE timeline
+{ edge [color="yellow;0.5:deepskyblue"]
+se -> bogo_enter_se_2020 -> bogo_se -> bogo_simris -> bogo_exit_se_2022
+bogo_exit_se_2022 -> se_future [style=dotted arrowhead=""]
+}
+
+# DK timeline
+{
+dk -> bogo_enter_dk_2022 -> haho -> bogo_exit_dk_2022
+bogo_exit_dk_2022 -> dk_future [style=dotted arrowhead=""]
+}
+
+# NL timeline
+{
+nl -> bogo_enter_nl_2022 -> ams_2022 -> scheveningen1
+scheveningen1 -> nl_future [style=dotted arrowhead=""]
+}
+
+# FR timeline
+{ edge [color="red;0.33:silver;0.33:blue;0.33"]
+fr -> bogo_fr_2022_09 -> cherbourg1 -> cherbourg2 -> bogo_fr_2022_10 -> bogo_enter_fr_2023_01 
+}
+
+Filemon -> bogo_fr_2022_10 -> biscay1 -> camaret2 -> Greyhound
+
+Michel -> bogo_fr_2022_10 -> bogo_enter_fr_2023_01
+
+ostn -> re1_ostn -> bogo_be_2022_09 -> re2_ostn -> re3_ostn
+
+Camaret -> bogo_fr_2022_10 -> bogo_enter_fr_2023_01
+
+Cherbourg -> cherbourg1 -> cherbourg2
+
+Biscay -> biscay1
+
+{ edge [color=darkblue style=dashed]
+miss_blue -> scheveningen1 -> cherbourg1 -> cherbourg2 -> bogo_fr_2022_10 -> biscay1 -> Spain
+}
+
+{ edge [color=silver style=dashed]
+Vega -> cherbourg1 -> chis_2022 -> bogo_fr_2022_10 -> Brest
+#
+}
+
+# Time anchors (not every event needs to be anchored)
+#
+{rank=same <2020_05> bogo_enter_se_2020}
+{rank=same <2021_10> visit_2021 }
+{rank=same <2021_11> bogo_simris }
+{rank=same <2022_06> bogo_exit_se_2022}
+{rank=same <2022_07> bogo_enter_dk_2022}
+{rank=same <2022_08> bogo_exit_dk_2022}
+{rank=same <2022_09> bogo_enter_nl_2022}
+{rank=same <2022_11> bogo_de_2022}
+{rank=same 2023 bogo_enter_fr_2023_01}
+
+}
