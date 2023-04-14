@@ -4,7 +4,7 @@
   "scripts": {
     "publish-npms" : "for d in kxfm-* ; do cd $d ; npm publish --access public ; cd -; done"
     ,
-    "publish-links": "for d in kxfm-* ; do cd $d ; npm     link ; cd -; done"
+    "create-links": "for d in kxfm-* ; do cd $d ; npm     link ; cd -; done"
     ,
     "consume-links": "for d in kxfm-* ; do cd $d ; npm run link ; cd -; done"
   },
