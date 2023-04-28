@@ -37,6 +37,10 @@
   * KTS contract for the id of edges so that we can split the edge id into node ids;
   * must be the same value as in DOT files, set via attribute: edge [ id="\\T___\\H" ]
   */
+
+var visco = (function()
+{
+
 const NODE_SEPARATOR	= "___"
 
 var KTSDEBUG = false;
@@ -54,8 +58,11 @@ const MISSION_COUNT = "MISSION_COUNT"
 const ACTIONS_DISPLAY_MODE_NAME = ["collapsed", "reduced", "full"]
 var   ACTIONS_DISPLAY_MODE = ACTIONS_DISPLAY_MODE_NAME.length - 1;
 
-const ONFOCUS_MODE_NAME = ["explore", "same", "one"]
-var   ONFOCUS_MODE = 0;
+const MOUSE_MODE_EXPLORE	= 0;
+const MOUSE_MODE_SAME		= 1;
+const MOUSE_MODE_ONE		  = 2;
+const MOUSE_MODE_NAMES = ["explore", "same", "one"]
+var   MOUSE_MODE = MOUSE_MODE_EXPLORE;
 
 var NEXT_CLICK_MEMORY		= false
 var NEXT_CLICK_DIRECTION	= -1
@@ -65,7 +72,6 @@ var focussed_node
 var focussed_edge
 var clipText
 var all_nodes = []
-
 
 var panZoomInstance
 
@@ -682,6 +688,17 @@ m : { text : "[m]erge path intersections", 				f : function(document)
       post : "Selection paths merged with intersection."
     }
 ,
+'M':
+  { text : "rotate [M]ouse mode (explore / same / one)",			f : (document) => 
+    {
+      set_mouse_mode( (MOUSE_MODE+1)%MOUSE_MODE_NAMES.length );
+    }
+    ,
+    s : 10+2  // mode selectors
+    ,
+    post : () => {} // prevent previous console.log from being overwritten
+  }
+,
 N : { text : "travel [N]orth (forward) direction upon next CLICK (= inverse of [S])", 	f : () => NEXT_CLICK_DIRECTION = DIRECTION_NORTH
       ,
       s : 15
@@ -869,17 +886,12 @@ y : { text : "[y]ank (copy) ID of focussed node to clipboard",
     ,
     post : () => {}
   }
-,
-'M':
-  { text : "rotate [M]ousefocus mode (explore / same / one)",			f : (document) => 
-    {
-      ONFOCUS_MODE = ( (ONFOCUS_MODE+1)%ONFOCUS_MODE_NAME.length );
-    }
-    ,
-    s : 10+2  // mode selectors
-    ,
-    post : () => console.log( 'Mousefocus mode is now: "' + ONFOCUS_MODE_NAME[ ONFOCUS_MODE ] + '"' )
-  }
+}
+
+function set_mouse_mode( mode )
+{
+  MOUSE_MODE = mode;
+  console.log( 'Mouse mode is now: "' + MOUSE_MODE_NAMES[ MOUSE_MODE ] + '"' )
 }
 
 function set_actions_display_mode( mode, document )
@@ -1125,7 +1137,7 @@ function on_focus( event, document )
 
   devdebug( "on_focus() focussed: " + node_name_by_id( focussed.id ) );
 
-  switch( ONFOCUS_MODE)
+  switch( MOUSE_MODE)
   {
     case 0: // explore
       if( graph_element_class == "node" )
@@ -1182,12 +1194,12 @@ function on_focus( event, document )
       break;
 
     default:
-      console.error( "unknown ONFOCUS_MODE: " + ONFOCUS_MODE );
+      console.error( "unknown ONFOCUS_MODE: " + MOUSE_MODE );
   }
 }
 function on_blur( event, document )
 {
-  switch( ONFOCUS_MODE )
+  switch( MOUSE_MODE )
   {
     case 0: // explore
       remove_flashes( document );
@@ -1204,7 +1216,7 @@ function on_blur( event, document )
       break;
     
     default:
-      console.error( "unknown ONFOCUS_MODE: " + ONFOCUS_MODE );
+      console.error( "unknown ONFOCUS_MODE: " + MOUSE_MODE );
 
   }
   focussed_node = null;
@@ -1811,6 +1823,21 @@ function pick_random_element( array )
   return array[ Math.floor( Math.random() * array.length ) ];
 }
 
+// close to END visco
+
+ return {
+    devdebug: devdebug
+    ,
+    on_svg_load: on_svg_load
+    ,
+    press: press
+    ,
+    explore: explore
+    ,
+    set_mouse_mode: set_mouse_mode
+ }
+})()  // END visco
+
 /*
  * browser lifecycle hook
  * and the only expression in this module that is not a function declaration or global variable
@@ -1822,20 +1849,21 @@ window.addEventListener
   (event) =>
   {
     console.debug( "KTS handling load event in document " + document );
-    return on_svg_load( {document:document} );
+    return visco.on_svg_load( {document:document} );
   }
 );
 } catch(e) { /* most likely outside Browser environment */ }
 
 if (typeof exports !== "undefined")
 {
-  exports.on_svg_load = on_svg_load ;
-  exports.explore     = explore ;
-  exports.press       = press ;
-  devdebug( "exports set" );
+  exports.on_svg_load = visco.on_svg_load ;
+  exports.explore     = visco.explore ;
+  exports.press       = visco.press ;
+  exports.visco       = visco ;
+  visco.devdebug( "exports set" );
 }
 else
 {
-  devdebug( "NO exports" );
+  visco.devdebug( "NO exports" );
 }
 

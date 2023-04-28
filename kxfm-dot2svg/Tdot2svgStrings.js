@@ -109,7 +109,7 @@ render( dot_string, elmSelector, context )
 			consider_fullpage = false;
 		}
 	}
-	on_svg_load( {elmSelector:elmSelector}, {consider_fullpage:consider_fullpage} );	// depends on global function, currently declared by graph.js
+	visco.on_svg_load( {elmSelector:elmSelector}, {consider_fullpage:consider_fullpage} );	// depends on global object 'visco', currently declared by graph.js
 }
 
 
