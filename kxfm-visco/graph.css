@@ -451,7 +451,7 @@ p.disabled  {
  */
 
 .left  { float: left;  }
-.clear { float: clear; }
+.clear { clear: both;  }
 
 
 /*
