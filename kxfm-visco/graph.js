@@ -58,11 +58,11 @@ const MISSION_COUNT = "MISSION_COUNT"
 const ACTIONS_DISPLAY_MODE_NAME = ["collapsed", "reduced", "full"]
 var   ACTIONS_DISPLAY_MODE = ACTIONS_DISPLAY_MODE_NAME.length - 1;
 
-const MOUSE_MODE_EXPLORE	= 0;
-const MOUSE_MODE_SAME		= 1;
+const MOUSE_MODE_CAUSALITY= 0;
+const MOUSE_MODE_SAME		  = 1;
 const MOUSE_MODE_ONE		  = 2;
-const MOUSE_MODE_NAMES = ["explore", "same", "one"]
-var   MOUSE_MODE = MOUSE_MODE_EXPLORE;
+const MOUSE_MODE_NAMES = ["causality", "same", "one"]
+var   MOUSE_MODE = MOUSE_MODE_CAUSALITY;
 
 var NEXT_CLICK_MEMORY		= false
 var NEXT_CLICK_DIRECTION	= -1
@@ -91,7 +91,7 @@ function e( symbol )
   let elm = document.getElementById( symbol );
   if( elm )
   {
-    explore_element( elm );
+    on_click( elm );
     return;
   }
 
@@ -126,7 +126,7 @@ function explore_nested( elm_id, selector)
   {
     if(                       selected.getSVGDocument().getElementById( elm_id )  )
     {
-      return explore_element( selected.getSVGDocument().getElementById( elm_id )  );
+      return on_click( selected.getSVGDocument().getElementById( elm_id )  );
     }
     else
     {
@@ -137,7 +137,7 @@ function explore_nested( elm_id, selector)
   {
     if(                       selected.querySelector( "#"+elm_id )  )
     {
-      return explore_element( selected.querySelector( "#"+elm_id )  );
+      return on_click( selected.querySelector( "#"+elm_id )  );
     }
     else
     {
@@ -148,7 +148,7 @@ function explore_nested( elm_id, selector)
 
 /*
  * handles page-wide lookup of graph element by id
- * and forwards to explore_element()
+ * and forwards to on_click()
  */
 function explore_elm_id( elm )
 {
@@ -203,7 +203,7 @@ function explore_elm_id( elm )
       elm = pick_random_element( elms );
   }
 
-  explore_element( elm );
+  on_click( elm );
 }
 
 var is_flash_event = false; // is the current event a flash event (i.e. not a click but a mouseover or mouseout event)
@@ -216,28 +216,67 @@ var is_flash_event = false; // is the current event a flash event (i.e. not a cl
  * 
  * This core function also gets called from the explore() script API
  */
-function explore_element( elm, event = "script" )
-{  
+function on_click( elm, event = "script", document = globalThis.document )
+{
   console.info( node_name_by_id( elm.id ) + " now being explored upon " + event + " ..." );
   
-  if( event && event.preventDefault ) event.preventDefault(); // don't follow link in case this was a click on a hyperlinked node
-
   const event_class_name = event?.constructor?.name;
   const mouseclicks = event.detail; // 1 or more for mouse clicks, 0 for other mouse events, undefined for script calls
-
+  
+  if( event && mouseclicks > 0 && event.preventDefault ) event.preventDefault(); // don't follow link in case this was a click on a hyperlinked node
+  
   is_flash_event = ( event_class_name == "MouseEvent" && mouseclicks == 0 );
   devdebug( "is_flash_event = " + is_flash_event );
-
+  
   if( !is_flash_event ) remove_flashes( document );
-
+  
   focussed_node = elm;
-
- if( NEXT_CLICK_MEMORY == 'R' )
- {
+  
+  if( NEXT_CLICK_MEMORY == 'R' )
+  {
   remove_visitor_tags_of_single_node( elm, document ) 
   NEXT_CLICK_MEMORY = false;
   return;
- }
+  }
+
+  let graph_element_class;
+
+  if( elm.classList.contains( "node" ) )
+  {
+    focussed_node = elm;
+    graph_element_class = "node";
+  }
+
+  if( elm.classList.contains( "edge" ) )
+  {
+    focussed_edge = elm;
+    graph_element_class = "edge";
+  }
+
+  switch( MOUSE_MODE)
+  {
+    case MOUSE_MODE_CAUSALITY:
+      if( graph_element_class == "node" )
+      {
+        explore_causality( elm, event, document );
+      }
+      break;
+
+    case MOUSE_MODE_SAME:
+      explore_same_types( elm, event, document, graph_element_class );
+      break;
+
+    case MOUSE_MODE_ONE:
+      // implemented by code before switch
+      break;
+
+    default:
+      console.error( "unknown MOUSE_MODE: " + MOUSE_MODE );
+  }
+}
+
+function explore_causality( elm, event, document )
+{  
 
  var myTags = [	calculate_travel_tag( elm.id, DIRECTION_SOUTH ) ,
  		calculate_travel_tag( elm.id, DIRECTION_NORTH ) ]
@@ -538,6 +577,15 @@ function set_attribute( elm, attribute_name, attribute_value, is_flash_event )
     elm.classList.add(    attribute_name + "_by_flash" );
   else
     elm.classList.remove( attribute_name + "_by_flash" );
+}
+
+function add_class( elm, class_name, is_flash_event )
+{
+  elm.classList.add(      class_name );
+  if( is_flash_event )
+    elm.classList.add(    class_name + "_by_flash" );
+  else
+    elm.classList.remove( class_name + "_by_flash" );
 }
 
 function next_edges_selector( id, direction, tagged = false )
@@ -1108,120 +1156,132 @@ function remove_visitor_tags( svgElm )
 function add_mouseover_listeners_to_nodes( document )
 {
   document.querySelectorAll( "g.node , g.edge" ).forEach
-  ( e =>
+  ( elm =>
   {
-    e.addEventListener
-    ( "mouseenter", event => on_focus( event, document ) ,
+    elm.addEventListener
+    ( "mouseenter", event => on_focus( elm, event, document ) ,
       { options : { passive : true } }
     );
-    e.addEventListener
-    ( "mouseleave", event => on_blur(  event, document ) ,
+    elm.addEventListener
+    ( "mouseleave", event => on_blur(  elm, event, document ) ,
       { options : { passive : true } }
     );
   }
   )
 }
-function on_focus( event, document )
+
+function explore_same_types( elm, event, document, graph_element_class )
 {
-  let focussed = findParentGraphNode( event.target ) ;
+  let focussed_types = [];
+  let   global_types = [];
+  elm.classList.forEach
+  ( c =>
+  {
+    if( c.startsWith( "type"        ) ) focussed_types.push( c );
+    if( c.startsWith( "global_type" ) )   global_types.push( c );
+  }
+  )
+  focussed_types.forEach
+  ( focussed_type =>
+    document.querySelectorAll( '.' + graph_element_class + '.' + focussed_type ).forEach( n => add_class( n, "hover", is_flash_event ) )
+  );
+  global_types.forEach
+  ( focussed_type =>
+  {
+    document.querySelectorAll(                        '.node.' + focussed_type ).forEach( n => add_class( n, "hover", is_flash_event ) );
+    document.querySelectorAll(                        '.edge.' + focussed_type ).forEach( n =>{add_class( n, "hover", is_flash_event );
+    document.querySelectorAll( "#" + n.id.split( NODE_SEPARATOR )[ DIRECTION_NORTH ]  ).forEach( n => add_class( n, "hover", is_flash_event ) );
+    document.querySelectorAll( "#" + n.id.split( NODE_SEPARATOR )[ DIRECTION_SOUTH ]  ).forEach( n => add_class( n, "hover", is_flash_event ) );
+    }
+    );
+  });
+  filterAllActions( document );
+  if( global_types.length == 1 )
+  {
+    let nodesOfType = document.querySelectorAll( '.node.' + global_types[0] );
+    let edgesOfType = document.querySelectorAll( '.edge.' + global_types[0] );
+    if
+    ( 
+      nodesOfType.length > 0
+      &&
+      nodesOfType.length < 3 // start and optional future
+      &&
+      edgesOfType.length > 0
+    )
+    {
+      console.log( "showing Timeline of " + node_name_by_id( nodesOfType[0].id ) );
+    }
+  }
+} // end explore_same_types()
+
+function on_focus( elm, event, document )
+{
+  console.info( node_name_by_id( elm.id ) + " now being explored upon " + event + " ..." );
+  
+  const event_class_name = event?.constructor?.name;
+  const mouseclicks = event.detail; // 1 or more for mouse clicks, 0 for other mouse events, undefined for script calls
+  
+  if( event && mouseclicks > 0 && event.preventDefault ) event.preventDefault(); // don't follow link in case this was a click on a hyperlinked node
+  
+  is_flash_event = ( event_class_name == "MouseEvent" && mouseclicks == 0 );
+  devdebug( "is_flash_event = " + is_flash_event );
+
   let graph_element_class;
 
-  if( focussed.classList.contains( "node" ) )
+  if( elm.classList.contains( "node" ) )
   {
-      focussed_node = focussed;
-      graph_element_class = "node";
+    focussed_node = elm;
+    graph_element_class = "node";
   }
 
-  if( focussed.classList.contains( "edge" ) )
+  if( elm.classList.contains( "edge" ) )
   {
-      graph_element_class = "edge";
+    focussed_edge = elm;
+    graph_element_class = "edge";
   }
 
-  devdebug( "on_focus() focussed: " + node_name_by_id( focussed.id ) );
+  devdebug( "on_focus() focussed: " + node_name_by_id( elm.id ) );
 
   switch( MOUSE_MODE)
   {
-    case 0: // explore
+    case MOUSE_MODE_CAUSALITY:
       if( graph_element_class == "node" )
       {
-        explore_element( focussed_node, event );
+        explore_causality( focussed_node, event, document );
       }
       break;
 
-    case 1: // same
-      let focussed_types = [];
-      let   global_types = [];
-      focussed.classList.forEach
-      ( c =>
-      {
-        if( c.startsWith( "type"        ) ) focussed_types.push( c );
-        if( c.startsWith( "global_type" ) )   global_types.push( c );
-      }
-      )
-      focussed_types.forEach
-      ( focussed_type =>
-        document.querySelectorAll( '.' + graph_element_class + '.' + focussed_type ).forEach( n => n.classList.add( "hover" ) )
-      );
-      global_types.forEach
-      ( focussed_type =>
-      {
-        document.querySelectorAll(                        '.node.' + focussed_type ).forEach( n => n.classList.add( "hover" ) );
-        document.querySelectorAll(                        '.edge.' + focussed_type ).forEach( n =>{n.classList.add( "hover" );
-        document.querySelectorAll( "#" + n.id.split( NODE_SEPARATOR )[ DIRECTION_NORTH ]  ).forEach( n => n.classList.add( "hover" ) );
-        document.querySelectorAll( "#" + n.id.split( NODE_SEPARATOR )[ DIRECTION_SOUTH ]  ).forEach( n => n.classList.add( "hover" ) );
-        }
-        );
-      });
-      filterAllActions( document );
-      if( global_types.length == 1 )
-      {
-        let nodesOfType = document.querySelectorAll( '.node.' + global_types[0] );
-        let edgesOfType = document.querySelectorAll( '.edge.' + global_types[0] );
-        if
-        ( 
-          nodesOfType.length > 0
-          &&
-          nodesOfType.length < 3 // start and optional future
-          &&
-          edgesOfType.length > 0
-        )
-        {
-          console.log( "showing Timeline of " + node_name_by_id( nodesOfType[0].id ) );
-        }
-      }
+    case MOUSE_MODE_SAME:
+      explore_same_types( elm, event, document, graph_element_class );
       break;
 
-    case 2: // one
+    case MOUSE_MODE_ONE:
       // implemented by code before switch
       break;
 
     default:
-      console.error( "unknown ONFOCUS_MODE: " + MOUSE_MODE );
+      console.error( "unknown MOUSE_MODE: " + MOUSE_MODE );
   }
 }
-function on_blur( event, document )
+function on_blur( elm, event, document )
 {
   switch( MOUSE_MODE )
   {
-    case 0: // explore
+    case MOUSE_MODE_CAUSALITY:
+    case MOUSE_MODE_SAME:
       remove_flashes( document );
       filterAllActions( document );
       break;
 
-    case 1: // same
-      document.querySelectorAll( '.hover' ).forEach( n => n.classList.remove( "hover" ) );
-      filterAllActions( document );
-      break;
-
-    case 2: // one
+    case MOUSE_MODE_ONE:
       // nothing to do in case of blur (memorized focus remains)
       break;
     
     default:
-      console.error( "unknown ONFOCUS_MODE: " + MOUSE_MODE );
-
+      console.error( "unknown MOUSE_MODE: " + MOUSE_MODE );
   }
   focussed_node = null;
+  focussed_edge = null;
 }
 
 function remove_flashes( document )
@@ -1372,7 +1432,7 @@ function generateKeyboardShortcutButtons( document )
  */
 function activate_visual_mode()
 {
-  document.querySelectorAll( "g.node" ).forEach( svgElm => { svgElm.onclick = event => {  explore_element( svgElm, event )  }   }    )
+  document.querySelectorAll( "g.node" ).forEach( svgElm => { svgElm.onclick = event => {  on_click( svgElm, event )  }   }    )
 }
 function activate_hyperlink_mode()
 {
