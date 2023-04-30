@@ -8,13 +8,13 @@
     </head>
     <body>
 	    <h2>external svg data with integrated CSS instruction and JS tag</h2>
-	    <object width="100%" height="360" class="ktslocal" type="image/svg+xml" data="../CEPDI/graph-local.svg"></object>
+	    <object width="100%" height="360" class="ktslocal" type="image/svg+xml" data="../wissenswandler.atlassian.net/CEPDI/graph-local.svg"></object>
 	    <p>can access graph from top window's Javascript context i.e. by:</p>
 	    <p>document.querySelector( "body > object.ktslocal" ).contentWindow.click( "CEP-25" )</p>
 	    <p>document.querySelector( "body > object.ktslocal" ).contentWindow.press( "e" )</p>
 
 	    <h2>external svg data with NO integrated CSS instruction or JS tag</h2>
-	    <object class="ktsnavig" type="image/svg+xml" data="../CEPDI/graph-navigation.svg"></object>
+	    <object class="ktsnavig" type="image/svg+xml" data="../wissenswandler.atlassian.net/CEPDI/graph-navigation.svg"></object>
 	    <p>can access graph from top window's Javascript context i.e. by:</p>
 	    <p>document.querySelector( "body &gt: object.ktslocal" ).contentWindow.onclick( document.querySelector( "body &gt; object.ktsnavig" ).contentDocument, "CEP-25", null)
 	    <p>top window's CSS does not apply here so the result of traversal is not easily visible but there is output in the JS console</p>

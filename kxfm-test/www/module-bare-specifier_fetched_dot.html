@@ -15,24 +15,24 @@
   /*
    * Mock of the Forge React component
    */
-  devdebug( "importing graphviz" );
+  visco.devdebug( "importing graphviz" );
   import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
 
   import {Tdot2svgStrings} from "@kxfm/dot2svg/Tdot2svgStrings.js";
   
-  devdebug( "loading graphviz" );
+  visco.devdebug( "loading graphviz" );
   let transformer = new Tdot2svgStrings( await Graphviz.load() );
 
-  devdebug( "fetching DOT source" );
+  visco.devdebug( "fetching DOT source" );
   fetch( "CEP.dot" )
     .then(    response => response.text()  )
     .then
     (  dot_string => 
     {
-      devdebug( "transforming DOT->SVG" );
+      visco.devdebug( "transforming DOT->SVG" );
       transformer.render( dot_string, ".ktscontainer" )  
-      on_svg_load( ".ktscontainer" );
-      devdebug( "HTML BODY done." );
+      visco.on_svg_load( ".ktscontainer" );
+      visco.devdebug( "HTML BODY done." );
     }
     );
 </script>
