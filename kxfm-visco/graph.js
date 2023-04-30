@@ -206,7 +206,8 @@ function explore_elm_id( elm )
   explore_element( elm );
 }
 
-var is_flash_event = false;
+var is_flash_event = false; // is the current event a flash event (i.e. not a click but a mouseover or mouseout event)
+
 /*
  * KTS response on a click: traverse the graph and present that path by coloring the nodes and edges
  *
@@ -219,7 +220,7 @@ function explore_element( elm, event = "script" )
 {  
   console.info( node_name_by_id( elm.id ) + " now being explored upon " + event + " ..." );
   
-  if( event && event.preventDefault ) event.preventDefault(); // don't follow link
+  if( event && event.preventDefault ) event.preventDefault(); // don't follow link in case this was a click on a hyperlinked node
 
   const event_class_name = event?.constructor?.name;
   const mouseclicks = event.detail; // 1 or more for mouse clicks, 0 for other mouse events, undefined for script calls
@@ -234,7 +235,8 @@ function explore_element( elm, event = "script" )
  if( NEXT_CLICK_MEMORY == 'R' )
  {
   remove_visitor_tags_of_single_node( elm, document ) 
-  NEXT_CLICK_MEMORY = false; return
+  NEXT_CLICK_MEMORY = false;
+  return;
  }
 
  var myTags = [	calculate_travel_tag( elm.id, DIRECTION_SOUTH ) ,
@@ -1479,17 +1481,19 @@ function on_keydown(event, doc = document)
 
 function execute_url_commands()
 {
-  let auto_execute_command  = getParameterByName( "exec" )
-  if( auto_execute_command == "" ) return false;
-
-      auto_execute_command.split( "," ).forEach( (command) => e( command ) )
+  execute_command_sequence (  getParameterByName( "exec" )  );
 
   const highlight = getParameterByName( "highlight" )
   if(   highlight != "" )
   {
     highlight_node( highlight )
   }
-  return true;
+}
+
+function execute_command_sequence( command_sequence )
+{
+  if( command_sequence == "" ) return;
+  command_sequence.split( "," ).forEach( (command) => e( command ) )
 }
 
 function analyze_graph()
