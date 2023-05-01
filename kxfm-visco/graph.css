@@ -155,6 +155,8 @@ g.node:hover a[*|href]:not([*|href^='javascript']) text,
 
 /* ... end hover */
 
+[tag1]       :not(text):not(a):not(g)     { fill:rgb(255,247,188); stroke: blue; stroke-width: 2; stroke-dasharray:none;}
+[tag1][tag2] :not(text):not(a):not(g)     { fill:rgb(224,236,244); stroke: blue; stroke-width: 2; stroke-dasharray:none;}
 
 /*
  * coloring paths

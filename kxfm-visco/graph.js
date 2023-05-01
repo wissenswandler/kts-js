@@ -506,8 +506,8 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
     }
     else
     {
-      if( is_flash_event && !elm.classList.contains( "hover" ) ) elm.classList.add( "hover_by_flash" );
-      elm.classList.add( "hover" );
+      add_class( elm, "hover",  );
+
       devdebug( "  " + elm.id + " is NOT activated" );
     }
   }
@@ -572,20 +572,22 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
 
 function set_attribute( elm, attribute_name, attribute_value, is_flash_event )
 {
-  elm.setAttribute(       attribute_name, attribute_value );
-  if( is_flash_event )
+  if( is_flash_event && !elm.getAttribute( attribute_name ) )
     elm.classList.add(    attribute_name + "_by_flash" );
-  else
+  else if ( !is_flash_event )
     elm.classList.remove( attribute_name + "_by_flash" );
+  
+  elm.setAttribute(       attribute_name, attribute_value );
 }
 
 function add_class( elm, class_name, is_flash_event )
 {
-  elm.classList.add(      class_name );
-  if( is_flash_event )
+  if( is_flash_event && !elm.classList.contains( class_name ) )
     elm.classList.add(    class_name + "_by_flash" );
-  else
+  else if ( !is_flash_event )
     elm.classList.remove( class_name + "_by_flash" );
+
+  elm.classList.add(      class_name );
 }
 
 function next_edges_selector( id, direction, tagged = false )
@@ -971,7 +973,9 @@ function set_actions_display_mode( mode, document )
       }
       catch( e ) { }
       
-      console.log( "KTS Keys hidden. Click here and type '?' to display them again." )
+      document.querySelector( "#ktsConsole" ).onclick = () => set_actions_display_mode(1, document);  // click to show again, important for touch device without keyboard
+
+      console.log( "KTS Keys hidden. Click here or type '?' to display them again." )
       break;
 
     case 1 :
@@ -984,6 +988,8 @@ function set_actions_display_mode( mode, document )
         document.getElementById( "fo0").removeAttribute( "display" )
       }
       catch( e ) { }
+
+      document.querySelector( "#ktsConsole" ).onclick = null;
 
       console.log( "KTS Keys reduced. Type 'Esc' once more to fully hide keys or type '?' to display help texts again." )
       break;
@@ -999,6 +1005,8 @@ function set_actions_display_mode( mode, document )
         document.getElementById( "fo0").removeAttribute( "display" )
       }
       catch( e ) { }
+
+      document.querySelector( "#ktsConsole" ).onclick = null;
 
       console.log( "Click a button to execute a KTS command, or type that key on your keyboard." );
       break;
@@ -1145,8 +1153,9 @@ function remove_visitor_tags( svgElm )
   svgElm.removeAttribute( "tag2"      )
   svgElm.removeAttribute( "colorank"  )
   svgElm.removeAttribute( "distance"  )
-  svgElm.classList.remove( "dim"      )
-  svgElm.classList.remove( "hover"    )
+  svgElm.classList.remove( "dim"         )
+  svgElm.classList.remove( "hover"       )
+  svgElm.classList.remove( "logic_stops" )
 }
 
 /*
@@ -1158,14 +1167,20 @@ function add_mouseover_listeners_to_nodes( document )
   document.querySelectorAll( "g.node , g.edge" ).forEach
   ( elm =>
   {
+    elm.onmouseenter = event => on_focus( elm, event, document );
+    /*
     elm.addEventListener
     ( "mouseenter", event => on_focus( elm, event, document ) ,
       { options : { passive : true } }
     );
+    */
+    elm.onmouseleave = event => on_blur( elm, event, document );
+    /*
     elm.addEventListener
     ( "mouseleave", event => on_blur(  elm, event, document ) ,
       { options : { passive : true } }
     );
+    */
   }
   )
 }
@@ -1183,15 +1198,15 @@ function explore_same_types( elm, event, document, graph_element_class )
   )
   focussed_types.forEach
   ( focussed_type =>
-    document.querySelectorAll( '.' + graph_element_class + '.' + focussed_type ).forEach( n => add_class( n, "hover", is_flash_event ) )
+    document.querySelectorAll( '.' + graph_element_class + '.' + focussed_type ).forEach( n => present_element_as_same( n, is_flash_event, focussed_type ) )
   );
   global_types.forEach
   ( focussed_type =>
   {
-    document.querySelectorAll(                        '.node.' + focussed_type ).forEach( n => add_class( n, "hover", is_flash_event ) );
-    document.querySelectorAll(                        '.edge.' + focussed_type ).forEach( n =>{add_class( n, "hover", is_flash_event );
-    document.querySelectorAll( "#" + n.id.split( NODE_SEPARATOR )[ DIRECTION_NORTH ]  ).forEach( n => add_class( n, "hover", is_flash_event ) );
-    document.querySelectorAll( "#" + n.id.split( NODE_SEPARATOR )[ DIRECTION_SOUTH ]  ).forEach( n => add_class( n, "hover", is_flash_event ) );
+    document.querySelectorAll(                        '.node.' + focussed_type ).forEach( n => present_element_as_same( n, is_flash_event, focussed_type ) );
+    document.querySelectorAll(                        '.edge.' + focussed_type ).forEach( n =>{present_element_as_same( n, is_flash_event, focussed_type );
+    document.querySelectorAll( "#" + n.id.split( NODE_SEPARATOR )[ DIRECTION_NORTH ]  ).forEach( n => present_element_as_same( n, is_flash_event, focussed_type ) );
+    document.querySelectorAll( "#" + n.id.split( NODE_SEPARATOR )[ DIRECTION_SOUTH ]  ).forEach( n => present_element_as_same( n, is_flash_event, focussed_type ) );
     }
     );
   });
@@ -1213,6 +1228,20 @@ function explore_same_types( elm, event, document, graph_element_class )
     }
   }
 } // end explore_same_types()
+
+
+/* shortcut and encapsulating the use of "hover" class */
+function present_element_as_same( elm, is_flash_event, focussed_type )
+{
+  //return add_class( elm, "hover", is_flash_event );
+  //return add_class( elm, "same", is_flash_event );
+
+  const tag1 = elm.getAttribute( "tag1" );
+  if( tag1 && tag1 !== focussed_type )
+    set_attribute( elm, "tag2", focussed_type, is_flash_event );
+  else
+    set_attribute( elm, "tag1", focussed_type, is_flash_event );
+}
 
 function on_focus( elm, event, document )
 {
@@ -1397,7 +1426,7 @@ function generateKeyboardShortcutButtons( document )
           '<p id="' + action_css_id(key) + '"' +
           '>' +
           //kts_actions[key].s + " " + // visual debugging
-          '<button onclick="press( \'' + key + '\' )">' + key +
+          '<button onclick="visco.press( \'' + key + '\' )">' + key +
           '</button><span> ' +
           kts_actions[key].text +
           '</span></p>'
@@ -1412,7 +1441,6 @@ function generateKeyboardShortcutButtons( document )
       htmlConsole = document.createElement("div"); htmlConsole.setAttribute( "id", "ktsConsole" );
       ktstools.appendChild( htmlConsole );
       htmlConsole.innerHTML = 'KTS Console here...';
-
   }
 
   set_actions_display_mode(   parseInt(  window.localStorage.getItem( getStorageKey() )  ), document   );
@@ -1867,6 +1895,7 @@ function devdebug( message_object, new_timer_name = null )
   console.debug( message_object );
   //console.timeLog( "KTS init"); // unfortunately, this prints to the "log" level, not "debug"
 }
+globalThis.devdebug = devdebug; // backward compatibility for many existing scripts
 
 function reset_timer( timer_name )
 {
