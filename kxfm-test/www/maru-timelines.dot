@@ -1,0 +1,477 @@
+digraph <Maru Timelines> {
+
+ranksep=0.1
+nodesep=0.2
+node [shape=none tooltip=""]
+
+#
+# Time
+#
+{
+node [fontsize=10]
+{ node [ label=March     ] }
+{ node [ label=April     ] <2023_04> }
+{ node [ label=May       ] <2022_05> }
+{ node [ label=June      ] <2022_06> }
+{ node [ label=July      ] <2022_07> }
+{ node [ label=August    ] <2022_08> }
+{ node [ label=September ] <2022_09> }
+{ node [ label=October   ] <2021_10> <2022_10> }
+{ node [ label=November  ] <2021_11> }
+edge [style=invis]
+node[fontsize=16]
+   2021 -> <2021_10>-><2021_11>
+-> 2022 ->                      <2022_05>-><2022_06>-><2022_07>-><2022_08>-><2022_09>-><2022_10>
+-> 2023 ->           <2023_04>
+}
+
+#
+# Events (Time+Space intersections) with labels (other than their ID) or tooltips
+#
+
+now [label="🔧 Camaret" tooltip="painting and minor repairs for Maru" ]
+
+Bornholm [label="⚠️ Bornholm" tooltip="trip to Bornholm with Carna at good wind, when a lot of water entered the hull through ventilation holes and hatches"]
+
+kase_2022 [label=Kaseberga]
+segelstorp_2022 [label="⚓ Segelstorp"]
+Kattegat [label="X Kattegat" tooltip="crossing the Kattegat between Sweden and Denmark, over night at good wind"]
+
+Skagerrak [label="X Skagerrak" tooltip="crossing the Skagerrak from Sweden to Denmark, over night, with easy wind: pleasant" fillcolor=3 color=6 colorscheme=gnbu9 shape=box]
+
+jibe_2022_07 [label="⚠️ jibe accident" tooltip="hit by the boom in accidental jibe while preparing for harbour entry: painful and dangerous" fillcolor=orchid2 color=orchid4 shape=box]
+Jammerbugt [label="X Jammerbugt" tooltip="crossing the Jammerbugt, over night, against the wind, tough in the end" fillcolor=lightgrey color=darkblue shape=box]
+Hanstholm [label="🔧 Hanstholm" tooltip="repair and major upgrades for Maru" ]
+haho_2022_08 [label="Hanstholm" tooltip="leaving Hanstholm in late August" ]
+hvide_sande_2022 [label="🔧 Hvide Sande" tooltip="replacing lost bolt for autopilot with help from Matthias and carpenter" ]
+
+fall_2022 [label="⚠️ fall" tooltip="fell off deck but landed on engine bridge while crossing the German Bight"]
+germanbight [label="X German Bight" tooltip="crossing the German Bight over night(s) with good wind"]
+freakwave [label="⚠️ freak wave" tooltip="hit by a freak wave while crossing the German Bight"]
+
+Richel [label="⚓ Richel"]
+Waddensee [label="⚓ Waddensee"]
+Laaksum [label="⚓ Laaksum"]
+Hoorn [label="⚓ Hoorn"]
+Durgerdam [label="⚓ Durgerdam"]
+Sixhaven [label="Sixhaven (Amsterdam)"]
+ams_2022 [label="Ijmuiden (Amsterdam)"]
+scheveningen_2022 [label="Den Haag"]
+
+scheveningen_anchor [label="⚓ Den Haag" tooltip="spending night on anchor for earliest possible takeoff"]
+
+ostn_2022_09 [label="Oostende"]
+
+Boulogne [label="⚓ Boulogne"]
+
+#chis_2022 [label="⚓ 🇬🇬 Channel Islands"]
+Alderney [label="⚓ 🇬🇬 Alderney"]
+Guernsey [label="⚓ 🇬🇬 Guernsey"]
+Ouessant [label="X Ouessant" tooltip="passing Ouessant after exiting the English Channel over night at good wind" ]
+biscay_failure_2022 [label="⚠️ Biscay failure" tooltip="autopilot failed at the beginning of Biscay crossing, after sunset, during rain and with fog covering the shoreline" ]
+
+camaret_2023_01 [label="..." tooltip="spending winter at Camaret"]
+valencia_2023 [label=Valencia]
+
+{ node [ label=X ] # crossings
+  biscay_2022_12 biscay_2023_04 }
+
+{ # tiny events
+node [ shape=point ] 
+spain_2022_12 
+spain_2023_04
+}
+
+
+#
+# Timelines from here
+#
+
+edge [color=grey]       # default edge color grey to recognize all which are not styled explicitly
+edge [arrowhead=none]   # timelines have not arrowhead in all of their sections, except for the very last one (pointing to the future)
+
+#
+# PLACEs timelines must appear before PEOPLEs' timelines,
+# so that first appearance (event) of a place can serve as its type anchor;
+# events are disjunct by definition, because places can never "meet" each other
+#
+{ edge [ style=dotted ]
+
+{ node [ class=global_type_grobro ]
+  edge [ class=global_type_grobro ]
+grobro_2021_10 [ label=Großenbrode tooltip="purchasing Maru, converting to e-engine, learning to sail" ]
+grobro_2021_11 [ label="..." tooltip="leaving Großenbrode for crossing the Western Baltic Sea to Sweden" ]
+grobro_2021_10 -> grobro_2021_11
+}
+
+{ node [ class=global_type_sim ]
+  edge [ class=global_type_sim ]
+simris_2021_11 [label=Simrishamn tooltip="arriving at Simrishamn at the start of November"]
+simris_2022_03 [label="🔧 ..." tooltip="spending winter 2021/2022, practice sailing (harbour did not freeze) and perform major upgrades to Maru" ]
+simris_2022_05 [label="leaving Simrishamn" tooltip="leaving Simrishamn onboard Maru, together with Roland"]
+  simris_2021_11 ->  simris_2022_03 -> simris_2022_05
+}
+
+{ node [ class=global_type_cherbourg label=Cherbourg]
+  edge [ class=global_type_cherbourg ]
+cherbourg2 [label="⚓ Cherbourg"]
+cherbourg1 -> cherbourg2
+}
+
+{ edge   [ class=global_type_biscay ]
+  Biscay [ class=global_type_biscay ]
+  Biscay -> biscay_2022_12 -> biscay_2023_04
+}
+
+
+{ node [ class=global_type_Camaret label="Camaret" ]
+  edge [ class=global_type_Camaret  tooltip="Camaret" ]
+  
+  camaret_2022_10->camaret_2023_01->now
+
+}
+
+GOT_2022 [ label="Göteborg" tooltip="leaving Sweden from Göteborg" ]
+
+
+{ node [ class=global_type_Smygehuk label="Smygehuk" ]
+  edge [ class=global_type_Smygehuk  tooltip="Smygehuk" ]
+  
+  smyge_2021->smyge_2022
+
+}
+
+{ edge [class=global_type_spain]
+  espa [class=global_type_spain label="🇪🇸 Spain" ]
+  espa -> spain_2022_12 -> spain_2023_04
+}
+
+} # end PLACEs
+
+#
+# COUNTRIES with color-styled edges
+# special visual case of PLACEs
+#
+{ edge [ penwidth=1 ] 
+
+
+{ node [ class=global_type_Germany  ]
+  edge [ class=global_type_Germany color="gold;0.33:red;0.33:black;0.33" tooltip="Germany" ]
+  Germany [ label="🇩🇪 Germany" shape=none ]
+  Germany->grobro_2021_10->grobro_2021_11
+
+{edge [style=dotted arrowhead="" tooltip="Germany" minlen=2] node [style=invis]
+  grobro_2021_11 -> Germany_future
+}
+}
+
+
+{ node [ class=global_type_Denmark2021  ]
+  edge [ class=global_type_Denmark2021 color="silver;0.5:red" tooltip="Denmark 2021" ]
+  Denmark2021 [ label="🇩🇰 Denmark 2021" shape=none ]
+  Denmark2021->Gedser->Klintholm
+
+{edge [style=dotted arrowhead="" tooltip="Denmark 2021" minlen=2] node [style=invis]
+  Klintholm -> Denmark2021_future
+}
+}
+
+
+{ node [ class=global_type_se_2021f  ]
+  edge [ class=global_type_se_2021f color="yellow;0.5:deepskyblue" tooltip="Sweden 2021 / 2022" ]
+  se_2021f [ label="🇸🇪 Sweden 2021 / 2022" shape=none ]
+  se_2021f->smyge_2021->simris_2021_11->simris_2022_03->simris_2022_05->kase_2022->Ystad->smyge_2022->Kattegat->segelstorp_2022->Glommen->GOT_2022
+
+{edge [style=dotted arrowhead="" tooltip="Sweden 2021 / 2022" minlen=2] node [style=invis]
+  GOT_2022 -> se_2021f_future
+}
+}
+
+
+{ node [ class=global_type_Denmark2022  ]
+  edge [ class=global_type_Denmark2022 color="silver;0.5:red" tooltip="Denmark 2022" ]
+  Denmark2022 [ label="🇩🇰 Denmark 2022" shape=none ]
+  Denmark2022->Hirtshals->Jammerbugt->Hanstholm->haho_2022_08->Thyborøn->hvide_sande_2022
+
+{edge [style=dotted arrowhead="" tooltip="Denmark 2022" minlen=2] node [style=invis]
+  hvide_sande_2022 -> Denmark2022_future
+}
+}
+
+
+{ node [ class=global_type_Netherlands2022  ]
+  edge [ class=global_type_Netherlands2022 color="blue;0.33:silver;0.33:red;0.33" tooltip="Netherlands 2022" ]
+  Netherlands2022 [ label="🇳🇱 Netherlands 2022" shape=none ]
+  Netherlands2022->Vlieland->Richel->Waddensee->Laaksum->Hoorn->Durgerdam->Sixhaven->Zaanstad->ams_2022->scheveningen_2022->scheveningen_anchor
+
+{edge [style=dotted arrowhead="" tooltip="Netherlands 2022" minlen=2] node [style=invis]
+  scheveningen_anchor -> Netherlands2022_future
+}
+}
+
+
+{ node [ class=global_type_Belgium2022  ]
+  edge [ class=global_type_Belgium2022 color="red;0.33:gold;0.33:black;0.33" tooltip="Belgium 2022" ]
+  Belgium2022 [ label="🇧🇪 Belgium 2022" shape=none ]
+  Belgium2022->ostn_2022_09
+
+{edge [style=dotted arrowhead="" tooltip="Belgium 2022" minlen=2] node [style=invis]
+  ostn_2022_09 -> Belgium2022_future
+}
+}
+
+
+{ node [ class=global_type_France  ]
+  edge [ class=global_type_France color="red;0.33:silver;0.33:blue;0.33" tooltip="France" ]
+  France [ label="🇫🇷 France" shape=none ]
+  France->Dunkerque->Boulogne->Dieppe->cherbourg2->camaret_2022_10
+
+}
+
+} # end COUNTRIES
+
+
+#
+# people / beings : solid lines; 
+# events may be shared because people can meet at the same place + time
+#
+
+
+{ node [ class=global_type_Gepebba  ]
+  edge [ class=global_type_Gepebba  tooltip="Gepebba" ]
+  Gepebba [ label="Gepebba" tooltip="Ebba, Patrick + family" shape=box ]
+  Gepebba->segelstorp_2022
+
+{edge [style=dotted arrowhead="" tooltip="Gepebba" minlen=2] node [style=invis]
+  segelstorp_2022 -> Gepebba_future
+}
+}
+
+
+{ node [ class=global_type_Lies  ]
+  edge [ class=global_type_Lies color=orange tooltip="Lies" ]
+  Lies [ label="Lies" shape=box ]
+  Lies->Hanstholm->ostn_2022_09->Dunkerque->camaret_2022_10
+
+{edge [style=dotted arrowhead="" tooltip="Lies" minlen=2] node [style=invis]
+  camaret_2022_10 -> Lies_future
+}
+}
+
+
+{ node [ class=global_type_Susanne  ]
+  edge [ class=global_type_Susanne  tooltip="Susanne" ]
+  Susanne [ label="Susanne" shape=box ]
+  Susanne->ams_2022->scheveningen_2022
+
+{edge [style=dotted arrowhead="" tooltip="Susanne" minlen=2] node [style=invis]
+  scheveningen_2022 -> Susanne_future
+}
+}
+
+
+{ node [ class=global_type_thsk  ]
+  edge [ class=global_type_thsk  tooltip="Thomas" ]
+  thsk [ label="Thomas" shape=box ]
+  thsk->simris_2022_03
+
+{edge [style=dotted arrowhead="" tooltip="Thomas" minlen=2] node [style=invis]
+  simris_2022_03 -> thsk_future
+}
+}
+
+
+{ node [ class=global_type_Naghmeh  ]
+  edge [ class=global_type_Naghmeh color=pink tooltip="Naghmeh" ]
+  Naghmeh [ label="Naghmeh" shape=box ]
+  Naghmeh->GOT_2022
+
+{edge [style=dotted arrowhead="" tooltip="Naghmeh" minlen=2] node [style=invis]
+  GOT_2022 -> Naghmeh_future
+}
+}
+
+
+{ node [ class=global_type_Jon  ]
+  edge [ class=global_type_Jon  tooltip="Jon" ]
+  Jon [ label="Jon" shape=box ]
+  Jon->simris_2021_11->simris_2022_03->simris_2022_05
+
+{edge [style=dotted arrowhead="" tooltip="Jon" minlen=2] node [style=invis]
+  simris_2022_05 -> Jon_future
+}
+}
+
+{ node [ class=global_type_Carna  ]
+  edge [ class=global_type_Carna  tooltip="Carna" ]
+  Carna [ label="Carna" shape=box ]
+  Carna->simris_2022_03->Bornholm->simris_2022_05
+
+{edge [style=dotted arrowhead="" tooltip="Carna" minlen=2] node [style=invis]
+  simris_2022_05 -> Carna_future
+}
+}
+
+{ node [ class=global_type_Obi  ]
+  edge [ class=global_type_Obi color=darkbrown tooltip="Obi" ]
+  Obi [ label="Obi" shape=box ]
+  Obi->simris_2021_11->simris_2022_03->simris_2022_05
+
+{edge [style=dotted arrowhead="" tooltip="Obi" minlen=2] node [style=invis]
+  simris_2022_05 -> Obi_future
+}
+}
+
+{ node [ class=global_type_Joanna  ]
+  edge [ class=global_type_Joanna color=orange tooltip="Joanna" ]
+  Joanna [ label="Joanna" shape=box ]
+  Joanna->simris_2021_11->simris_2022_03->simris_2022_05->GOT_2022
+
+{edge [style=dotted arrowhead="" tooltip="Joanna" minlen=2] node [style=invis]
+  GOT_2022 -> Joanna_future
+}
+}
+
+
+{ node [ class=global_type_Kristina  ]
+  edge [ class=global_type_Kristina  tooltip="Kristina" ]
+  Kristina [ label="Kristina" shape=box ]
+  Kristina->simris_2022_03->simris_2022_05->Ystad
+
+{edge [style=dotted arrowhead="" tooltip="Kristina" minlen=2] node [style=invis]
+  Ystad -> Kristina_future
+}
+}
+
+
+{ node [ class=global_type_rohe  ]
+  edge [ class=global_type_rohe  tooltip="Roland" ]
+  rohe [ label="Roland" shape=box ]
+  rohe->simris_2022_03->simris_2022_05->kase_2022
+
+{edge [style=dotted arrowhead="" tooltip="Roland" minlen=2] node [style=invis]
+  kase_2022 -> rohe_future
+}
+}
+
+
+{ node [ class=global_type_jowa  ]
+  edge [ class=global_type_jowa  tooltip="Johann" ]
+  jowa [ label="Johann" shape=box ]
+  jowa->simris_2022_03->simris_2022_05
+
+{edge [style=dotted arrowhead="" tooltip="Johann" minlen=2] node [style=invis]
+  simris_2022_05 -> jowa_future
+}
+}
+
+
+{ node [ class=global_type_piro  ]
+  edge [ class=global_type_piro  tooltip="Pierre" ]
+  piro [ label="Pierre" tooltip="Pierre and the other pilots from Kaseberga" shape=box ]
+  piro->kase_2022
+
+{edge [style=dotted arrowhead="" tooltip="Pierre" minlen=2] node [style=invis]
+  kase_2022 -> piro_future
+}
+}
+
+
+#
+# BOATs
+#
+{ edge [ style=dashed ] 
+
+
+{ node [ class=global_type_Maru  ]
+  edge [ class=global_type_Maru color=darkslateblue tooltip="Maru" ]
+  Maru [ label="⛵ Maru" shape=none ]
+  Maru->grobro_2021_10->grobro_2021_11->Gedser->Klintholm->smyge_2021->simris_2021_11->simris_2022_03->Bornholm->simris_2022_05->kase_2022->Ystad->smyge_2022->Kattegat->segelstorp_2022->Glommen->GOT_2022->Skagerrak->jibe_2022_07->Hirtshals->Jammerbugt->Hanstholm->haho_2022_08->Thyborøn->hvide_sande_2022->fall_2022->germanbight->freakwave->Vlieland->Richel->Waddensee->Laaksum->Hoorn->Durgerdam->Sixhaven->Zaanstad->ams_2022->scheveningen_2022->scheveningen_anchor->ostn_2022_09->Dunkerque->Boulogne->Dieppe->cherbourg2->Alderney->Guernsey->Ouessant->biscay_failure_2022->camaret_2022_10->camaret_2023_01->now
+
+{edge [style=dotted arrowhead="" tooltip="Maru" minlen=2] node [style=invis]
+  now -> Maru_future
+}
+}
+
+
+{ node [ class=global_type_Torbjörn  ]
+  edge [ class=global_type_Torbjörn  tooltip="Torbjörn" ]
+  Torbjörn [ label="⛵ Torbjörn" shape=none ]
+  Torbjörn->Hanstholm
+
+{edge [style=dotted arrowhead="" tooltip="Torbjörn" minlen=2] node [style=invis]
+  Hanstholm -> Torbjörn_future
+}
+}
+
+{ node [ class=global_type_BlueNose  ]
+  edge [ class=global_type_BlueNose  tooltip="Blue Nose" ]
+  BlueNose [ label="⛵ Blue Nose" shape=none ]
+  BlueNose->haho_2022_08->Thyborøn->hvide_sande_2022
+
+{edge [style=dotted arrowhead="" tooltip="Blue Nose" minlen=2] node [style=invis]
+  hvide_sande_2022 -> BlueNose_future
+}
+}
+
+
+{ node [ class=global_type_MissBlue  ]
+  edge [ class=global_type_MissBlue color=silver tooltip="Miss Blue" ]
+  MissBlue [ label="⛵ Miss Blue" shape=none ]
+  MissBlue->scheveningen_2022->cherbourg1->cherbourg2->camaret_2022_10->biscay_2022_12->spain_2022_12->valencia_2023
+
+{edge [style=dotted arrowhead="" tooltip="Miss Blue" minlen=2] node [style=invis]
+  valencia_2023 -> MissBlue_future
+}
+}
+
+
+{ node [ class=global_type_Vega  ]
+  edge [ class=global_type_Vega color=silver tooltip="Vega" ]
+  Vega [ label="⛵ Vega" shape=none ]
+  Vega->cherbourg1->Guernsey->camaret_2022_10->Brest->biscay_2023_04->spain_2023_04
+
+{edge [style=dotted arrowhead="" tooltip="Vega" minlen=2] node [style=invis]
+  spain_2023_04 -> Vega_future
+}
+}
+# dk -> Vega # true but not so relevant for Boran's timeline
+
+
+{ node [ class=global_type_Kanayou  ]
+  edge [ class=global_type_Kanayou  tooltip="Kanayou" ]
+  Kanayou [ label="⛵ Kanayou" tooltip="Annick & Alain onboard Kanayou" shape=none ]
+  Kanayou->camaret_2022_10
+
+{edge [style=dotted arrowhead="" tooltip="Kanayou" minlen=2] node [style=invis]
+  camaret_2022_10 -> Kanayou_future
+}
+}
+
+{ node [ class=global_type_Greta  ]
+  edge [ class=global_type_Greta  tooltip="Greta" ]
+  Greta [ label="⛵ Greta" shape=none ]
+  Greta->camaret_2022_10->camaret_2023_01
+
+{edge [style=dotted arrowhead="" tooltip="Greta" minlen=2] node [style=invis]
+  camaret_2023_01 -> Greta_future
+}
+}
+
+} # end BOATs
+
+
+# Time anchors (not every event needs to be anchored)
+#
+{rank=same <2021_10> grobro_2021_11 }
+{rank=same <2021_11> simris_2021_11 }
+{rank=same <2022_05> simris_2022_05 }
+{rank=same <2022_06> GOT_2022 }
+{rank=same <2022_07> Hanstholm }
+{rank=same <2022_08> haho_2022_08 }
+{rank=same <2022_09> Hoorn }
+{rank=same <2022_10> Alderney }
+{rank=same <2023> camaret_2023_01 }
+{rank=same <2023_04> now }
+
+}
