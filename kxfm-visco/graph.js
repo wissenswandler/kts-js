@@ -1460,11 +1460,11 @@ function generateKeyboardShortcutButtons( document )
  */
 function activate_visual_mode()
 {
-  document.querySelectorAll( "g.node" ).forEach( svgElm => { svgElm.onclick = event => {  on_click( svgElm, event )  }   }    )
+  document.querySelectorAll( "g.node,g.edge" ).forEach( svgElm => { svgElm.onclick = event => {  on_click( svgElm, event )  }   }    )
 }
 function activate_hyperlink_mode()
 {
-  document.querySelectorAll( "g.node" ).forEach( svgElm => { svgElm.onclick = "" })
+  document.querySelectorAll( "g.node,g.edge" ).forEach( svgElm => { svgElm.onclick = "" })
 }
 
 function isHyperlinkModeActive()
