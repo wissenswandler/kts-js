@@ -42,6 +42,8 @@ var visco = (function()
 {
 
 const NODE_SEPARATOR	= "___"
+const CLASS_PREFIX_TYPE         = "type_"         // prefix for class names, declaring the type of nodes or  edges
+const CLASS_PREFIX_GLOBAL_TYPE  = "global_type_"  // prefix for class names, declaring the type of nodes AND edges
 
 var KTSDEBUG = false;
 
@@ -1192,8 +1194,8 @@ function explore_same_types( elm, event, document, graph_element_class )
   elm.classList.forEach
   ( c =>
   {
-    if( c.startsWith( "type"        ) ) focussed_types.push( c );
-    if( c.startsWith( "global_type" ) )   global_types.push( c );
+    if( c.startsWith( CLASS_PREFIX_TYPE        ) ) focussed_types.push( c );
+    if( c.startsWith( CLASS_PREFIX_GLOBAL_TYPE ) )   global_types.push( c );
   }
   )
   focussed_types.forEach
@@ -1224,7 +1226,7 @@ function explore_same_types( elm, event, document, graph_element_class )
       edgesOfType.length > 0
     )
     {
-      console.log( "showing Timeline of " + node_name_by_id( nodesOfType[0].id ) );
+      console.log( "showing Timeline of " + node_name_by_id( global_types[0].split( CLASS_PREFIX_GLOBAL_TYPE )[1] ) );
     }
   }
 } // end explore_same_types()
@@ -1949,10 +1951,11 @@ window.addEventListener
 
 if (typeof exports !== "undefined")
 {
-  exports.on_svg_load = visco.on_svg_load ;
-  exports.explore     = visco.explore ;
-  exports.press       = visco.press ;
-  exports.visco       = visco ;
+  exports.on_svg_load     = visco.on_svg_load ;
+  exports.explore         = visco.explore ;
+  exports.press           = visco.press ;
+  exports.node_name_by_id = visco.node_name_by_id ;
+  exports.visco           = visco ;
   visco.devdebug( "exports set" );
 }
 else
