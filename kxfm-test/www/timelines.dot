@@ -21,7 +21,7 @@ node [fontsize=10]
 { node [ label=November  ] <2020_11> <2021_11> <2022_11> }
 edge [style=invis]
 node[fontsize=16]
-1988 -> 1992 -> 2013 -> 2015 
+1988 -> 1992 -> 2011 -> 2013 -> 2015 
 -> 2020 ->                                 <2020_05>->           <2020_07>->           <2020_09>->           <2020_11>
 -> 2021 -><2021_02>->           <2021_04>-><2021_05>-><2021_06>-><2021_07>-><2021_08>-><2021_09>-><2021_10>-><2021_11>
 -> 2022 ->           <2022_03>->           <2022_05>-><2022_06>-><2022_07>-><2022_08>-><2022_09>-><2022_10>-><2022_11> 
@@ -46,10 +46,11 @@ hvide_sande_2022 [label="Hvide Sande"]
 ams_2022 [label=Amsterdam]
 scheveningen_2022 [label="Den Haag"]
 
+fra_2022_11 [label=Frankfurt]
+
 camaret_2023_01 [label="returning to Camaret" tooltip="returning to Camaret with Kira by car"]
 doua_2023_03 [label=Douarnenez]
 falmouth_2023_04 [label=Falmouth]
-valencia_2023 [label=Valencia]
 
 { node [ label=X ] # crossings
   biscay_2022_12 biscay_2023_04 }
@@ -99,19 +100,9 @@ Boulogne [label="⚓ Boulogne"]
 Alderney [label="⚓ 🇬🇬 Alderney"]
 Guernsey [label="⚓ 🇬🇬 Guernsey"]
 Ouessant [label="X Ouessant" tooltip="passing Ouessant after exiting the English Channel over night at good wind" ]
-biscay_failure_2022 [label="⚠️ Biscay failure" tooltip="autopilot failed at the beginning of Biscay crossing, after sunset, during rain and with fog covering the shoreline" ]
+biscay_failure_2022 [label="⚠️ autopilot failure" tooltip="autopilot failed at the beginning of Biscay crossing, after sunset, during rain and with fog covering the shoreline" ]
 
 camaret_2023_01 [label="..." tooltip="spending winter at Camaret"]
-valencia_2023 [label=Valencia]
-
-{ node [ label=X ] # crossings
-  biscay_2022_12 biscay_2023_04 }
-
-{ # tiny events
-node [ shape=point ] 
-spain_2022_12 
-spain_2023_04
-}
 
 
 #
@@ -324,15 +315,97 @@ GOT_2021 -> GOT_2022
 # events may be shared because people can meet at the same place + time
 #
 
-{ edge [class=global_type_katr color="green;0.5:orange"]
-  katr [class=global_type_katr label=Katerina shape=box ]
-  katr -> len_2013 -> len_2015 -> len_2020_05 -> bertil_2020 -> len_2021_08 -> len_2021_10 -> simris_2022_03 
-->lenggries_2022_11
-edge [style=dotted arrowhead="" tooltip=Katerina minlen=2] node [style=invis]
-  lenggries_2022_11 -> katr_future
+
+{ node [ class=global_type_Susanne  ]
+  edge [ class=global_type_Susanne  tooltip="Susanne" ]
+  Susanne [ label="Susanne" shape=box ]
+  Susanne->munich_1992->diessen_90ies->Blankaholm->ams_2022->scheveningen_2022->re1_diessen->Berlin
+
+{edge [style=dotted arrowhead="" tooltip="Susanne" minlen=2] node [style=invis]
+  Berlin -> Susanne_future
 }
+}
+{ node [ class=global_type_Katerina  ]
+  edge [ class=global_type_Katerina color="green;0.5:orange" tooltip="Katerina" ]
+  Katerina [ label="Katerina" shape=box ]
+  Katerina->len_2013->len_2015->len_2020_05->bertil_2020->len_2021_08->len_2021_10-> simris_2022_03->lenggries_2022_11
 
+{edge [style=dotted arrowhead="" tooltip="Katerina" minlen=2] node [style=invis]
+  lenggries_2022_11 -> Katerina_future
+}
+}
+{ node [ class=global_type_Michael  ]
+  edge [ class=global_type_Michael  tooltip="Michael" ]
+  Michael [ label="Michael" shape=box ]
+  Michael->Heidelberg->fra_2022_11
 
+{edge [style=dotted arrowhead="" tooltip="Michael" minlen=2] node [style=invis]
+  fra_2022_11 -> Michael_future
+}
+}
+{ node [ class=global_type_Josef  ]
+  edge [ class=global_type_Josef  tooltip="Josef" ]
+  Josef [ label="Josef" shape=box ]
+  Josef->len_2013->len_2015->len_2020_05->len_2021_08->lenggries_2022_11
+
+{edge [style=dotted arrowhead="" tooltip="Josef" minlen=2] node [style=invis]
+  lenggries_2022_11 -> Josef_future
+}
+}
+{ node [ class=global_type_Frank  ]
+  edge [ class=global_type_Frank  tooltip="Frank" ]
+  Frank [ label="Frank" shape=box ]
+  Frank->len_2015->len_2020_05->len_2021_08->simris_2022_03->lenggries_2022_11
+
+{edge [style=dotted arrowhead="" tooltip="Frank" minlen=2] node [style=invis]
+  lenggries_2022_11 -> Frank_future
+}
+}
+{ node [ class=global_type_Lena  ]
+  edge [ class=global_type_Lena  tooltip="Lena" ]
+  Lena [ label="Lena" shape=box ]
+  Lena->len_2015->bertil_2021_04->urshult_2021_05->urshult_2021_06->simris_2021_12
+
+{edge [style=dotted arrowhead="" tooltip="Lena" minlen=2] node [style=invis]
+  simris_2021_12 -> Lena_future
+}
+}
+{ node [ class=global_type_Gepebba  ]
+  edge [ class=global_type_Gepebba  tooltip="Gepebba" ]
+  Gepebba [ label="Gepebba" tooltip="Ebba, Patrick + family" shape=box ]
+  Gepebba->se_2020->Skillinge->segelstorp_2022
+
+{edge [style=dotted arrowhead="" tooltip="Gepebba" minlen=2] node [style=invis]
+  segelstorp_2022 -> Gepebba_future
+}
+}
+{ node [ class=global_type_Pierre  ]
+  edge [ class=global_type_Pierre  tooltip="Pierre" ]
+  Pierre [ label="Pierre" tooltip="Pierre and the other pilots from Kaseberga" shape=box ]
+  Pierre->kase_2020_05->kase_2020_07->kase_2022
+
+{edge [style=dotted arrowhead="" tooltip="Pierre" minlen=2] node [style=invis]
+  kase_2022 -> Pierre_future
+}
+}
+{ node [ class=global_type_Thomas  ]
+  edge [ class=global_type_Thomas  tooltip="Thomas" ]
+  Thomas [ label="Thomas" shape=box ]
+  Thomas->kase_2020_05->kase_2020_07->bertil_2020->simris_2022_03
+
+{edge [style=dotted arrowhead="" tooltip="Thomas" minlen=2] node [style=invis]
+  simris_2022_03 -> Thomas_future
+}
+}
+{ node [ class=global_type_Lies  ]
+  edge [ class=global_type_Lies color=orange tooltip="Lies" ]
+  Lies [ label="Lies" shape=box ]
+  Lies->ostn_2021->Hanstholm->Faröer->re1_ostn->ostn_2022_09->Dunkerque->re2_ostn->camaret_2022_10->re3_ostn->Iceland->re4_ostn
+
+{edge [style=dotted arrowhead="" tooltip="Lies" minlen=2] node [style=invis]
+  re4_ostn -> Lies_future
+}
+}
 { node [ class=global_type_Kira  ]
   edge [ class=global_type_Kira color="silver;0.5:gold" tooltip="Kira" ]
   Kira [ label="Kira" shape=box ]
@@ -342,12 +415,10 @@ edge [style=dotted arrowhead="" tooltip=Katerina minlen=2] node [style=invis]
   camaret_2023_04 -> Boran_future
 }
 }
-
-
 { node [ class=global_type_Boran  ]
   edge [ class=global_type_Boran color=forestgreen tooltip="Boran" ]
   Boran [ label="Boran" shape=box ]
-  Boran->munich_1988->munich_1992->diessen_90ies->len_2013->len_2015->len_2020_05->eslöv_2020->se_2020->kase_2020_05->Are->Nikkaluokta->Abisko->kase_2020_07->Skillinge->bertil_2020->GOT_2021->Haparanda->kalmar_2021_02->bertil_2021_04->urshult_2021_05->öland_2021_05->urshult_2021_06->Blankaholm->len_2021_08->öland_2021_09->kalmar_2021_09->grobro_2021_10->len_2021_10->grobro_2021_11->Gedser->Klintholm->smyge_2021->simris_2021_11->simris_2021_12->simris_2022_03->Bornholm->simris_2022_05->kase_2022->Ystad->smyge_2022->Kattegat->segelstorp_2022->Glommen->GOT_2022->Skagerrak->jibe_2022_07->Hirtshals->Jammerbugt->Hanstholm->haho_2022_08->Thyborøn->hvide_sande_2022->fall_2022->germanbight->freakwave->Vlieland->Richel->Waddensee->Laaksum->Hoorn->Durgerdam->Sixhaven->Zaanstad->ams_2022->scheveningen_2022->scheveningen_anchor->ostn_2022_09->Dunkerque->Boulogne->Dieppe->cherbourg2->Alderney->Guernsey->Ouessant->biscay_failure_2022->camaret_2022_10->lenggries_2022_11->camaret_2023_01->camaret_2023_03->camaret_2023_04
+  Boran->munich_1988->munich_1992->diessen_90ies->Heidelberg->len_2013->len_2015->len_2020_05->eslöv_2020->se_2020->kase_2020_05->Are->Nikkaluokta->Abisko->kase_2020_07->Skillinge->bertil_2020->GOT_2021->Haparanda->kalmar_2021_02->bertil_2021_04->urshult_2021_05->öland_2021_05->urshult_2021_06->Blankaholm->len_2021_08->öland_2021_09->kalmar_2021_09->grobro_2021_10->len_2021_10->grobro_2021_11->Gedser->Klintholm->smyge_2021->simris_2021_11->simris_2021_12->simris_2022_03->Bornholm->simris_2022_05->kase_2022->Ystad->smyge_2022->Kattegat->segelstorp_2022->Glommen->GOT_2022->Skagerrak->jibe_2022_07->Hirtshals->Jammerbugt->Hanstholm->haho_2022_08->Thyborøn->hvide_sande_2022->fall_2022->germanbight->freakwave->Vlieland->Richel->Waddensee->Laaksum->Hoorn->Durgerdam->Sixhaven->Zaanstad->ams_2022->scheveningen_2022->scheveningen_anchor->ostn_2022_09->Dunkerque->Boulogne->Dieppe->cherbourg2->Alderney->Guernsey->Ouessant->biscay_failure_2022->camaret_2022_10->fra_2022_11->lenggries_2022_11->camaret_2023_01->camaret_2023_03->camaret_2023_04
 
 {edge [style=dotted arrowhead="" tooltip="Boran" minlen=2] node [style=invis]
   camaret_2023_04 -> Boran_future
@@ -393,28 +464,6 @@ edge [style=dotted arrowhead="" tooltip=Katerina minlen=2] node [style=invis]
 
 {edge [style=dotted arrowhead="" tooltip="Tina" minlen=2] node [style=invis]
   len_2020_05 -> Tina_future
-}
-}
-
-
-{ node [ class=global_type_Frank  ]
-  edge [ class=global_type_Frank  tooltip="Frank" ]
-  Frank [ label="Frank" shape=box ]
-  Frank->len_2015->len_2020_05->len_2021_08->simris_2022_03->lenggries_2022_11
-
-{edge [style=dotted arrowhead="" tooltip="Frank" minlen=2] node [style=invis]
-  lenggries_2022_11 -> Frank_future
-}
-}
-
-
-{ node [ class=global_type_Josef  ]
-  edge [ class=global_type_Josef  tooltip="Josef" ]
-  Josef [ label="Josef" shape=box ]
-  Josef->len_2013->len_2015->len_2020_05->len_2021_08->lenggries_2022_11
-
-{edge [style=dotted arrowhead="" tooltip="Josef" minlen=2] node [style=invis]
-  lenggries_2022_11 -> Josef_future
 }
 }
 
@@ -471,56 +520,14 @@ edge [style=dotted arrowhead="" tooltip=Katerina minlen=2] node [style=invis]
 }
 
 
-{ node [ class=global_type_Lena  ]
-  edge [ class=global_type_Lena  tooltip="Lena" ]
-  Lena [ label="Lena" shape=box ]
-  Lena->len_2015->bertil_2021_04->urshult_2021_05->urshult_2021_06->simris_2021_12
 
-{edge [style=dotted arrowhead="" tooltip="Lena" minlen=2] node [style=invis]
-  simris_2021_12 -> Lena_future
-}
-}
+{ node [ class=global_type_joen  ]
+  edge [ class=global_type_joen color=deepskyblue tooltip="Johanna" ]
+  joen [ label="Johanna" shape=box ]
+  joen->bertil_2021_04->urshult_2021_05->öland_2021_05->öland_2021_09
 
-{ edge [ class=global_type_joan color=deepskyblue ]
-  joen [ class=global_type_joan label=Johanna shape=box ]
-  joen -> bertil_2021_04 -> urshult_2021_05 -> öland_2021_05 
-->öland_2021_09
-edge [style=dotted arrowhead="" minlen=2] node [style=invis]
+{edge [style=dotted arrowhead="" tooltip="Johanna" minlen=2] node [style=invis]
   öland_2021_09 -> joen_future
-}
-
-
-{ node [ class=global_type_Lies  ]
-  edge [ class=global_type_Lies color=orange tooltip="Lies" ]
-  Lies [ label="Lies" shape=box ]
-  Lies->ostn_2021->Hanstholm->Faröer->re1_ostn->ostn_2022_09->Dunkerque->re2_ostn->camaret_2022_10->re3_ostn->Iceland->re4_ostn
-
-{edge [style=dotted arrowhead="" tooltip="Lies" minlen=2] node [style=invis]
-  re4_ostn -> Lies_future
-}
-}
-
-
-{ node [ class=global_type_Susanne  ]
-  edge [ class=global_type_Susanne  tooltip="Susanne" ]
-  Susanne [ label="Susanne" shape=box ]
-  Susanne->munich_1992->diessen_90ies->Blankaholm->ams_2022->scheveningen_2022->re1_diessen->susanne_berlin_2023
-
-{edge [style=dotted arrowhead="" tooltip="Susanne" minlen=2] node [style=invis]
-  susanne_berlin_2023 -> Susanne_future
-}
-}
-
-  Berlin -> susanne_berlin_2023
-
-
-{ node [ class=global_type_Gepebba  ]
-  edge [ class=global_type_Gepebba  tooltip="Gepebba" ]
-  Gepebba [ label="Gepebba" tooltip="Ebba, Patrick + family" shape=box ]
-  Gepebba->se_2020->Skillinge->segelstorp_2022
-
-{edge [style=dotted arrowhead="" tooltip="Gepebba" minlen=2] node [style=invis]
-  segelstorp_2022 -> Gepebba_future
 }
 }
 
@@ -532,27 +539,6 @@ edge [style=dotted arrowhead="" minlen=2] node [style=invis]
 
 {edge [style=dotted arrowhead="" tooltip="Wotan" minlen=2] node [style=invis]
   Ural -> Wotan_future
-}
-}
-
-
-{ node [ class=global_type_piro  ]
-  edge [ class=global_type_piro  tooltip="Pierre" ]
-  piro [ label="Pierre" tooltip="Pierre and the other pilots from Kaseberga" shape=box ]
-  piro->kase_2020_05->kase_2020_07->kase_2022
-
-{edge [style=dotted arrowhead="" tooltip="Pierre" minlen=2] node [style=invis]
-  kase_2022 -> piro_future
-}
-}
-
-{ node [ class=global_type_thsk  ]
-  edge [ class=global_type_thsk  tooltip="Thomas" ]
-  thsk [ label="Thomas" shape=box ]
-  thsk->kase_2020_05->kase_2020_07->bertil_2020->simris_2022_03
-
-{edge [style=dotted arrowhead="" tooltip="Thomas" minlen=2] node [style=invis]
-  simris_2022_03 -> thsk_future
 }
 }
 
@@ -791,10 +777,10 @@ edge [style=dotted arrowhead="" minlen=2] node [style=invis]
 { node [ class=global_type_MissBlue  ]
   edge [ class=global_type_MissBlue color=silver tooltip="Miss Blue" ]
   MissBlue [ label="⛵ Miss Blue" shape=none ]
-  MissBlue->scheveningen_2022->cherbourg1->cherbourg2->camaret_2022_10->biscay_2022_12->spain_2022_12->valencia_2023
+  MissBlue->scheveningen_2022->cherbourg1->cherbourg2->camaret_2022_10->biscay_2022_12->spain_2022_12->Valencia
 
 {edge [style=dotted arrowhead="" tooltip="Miss Blue" minlen=2] node [style=invis]
-  valencia_2023 -> MissBlue_future
+  Valencia -> MissBlue_future
 }
 }
 
@@ -828,6 +814,7 @@ edge [style=dotted arrowhead="" minlen=2] node [style=invis]
 #
 {rank=same <1988> munich_1988 }
 {rank=same <1992> munich_1992 }
+{rank=same <2011> Heidelberg }
 {rank=same <2013> len_2013 }
 {rank=same <2020_05> eslöv_2020 }
 {rank=same <2020_11> bertil_2020 }
@@ -845,7 +832,7 @@ edge [style=dotted arrowhead="" minlen=2] node [style=invis]
 {rank=same <2022_08> haho_2022_08 }
 {rank=same <2022_09> Hoorn }
 {rank=same <2022_10> Alderney }
-{rank=same <2022_11> lenggries_2022_11 }
+{rank=same <2022_11> fra_2022_11 }
 {rank=same <2023> camaret_2023_01 }
 {rank=same <2023_03> Iceland }
 #{rank=same <2023_04> now }
