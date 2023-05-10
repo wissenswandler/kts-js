@@ -1756,6 +1756,10 @@ function on_svg_load( dom, options = {} )
   devdebug( "on_svg_load() found total of " + n_svgtags              + " SVG tags                 on document in scope" );
   devdebug( "on_svg_load() found total of " + n_svg_in_containertags + " SVG inside .ktscontainer on document in scope" );
 
+  const n_nodes_with_global_type = document.querySelectorAll( ".node[class*=global_type_]").length;
+  const n_edges_with_global_type = document.querySelectorAll( ".edge[class*=global_type_]").length;
+  devdebug( "on_svg_load() found total of " + n_nodes_with_global_type + " + " + n_edges_with_global_type + " nodes + edges with global_type class" );
+
   if( options?.consider_fullpage ) // e-g- in case of Jira Dashboardgadget we can see only 1-1-1 in iFrame but dont never fullpage
   {
     if( n_containertags == 1 && n_svg_in_containertags == 1 && n_svgtags == 1 )
@@ -1790,6 +1794,11 @@ function on_svg_load( dom, options = {} )
     }
     activate_visual_mode(); // visual mode = on by default
 
+    if( n_nodes_with_global_type && n_edges_with_global_type )
+    {
+      set_mouse_mode( MOUSE_MODE_SAME );
+    }
+    
     if( ! execute_url_commands() && ! multiple_kts_diagrams() )
     {
       //analyze_graph();  // moved to kts_actions, so graph analysis can be triggered by user or by URL parameter

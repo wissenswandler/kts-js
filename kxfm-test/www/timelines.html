@@ -15,27 +15,14 @@
   /*
    * Mock of the Forge React component
    */
-  visco.devdebug( "importing graphviz" );
-  import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
-
-  import {Tdot2svgStrings} from "@kxfm/dot2svg/Tdot2svgStrings.js";
+  import { Graphviz }       from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js";
+  import {Tdot2svgStrings}  from "@kxfm/dot2svg/Tdot2svgStrings.js";
   
-  visco.devdebug( "loading graphviz" );
   let transformer = new Tdot2svgStrings( await Graphviz.load() );
 
-  visco.devdebug( "fetching DOT source" );
   fetch( window.location.pathname.split( "/" ).pop().split( "." )[0] + ".dot") // get the name for dot source from html file name // autopilot
-    .then(    response => response.text()  )
-    .then
-    (  dot_string => 
-    {
-      visco.devdebug( "transforming DOT->SVG" );
-      transformer.render( dot_string, ".ktscontainer" )  
-      visco.on_svg_load( ".ktscontainer" );
-      visco.set_mouse_mode( 1 );
-      visco.devdebug( "HTML BODY done." );
-    }
-    );
+    .then(  response    => response.text()  )
+    .then(  dot_string  => transformer.render( dot_string, ".ktscontainer" )  );
   
 </script>
 </html>
