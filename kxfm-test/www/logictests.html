@@ -23,9 +23,14 @@
 <div class="ktscontainer" id="d1-4nterrupted">KTS warming up...</div>
 
 <div class="ktscontainer" id="circle">KTS warming up...</div>
-<h2>Multigraph (+Multigate)</h2>
+
+<h2>Multiple Paths (of different lengths)</h2>
+<div class="ktscontainer" id="mpaths">KTS warming up...</div>
+
+<h2>Multigraph + Multigate</h2>
 <div class="ktscontainer" id="mgraph">KTS warming up...</div>
 <div class="ktscontainer" id="mgate">KTS warming up...</div>
+
 <h1>Explanation</h1>
 <p>This HTML document contains logical tests for graph traversal, such as circles or conditional passing through nodes.</p>
 
@@ -48,6 +53,8 @@
     transformer.render( 'graph { z1 -- <inter> ; <inter> -- <rupted> [style=dashed] ; <rupted> -- z4  }' , "#d1-4nterrupted" );
 
     transformer.render( "digraph { w -> x -> y -> z -> w }" , "#circle" );
+
+    transformer.render( "digraph { A->B->C  A->C }" , "#mpaths" );
 
     transformer.render( `digraph { rankdir=LR
         m1 -> m2 -> m3 

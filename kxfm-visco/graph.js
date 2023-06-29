@@ -431,7 +431,7 @@ function enter_node( elm , current_dist, current_rank , total_ranks , direction 
 
   if( next_edges.length > 0 )
   {
-    elm.classList.add( "exit" ); // required for logic gates to know that the have been exited (after activation), as opposed to just visited
+    elm.classList.add( "exit" ); // required for logic gates to know that they have been exited (after activation), as opposed to just visited
     next_edges.forEach
     (   edge =>
       { 
@@ -515,24 +515,30 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
   }
   
   let seenBefore = elm.hasAttribute( "distance"	)	// been here before
-  let distance = + elm.getAttribute( "distance"	)
+  let distance = + elm.getAttribute( "distance"	)	// = 0 if not set
 
+  devdebug( "  seenBefore = " + seenBefore );
+  devdebug( "  distance   = " + distance   );
+
+   if( distance > current_dist )
+    devdebug( "  seen before at (older, longer) distance " + distance + ", now down to " + current_dist );
+   else
+    devdebug( "  first time here, or second time on equal-or-longer distance " + current_dist + " than before (" + distance + ")" );
   
   if
   (
-    !seenBefore 				      // first time here
+    !seenBefore                // first time here
     ||
-    distance > current_dist	  // previous visit through a longer path than current visit
+    distance > current_dist    // previous visit through a longer path than current visit
     ||
-    !exitedBefore             // been at this logic gate before, but never exited it because it had not been activated
+    (isLogicalAndNode && direction == DIRECTION_NORTH && !exitedBefore && isActivated )              // been at this logic gate before, but never exited it because it had not been activated
   )	
  {
-   if( distance > current_dist )
-    devdebug( "  " + elm.id + " seen before at distance " + distance + ", now at " + current_dist );
-   else
-    devdebug( "  " + elm.id + " seen for the first time at distance " + current_dist );
-
-   elm.setAttribute( "distance", current_dist );
+   if( (! seenBefore) || distance > current_dist )
+   {
+     devdebug( "  setting distance " + current_dist );
+     elm.setAttribute( "distance", current_dist );
+   }
 
    if( ! seenBefore && elm.classList.contains("node") ) ++nodes_visited;
 
@@ -542,7 +548,7 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
    }
    else // MISSION_TAG
    {
-     if(  ! elm.hasAttribute( "tag1" ) || distance > current_dist  )
+     if(  (! elm.hasAttribute( "tag1" )) || distance > current_dist  )
      {
         set_attribute( elm, "tag1", tag, is_flash_event )
 
@@ -556,6 +562,7 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
      else
      {
         set_attribute( elm, "tag2", tag, is_flash_event )
+	devdebug( "  setting tag 2" );
         // tag2 (intersection) shall not overwrite the colorrank from tag1
      }
 
@@ -567,7 +574,7 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
  }
  else
   {
-    devdebug( "  " + elm.id + " seen before at distance " + distance + ", now at " + current_dist + " => no need to proceed");  // BUG: a gate which is activated for the first time must be passed now
+    devdebug( "  no need to proceed");  // BUG: a gate which is activated for the first time must be passed now
     return false;  // already been here on shorter or equally long path => no need to recurse
   }
 }
@@ -1630,7 +1637,7 @@ function multiple_kts_diagrams()
   return document.querySelectorAll( ".ktscontainer" ).length > 1;
 }
 
-function init_pan_zoom( document )
+function init_pan_zoom( document = globalThis.document )
 {
 	if( multiple_kts_diagrams() )
   {
@@ -1747,7 +1754,7 @@ class SubDocument
  */
 function on_svg_load( dom, options = {} )
 {
-  if( document.URL.startsWith("http://localhost") ) KTSDEBUG = true;
+  if( document.URL.startsWith("http://localhost") || document.URL.startsWith("file:") ) KTSDEBUG = true;
 
   const n_containertags = document.querySelectorAll(".ktscontainer").length;
   const n_svgtags = document.querySelectorAll("svg").length;
@@ -1939,6 +1946,10 @@ function pick_random_element( array )
     explore: explore
     ,
     set_mouse_mode: set_mouse_mode
+    ,
+    e : e
+    ,
+    execute_command_sequence : execute_command_sequence
  }
 })()  // END visco
 
@@ -1964,6 +1975,8 @@ if (typeof exports !== "undefined")
   exports.explore         = visco.explore ;
   exports.press           = visco.press ;
   exports.node_name_by_id = visco.node_name_by_id ;
+  exports.execute_command_sequence = visco.execute_command_sequence ;
+  exports.e               = visco.e ;
   exports.visco           = visco ;
   visco.devdebug( "exports set" );
 }
