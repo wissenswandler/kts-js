@@ -49,16 +49,16 @@ var KTSDEBUG = false;
 
 const DIRECTION_NORTH	= 1	// constant to indicate direction of travel, going "up" or "North"
 const DIRECTION_SOUTH	= 0	// constant to indicate direction of travel, going "down" or "South"
-const DIRECTION_BOTH  = 2	// constant to indicate direction of travel, going "both" ways
+const DIRECTION_BOTH  	= 2	// constant to indicate direction of travel, going "both" ways
 
 const DIRSTRING		= ['South', 'North']	// textual representation of direction
 const REASONING		= ['Dependency', 'Impact']	// textual representation of direction
 
 const MISSION_ERASE	= "MISSION_ERASE"
-const MISSION_COUNT = "MISSION_COUNT"
+const MISSION_COUNT 	= "MISSION_COUNT"
 
 const ACTIONS_DISPLAY_MODE_NAME = ["collapsed", "reduced", "full"]
-var   ACTIONS_DISPLAY_MODE = ACTIONS_DISPLAY_MODE_NAME.length - 1;
+var   ACTIONS_DISPLAY_MODE = 0; // default to "collapsed"
 
 const MOUSE_MODE_CAUSALITY= 0;
 const MOUSE_MODE_SAME		  = 1;
