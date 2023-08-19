@@ -28,6 +28,8 @@ export class Tdot2svgStrings
  * the source string is decorated to include KTS specific attributes for generating navigable SVG
  * 
  * the resulting SVG is decorated with KTS specific CSS and Javascript, to be used as a stand-alone interactive SVG document
+ * 
+ * called by KTS CLI
  */
 build_diagram_from_string( dot_string, libPath )
 {
