@@ -57,8 +57,8 @@ const REASONING		= ['Dependency', 'Impact']	// textual representation of directi
 const MISSION_ERASE	= "MISSION_ERASE"
 const MISSION_COUNT 	= "MISSION_COUNT"
 
-const ACTIONS_DISPLAY_MODE_NAME = ["collapsed", "reduced", "full"]
-var   ACTIONS_DISPLAY_MODE = 0; // default to "collapsed"
+const ACTIONS_DISPLAY_MODE_NAMES = ["collapsed", "reduced", "full"]
+var   ACTIONS_DISPLAY_MODE;
 
 const MOUSE_MODE_CAUSALITY= 0;
 const MOUSE_MODE_SAME		  = 1;
@@ -963,10 +963,14 @@ function set_actions_display_mode( mode, document )
     return;
   }
 
-  if( ! (mode > -1) ) mode = 2;  // session storage value is always a string, null -> "null" -> NaN; NaN equals NOTHING !!
+  if( ! (mode > -1) ) // session storage value is always a string, null -> "null" -> NaN; NaN equals NOTHING !!
+  {
+    mode = 0;
+    console.debug( "KTS cannot load action mode: using default" );
+  } 
 
   ACTIONS_DISPLAY_MODE = mode;
-  console.debug( "KTS action mode set to " + mode + " (" + ACTIONS_DISPLAY_MODE_NAME[ ACTIONS_DISPLAY_MODE ] + ")" );
+  console.debug( "KTS action mode set to " + mode + " (" + ACTIONS_DISPLAY_MODE_NAMES[ ACTIONS_DISPLAY_MODE ] + ")" );
 
   switch( mode )
   {
