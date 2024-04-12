@@ -94,21 +94,18 @@ if( !jqlText )
     }
 }
 
-let
-jirainterface = new JiraInterface( jiraInstance, atlassianUser, atlassianPassword, '2' );
-jirainterface.search (  jqlText, ['summary','description','issuetype','issuelinks','parent','status']  )
-.then
-(   searchResult =>
+const
+jirainterface = new JiraInterface( jiraInstance, atlassianUser, atlassianPassword, '2' ); // we want Jira API version 2 to get multi-line text fields as String (avoiding ADO)
+try
 {
-    console.log( JSON.stringify( searchResult.issues )  )
-    console.warn( chalk.grey( `done extracting ${searchResult.issues.length} issues` ) )
+    const searchResult =
+    await jirainterface.search (  jqlText, ['summary','description','issuetype','issuelinks','parent','status']  )
+    console.log( JSON.stringify( searchResult )  )
+    console.warn( chalk.grey( `done extracting ${ searchResult.length } issues` ) )
 }
-)
-.catch
-(
-    error => 
-    {
-        console.error(chalk.red(error));
-        console.warn( chalk.yellowBright( "with jiraInstance ==>" + jiraInstance + "<== and jqlText ==>" + jqlText + "<==" ) );
-    }   
-);
+catch( error )
+{
+    console.error( chalk.red(error));
+    console.error( error.stack.split('\n') );
+    console.warn(  chalk.yellowBright( "with jiraInstance ==>" + jiraInstance + "<== and jqlText ==>" + jqlText + "<==" ) );
+}

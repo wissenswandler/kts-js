@@ -24,13 +24,31 @@ export default class JiraInterface
         });
     }
 
-    search( jqlText, fields )
+    async search( jqlText, fields )
     {
-        return this.#jiraclient.searchJira
-        (   jqlText, 
-            {   maxResults: 1000,
-                fields : fields
-            }
-        );
+        let startAt = 0;
+        let total = 1;  // this is a guess to start the loop
+
+        let result = [];
+
+        while( result.length < total )
+        {
+            const response = await this.#jiraclient.searchJira
+            (   
+                jqlText, 
+                {
+                    fields,
+                    startAt,
+                    maxResults: 100,
+                }
+            );
+            total   = response.total; // updating total to the correct value
+            result  = result.concat( response.issues );
+            startAt = result.length;
+            process.stderr.write( ` extracted ${result.length} out of total ${total} issues\r` );
+        }
+        process.stderr.write( `\n` );
+
+        return result
     }
 }
