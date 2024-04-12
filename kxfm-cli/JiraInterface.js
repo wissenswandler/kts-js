@@ -45,7 +45,10 @@ export default class JiraInterface
             total   = response.total; // updating total to the correct value
             result  = result.concat( response.issues );
             startAt = result.length;
-            process.stderr.write( ` extracted ${result.length} out of total ${total} issues\r` );
+
+	    // colorize following output in yellow without external packages (e.g. chalk)
+	    process.stderr.write( `\x1b[33mextracted ${result.length} out of total ${total} issues\r\x1b[0m` );
+
         }
         process.stderr.write( `\n` );
 

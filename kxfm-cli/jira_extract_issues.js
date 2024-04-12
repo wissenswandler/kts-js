@@ -100,8 +100,7 @@ try
 {
     const searchResult =
     await jirainterface.search (  jqlText, ['summary','description','issuetype','issuelinks','parent','status']  )
-    console.log( JSON.stringify( searchResult )  )
-    console.warn( chalk.grey( `done extracting ${ searchResult.length } issues` ) )
+    process.stdout.write(  JSON.stringify( searchResult )  )
 }
 catch( error )
 {
