@@ -23,7 +23,7 @@ export default class JiraExtract
         }
         else
         {
-            return JiraExtract.find_instance_name_in_array(dir_parts_array.slice(0, dir_parts_array.length - 1));
+            return this.find_instance_name_in_array(dir_parts_array.slice(0, dir_parts_array.length - 1));
         }
     }
 }
