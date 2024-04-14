@@ -6,7 +6,7 @@
     ,
     "publish-visco" : "cd kxfm-visco ; npm publish --access public ; cd -"
     ,
-    "create-links": "for d in kxfm-* ; do cd $d ; npm     link ; cd -; done"
+    "create-links" : "for d in kxfm-* ; do cd $d ; npm     link ; cd -; done"
     ,
     "consume-links": "for d in kxfm-* ; do cd $d ; npm run link ; cd -; done"
   },
