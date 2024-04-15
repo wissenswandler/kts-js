@@ -133,8 +133,10 @@ static safeAdd( set, o )
 * @param {Array} issueArray - array of Jira issues
 * @returns {String} - DOT string
 */
-static jiraIssueArray2dotString( issueArray, jiraInstance )
+static jiraIssueArray2dotString( _issueArray, jiraInstance )
 {
+  // deep clone because graph operations mutate the issue array (linked issues rewritten to spo form)
+  const issueArray = structuredClone( _issueArray ) 
 
     const issueSet = new JiraIssueSet(   issueArray.map(  i  => { i.querydistance_0=true; return [ i.id, i ] }  )   );
     const linkSet  = new JiraIssueLinkSet();   
