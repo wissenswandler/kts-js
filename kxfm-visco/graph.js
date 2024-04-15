@@ -1392,8 +1392,8 @@ function generateKeyboardShortcutButtons( document )
         break;
       default: console.error( "unknown document type " + doctype );
     }
-
-    helpParent.appendChild( ktstools );
+    if( helpParent )
+        helpParent.appendChild( ktstools );
   }
 
   let buttonContainer = document.querySelector( "#ktsKeyboardButtons" );
@@ -1413,7 +1413,7 @@ function generateKeyboardShortcutButtons( document )
   }
 
   let keyboardHelpDiv	= document.querySelector( "#ktsKeyboardHelp" );
-  if(!keyboardHelpDiv)
+  if(!keyboardHelpDiv && ktstools)
   {
       keyboardHelpDiv	= document.createElement("div")
       keyboardHelpDiv.setAttribute( "id", "ktsKeyboardHelp" );
@@ -1449,7 +1449,7 @@ function generateKeyboardShortcutButtons( document )
   }
 
   let htmlConsole = document.querySelector( "#ktsConsole" );
-  if(!htmlConsole)
+  if(!htmlConsole && ktstools)
   {
       htmlConsole = document.createElement("div"); htmlConsole.setAttribute( "id", "ktsConsole" );
       ktstools.appendChild( htmlConsole );
@@ -1758,7 +1758,14 @@ class SubDocument
  */
 function on_svg_load( dom, options = {} )
 {
-  if( document.URL.startsWith("http://localhost") || document.URL.startsWith("file:") ) KTSDEBUG = true;
+  if
+  (
+    document.URL.startsWith("http://localhost") 
+    ||
+    document.URL.startsWith("http://127.0.0.1/") 
+    ||
+    document.URL.startsWith("file:") 
+  ) KTSDEBUG = true;
 
   const n_containertags = document.querySelectorAll(".ktscontainer").length;
   const n_svgtags = document.querySelectorAll("svg").length;
@@ -1801,7 +1808,7 @@ function on_svg_load( dom, options = {} )
     {
       execute_kts_action(document,"Escape");
       execute_kts_action(document,"Escape");
-      console.log( "This diagram is empty. Try creating issues in Jira so they show up here." ); return null; 
+      console.log( "-diagram is not initialized-" ); return null; 
     }
     activate_visual_mode(); // visual mode = on by default
 

@@ -1,4 +1,4 @@
-/*  Copyright 2020 Boran Gögetap <- boran@goegetap.name
+/*  Copyright 2019-2024 Boran Gögetap <- boran@goegetap.name
 
     visual styles for interactive SVG graph viewer,
     ... Teil von // part of ...
@@ -33,12 +33,18 @@
     along with KTS.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/* following is great for 1-diagram pages 
+ * but not text-image mixtures
+ * because it limits the page (length + height) to the viewport
+ * if needed then following style shall be applied locally
 html, body {
   width: 100%;
   height: 100%;
   margin: 0;
-  overflow: hidden; /* eliminates scroll bars */
+  overflow: hidden;
 }
+
+*/
 
 body {
   /*

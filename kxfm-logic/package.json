@@ -1,9 +1,10 @@
 {
   "name": "@kxfm/logic",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "lightweight lib for Uncertainty-Preserving Logic (UPL) / part of KTS (Knowledge Transformation System)",
-  "main": "index.mjs",
+  "exports": "./index.mjs",
+  "main"   : "./index.mjs",
   "scripts": {
     "test": "node .",
     "link": "echo '(nothing to link in this package)'"
@@ -11,7 +12,8 @@
   "author": "Boran Gögetap",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:wissenswandler/kts-js.git"
+    "url": "git+ssh://git@github.com/wissenswandler/kts-js.git"
+    
   },
   "license": "AGPL-3.0-or-later"
 }
