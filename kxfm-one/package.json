@@ -7,7 +7,7 @@
     "jira-issues2dot": "jira-issues2dot.js",
     "dot2svg": "dot2svg.js"
   },
-  "main"   : "./index.mjs",
+  "main"   : "./index.js",
   "scripts": {
     "test": "node .",
     "link": "echo '(nothing to link in this package)'"
