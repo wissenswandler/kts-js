@@ -1,14 +1,53 @@
-          // extending creates a dependency which currently cannot be resolved 
-          // (bare specifiers, mimetype text for .mjs ...)
-export class FlexibleCheckbox // extends Inputs.checkbox 
-{
-  // also a static factory method would be nice to construct an Inputs.checkbox, but see above
+import * as Inputs          from "npm:@observablehq/inputs"
+import { html             } from "npm:htl"
+import { Arr              } from "./Arr.js"
+import { KTS4HTML         } from "./KTS4HTML.js"
 
-  constructor( parts, input )
+//
+// wraps Inputs.checkbox and adds frequently used helpers
+//
+export class FlexibleCheckbox
+{
+  parts_meta = 'parts' 
+
+  constructor( parts = new Map(), input )
   {
-    this.parts = parts
+    this.parts = new Map()
     this.input = input
   }
+
+  create_parts_input( default_values = this.parts.keys() )
+  {
+    this.default_values = KTS4HTML.get_url_param( this.parts_meta, default_values )
+    return this.input = 
+    ( //Inputs.form( [ // BUG ?? wrapping two inputs in one Form array fails silently
+      Inputs.checkbox
+      (
+        this.parts.keys(), 
+        {
+          label: `show ${this.parts_meta}`, 
+          value: this.default_values
+        }  
+      )
+/*
+    ],[
+    ] 
+*/
+    )
+  }
+
+  // TODO: disable a button if it corresponds to the current selection state anyway
+  getNoneAllButtons = () =>
+  Inputs.button
+  (
+    [ 
+      [    "none", () => this.setValue( []                  )  ] ,
+      [ "default", () => this.setValue( this.default_values )  ] ,
+      [     "all", () => this.setValue( true                )  ] ,
+    ] 
+  )
+
+  set_part = (...kv) => this.parts.set(...kv) 
 
   setValue( value, add_or_remove = undefined ) 
   {
@@ -48,6 +87,19 @@ export class FlexibleCheckbox // extends Inputs.checkbox
   }
 
 
-  // recerence error for function html at runtime
-  // test = () => html`a`
+  permalink_parts( view )
+  { return (
+  Arr.are_equal( view, KTS4HTML.get_url_param( this.parts_meta ) )
+  ?
+    html`(selected ${this.parts_meta} coming from permalink)`
+  :
+    html`<a href='?${this.parts_meta}=${
+      Arr.are_equal( view, this.parts.keys() )
+      ?
+      "" // if all keys are selected then omitting the URL parameter is shorter
+      :
+      view.join(',') 
+    }'>permalink with current set of visible ${this.parts_meta}</a>`
+  )
+  }
 }

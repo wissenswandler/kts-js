@@ -1,3 +1,5 @@
+import { and } from "./Logic.js"
+
 export class Arr
 {
 
@@ -25,12 +27,25 @@ export class Arr
 // MUST log  true
 //
 
-console.log(   Arr.are_equal( [1], [1] )  )
-console.log(   Arr.    equal( [1], [1] )  )
-console.log(   Arr.eq   ( [1  ], [1  ] )  )
-console.log( ! Arr.eq   ( [1  ], [2  ] )  )
-console.log( ! Arr.eq   ( [1  ], [1,2] )  )
-console.log( ! Arr.eq   ( [2  ], [1,2] )  )
-console.log( ! Arr.eq   ( [1,2], [1  ] )  )
-console.log( ! Arr.eq   ( [1,2], [2  ] )  )
-console.log(   Arr.eq   ( [1,2], [1,2] )  )
+console.log
+( "all right? " + and
+(
+Arr.are_equal( [1], [1] )
+  ,
+    Arr.equal( [1], [1] )  
+  ,
+    Arr.eq   ( [1  ], [1  ] )  
+  ,
+  ! Arr.eq   ( [1  ], [2  ] )  
+  ,
+  ! Arr.eq   ( [1  ], [1,2] )  
+  ,
+  ! Arr.eq   ( [2  ], [1,2] )  
+  ,
+  ! Arr.eq   ( [1,2], [1  ] )  
+  ,
+  ! Arr.eq   ( [1,2], [2  ] )  
+  ,
+  Arr.eq   ( [1,2], [1,2] )  
+  )
+)

@@ -4,7 +4,7 @@
   * and utilize VisCo
   */
 
-import { Tdot2svgStrings } from "./Tdot2svgStrings.js"
+import { Tdot2svgStrings  } from "./Tdot2svgStrings.js"
 
 export class KTS4Browser extends Tdot2svgStrings
 {

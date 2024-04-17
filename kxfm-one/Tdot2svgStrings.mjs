@@ -92,18 +92,6 @@ dot2svg( dot_string, doc_or_tag = true )
 	return svg;
 }
 
- /*
-  * this is meant for browser clients
-  * depends on global "document" for creating DOM elements
-  */
-dot2svgElm( dot_string )
-{
-	const             svgtext =	this.dot2svg( dot_string, false )
-  const 
-  span = document.createElement( 'div' )
-  span.innerHTML =  svgtext
-  return span
-}
 
 /*
  * render a DOT source string into a SVG element on an existing page,
