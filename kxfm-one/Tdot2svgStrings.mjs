@@ -47,9 +47,10 @@ build_diagram_from_string( dot_string, libPath )
 }
 
 /*
- * translator from DOT source string via KTS preprocess, then unflatten, to SVG string
+ * translator from DOT source string via KTS preprocess, then unflatten, to SVG (document) string
+ * if the doc_or_tag option == false then the SVG document string is cut down to the <svg> tag
  */
-dot2svg( dot_string )
+dot2svg( dot_string, doc_or_tag = true )
 {
 	let svg;
 	let kts_dot;
@@ -73,7 +74,7 @@ dot2svg( dot_string )
 			,
 			"svg", {   images: imageAttributeArray } 
 		)
-		.replace( /<!--.*-->/g, "" )			// easier inspection of SVG source
+		.replace( /<!--.*-->/g, "" )  // remove SVG comments for easier inspection of SVG source
 		;
 	
 	} catch (e)
@@ -83,7 +84,25 @@ dot2svg( dot_string )
 		console.error( 'returning a synthetic "Error SVG" instead of crashing...\n~~~~~~~~' );
 		svg = Tdot2svgStrings.simple_svg_from_error( e );
 	}
+
+  if( doc_or_tag === false )
+	svg =   svg
+	.slice( svg.indexOf( "<svg" ) )	// remove XML (document) declaration
+
 	return svg;
+}
+
+ /*
+  * this is meant for browser clients
+  * depends on global "document" for creating DOM elements
+  */
+dot2svgElm( dot_string )
+{
+	const             svgtext =	this.dot2svg( dot_string, false )
+  const 
+  span = document.createElement( 'div' )
+  span.innerHTML =  svgtext
+  return span
 }
 
 /*
@@ -92,10 +111,7 @@ dot2svg( dot_string )
  */
 render( dot_string, elmSelector, context )
 {
-	const svgdoc =	this.dot2svg( dot_string );
-	const svgtag =	svgdoc
-		.slice(		svgdoc.indexOf( "<svg" ) )	// remove XML declaration
-		;
+	const svgtag =	this.dot2svg( dot_string, false );
 
 	KTS4SVG.integrate_svg_into_page( svgtag, elmSelector, context );
 
@@ -103,15 +119,15 @@ render( dot_string, elmSelector, context )
 	if( typeof context !== 'undefined' )
 	{
 		switch( context?.extension?.type )
-      	{
-        case 'jira:projectPage':
-		case 'jira:globalPage':
+    {
+    case 'jira:projectPage':
+		case 'jira:globalPage' :
 			break;
 		default:
 			consider_fullpage = false;
 		}
 	}
-	visco.on_svg_load( {elmSelector:elmSelector}, {consider_fullpage:consider_fullpage} );	// depends on global object 'visco', currently declared by graph.js
+	visco.on_svg_load( {elmSelector}, {consider_fullpage} );	// depends on global object 'visco', currently declared by graph.js
 }
 
 
