@@ -94,13 +94,6 @@ dot2svg( dot_string_generator, options = this.constructor.default_options )
       .replace( /<svg( (width|height)="\d+.{0,2}"){0,2}/g, '<svg width="100%" height="25"' );
   }
   
-  //
-  // following initialization works fine when calling digraph2svg()
-  // but has no visible effect in digraph (template literal) ???
-  //
-  //visco.on_svg_load()
-  //integrate_kts_css()
-
   const 
   span = document.createElement( 'span' )
   span.innerHTML =  svg_string
@@ -108,6 +101,8 @@ dot2svg( dot_string_generator, options = this.constructor.default_options )
   if( transformer_error )
   span.classList.add( 'transformer_error' )
   span.classList.add( 'ktscontainer' )
+
+  visco.on_svg_load( {document:span} )
 
   return span
 }
