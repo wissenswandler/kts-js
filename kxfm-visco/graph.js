@@ -1802,6 +1802,7 @@ function on_svg_load( dom, options = {} )
     devdebug( "adding listeners" );
     add_key_listener( sd );
     add_mouseover_listeners_to_nodes( sd );
+    printToHtmlConsole( "diagram initialized" );
 
     generateKeyboardShortcutButtons( document ); // inside SVG diagram in case of SVG (vs HTML) document
     if( all_nodes.length == 0 )
@@ -1859,21 +1860,14 @@ console.log = function(logMessage)
     //ktsConsole.style.display = "block";
     //ktsConsole.classList.remove( "no_flash" )
     //ktsConsole.classList.add( "yellow_flash" )
-  } catch(e) { /* KTS Console not ready */ }
+  } catch(e) { console.warn( "could not log to KTS console...")  }
 
-  _log.apply(console,arguments);
+  _log( logMessage );
 };
 
 function printToHtmlConsole( message )
 {
-  try
-  {
-    const htmlConsole = document.getElementById( "ktsConsole" );
-    if( htmlConsole )
-      htmlConsole.innerHTML = message;
-    else
-      console.warn( "printToHtmlConsole() called but no element #ktsConsole found" );
-  } catch (e) { console.error( "printToHtmlConsole() failed: " + e ); }
+  document.getElementById( "ktsConsole" ).innerHTML = message;
 }
 
 /*

@@ -1,8 +1,8 @@
 {
-  "name": "@kxfm/one",
+  "name": "@kxfm/observablehq",
   "type": "module",
   "version": "1.0.0",
-  "description": "lightweight singe package, zero dependencies / KTS (Knowledge Transformation System)",
+  "description": "adapters for the Observable ecosystem / part of KTS (Knowledge Transformation System)",
   "main"   : "./index.js",
   "scripts": {
     "test": "node .",

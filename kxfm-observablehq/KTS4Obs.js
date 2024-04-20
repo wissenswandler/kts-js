@@ -1,5 +1,4 @@
-import { html             } from "npm:htl"
-import * as d3              from "npm:d3"
+import * as d3              from "d3"
 
 export const kts_console = d3.create( 'div' )
                             .attr( "id", "ktsConsole" )

@@ -1,11 +1,11 @@
-import * as Inputs          from "npm:@observablehq/inputs"
-import { html             } from "npm:htl"
-import { Arr              } from "./Arr.js"
-import { KTS4HTML         } from "./KTS4HTML.js"
-
 //
 // wraps Inputs.checkbox and adds frequently used helpers
 //
+import *  as Inputs          from "@observablehq/inputs"
+import {  html             } from "htl"
+import {  Arr              } from "./Arr.js"
+import {  KTS4HTML         } from "./KTS4HTML.js"
+
 export class FlexibleCheckbox
 {
   parts_meta = 'parts' 

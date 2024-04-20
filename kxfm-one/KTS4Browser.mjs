@@ -6,6 +6,14 @@
 
 import { Tdot2svgStrings  } from "./Tdot2svgStrings.js"
 
+export const create_kts_console = () =>
+{
+  const div = document.createElement( 'div' )
+  div.setAttribute( "id", "ktsConsole" )
+  div.innerText =  "KTS loading..."
+  return div
+}
+
 export class KTS4Browser extends Tdot2svgStrings
 {
 
