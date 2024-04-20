@@ -24,11 +24,10 @@ export class Arr
 
 //
 // mini unit tests
-// MUST log  true
+// MUST  =>  true
 //
-
-console.log
-( "all right? " + and
+export const test = () =>
+and
 (
 Arr.are_equal( [1], [1] )
   ,
@@ -47,5 +46,4 @@ Arr.are_equal( [1], [1] )
   ! Arr.eq   ( [1,2], [2  ] )  
   ,
   Arr.eq   ( [1,2], [1,2] )  
-  )
 )

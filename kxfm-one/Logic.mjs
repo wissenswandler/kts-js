@@ -92,10 +92,16 @@ function not(operand) // unary operation
 
 export { and, or, lt, le }
 
-console.log( "Self Tests" )
-
-console.log( "false     OR undefined => " + or(false    , undefined) )
-
-console.log( "true      OR undefined => " + or(true     , undefined) )
-
-console.log( "undefined OR undefined => " + or(undefined, undefined) )
+//
+// mini unit tests
+// MUST  =>  true
+//
+export const test = () =>
+and
+(
+  or(false    , undefined) === undefined
+  ,
+  or(true     , undefined) === true
+  ,
+  or(undefined, undefined) === undefined
+)

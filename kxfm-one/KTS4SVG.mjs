@@ -52,6 +52,13 @@ export class KTS4SVG
 			//console.debug( "NOT swopping lines 9 + 8" );
 		}
 
+    const           include_panzoom = false;
+    const panzoom = include_panzoom
+      ?
+      `
+<script xlink:href="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js" type="text/ecmascript" />
+`     : "";
+
 		return `${
 			/*
 			* keep <xml> preamble
@@ -71,7 +78,7 @@ ${
 			svgarray.slice(6, 8).join("")
 			}
 <script xlink:href="${libPath}/graph.js" type="text/ecmascript" />
-<script xlink:href="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js" type="text/ecmascript" />
+${panzoom}
 ${
 			/*
 			* fix GraphViz bug: reverse <title> and first <g> tags so that title will be effective in browser
