@@ -9,4 +9,4 @@ export { KTS4HTML         } from "./KTS4HTML.js"
 export { KTS4Browser        ,
        create_kts_console } from "./KTS4Browser.js"
 
-console.log( "\x1b[30mkxfm/one loaded via index.js\x1b[0m" )
+console.error( "\x1b[30mkxfm/one loaded via index.js\x1b[0m" )
