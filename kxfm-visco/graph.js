@@ -1802,7 +1802,7 @@ function on_svg_load( dom, options = {} )
     devdebug( "adding listeners" );
     add_key_listener( sd );
     add_mouseover_listeners_to_nodes( sd );
-    printToHtmlConsole( "diagram initialized" );
+    console.log( "touch or click diagram elements" );
 
     generateKeyboardShortcutButtons( document ); // inside SVG diagram in case of SVG (vs HTML) document
     if( all_nodes.length == 0 )
@@ -1867,7 +1867,11 @@ console.log = function(logMessage)
 
 function printToHtmlConsole( message )
 {
-  document.getElementById( "ktsConsole" ).innerHTML = message;
+  const kts_console = document.getElementById( "ktsConsole" )
+  if  ( kts_console ) 
+        kts_console.innerHTML = message;
+  else
+    throw new Error( "can't find #ktsConsole to log " + message )
 }
 
 /*
