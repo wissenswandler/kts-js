@@ -16,7 +16,7 @@
   "author": "Boran Gögetap",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:wissenswandler/kts-js.git"
+    "url": "git+ssh://git@github.com/wissenswandler/kts-js.git"
   },
   "license": "AGPL-3.0-or-later",
   "dependencies": {
