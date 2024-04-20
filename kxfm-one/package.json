@@ -3,10 +3,6 @@
   "type": "module",
   "version": "1.0.0",
   "description": "lightweight singe package, zero dependencies / KTS (Knowledge Transformation System)",
-  "bin": {
-    "jira-issues2dot": "jira-issues2dot.js",
-    "dot2svg": "dot2svg.js"
-  },
   "main"   : "./index.js",
   "scripts": {
     "test": "node .",

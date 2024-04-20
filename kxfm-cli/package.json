@@ -2,10 +2,6 @@
   "type": "module",
   "dependencies": {
     "@hpcc-js/wasm": "^2.7.0",
-    "@kxfm/dot": "^1.0.0",
-    "@kxfm/dot2svg": "^1.2.0",
-    "@kxfm/jira2dot": "^1.2.0",
-    "@kxfm/svg": "^1.2.0",
     "chalk": "^5.2.0",
     "jira-client": "^8.2.2"
   },
@@ -18,7 +14,7 @@
     "dot2svg": "dot2svg.js"
   },
   "scripts": {
-    "link": "npm link @kxfm/jira2dot @kxfm/dot @kxfm/dot2svg @kxfm/svg",
+    "link": "npm link @kxfm/one",
     "clean": "git clean -fX",
     "test": "npm run test123 && npm run test1 && npm run test2 && npm run test3",
     "test1": "jira_extract_issues knowhere.atlassian.net project=KTSTESTC > issues.json",
