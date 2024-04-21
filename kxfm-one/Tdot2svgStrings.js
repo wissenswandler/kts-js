@@ -52,6 +52,9 @@ build_diagram_from_string( dot_string, libPath )
  */
 dot2svg( dot_string, doc_or_tag = true )
 {
+  if( dot_string.indexOf( "digraph" ) === -1 )
+      dot_string = "digraph {" + dot_string + "}";
+
 	let svg;
 	let kts_dot;
 	/*
