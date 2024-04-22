@@ -2,11 +2,11 @@
  * lightweight KTS lib for node.js
  *
  * depends on filesystem
- * may not work in Forge FaaS or Browser
+ * does not work in Forge FaaS or Browser
  */
-
-import * as fs from 'fs';
-import {Tdot2svgStrings} from './Tdot2svgStrings.js';
+ 
+import   * as fs           from 'fs';
+import { Tdot2svgStrings } from '@kxfm/one';
 
 export class Tdot2svgFiles
 {

@@ -4,6 +4,8 @@
   "version": "1.0.6",
   "description": "lightweight singe package, zero dependencies / KTS (Knowledge Transformation System)",
   "main"   : "./index.js",
+  "exports": "./index.js",
+  "module" : "./index.js",
   "scripts": {
     "test": "node .",
     "link": "echo '(nothing to link in this package)'"
