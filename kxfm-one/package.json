@@ -1,7 +1,7 @@
 {
   "name": "@kxfm/one",
   "type": "module",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "lightweight singe package, zero dependencies / KTS (Knowledge Transformation System)",
   "main"   : "./index.js",
   "exports": "./index.js",
