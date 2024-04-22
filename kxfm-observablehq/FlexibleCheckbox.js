@@ -3,8 +3,8 @@
 //
 import *  as Inputs          from "@observablehq/inputs"
 import {  html             } from "htl"
-import {  Arr              } from "./Arr.js"
-import {  KTS4HTML         } from "./KTS4HTML.js"
+import {  Arr              } from "@kxfm/one"
+import {  KTS4HTML         } from "@kxfm/one"
 
 export class FlexibleCheckbox
 {

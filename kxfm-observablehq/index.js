@@ -1,2 +1,2 @@
 export { FlexibleCheckbox } from "./FlexibleCheckbox.js"
-export { kts_console      } from "./KTS4Obs.js"
+export {create_kts_console} from "./KTS4Obs.js"

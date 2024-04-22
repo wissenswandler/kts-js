@@ -1,9 +1,10 @@
 {
   "name": "@kxfm/observablehq",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "adapters for the Observable ecosystem / part of KTS (Knowledge Transformation System)",
   "main"   : "./index.js",
+  "module" : "./index.js",
   "scripts": {
     "test": "node .",
     "link": "echo '(nothing to link in this package)'"
