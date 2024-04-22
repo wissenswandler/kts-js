@@ -1,11 +1,11 @@
 {
   "name": "@kxfm/one",
   "type": "module",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "lightweight singe package, zero dependencies / KTS (Knowledge Transformation System)",
-  "main"   : "./index.js",
+  "main": "./index.js",
   "exports": "./index.js",
-  "module" : "./index.js",
+  "module": "./index.js",
   "scripts": {
     "test": "node .",
     "link": "echo '(nothing to link in this package)'"
@@ -14,7 +14,6 @@
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/wissenswandler/kts-js.git"
-    
   },
   "license": "AGPL-3.0-or-later"
 }

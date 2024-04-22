@@ -6,6 +6,21 @@
 
 import { Tdot2svgStrings  } from "./Tdot2svgStrings.js"
 
+export async function* animate_content( contents, duration, visibility )
+{
+  let i = 0;
+  while (true)
+  {
+    await visibility()
+
+    yield( contents[i] );
+
+    await new Promise( (resolve) => setTimeout(resolve, duration*1000 ) );
+
+    i = (i+1) % contents.length
+  }
+} 
+
 export const create_kts_console = () =>
 {
   const div = document.createElement( 'div' )
