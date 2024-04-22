@@ -110,7 +110,10 @@ dot2svg( dot_string_generator, options = this.constructor.default_options )
   span.classList.add( 'transformer_error' )
   span.classList.add( 'ktscontainer' )
 
-  visco.on_svg_load( {document:span} )
+  if( typeof visco === 'undefined' )
+    console.error( "KTS: visco is not defined, unable to initialize interaction" )
+  else
+    visco.on_svg_load( {document:span} )
 
   return span
 }
