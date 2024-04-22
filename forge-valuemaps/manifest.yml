@@ -13,8 +13,7 @@ modules:
       thumbnail: https://wissenswandler.github.io/W/graph.svg
       edit:
         resource: main
-#       function: edit # according to Forge Lint, can't mix a main "resource" with an edit "function"
-
+  #       function: edit # according to Forge Lint, can't mix a main "resource" with an edit "function"
   jira:globalPage:
     - key: kts-diagram-thin-server-global-page
       resource: main
@@ -43,19 +42,19 @@ app:
   id: ari:cloud:ecosystem::app/b8f62955-0fb5-4796-8356-e034c3b34762
 
 permissions:
-  scopes: [read:jira-work]
+  scopes:
+    - read:jira-work
   external:
     images:
-      -   '*.atlassian.net' #        avatar images such as https://wissenswandler.atlassian.net/secure/viewavatar?size=small&avatarId=10322&avatarType=issuetype
-      - 'api.atlassian.com' # custom avatar images in development environment (not needed in production?)
+      - "*.atlassian.net"
+      - api.atlassian.com
     scripts:
-      - 'https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js'
-      - 'https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/graphviz.js'
-      - 'https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js'
-#     - 'https://unpkg.com/3d-force-graph'
+      - https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.js
+      - https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/graphviz.js
+      - https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js
   content:
     scripts:
-      - 'unsafe-inline' # modifying DOM by graph.js
-      - 'unsafe-eval'   # loading WASM
+      - unsafe-inline
+      - unsafe-eval
     styles:
-      - 'unsafe-inline' # svg-pan-zoom
+      - unsafe-inline

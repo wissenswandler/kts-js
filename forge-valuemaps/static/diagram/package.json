@@ -17,8 +17,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject"
-    ,
+    "eject": "react-scripts eject",
     "link": "npm link @kxfm/dot2svg @kxfm/visco"
   },
   "browserslist": {

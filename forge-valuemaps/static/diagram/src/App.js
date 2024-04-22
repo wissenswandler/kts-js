@@ -56,6 +56,7 @@ function App()
                             (   (dotString) =>
                             {
                                 devdebug( "KTS invoking render()" );
+                                console.debug( "KTS dotstring: " + dotString );
                                 transformer.render( dotString, dom_elm_selector, context );
                                 devdebug( "KTS done with render()" );
                             }

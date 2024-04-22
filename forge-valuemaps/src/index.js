@@ -79,8 +79,8 @@ resolver.define
     }
     catch (error)
     {
-      devdebug( error );
-      return `graph { error [shape=none style=filled fillcolor=lightpink label="${KTS4Dot.safeAttribute( ""+error )}"] }`
+      console.error( JSON.stringify(error) );
+      return `graph {     error [    shape=none style=filled fillcolor=lightpink label="${   KTS4Dot.safeAttribute(  JSON.stringify( error )  )   }"    ]     }`
     }
   }
 );
@@ -105,16 +105,13 @@ async function fetchIssues( jqlQueryText = "project=XXX", fields = 'summary,desc
 
   const data = await jiraResult.json();
 
-  // log data but only 1 level deep
-  //console.debug( JSON.stringify(data, function (k, v) { return k && v && typeof v !== "number" ? (Array.isArray(v) ? "[object Array]" : "" + v) : v; }) );
-
   if( data.warningMessages?.[0]  ) console.warn ( data.warningMessages );
   if( data.errorMessages?.[0]    ) console.error( data.errorMessages   );
 
   if( data.total > data.maxResults ) console.warn( `WARNING: only ${data.maxResults} of ${data.total} issues returned from query ${jqlQueryText}` );
 
   if( data.issues ) return data.issues;
-  else throw new Error( data.errorMessages[0] );
+  else throw new Error( data.errorMessages );
 }
 
 export const handler = resolver.getDefinitions();

@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm run update-kts && npm run weigh",
     "weigh": "du static/diagram/build/ > logs/size-build.txt && du -s > logs/size-all.txt",
-    "update-kts": "npm install $(npm pack ../kxfm-jira2dot/ | tail -1)"
+    "update-kts": "npm install $(npm pack ../kxfm-jira2dot/ | tail -1) && npm install $(npm pack ../kxfm-dot/ | tail -1)"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
@@ -15,8 +15,7 @@
   },
   "dependencies": {
     "@forge/resolver": "^1.4.7",
-    "@kxfm/dot": "^1.3.2",
-    "@kxfm/jira2dot": "file:kxfm-jira2dot-1.3.5.tgz",
-    "@kxfm/svg": "^1.3.2"
+    "@kxfm/dot": "file:kxfm-dot-1.3.2.tgz",
+    "@kxfm/jira2dot": "file:kxfm-jira2dot-1.3.5.tgz"
   }
 }
