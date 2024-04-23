@@ -4,6 +4,28 @@
 
 export class KTS4Dot
 {
+
+/*
+ * tag function,
+ * turning the template literal into a KTS Value Map
+ * accepts a dot fragment (digraph content)
+ */
+static dig( strings, ... keys )
+{
+  return this.dot_fragment_2_dot_string
+  (
+    strings.reduce(  (a, c) => a + keys.shift() + c )
+  )
+}
+
+/* wrapping a dot fragment with the obligatory "digraph { ... }" block,
+ * and injecting an optional < options.title > tag
+ */
+static dot_fragment_2_dot_string( fragment, options )
+{
+  return `strict digraph ${options?.title ? ("<" + options.title + "> ") : ""}{ ${fragment} }`
+}
+
 /*
  * add some required and some recommended attributes to the DOT string
  *
