@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SVG from client-side DOT and local libraries</title>
+    <meta charset="utf-8" />
+    <base target="ktsdetail" />
+    <link rel="stylesheet" href="./lib/graph.css" />
+    <script defer="" src=                            "./lib/graph.js"></script>
+ <!--script defer="" src="https://unpkg.com/@kxfm/one@1.0.6/graph.js"></script ALSO WORKS-->
+</head>
+<body>
+<h1>Using the kxfm Library in vanilla JS / HTML</h1>
+
+See corresponding demo in on <a href="http://127.0.0.1:3000/demo">local Observable preview server</a>
+
+</script>
+
+<div id="results"></div>
+<div id="log">KTS loading... check browser console (CTRL-Shift-K) if nothing happens within a few seconds.</div>
+
+<script type="module">
+ 
+import { Graphviz    } from "@hpcc-js/wasm/graphviz"  // standard (bare) specifier - use wds to host
+import { KTS4Browser,
+  create_kts_console } from "@kxfm/one"               // standard (bare) specifier - use wds
+
+try
+{
+
+document.querySelector('#results').append
+(
+  create_kts_console()
+)
+
+const transformer = 
+  new KTS4Browser
+  (
+    await Graphviz.load() 
+  )
+
+document.querySelector('#results').append
+(
+  transformer.digraph ` ca->fe ` ,
+  transformer.dot2svg( ` rather -> long -> diagram -> here -> too_long_to_fit_in_half_screen_without_scaling_it_down ` ),
+  transformer.digraph ` rather -> long -> diagram -> here -> too_long_to_fit_in_one_screen_without_scaling_it_down -> because_here_is_nicer_text_than_lorem_ipsum -> and_one_more_go_and_we_are_finished ` ,
+  `
+The longer chain above is to demonstrate the reactive/response property of the diagram. It scales down if needed. On a very wide screen it will present 1:1, like the small first diagram.
+  `
+)
+
+document.querySelector('#log').innerText=
+"Demo Ready."
+
+}
+catch( e )
+{
+  document.querySelector('#log').innerText ( "something went wrong: " + e)
+}
+</script>
+
+</html>
+</body>
