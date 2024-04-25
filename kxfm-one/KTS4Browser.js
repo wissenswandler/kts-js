@@ -8,10 +8,27 @@
 import { Tdot2svgStrings  } from "./Tdot2svgStrings.js"
 import { KTS4Dot          } from "./KTS4Dot.js"
 
-import * as d3r             from "d3-require" // need to go through the obscure multi-module require
-//import * as d4                from "d3-graphviz"
-//d4.select = d3.select // TypeError: "select" is read-only
-//d4.transition = d3.transition // TypeError: "transition" is read-only
+import * as         d3g           from "d3-graphviz"
+import * as              d3s      from "d3-selection"
+import * as                   d3t from "d3-transition"
+const  d6 = merge( [d3g, d3s, d3t] )
+
+function merge(modules) {
+  const o = {};
+  for (const m of modules) {
+    for (const k in m) {
+      if (hasOwnProperty.call(m, k)) {
+        if (m[k] == null) Object.defineProperty(o, k, {get: getter(m, k)});
+        else o[k] = m[k];
+      }
+    }
+  }
+  return o;
+
+  function getter(object, name) {
+    return () => object[name];
+  }
+}
 
 
 /*
@@ -126,9 +143,7 @@ width = document.querySelector('body').clientWidth
 
 static async animinit()
 {
-  const d5 = await d3r.require( "d3-graphviz@2", "d3-selection@1", "d3-transition@1")
-  console.log( "KTS4Browser: d5 is ", d5 )
-  return new KTS4Browser( d5 )
+  return new KTS4Browser( d6 )
 }
 
 constructor( graphvizInstance, options = {},  ...rest)
