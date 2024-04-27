@@ -1,6 +1,6 @@
-# Animated Diagrams
+# Animated Diagram Transitions
 
-smooth transitions for changes in the diagram, thanks to [Magnus Jacobsson](https://observablehq.com/@magjac) and his ingenious library https://observablehq.com/@magjac/demo-of-d3-graphviz-animations
+smooth transitions in changes between diagrams, thanks to [Magnus Jacobsson](https://observablehq.com/@magjac) and his ingenious library d3-graphviz
 
 ```js 
 import {  KTS4Browser, KTS4Dot, animate_content,  
@@ -22,6 +22,8 @@ const digraphs =
     "cause",
     "cause -> effect",
     "cause -> effect [label=value]",
+    "cause -> effect [label=value] cause->sideeffect",
+    "cause -> effect [label=value] cause->sideeffect",
   ]
 ```
 

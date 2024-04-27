@@ -49,5 +49,5 @@ kts_console
 
 </div>
 
-<link rel="stylesheet" href="./lib/graph.css" />
-<script src="./lib/graph.js"></script>
+<link rel="stylesheet" href="/lib/graph.css" />
+<script src="/lib/graph.js"></script>

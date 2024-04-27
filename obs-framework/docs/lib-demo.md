@@ -1,5 +1,7 @@
-# Using the kxfm Library in Observable Framework
-  
+# Static Diagrams
+
+Presenting a Value Map diagram with minimal boilerplate code
+
 ```js
 import {  KTS4Browser,
           create_kts_console  } from "@kxfm/one"
@@ -8,8 +10,6 @@ import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
 
 const kts_console = create_kts_console()
 ```
-
-see corresponding demo in vanilla Javascript on [local Web Dev Server](http://localhost:8000/demo.html)
 
 <div class="card">
 

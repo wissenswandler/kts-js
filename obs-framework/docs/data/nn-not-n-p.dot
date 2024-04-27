@@ -1,0 +1,39 @@
+digraph M {
+    node [shape=circle, style=filled, fillcolor=lightblue];
+    
+    // Input layer
+    subgraph cluster_input {
+        style=filled;
+        color=transparent;
+        node [style=filled, fillcolor=silver];
+        label="Input Layer";
+        A1 A2;
+    }
+    
+    // Hidden layer
+    subgraph cluster_hidden {
+        style=filled;
+        color=transparent;
+        node [style=filled, fillcolor=silver];
+        label="Hidden Layer";
+        B1 B2 B3;
+    }
+    
+    // Output layer
+    subgraph cluster_output {
+        style=filled;
+        color=transparent;
+        node [style=filled, fillcolor=silver];
+        label="Output Layer";
+        C1 C2;
+    }
+    
+    // Connections
+    A1 -> B1; A1 -> B2;
+    A2 -> B2; A2 -> B3;
+    
+    B1 -> C1; B1 -> C2;
+    B2 -> C1; B2 -> C2;
+    B3 -> C1; B3 -> C2;
+}
+
