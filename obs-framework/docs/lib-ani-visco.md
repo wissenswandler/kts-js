@@ -36,12 +36,11 @@ const current_content = animate_content
   chain.reduce
   (
     (a, station) => 
-      a.length 
-      ? 
-      a.concat( [ "e,"+station ] ) 
-      : [station]
+      a.concat( [ [ (a.slice(-1)[0]??[null,null])[1], station] ] ) 
     , []
   )
+  .filter( pair => pair[0] !== null )
+  .map( pair => "e,N,"+pair[0]+",S,"+pair[1]+",j" )
   , 2, visibility 
 )
 ```
