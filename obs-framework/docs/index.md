@@ -1,3 +1,3 @@
-# KTS kxfm Library
+# Knowledge Transformation System
 
-Home for development and integration tests
+Portfolio of Value Maps, Timelines and other causal networks

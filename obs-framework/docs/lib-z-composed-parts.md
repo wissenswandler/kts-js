@@ -24,8 +24,8 @@ const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
 ```js echo
 const
 flixbox = new FlexibleCheckbox()
-flixbox.set_part("a","Brest->Rennes->Paris")
-flixbox.set_part("b","Paris->München->Linz->Wien")
+flixbox.set_part("a","Brest->Rennes->Paris->München [label=TGV]")
+flixbox.set_part("b","München->Salzburg->Linz->Wien [label=Railjet]")
 // flixbox.parts_meta = "pieces" // you could customize the "parts" term ( => URL...)
 ```
 
