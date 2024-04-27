@@ -22,7 +22,8 @@ export default {
       [
         {name: "kxfm simplest demo"          , path: "/demo"},
         {name: "Composed Value Map (details)", path: "/lib-z-composed-parts"},
-        {name: "animated diagram"            , path: "/lib-ani"},
+        {name: "animated selection"          , path: "/lib-ani-visco"},
+        {name: "animated transition"         , path: "/lib-ani-transition"},
         {name: "kxfm full API demo"          , path: "/lib-0-migration-wip"},
         {name: "Value Map Playground"        , path: "/lib-1-valuemap-playground"},
         {name: "error handling in DOT source", path: "/lib-9-dot-source-error"},
