@@ -1,0 +1,24 @@
+digraph {
+    // Hidden layers
+    subgraph cluster_hidden1 {
+        style=filled;
+        color=transparent;
+        node [style=filled, fillcolor=silver];
+        label="Hidden Layer 1";
+        B1 -> C1 [label="0.5", penwidth=3];
+        B1 -> D1 [label="0.8", penwidth=4];
+        B2 -> C2 [label="0.3", penwidth=2];
+        B2 -> D2 [label="0.6", penwidth=3];
+    }
+
+    subgraph cluster_hidden2 {
+        style=filled;
+        color=transparent;
+        node [style=filled, fillcolor=silver];
+        label="Hidden Layer 2";
+        E1 -> F1 [label="0.7", penwidth=4];
+        E2 -> F1 [label="0.4", penwidth=3];
+        E1 -> F2 [label="0.9", penwidth=5];
+        E2 -> F2 [label="0.2", penwidth=1];
+    }
+}

@@ -42,5 +42,16 @@ transformer.dot2svg(
 ```
 </div>
 
+<div class="card">
+
+## demo for links with strength attribute
+
+```js 
+transformer.dot2svg(
+    await FileAttachment( "/data/nn-strength.dot" ).text()
+)
+```
+</div>
+
 <link rel="stylesheet" href="/lib/graph.css" />
 <script src="/lib/graph.js"></script>
