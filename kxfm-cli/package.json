@@ -7,7 +7,7 @@
     "jira-client": "^8.2.2"
   },
   "name": "@kxfm/cli",
-  "version": "1.3.3",
+  "version": "1.3.5",
   "description": "Knowledge Transformation System (KTS) implementation in node.js, Command-Line Interface",
   "bin": {
     "jira_extract_issues": "jira_extract_issues.js",

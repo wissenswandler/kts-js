@@ -1,7 +1,7 @@
 {
   "name": "@kxfm/observablehq",
   "type": "module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "adapters for the Observable ecosystem / part of KTS (Knowledge Transformation System)",
   "main": "./index.js",
   "module": "./index.js",

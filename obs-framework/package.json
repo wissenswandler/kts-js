@@ -15,10 +15,14 @@
   },
   "dependencies": {
     "@hpcc-js/wasm": "^2.15.1",
-    "@kxfm/observablehq": "file:kxfm-observablehq-1.0.2.tgz",
-    "@kxfm/one": "file:kxfm-one-1.0.8.tgz",
+
+    "@kxfm/observablehq": "latest",
+    "@kxfm/one": "latest",
+
     "@observablehq/framework": "latest",
+
     "@observablehq/inputs": "^0.10.6",
+    "@rollup/rollup-android-arm64": "^4.16.4",
     "canvas-confetti": "^1.9.2",
     "d3": "^7.9.0",
     "d3-dsv": "^3.0.1",
