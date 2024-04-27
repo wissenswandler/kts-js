@@ -1,7 +1,7 @@
-# YES importing kxfm via local path
+# YESandNO importing kxfm via local path
   
 ```js
-import { create_kts_console      } from "/kxfm/one/index.js"
+//import { create_kts_console      } from "/kxfm/one/index.js"
 ```
 
 NOTE: this used to work as long as the local path /kxfm/one/... had been linked.
