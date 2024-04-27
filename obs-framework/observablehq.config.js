@@ -1,50 +1,39 @@
 // See https://observablehq.com/framework/config for documentation.
 export default {
   // The project’s title; used in the sidebar and webpage titles.
-  title: "kxfm",
+  title: "KTS",
 
   // The pages and sections in the sidebar. If you don’t specify this option,
   // all pages will be listed in alphabetical order. Listing pages explicitly
   // lets you organize them into sections and have unlisted pages.
   pages:
   [
-    { name: "Value Maps Showcases",
+    { name: "Value Maps Portfolio",
       open:true,
       pages: 
       [
-        {name: "Nomadic Sustainable Life", path: "/nomadic-household"}
+        {name: "Nomadic Sustainable Life"      , path: "/nomadic-household"}
       ]
     }
     ,
-    { name: "kxfm lib demos",
-      open:true,
-      pages:
+    { name: "Value Maps demos",
+      open:false,
+      pages: 
       [
-        {name: "kxfm simplest demo"          , path: "/demo"},
-        {name: "Composed Value Map (details)", path: "/lib-z-composed-parts"},
-        {name: "animated selection"          , path: "/lib-ani-visco"},
-        {name: "animated transition"         , path: "/lib-ani-transition"},
-        {name: "kxfm full API demo"          , path: "/lib-0-migration-wip"},
-        {name: "Value Map Playground"        , path: "/lib-1-valuemap-playground"},
-        {name: "error handling in DOT source", path: "/lib-9-dot-source-error"},
+        {name: "Value Map Playground"          , path: "/valuemap/playground"},
+        {name: "Neural Networks"               , path: "/valuemap/neural-networks"}
       ]
     }
     ,
-    { name: "kxfm lib experiments (incl. failing ones)",
+    { name: "kxfm lib tests",
       open:false,
       pages:
       [
-        {name: "migration class Logic"       , path: "/TODO/logic"}
-      ]
-    }
-    ,
-    { name: "Observable Framework tests (incl. failing ones)",
-      open:false,
-      pages:
-      [
-        {name: "KTS SVG via dataloader"      , path: "/y_framework/x-svg-via-attachment" },
-        {name: "Confetti imported via NPM"   , path: "/y_framework/z_confetti_npm"},
-        {name: "Confetti imported via BARE"  , path: "/y_framework/z_confetti_node_local_SOLVED"},
+        {name: "simplest demo (static diagram)", path: "/lib-demo"},
+        {name: "animated diagram transitions"  , path: "/lib-ani"},
+        {name: "full API demo"                 , path: "/lib-0-full"},
+        {name: "composed diagram (details)"    , path: "/lib-z-composed-parts"},
+        {name: "error handling in DOT source"  , path: "/lib-9-dot-source-error"},
       ]
     }
   ],

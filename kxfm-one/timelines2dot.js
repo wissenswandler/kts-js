@@ -446,7 +446,7 @@ static split_story = text =>
     Object.fromEntries
     (
       Object
-        .entries(  yaml`${ split[1] }`  )
+        .entries(  yaml.load( split[1] )  )
         .map
         ( ( [ k,                     v  ] ) =>
             [ k, this.substitute( k, v )] 
@@ -1001,7 +1001,7 @@ parse_timeline( timeline_text )
     else
     try
     {
-        options = Object.assign(  options, yaml`{ ${options_string} }`  )
+        options = Object.assign(  options, yaml.load( "{ " + options_string + " }" )  )
     } catch( e1 )
     {
       try

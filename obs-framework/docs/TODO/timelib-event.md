@@ -1,22 +1,5 @@
-```js
-title = md`# Timelib: Event - Implementation & Tests`
-```
+# Timelib: Event - Tests
 
-```js
-toc({
-  headers: "h2,h3,h4",
-})
-```
-
-## Classes
-
-```js
-```
-
-```js
-```
-
-## Functions
 
 ## instances
 
@@ -62,27 +45,9 @@ Inputs.table
 
 ## Imports
 
-```js
-import { createSuite, expect } from '@tomlarkworthy/testing'
-```
-
-```js
-import { Logic } from "@bogo/kxfm-logic"
-```
-
-```js
-class Arr
-{
-  static unique = (value, index, array) => array.indexOf(value) === index // one missing function from Array.prototype
-}
-```
 
 ```js
 import { myStory, Story } from "@bogo/timelib4"
-```
-
-```js
-import { toc } from "@nebrius/indented-toc"
 ```
 
 ## QA
