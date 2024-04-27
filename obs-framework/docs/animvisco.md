@@ -1,7 +1,7 @@
 # Animation via Visco Selections
   
 ```js
-import {  KTS4Browser,
+import {  KTS4Browser,animate_content,
           create_kts_console  } from "@kxfm/one"
 
 import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
@@ -19,22 +19,44 @@ create_kts_console()
 const graphviz = await Graphviz.load()
 const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
 const digraph = transformer.digraph
+const chain = `Brest->Rennes->Paris->München->Salzburg->Wien`.split('->')
 ```
 
 ```js echo
-const diagram = digraph`Brest->Rennes->Paris->München->Salzburg->Wien`
+const diagram = digraph( [ chain.join('->') ] )
 ```
 
-```js echo
+```js
 diagram
 ```
 
 ```js echo
-view(  Inputs.button( "1", {reduce: ()=>a1() } )  )
+const current_content = animate_content
+( 
+  chain.reduce
+  (
+    (a, station) => 
+      a.length 
+      ? 
+      a.concat( [ "e,"+station ] ) 
+      : [station]
+    , []
+  )
+  , 2, visibility 
+)
 ```
 
 ```js
-const a1 = () => visco.execute_command_sequence( "e,N,Brest,S,Rennes,j" )
+diagram
+a1()
+```
+
+```js 
+current_content
+```
+
+```js
+const a1 = () => visco.execute_command_sequence( current_content )
 ```
 </div>
 
