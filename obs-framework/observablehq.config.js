@@ -12,7 +12,7 @@ export default {
       open:true,
       pages: 
       [
-        {name: "Nomadic Sustainable Life"      , path: "/nomadic-household"}
+        {name: "Nomadic Sustainable Life"      , path: "/nomadic-household"},
       ]
     }
     ,
@@ -21,7 +21,7 @@ export default {
       pages: 
       [
         {name: "Value Map Playground"          , path: "/valuemap/playground"},
-        {name: "Neural Networks"               , path: "/valuemap/neural-networks"}
+        {name: "Neural Network Animation"      , path: "/neural-network"},
       ]
     }
     ,
