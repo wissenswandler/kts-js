@@ -2,6 +2,7 @@ import { and } from "./Logic.js"
 
 export class Arr
 {
+  static unique = (value, index, array) => array.indexOf(value) === index // to be used as convenient filter function
 
   static are_equal = (...rest)        => this.equal(...rest)
   static     equal = (...rest)        => this.eq   (...rest)

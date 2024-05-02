@@ -1,10 +1,68 @@
-import * as yaml from "js-yaml"
+import * as yaml  from "js-yaml"
+
+import { Arr, Logic }    from "@kxfm/one"
+
+export const only_shared_events               = "only shared events"
+export const highlight_all_timelines_of_event = "highlight all timelines of event"
+export const show_future_faded                = "fade future"
+
+/* TODO: make configurable */
+const title_dot = "" // to be included near the top of DOT source - can be used to implement a title or supplementary graphics
+
+/* TODO: make configurable */
+const central_entity = "Second_Owner"
+
+/* TODO: make configurable */
+const diagram_options = 
+{
+  future_pointer_minlen: 1
+  ,
+  places_edge_style : "dotted"
+
+  , entryArrowtail : "crow" // for a nicer distinction between the entity's name and its first event along the timeline
+  
+  //, entity_edge_style : "dashed"
+  
+  //, showExit : false // a river e.g. never extends beyond its estuary
+
+  //, render_terminal_event_boxed : true
+}
+
+/* TODO: make configurable */
+const entity_default_properties_by_type = new Map(
+  [
+    [  "replacement", { labelPrefix : "⚙" ,showExit : false  }  ]
+    ,
+    [  "dog"        , { labelPrefix : "🐕"                   }  ]
+    ,
+    [  "skill"      , { labelPrefix : "🔧" , edge : "style=dotted" }  ]
+    ,
+    [  "boat"       , { labelPrefix : "⛵" , edge : "style=dashed" }  ]
+    ,
+    [  "car"        , { labelPrefix : "🚗" , edge : "style=dashed" }  ]
+    ,
+    [  "education"  , { labelPrefix : "🎓"                         }  ]
+    ,
+    [  "school"     , { labelPrefix : "🏢"                         }  ]
+    ,
+    [  "OU"         , { labelPrefix : "🏢"                         }  ]
+  ]
+)
 
 export function timelines2dot( timelines_text ) 
 {
   return "digraph G {\n" + timelines_text + "\n}\n";
 }
 
+/*
+ * internal members
+ */
+const datepart_from_event = event => event.split('_').slice(1).join('_')
+
+function id_from_options_or_label( rdfLabel, options = {} )
+{
+    return options.id ?? rdfLabel.replaceAll( ' ',"" )
+}
 
 // various generic utilities around Strings without technical dependencies
 class Text
@@ -1082,6 +1140,11 @@ static create_event_object = ( rdfLabel, rdfDescription ) =>
 }
 export class DotRenderer
 {
+
+  constructor( project_lod = "title only" )
+  {
+    this.project_lod = project_lod
+  }
   
   static to_dot_label_raw = value => 
   {
@@ -1096,9 +1159,9 @@ export class DotRenderer
     value+"" // undefined.toString() causes an error
   }
   
-  static translate_nodeValues_to_dotValues( node_o )
+  translate_nodeValues_to_dotValues( node_o )
   {
-    const view_summary = project_lod == "title only"; // dependency on a global switch !
+    const view_summary = this.project_lod == "title only"
     
     const labelAndDescription = 
       node_o.rdfDescription ?
@@ -1163,9 +1226,10 @@ export class StoryToDotRenderer extends DotRenderer
 {
   story
   
-  constructor( story )
+  constructor( story, diagram_toggles, project_lod )
   {
-    super()
+    super( project_lod )
+
     switch( typeof story )
     {
       case 'object':
@@ -1177,6 +1241,7 @@ export class StoryToDotRenderer extends DotRenderer
       default:
         throw(  new Error( "invalid datatype of story" )  )
     }     
+    this.diagram_toggles = diagram_toggles
   }
 
 /*
@@ -1248,14 +1313,14 @@ render_event_details()
       const event_json = this.story.events_json[k] // which is optional
 
       // properties of this event node will be either created from scratch, or extend the explicit event definition 
-      const properties = event_json  ?  this.constructor.translate_nodeValues_to_dotValues( event_json )  :  new Map()
+      const properties = event_json  ?  this.translate_nodeValues_to_dotValues( event_json )  :  new Map()
       
       const entities = Array.from( this.story.event_entity_map.get(k) ) // all entities which share this event - guaranteed to be at least one
 
       const classlist = new Array();
       if
       (
-        diagram_toggles.includes( highlight_all_timelines_of_event )
+        this.diagram_toggles.includes( highlight_all_timelines_of_event )
         ||
         entities.length === 1
       )

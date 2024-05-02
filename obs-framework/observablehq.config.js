@@ -29,12 +29,13 @@ export default {
       open:false,
       pages:
       [
-        {name: "simplest demo (static diagram)", path: "/lib-demo"},
-        {name: "animated diagram transitions"  , path: "/lib-ani-transition"},
-        {name: "animated diagram selections"   , path: "/lib-ani-visco"},
-        {name: "full API demo"                 , path: "/lib-0-full"},
-        {name: "composed diagram (details)"    , path: "/lib-z-composed-parts"},
-        {name: "error handling in DOT source"  , path: "/lib-9-dot-source-error"},
+        {name: "simplest demo (static diagram)", path: "/lib-demo"               },
+        {name: "animated diagram transitions"  , path: "/lib-ani-transition"     },
+        {name: "animated diagram selections"   , path: "/lib-ani-visco"          },
+        {name: "Timelines"                     , path: "/lib-timelines"          },
+        {name: "full API demo"                 , path: "/lib-0-full"             },
+        {name: "composed diagram (details)"    , path: "/lib-z-composed-parts"   },
+        {name: "error handling in DOT source"  , path: "/lib-9-dot-source-error" },
       ]
     }
   ],

@@ -1,34 +1,53 @@
 # Timelines Lib
   
 ```js
-import {  KTS4Browser,
-          create_kts_console  } from "@kxfm/one"
+import{  KTS4Browser,
+         create_kts_console,
+         get_url_param         } from "@kxfm/one"
 
-import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
+import{  Graphviz              } from "@hpcc-js/wasm/graphviz"
 
-import { StoryToDotRenderer, Story } from "/lib/timelines2dot.js"
+import{ StoryToDotRenderer, Story,
+        show_future_faded,
+        highlight_all_timelines_of_event,
+        only_shared_events
+} from "/lib/timelines2dot.js"
 
 const kts_console = create_kts_console()
 ```
 
-see corresponding demo in vanilla Javascript on [local Web Dev Server](http://localhost:8000/demo.html)
+<div class="card">
+
+## controls for the Timelines diagram
+
+```js
+const diagram_toggles = view( Inputs.checkbox
+(
+  [only_shared_events,highlight_all_timelines_of_event,show_future_faded], 
+  {
+    value: [show_future_faded].concat( get_url_param( "only_shared_events", false )[0]==='true' ? [only_shared_events] : [] ) 
+  } 
+) )
+```
+
+```js
+const project_lod = view( Inputs.radio(["title only", "full description"], {label: "level of detail", value: "title only"}) )
+```
+</div>
 
 <div class="card">
 
-## The simplest possible use of KTS in an Observable project.
+## Timelines diagram, observing some switches but not "Entity" and no "Shared" filter yet
 
-```js echo
-create_kts_console()
-```
-
-```js echo
+```js
 const graphviz = await Graphviz.load()
 const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
 const digraph = transformer.digraph
+const diagram_full_story = transformer.dot2svg (  new StoryToDotRenderer( myStory, diagram_toggles, project_lod )  )
 ```
 
-```js echo
-const diagram_full_story = transformer.dot2svg (  new StoryToDotRenderer( myStory )  )
+```js
+diagram_full_story
 ```
 
 ⇧ above: unfiltered Timeline diagram
@@ -36,7 +55,11 @@ const diagram_full_story = transformer.dot2svg (  new StoryToDotRenderer( myStor
 </div>
 
 ```js
-// main (and the only mandatory) definition of this diagram's story
+create_kts_console()
+```
+
+```js echo
+// definition of this diagram's story
 const myStory = new Story( `
 
 #
@@ -105,7 +128,7 @@ rdfDescription: third entity by the name Same_Name
 # Syntax Error catches
 #
 
-ErrorEntity - a: b c: d
+#ErrorEntity - a: b c: d
 
 #
 # testing different RDF types (commented out for brevity)
