@@ -51,12 +51,6 @@ _Hovering is not available on touch devices (lacking a pointing device such as a
 ```
 
 ```js
-diagram_full_story = dot2svg (  new StoryToDotRenderer( myStory )  )
-```
-
-⇧ above: unfiltered Timeline diagram
-
-```js
 bookmark_current = htl.html`<p><a class="screenonly" href="?details=${
 selected_entities.join(',')
 }&date_range=${
@@ -64,10 +58,6 @@ date_range.join(',')
 }&only_shared_events=${
 diagram_toggles.includes( only_shared_events )
 }">bookmark current set of details</a></p>`
-```
-
-```js
-viewof selected_entities = myStory.create_grouped_input()
 ```
 
 ```js
@@ -358,16 +348,6 @@ this_particular_diagram = "This particular diagram has examples and testcases fo
 ```
 
 ```js
-// customization of the table view's headers
-dictionary = 
-{ return  { // this brace must be on same line as return statement !!
-    "OU"    : "Organization"
-    ,
-    "begin" : "Start"
-    ,
-    "label" : "Place / Topic / Project"
-  }
-}
 ```
 
 ```js

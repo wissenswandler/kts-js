@@ -12,6 +12,8 @@ import{ StoryToDotRenderer, Story,
         only_shared_events
 } from "/lib/timelines2dot.js"
 
+import{ StoryToHTMLRenderer } from "/lib/StoryToHTMLRenderer.js"
+
 const kts_console = create_kts_console()
 ```
 
@@ -59,6 +61,13 @@ const post_render_toggles = view( Inputs.checkbox
     value: [show_future_faded]
   } 
 ) )
+```
+</div>
+
+<div class="card">
+
+```js
+const selected_entities = view(  new StoryToHTMLRenderer( myStory ).create_grouped_input()  )
 ```
 </div>
 
