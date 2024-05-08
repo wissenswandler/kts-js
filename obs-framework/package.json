@@ -10,6 +10,7 @@
     "prime-one": "npm install $(npm pack ../kxfm-one/          | tail -1)",
     "prime-obs": "npm install $(npm pack ../kxfm-observablehq/ | tail -1)",
     "link-kts": "npm link        @kxfm/one @kxfm/observablehq ",
+    "update-kts": "npm run update-one && npm run update-obs",
     "update-one": "rm -r docs/.observablehq/cache/_node/@kxfm/one*; cp ../kxfm-one/*.*          node_modules/@kxfm/one/         ",
     "update-obs": "rm -r docs/.observablehq/cache/_node/@kxfm/obs*; cp ../kxfm-observablehq/*.* node_modules/@kxfm/observablehq/"
   },

@@ -18,25 +18,6 @@ const kts_console = create_kts_console()
 
 <div class="card">
 
-## controls for the Timelines diagram
-
-```js
-const diagram_toggles = view( Inputs.checkbox
-(
-  [only_shared_events,highlight_all_timelines_of_event,show_future_faded], 
-  {
-    value: [show_future_faded].concat( get_url_param( "only_shared_events", false )[0]==='true' ? [only_shared_events] : [] ) 
-  } 
-) )
-```
-
-```js
-const project_lod = view( Inputs.radio(["title only", "full description"], {label: "level of detail", value: "title only"}) )
-```
-</div>
-
-<div class="card">
-
 ## Timelines diagram, observing some switches but not "Entity" and no "Shared" filter yet
 
 ```js
@@ -50,8 +31,39 @@ const diagram_full_story = transformer.dot2svg (  new StoryToDotRenderer( myStor
 diagram_full_story
 ```
 
-⇧ above: unfiltered Timeline diagram
+⇧ above: full story
 
+</div>
+
+<div class="card">
+
+## controls for diagram content & behavior
+
+```js
+const diagram_toggles = view( Inputs.checkbox
+(
+  [only_shared_events,highlight_all_timelines_of_event], 
+  {
+    value: get_url_param( "only_shared_events", false )[0]==='true' ? [only_shared_events] : []
+  } 
+) )
+
+const project_lod = view( Inputs.radio(["title only", "full description"], {label: "level of detail", value: "title only"}) )
+```
+
+## controls for diagram looks
+
+implemented via CSS styles, no re-rendering needed 
+
+```js
+const post_render_toggles = view( Inputs.checkbox
+(
+  [show_future_faded], 
+  {
+    value: [show_future_faded]
+  } 
+) )
+```
 </div>
 
 ```js
@@ -186,6 +198,13 @@ Construction_1990:
 Construction_1991: finish
 
 ` )
+```
+
+```js
+const diagram_styles = htl.html`<style>
+${ post_render_toggles.includes(show_future_faded) ? ".type_future, ._future { opacity: 40% }" : "" }
+</style>`
+display( diagram_styles )
 ```
 
 <link rel="stylesheet" href="./lib/graph.css" />
