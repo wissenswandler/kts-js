@@ -1,5 +1,8 @@
 export {  Story               } from "./Story.js"
+export {  ReducedStory        } from "./ReducedStory.js"
+export {  SharedEventFilter   } from "./SharedEventFilter.js"
 export {  StoryToDotRenderer  } from "./StoryToDotRenderer.js"
+export {  StoryToHTMLRenderer } from "./StoryToHTMLRenderer.js"
 
 export const only_shared_events               = "only shared events"
 export const show_future_faded                = "fade future"

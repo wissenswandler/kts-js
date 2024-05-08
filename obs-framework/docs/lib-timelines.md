@@ -9,10 +9,11 @@ import{  Graphviz              } from "@hpcc-js/wasm/graphviz"
 
 import{ StoryToDotRenderer, Story,
         show_future_faded,
-        only_shared_events
+        only_shared_events,
+        StoryToHTMLRenderer,
+        ReducedStory,
+        SharedEventFilter,
 } from "/lib/timelines2dot.js"
-
-import{ StoryToHTMLRenderer } from "/lib/StoryToHTMLRenderer.js"
 
 const kts_console = create_kts_console()
 ```
@@ -25,11 +26,10 @@ const kts_console = create_kts_console()
 const graphviz = await Graphviz.load()
 const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
 const digraph = transformer.digraph
-const diagram_full_story = transformer.dot2svg (  new StoryToDotRenderer( myStory, diagram_toggles, project_lod )  )
 ```
 
 ```js
-diagram_full_story
+transformer.dot2svg(  new StoryToDotRenderer( myStory, diagram_toggles, project_lod )  )
 ```
 </div>
 
@@ -68,6 +68,24 @@ const post_render_toggles = view( Inputs.checkbox
 
 ```js
 const selected_entities = view(  new StoryToHTMLRenderer( myStory ).create_grouped_input()  )
+```
+</div>
+
+<div class="card">
+
+## Timelines diagram, reduced story
+
+```js
+const myReducedStory = new ReducedStory
+(
+  myStory, selected_entities 
+)
+//.addFilter(  new DaterangeFilter  ( date_range                          )  )
+  .addFilter(  new SharedEventFilter( diagram_toggles, only_shared_events )  )
+```
+
+```js
+transformer.dot2svg(  new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod )  )
 ```
 </div>
 

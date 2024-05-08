@@ -140,50 +140,6 @@ ${ diagram_toggles.includes(show_future_faded) ? ".type_future, ._future { opaci
 ### Classes
 
 ```js
-```
-
-```js
-class Arr
-{
-  static unique = (value, index, array) => array.indexOf(value) === index // one missing function from Array.prototype
-}
-```
-
-
-```js
-class EventFilter { } // abstract tagging base class
-```
-
-```js
-class SharedEventFilter extends EventFilter
-{
-  diagram_toggles
-  only_shared_events
-  
-  constructor( diagram_toggles, only_shared_events )
-  {
-    super();
-    this.diagram_toggles    = diagram_toggles 
-    this.only_shared_events = only_shared_events
-  }
-
-  filter = ( event, story ) =>
-    !this.diagram_toggles.includes( this.only_shared_events )
-    ||
-    story.event_entity_map.get( event )
-    &&
-    story.event_entity_map.get( event ).size > 1
-  
-  static filter = ( event, story ) =>
-    !diagram_toggles.includes( only_shared_events )
-    ||
-    story.event_entity_map.get( event )
-    &&
-    story.event_entity_map.get( event ).size > 1
-}
-```
-
-```js
 class DaterangeFilter extends EventFilter
 {
   constructor( date_range )
@@ -256,36 +212,8 @@ function  create_daterange_input ( values_if_not_passed_in_url = ['',''] )
 }
 ```
 
-```js
-class ReducedStory extends Story
-{
-  constructor( story, selected_entities, eventfilters = [] )
-  {
-    super( story, selected_entities )
-
-    this.fullstory = story
-
-    this.event_filters = eventfilters
-
-    // now narrow the fields 
-    this.entity_timelines = Object.fromEntries( this.entities_map.entries() ) // recreate the reduced timelines object
-    this.calculate_entity_keys()
-    this.harvest_story()  // depends on entity_keys, produces topics and events maps
-    this.calculate_derived_fields( selected_entities )
-  }
-}
-```
-
 ### Instances
 
-```js
-myReducedStory = new ReducedStory
-(
-  myStory, selected_entities 
-)
-  .addFilter(  new DaterangeFilter  ( date_range                          )  )
-  .addFilter(  new SharedEventFilter( diagram_toggles, only_shared_events )  )
-```
 
 ### (String) constants
 
@@ -347,61 +275,7 @@ function timelines( strings, ... keys )
 this_particular_diagram = "This particular diagram has examples and testcases for the Timelines Library. Customize this italic paragraph in cell <code>this_particular_diagram</code>"
 ```
 
-```js
-```
-
-```js
-entity_default_properties_by_type = new Map(
-  [
-    [  "replacement", { labelPrefix : "⚙" ,showExit : false  }  ]
-    ,
-    [  "dog"        , { labelPrefix : "🐕"                   }  ]
-    ,
-    [  "skill"      , { labelPrefix : "🔧" , edge : "style=dotted" }  ]
-    ,
-    [  "boat"       , { labelPrefix : "⛵" , edge : "style=dashed" }  ]
-    ,
-    [  "car"        , { labelPrefix : "🚗" , edge : "style=dashed" }  ]
-    ,
-    [  "education"  , { labelPrefix : "🎓"                         }  ]
-    ,
-    [  "school"     , { labelPrefix : "🏢"                         }  ]
-    ,
-    [  "OU"         , { labelPrefix : "🏢"                         }  ]
-  ]
-)
-```
-
-```js
-diagram_options = 
-{
-  return {
-    future_pointer_minlen: 1
-    ,
-    places_edge_style : "dotted"
-
-    , entryArrowtail : "crow" // for a nicer distinction between the entity's name and its first event along the timeline
-    
-    //, entity_edge_style : "dashed"
-    
-    //, showExit : false // a river e.g. never extends beyond its estuary
-
-    //, render_terminal_event_boxed : true
-  }
-}
-```
-
-```js
-// e.g. for a CV: the "central entity" will not get listed in tabular views as a "related entity" because it is implicit 
-central_entity = "Second_Owner"
-```
-
-```js
-title_dot = "" // to be included near the top of DOT source - can be used to implement a title or supplementary graphics
-```
-
 ## Imports
-
 
 ```js
 import { get_initial_url_param, get_initial_details, digraph2svg, dot2svg, kts_console, visco, init, set_input_value}
