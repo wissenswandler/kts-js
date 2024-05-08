@@ -9,7 +9,6 @@ import{  Graphviz              } from "@hpcc-js/wasm/graphviz"
 
 import{ StoryToDotRenderer, Story,
         show_future_faded,
-        highlight_all_timelines_of_event,
         only_shared_events
 } from "/lib/timelines2dot.js"
 
@@ -18,7 +17,7 @@ const kts_console = create_kts_console()
 
 <div class="card">
 
-## Timelines diagram, observing some switches but not "Entity" and no "Shared" filter yet
+## Timelines diagram, full story
 
 ```js
 const graphviz = await Graphviz.load()
@@ -30,9 +29,6 @@ const diagram_full_story = transformer.dot2svg (  new StoryToDotRenderer( myStor
 ```js
 diagram_full_story
 ```
-
-⇧ above: full story
-
 </div>
 
 <div class="card">
@@ -42,7 +38,7 @@ diagram_full_story
 ```js
 const diagram_toggles = view( Inputs.checkbox
 (
-  [only_shared_events,highlight_all_timelines_of_event], 
+  [only_shared_events,StoryToDotRenderer.highlight_all_timelines_of_event], 
   {
     value: get_url_param( "only_shared_events", false )[0]==='true' ? [only_shared_events] : []
   } 
