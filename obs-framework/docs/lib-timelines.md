@@ -33,8 +33,6 @@ Rick      Casablanca_1941 airport
 
 Ilsa      Casablanca_1941 airport  airplane
 
-#Victor    Casablanca_1941 airport airplane
-
 Strasser  Casablanca_1941 airport StrD - |
 - - -
 StrD: death
@@ -44,7 +42,7 @@ StrD: death
 
 <div class="card">
 
-## Timelines diagram: full story
+## diagram: full story
 
 ```js
 const graphviz = await Graphviz.load()
@@ -140,9 +138,19 @@ reducedStoryRenderer.create_button_to_apply_visible_entities_as_new_filter( sele
 ```
 </div>
 
+```js
+htl.html`<p><a class="screenonly" href="?details=${
+selected_entities.join(',')
+}&date_range=${
+date_range.join(',')
+}&only_shared_events=${
+diagram_toggles.includes( only_shared_events )
+}">bookmark current set of details</a></p>`
+```
+
 <div class="card">
 
-## Timelines diagram: reduced story${ myReducedStory.get_flavour() }
+## diagram: reduced story${ myReducedStory.get_flavour() }
 
 showing ${ myReducedStory.n_topics } out of total ${ myStory.n_topics } topics
 
@@ -174,16 +182,6 @@ plus some of their details and related entities
 reducedStoryRenderer.tabular_view( ["person","OU"] )
 ```
 </div>
-
-```js
-htl.html`<p><a class="screenonly" href="?details=${
-selected_entities.join(',')
-}&date_range=${
-date_range.join(',')
-}&only_shared_events=${
-diagram_toggles.includes( only_shared_events )
-}">bookmark current set of details</a></p>`
-```
 
 ```js echo
 //

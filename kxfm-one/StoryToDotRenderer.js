@@ -52,7 +52,7 @@ class StoryToDotRenderer extends DotRenderer
 toString()
 { return this.story.eventsArray.length === 0 
   ? 
-  `graph <empty> {e [fontsize=20 label="story is empty - filters too narrow?"]  }` 
+  `digraph <empty> {e [fontsize=20 label="story is empty - filters too narrow?"]  }` 
   : 
   `
 digraph <Timelines> {
