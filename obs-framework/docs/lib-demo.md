@@ -40,11 +40,3 @@ diagrams scales down if needed, on a wide screen it will present 1 to 1 like the
 digraph `<rather_long_diagram_here> -> <to_demonstrate_the_responsive> -> <nature_of_the_diagram> -> <It_scales_down_if_needed> -> <On_a_wide_screen_it_will_present_1_to_1_like_the_small_first_diagram>`
 ```
 </div>
-
-<link rel="stylesheet" href="./lib/graph.css" />
-<script src="./lib/graph.js"></script>
-
-<!-- following two imports are actually working on the dev server, but only with the absolute URL
-script src="http://127.0.0.1:3000/_import/kxfm/one/graph.js" type="text/ecmascript" ></script>
-<link  href="http://127.0.0.1:3000/_import/kxfm/one/graph.css" rel="stylesheet"      ></link-->
-

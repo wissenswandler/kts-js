@@ -25,6 +25,14 @@ export default {
       ]
     }
     ,
+    { name: "Timelines demos",
+      open:false,
+      pages: 
+      [
+        {name: "Casablanca"                    , path: "/casablanca"},
+      ]
+    }
+    ,
     { name: "kxfm lib tests",
       open:false,
       pages:
@@ -42,11 +50,16 @@ export default {
 
   // Some additional configuration options and their defaults:
   theme: "dashboard", // try "light", "dark", "slate", etc.
+  style: "kxfm.css",
+
   // header: "", // what to show in the header (HTML)
-  footer: "", // what to show in the footer (HTML)
+  footer: '<script src="/lib/graph.js"></script>', // what to show in the footer (HTML)
+
+  search: true, // activate search
   toc: false, // whether to show the table of contents
   // pager: true, // whether to show previous & next links in the footer
+
   // root: "docs", // path to the source root for preview
   // output: "dist", // path to the output root for build
-  search: true, // activate search
+
 };

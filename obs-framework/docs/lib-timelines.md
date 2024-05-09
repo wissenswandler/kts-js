@@ -4,11 +4,7 @@ toc: true
 # Timelines Lib
   
 ```js
-import{  KTS4Browser,
-         create_kts_console,
-         get_url_param         } from "@kxfm/one"
-
-import{  Graphviz              } from "@hpcc-js/wasm/graphviz"
+import{ get_url_param         } from "@kxfm/one"
 
 import{ StoryToDotRenderer, Story,
         show_future_faded,
@@ -20,51 +16,22 @@ import{ StoryToDotRenderer, Story,
         set_input_value,
 } from "/lib/timelines2dot.js"
 
-const kts_console = create_kts_console()
+import{ timelines,
+        dot2svg,
+        kts_console,
+                              } from "/lib/timelines4browser.js"
 ```
-
-<div class="card">
-
-## Intro
-
-```js
-timelines `
-Rick      Casablanca_1941 airport
-
-Ilsa      Casablanca_1941 airport  airplane
-
-Strasser  Casablanca_1941 airport StrD - |
-- - -
-StrD: death
-`
-```
-</div>
 
 <div class="card">
 
 ## diagram: full story
 
 ```js
-const graphviz = await Graphviz.load()
-const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
-const digraph = transformer.digraph
-
-/*
- * tag function,
- * turning the template literal into a KTS Timelines diagram
- * accepts a Timelines story
- */
-function timelines( strings, ... keys )
-{
-  return transformer.dot2svg(   new StoryToDotRenderer(  strings.reduce( (a, c) => a + keys.shift() + c )  )   )
-}
-```
-
-```js
 const storyToHTMLRenderer = new StoryToHTMLRenderer( myStory )
 ```
 ```js
-transformer.dot2svg(  new StoryToDotRenderer( myStory, diagram_toggles, project_lod )  ) 
+//dot2svg(  new StoryToDotRenderer( myStory, diagram_toggles, project_lod )  ) 
+timelines`${story_text}`
 ```
 </div>
 
@@ -166,12 +133,12 @@ const reducedStoryRenderer = new StoryToHTMLRenderer( myReducedStory )
 ```
 
 ```js
-transformer.dot2svg(  new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod )  )
+dot2svg(  new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod )  )
 ```
 </div>
 
 ```js
-create_kts_console()
+kts_console
 ```
 <div class="card">
 
@@ -183,11 +150,15 @@ reducedStoryRenderer.tabular_view( ["person","OU"] )
 ```
 </div>
 
+```js
+const myStory = new Story( story_text )
+```
 ```js echo
 //
 // definition of this diagram's story
 //
-const myStory = new Story( `
+
+const story_text = `
 
 #
 # Usecase 1: simple case of a linear timeline
@@ -312,17 +283,20 @@ Construction_1990:
   or paragraphs of description
 Construction_1991: finish
 
-` )
+`
 ```
 
 ```js
+// demonstration how to manipulate the "future" style
+// IF future should not be faded
 const diagram_styles = htl.html`<style>
-${ post_render_toggles.includes(show_future_faded) ? ".type_future, ._future { opacity: 40% }" : "" }
+${
+  post_render_toggles.includes(show_future_faded) 
+  ?
+  "" // default per graph.css
+  : 
+  ".type_future, ._future { opacity: 100% !important }" 
+}
 </style>`
 display( diagram_styles )
 ```
-
-<link rel="stylesheet" href="./lib/graph.css" />
-<script src="./lib/graph.js"></script>
-
-<script src='https://unpkg.com/svg-pan-zoom/dist/svg-pan-zoom.min.js'></script>

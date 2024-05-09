@@ -64,6 +64,8 @@ body {
  * style for certain node- and edge-types
  */
 
+.type_future, ._future { opacity: 40% }
+
 .impact_negative path,
 .impact_negative polygon 
 /* not: text children */

@@ -152,6 +152,8 @@ constructor( graphvizInstance, options = {},  ...rest)
 
   if( options.clientwidth )
     this.width = options.clientwidth
+
+  this.dot2svg = this.dot2svg.bind( this )
 }
 
 /*
