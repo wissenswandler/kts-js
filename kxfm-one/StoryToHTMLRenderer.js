@@ -22,14 +22,14 @@ class StoryToHTMLRenderer
     this.story = story;
   }
 
-create_grouped_input( label = htl.html`select<span class="printonly">ed</span> elements, grouped by type`, values_if_not_passed_in_url )
+create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</span> elements, grouped by type</span>`, values_if_not_passed_in_url )
 {
   const groups = new Set;
   const format = (d) => 
   {
     const group = d[1].options.rdfType
     const name =  d[0]
-    const label = htl.html`<span>${name}`;
+    const label = htl.html`<span>${name}</span>`;
     (groups[group] || (groups[group] = [])).push(label);
     return label;
   };
@@ -82,15 +82,30 @@ create_grouped_input( label = htl.html`select<span class="printonly">ed</span> e
 .${scope}-group label {
   margin-bottom: .5em;
 }
-`;
+`
 
   for( const [name, nodes] of Object.entries(groups) )
   {
     const wrap = htl.html`<div>`;
     wrap.append( ...nodes.map( (n) => n.parentElement) );
     const g = htl.html`<div class="${scope}-group type_${name}">`
-    g.append( htl.html`<span class="screenonly">show&nbsp;</span>${ (Object.entries(groups).length>1) && (name != 'undefined') ? `<strong>${ Text.translate( name, this.dictionary, Text.capitalize(name) ) }</strong>&nbsp;` : '' }` )
-    //g.append( Inputs.button("+") ) // can't get this button to set the inputvalue of surrounding cell because of circular definition by Observable means -- also can't manipulate via HTML DOM ('checked' attribute) because d3 does not reflext such a change in the value of the input: value remains unchanged even with checkbox being visibly checked or unchecked
+    g.append
+    (
+      htl.html`
+      <span class="screenonly">show</span>${
+        Object.entries(groups).length>1 
+        && 
+        name != 'undefined' 
+        ?
+        htl.html`&nbsp;<strong>${
+          Text.translate( name, this.dictionary, Text.capitalize(name) ) 
+        }</strong>`
+        :
+        '' 
+      }
+      ` 
+    )
+    //g.append( Inputs.button("+") ) // can't get this button to set the inputvalue of surrounding cell because of circular definition by Observable means -- also can't manipulate via HTML DOM ('checked' attribute) because d3 does not reflect such a change in the value of the input: value remains unchanged even with checkbox being visibly checked or unchecked
     g.append( wrap )
     parent.appendChild(g);
   }
@@ -107,4 +122,4 @@ create_grouped_input( label = htl.html`select<span class="printonly">ed</span> e
     }
   });
 } // end of create_grouped_input
-}
+} // end of class StoryToHTMLRenderer

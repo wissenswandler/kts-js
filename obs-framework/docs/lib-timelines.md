@@ -66,9 +66,12 @@ const post_render_toggles = view( Inputs.checkbox
 
 <div class="card">
 
+reduce story to the selected entities
+
 ```js
 const selected_entities = view(  new StoryToHTMLRenderer( myStory ).create_grouped_input()  )
 ```
+
 </div>
 
 <div class="card">
@@ -132,7 +135,7 @@ Partner_B BothMeet2000_2000 - UseCase
 # but could be a transitional state while you are writing a Timeline story and introduce a new Entity
 # 
 
-Boring_Entity - UseCase
+Boring_Entity
 
 #
 # Special Case: duplicate entity names receive distinct internal keys
@@ -232,3 +235,5 @@ display( diagram_styles )
 
 <link rel="stylesheet" href="./lib/graph.css" />
 <script src="./lib/graph.js"></script>
+
+<script src='https://unpkg.com/svg-pan-zoom/dist/svg-pan-zoom.min.js'></script>
