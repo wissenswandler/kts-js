@@ -1,3 +1,13 @@
 @import url( "observablehq:default.css" );
-@import url( "lib/graph.css" );
+@import url( "observablehq:theme-air.css" );
+/*
+@import url( "observablehq:theme-air,near-midnight,alt,wide.css" );
+*/
+@import url( "lib/visco.css" );
+
+/*
+ * mixed page layout
+ */
+.left  { float: left;  }
+.clear { clear: both;  }
 
