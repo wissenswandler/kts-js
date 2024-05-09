@@ -74,6 +74,3 @@ create_kts_console()
 // slowly (manually) animating diagrams that you want to explore via VisCo
 ```
 </div>
-
-<link rel="stylesheet" href="./lib/graph.css" />
-<script src="./lib/graph.js"></script>

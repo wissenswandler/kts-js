@@ -93,6 +93,3 @@ a1()
 ```js
 const a1 = () => visco.execute_command_sequence( current_content )
 ```
-
-<link rel="stylesheet" href="/lib/graph.css" />
-<script src="/lib/graph.js"></script>

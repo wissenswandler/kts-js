@@ -151,13 +151,3 @@ function create_types_filter( all_issues )
   return Inputs.checkbox( issuetypes, { label:"filter by type", value: issuetypes } )
 }
 ```
-
-<link rel="stylesheet" href="./lib/graph.css" />
-<script src="./lib/graph.js"></script>
-
-<style>
-
-  form.inputs-3a86ea
-  {display: inline}
-
-</style>

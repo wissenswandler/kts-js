@@ -1,6 +1,3 @@
----
-no toc
----
 # Nomadic Sustainable Life
 
 How Nature is Serving my Needs
@@ -285,6 +282,3 @@ transformer.digraph2svg( flixbox.combine_parts( show_parts_view ) )
 ```js
 kts_console
 ```
-
-<link rel="stylesheet" href="./lib/graph.css" />
-<script src="./lib/graph.js"></script>
