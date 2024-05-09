@@ -48,7 +48,7 @@ export default {
     }
   ],
 
-  // Some additional configuration options and their defaults:
+  root : "src", // path to the source root for preview
   theme: "dashboard", // try "light", "dark", "slate", etc.
   style: "kxfm.css",
 
@@ -59,7 +59,6 @@ export default {
   toc: false, // whether to show the table of contents
   // pager: true, // whether to show previous & next links in the footer
 
-  // root: "docs", // path to the source root for preview
   // output: "dist", // path to the output root for build
 
 };
