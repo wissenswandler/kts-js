@@ -330,6 +330,7 @@ animate_this_inside = ( dot_string, dom_node, duration = 0.5 ) =>
 ```
 
 ```js
+// DONE: migrated
 function set_input_value(input, value, add_or_remove = undefined ) 
 {
   if( add_or_remove === undefined )

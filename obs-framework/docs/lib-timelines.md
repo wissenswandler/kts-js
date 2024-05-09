@@ -1,3 +1,6 @@
+---
+toc: true
+---
 # Timelines Lib
   
 ```js
@@ -13,6 +16,7 @@ import{ StoryToDotRenderer, Story,
         StoryToHTMLRenderer,
         ReducedStory,
         SharedEventFilter,
+        DaterangeFilter,
 } from "/lib/timelines2dot.js"
 
 const kts_console = create_kts_console()
@@ -20,16 +24,48 @@ const kts_console = create_kts_console()
 
 <div class="card">
 
-## Timelines diagram, full story
+## Intro
+
+```js
+timelines `
+Rick      Casablanca_1941 airport
+
+Ilsa      Casablanca_1941 airport  airplane
+
+#Victor    Casablanca_1941 airport airplane
+
+Strasser  Casablanca_1941 airport StrD - |
+- - -
+StrD: death
+`
+```
+</div>
+
+<div class="card">
+
+## Timelines diagram: full story
 
 ```js
 const graphviz = await Graphviz.load()
 const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
 const digraph = transformer.digraph
+
+/*
+ * tag function,
+ * turning the template literal into a KTS Timelines diagram
+ * accepts a Timelines story
+ */
+function timelines( strings, ... keys )
+{
+  return transformer.dot2svg(   new StoryToDotRenderer(  strings.reduce( (a, c) => a + keys.shift() + c )  )   )
+}
 ```
 
 ```js
-transformer.dot2svg(  new StoryToDotRenderer( myStory, diagram_toggles, project_lod )  )
+const storyToHTMLRenderer = new StoryToHTMLRenderer( myStory )
+```
+```js
+transformer.dot2svg(  new StoryToDotRenderer( myStory, diagram_toggles, project_lod )  ) 
 ```
 </div>
 
@@ -66,25 +102,70 @@ const post_render_toggles = view( Inputs.checkbox
 
 <div class="card">
 
-reduce story to the selected entities
+## controls for entity selection (reduction)
 
 ```js
-const selected_entities = view(  new StoryToHTMLRenderer( myStory ).create_grouped_input()  )
+const selected_entities_input = storyToHTMLRenderer.create_grouped_input()
+const selected_entities = view( selected_entities_input )
 ```
 
+```js
+Inputs.button
+( 
+  [
+    [ "none", () => set_input_value( selected_entities_input, [] ) ]
+    ,
+    [  "all", () => set_input_value( selected_entities_input,  myStory.entity_keys ) ]
+  ]
+)
+```
+
+```js
+function set_input_value(input, value, add_or_remove = undefined ) 
+{
+  if( add_or_remove === undefined )
+    input.value = value
+  else
+  {
+    switch( add_or_remove )
+    {
+      case '+':
+        input.value = input.value.concat( Array.isArray(value) ? value : [value] )
+        break
+      case '-':
+        input.value = input.value.filter( e => e != value )
+        break
+      default:
+        throw new Error( `only operations '+' and '-' are defined (reading "${add_or_remove}")` )
+    }
+  }
+  
+  input.dispatchEvent(new Event("input", {bubbles: true}));
+}
+```
 </div>
 
 <div class="card">
 
-## Timelines diagram, reduced story
+## controls for date range selection (reduction on event level)
+
+```js
+const date_range_input = storyToHTMLRenderer.create_daterange_input()
+const date_range = view( date_range_input )
+```
+</div>
+
+<div class="card">
+
+## Timelines diagram: reduced story${ myReducedStory.get_flavour() }
 
 ```js
 const myReducedStory = new ReducedStory
 (
   myStory, selected_entities 
 )
-//.addFilter(  new DaterangeFilter  ( date_range                          )  )
-  .addFilter(  new SharedEventFilter( diagram_toggles, only_shared_events )  )
+.addFilter(  new DaterangeFilter  ( date_range                          )  )
+.addFilter(  new SharedEventFilter( diagram_toggles, only_shared_events )  )
 ```
 
 ```js
@@ -96,8 +177,20 @@ transformer.dot2svg(  new StoryToDotRenderer( myReducedStory, diagram_toggles, p
 create_kts_console()
 ```
 
+```js
+htl.html`<p><a class="screenonly" href="?details=${
+selected_entities.join(',')
+}&date_range=${
+date_range.join(',')
+}&only_shared_events=${
+diagram_toggles.includes( only_shared_events )
+}">bookmark current set of details</a></p>`
+```
+
 ```js echo
+//
 // definition of this diagram's story
+//
 const myStory = new Story( `
 
 #

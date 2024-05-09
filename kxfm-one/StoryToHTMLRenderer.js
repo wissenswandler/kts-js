@@ -22,6 +22,62 @@ class StoryToHTMLRenderer
     this.story = story;
   }
 
+
+
+create_daterange_input ( values_if_not_passed_in_url = ['',''] )
+{
+  return Inputs.form
+  (
+    [
+      create_date_text_input( "show events ranging from", values_if_not_passed_in_url, 0, this.story.get_date_labels()[0]     )
+      ,
+      create_date_text_input( "until",                    values_if_not_passed_in_url, 1, this.story.get_date_labels().pop()  )
+    ],
+    {
+      template: inputs => htl.html`
+        <details class="date_range screenonly">
+          <summary>Date range filter</summary>
+          <div>
+            ${inputs[0]}
+            &nbsp;
+            ${inputs[1]}
+          </div>
+        </details>
+        <style>
+        
+          details.date_range { max-width: 40% }
+          
+          details.date_range > div > form
+          ,
+          details.date_range > div > form > label
+          { width: unset; max-width: unset; display: inline-block }
+          
+          details.date_range > div > form > div > input
+          { width: 10em; max-width: 10em }
+          
+          details.date_range > div > form > div > input:invalid
+          {background : lightpink }
+          
+        </style>
+      `
+    }
+    // following references would cause a circular definition
+  )
+
+  /*static*/ function create_date_text_input( label, values_if_not_passed_in_url, index, placeholder = "YYYY-MM-DD" )
+  { return  Inputs.text
+    ( 
+      {
+        label:label,
+        value: ( KTS4HTML.get_url_param('date_range') ?? [undefined,undefined] )[index] ?? values_if_not_passed_in_url[index],
+        maxlength:10,
+        placeholder,
+        pattern:"[0-9]{4}(-[01][0-9](-[0-3][0-9])?)?" 
+      }
+    )
+  }
+} // end of create_daterange_input()
+
 create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</span> elements, grouped by type</span>`, values_if_not_passed_in_url )
 {
   const groups = new Set;
@@ -40,7 +96,7 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
     (
       Object.entries( subjects), 
       {
-        value: KTS4HTML.get_url_param( 'detail', defaults )
+        value: KTS4HTML.get_url_param( 'details', defaults )
         ,
         valueof: ([a]) => a 
         ,
@@ -121,5 +177,7 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
       input.value = v;
     }
   });
-} // end of create_grouped_input
+
+} // end of create_grouped_input()
+
 } // end of class StoryToHTMLRenderer

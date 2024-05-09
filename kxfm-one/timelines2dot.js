@@ -1,5 +1,6 @@
 export {  Story               } from "./Story.js"
 export {  ReducedStory        } from "./ReducedStory.js"
+export {  DaterangeFilter     } from "./DaterangeFilter.js"
 export {  SharedEventFilter   } from "./SharedEventFilter.js"
 export {  StoryToDotRenderer  } from "./StoryToDotRenderer.js"
 export {  StoryToHTMLRenderer } from "./StoryToHTMLRenderer.js"

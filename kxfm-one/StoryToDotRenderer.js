@@ -122,7 +122,7 @@ render_event_details()
       const classlist = new Array();
       if
       (
-        this.diagram_toggles.includes( this.constructor.highlight_all_timelines_of_event )
+        this.diagram_toggles?.includes( this.constructor.highlight_all_timelines_of_event )
         ||
         entities.length === 1
       )

@@ -9,20 +9,9 @@ For an introduction to the method see [the User Guide](https://observablehq.com/
 For a collection of examples see [Timelines Demos](https://observablehq.com/collection/@bogo/kts-timeline-demos).
 
 ```js
-timelines `
-Rick      Casablanca_1941 airport
-
-Ilsa      Casablanca_1941 airport  airplane
-
-#Victor    Casablanca_1941 airport airplane
-
-Strasser  Casablanca_1941 airport StrD - |
-- - -
-StrD: death
-`
+// shows up in the notes cell
+this_particular_diagram = "This particular diagram has examples and testcases for the Timelines Library. Customize this italic paragraph in cell <code>this_particular_diagram</code>"
 ```
-
-
 ```js
 notes = htl.html`<details><summary>How to read this Timeline diagram</summary>
 ${md`
@@ -51,28 +40,7 @@ _Hovering is not available on touch devices (lacking a pointing device such as a
 ```
 
 ```js
-bookmark_current = htl.html`<p><a class="screenonly" href="?details=${
-selected_entities.join(',')
-}&date_range=${
-date_range.join(',')
-}&only_shared_events=${
-diagram_toggles.includes( only_shared_events )
-}">bookmark current set of details</a></p>`
-```
-
-```js
 viewof type_buttons = myStory.create_type_buttons( viewof selected_entities, selected_entities, 9 )
-```
-
-```js
-quick_select_buttons = Inputs.button
-( 
-  [
-    [ "none", () => set_input_value( viewof selected_entities, [] ) ]
-    ,
-    [  "all", () => set_input_value( viewof selected_entities,  myStory.entity_keys ) ]
-  ]
-)
 ```
 
 ```js
@@ -81,38 +49,6 @@ create_button_to_apply_visible_entities_as_new_filter( viewof selected_entities,
 
 ```js
 create_button_to_apply_visible_entities_as_new_filter = (input, story) => Inputs.button( "apply visible entities as new filter", {reduce: () => set_input_value(input, story.visible_entity_keys) } )
-```
-
-```js
-kts_console
-```
-
-```js
-viewof date_range = create_daterange_input()
-```
-
-```js
-viewof diagram_toggles = Inputs.checkbox
-(
-  [only_shared_events,highlight_all_timelines_of_event,show_future_faded], 
-  {
-    value: [show_future_faded].concat( get_initial_url_param( "only_shared_events", false )[0]==='true' ? [only_shared_events] : [] ) 
-  } 
-)
-```
-
-```js
-diagram_reduced_story = dot2svg( reduced_story_dot_string )
-```
-
-```js
-viewof project_lod = Inputs.radio(["title only", "full description"], {label: "level of detail", value: "title only"})
-```
-
-⇧ above: filtered Timeline Diagram
-
-```js
-flavour = myReducedStory.get_flavour()
 ```
 
 ⇩ below: tabular view of events, some of their details and related entities
@@ -125,126 +61,14 @@ topics_count = md`showing ${ myReducedStory.n_topics } out of total ${ myStory.n
 timeline_tabular = myReducedStory/*myStory*/.tabular_view( ["person","OU"] )
 ```
 
-## Implementation
-
-```js
-reduced_story_dot_string = new StoryToDotRenderer( myReducedStory ).toString()
-```
-
-```js
-diagram_styles = htl.html`<style>
-${ diagram_toggles.includes(show_future_faded) ? ".type_future, ._future { opacity: 40% }" : "" }
-</style>`
-```
-
-### Classes
-
-```js
-class DaterangeFilter extends EventFilter
-{
-  constructor( date_range )
-  {
-    super()
-
-    this.date_range = date_range
-  }
-  filter( event, story )
-  {
-    return story.getEvent( event ).within( this?.date_range ?? date_range ) // NOTE: when the function "filter" is passed as an argument, then "this" is undefined. If called as a method on class DaterangeFilter, then "this" is bound and works as expected
-  }
-}
-```
-
-```js
-function  create_daterange_input ( values_if_not_passed_in_url = ['',''] )
-  {
-    
-  return Inputs.form
-  (
-    [
-      create_date_text_input( "show events ranging from", values_if_not_passed_in_url, 0, myStory.get_date_labels()[0]     )
-      ,
-      create_date_text_input( "until",                    values_if_not_passed_in_url, 1, myStory.get_date_labels().pop()  )
-    ],
-    {
-      template: inputs => htl.html`
-        <details class="date_range screenonly">
-          <summary>Date range filter</summary>
-          <div>
-            ${inputs[0]}
-            &nbsp;
-            ${inputs[1]}
-          </div>
-        </details>
-        <style>
-        
-          details.date_range { max-width: 40% }
-          
-          details.date_range > div > form
-          ,
-          details.date_range > div > form > label
-          { width: unset; max-width: unset; display: inline-block }
-          
-          details.date_range > div > form > div > input
-          { width: 10em; max-width: 10em }
-          
-          details.date_range > div > form > div > input:invalid
-          {background : lightpink }
-          
-        </style>
-      `
-    }
-    // following references would cause a circular definition
-  )
-
-  /*static*/ function create_date_text_input( label, values_if_not_passed_in_url, index, placeholder = "YYYY-MM-DD" )
-  { return  Inputs.text
-    ( 
-      {
-        label:label,
-        value: (get_initial_url_param('date_range') ?? [undefined,undefined])[index] ?? values_if_not_passed_in_url[index],
-        maxlength:10,
-        placeholder,
-        pattern:"[0-9]{4}(-[01][0-9](-[0-3][0-9])?)?" 
-      }
-    )
-  }
-}
-```
-
-### Instances
-
-
 ### (String) constants
 
 ```js
 symbol_major_incident = '⚠️' // '💀' // '💥'
 ```
 
-```js
-only_shared_events = "only shared events"
-```
-
-```js
-highlight_all_timelines_of_event = "highlight all timelines of event"
-```
-
-```js
-show_future_faded = "fade future"
-```
-
 ### functions
 
-```js
-/*static*/ function id_from_options_or_label( rdfLabel, options = {} )
-{
-    return options.id ?? rdfLabel.replaceAll( ' ',"" )
-}
-```
-
-```js
-/*static*/ datepart_from_event = event => event.split('_').slice(1).join('_')
-```
 
 ```js
 /*static*/ function has_date_part( event ) // datepart of event = all tokens starting at the 2nd, if any
@@ -254,31 +78,9 @@ show_future_faded = "fade future"
 }
 ```
 
-## Exports
-
-```js
-/*
- * tag function,
- * turning the template literal into a KTS Timelines diagram
- * accepts a Timelines story
- */
-function timelines( strings, ... keys )
-{
-  return dot2svg(   new StoryToDotRenderer(  strings.reduce( (a, c) => a + keys.shift() + c )  )   )
-}
-```
-
-### with {...} (meant to be overridden in import)
-
-```js
-// shows up in the notes cell
-this_particular_diagram = "This particular diagram has examples and testcases for the Timelines Library. Customize this italic paragraph in cell <code>this_particular_diagram</code>"
-```
-
 ## Imports
 
 ```js
-import { get_initial_url_param, get_initial_details, digraph2svg, dot2svg, kts_console, visco, init, set_input_value}
-with {selected_entities, hpcc_js_wasm_version}
+import { set_input_value}
 from "@bogo/kxfm"
 ```
