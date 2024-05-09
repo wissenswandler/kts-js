@@ -17,6 +17,7 @@ import{ StoryToDotRenderer, Story,
         ReducedStory,
         SharedEventFilter,
         DaterangeFilter,
+        set_input_value,
 } from "/lib/timelines2dot.js"
 
 const kts_console = create_kts_console()
@@ -110,6 +111,10 @@ const selected_entities = view( selected_entities_input )
 ```
 
 ```js
+storyToHTMLRenderer.create_type_buttons( selected_entities_input, selected_entities, 9 )
+```
+
+```js
 Inputs.button
 ( 
   [
@@ -119,45 +124,27 @@ Inputs.button
   ]
 )
 ```
-
-```js
-function set_input_value(input, value, add_or_remove = undefined ) 
-{
-  if( add_or_remove === undefined )
-    input.value = value
-  else
-  {
-    switch( add_or_remove )
-    {
-      case '+':
-        input.value = input.value.concat( Array.isArray(value) ? value : [value] )
-        break
-      case '-':
-        input.value = input.value.filter( e => e != value )
-        break
-      default:
-        throw new Error( `only operations '+' and '-' are defined (reading "${add_or_remove}")` )
-    }
-  }
-  
-  input.dispatchEvent(new Event("input", {bubbles: true}));
-}
-```
 </div>
 
 <div class="card">
 
-## controls for date range selection (reduction on event level)
+## controls for selection on event level
 
 ```js
 const date_range_input = storyToHTMLRenderer.create_daterange_input()
 const date_range = view( date_range_input )
+```
+
+```js
+reducedStoryRenderer.create_button_to_apply_visible_entities_as_new_filter( selected_entities_input )
 ```
 </div>
 
 <div class="card">
 
 ## Timelines diagram: reduced story${ myReducedStory.get_flavour() }
+
+showing ${ myReducedStory.n_topics } out of total ${ myStory.n_topics } topics
 
 ```js
 const myReducedStory = new ReducedStory
@@ -166,6 +153,8 @@ const myReducedStory = new ReducedStory
 )
 .addFilter(  new DaterangeFilter  ( date_range                          )  )
 .addFilter(  new SharedEventFilter( diagram_toggles, only_shared_events )  )
+
+const reducedStoryRenderer = new StoryToHTMLRenderer( myReducedStory )
 ```
 
 ```js
@@ -176,6 +165,15 @@ transformer.dot2svg(  new StoryToDotRenderer( myReducedStory, diagram_toggles, p
 ```js
 create_kts_console()
 ```
+<div class="card">
+
+## Tabular view of events
+plus some of their details and related entities
+
+```js
+reducedStoryRenderer.tabular_view( ["person","OU"] )
+```
+</div>
 
 ```js
 htl.html`<p><a class="screenonly" href="?details=${

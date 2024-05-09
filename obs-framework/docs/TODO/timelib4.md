@@ -39,28 +39,6 @@ _Hovering is not available on touch devices (lacking a pointing device such as a
 </details>`
 ```
 
-```js
-viewof type_buttons = myStory.create_type_buttons( viewof selected_entities, selected_entities, 9 )
-```
-
-```js
-create_button_to_apply_visible_entities_as_new_filter( viewof selected_entities, myReducedStory )
-```
-
-```js
-create_button_to_apply_visible_entities_as_new_filter = (input, story) => Inputs.button( "apply visible entities as new filter", {reduce: () => set_input_value(input, story.visible_entity_keys) } )
-```
-
-⇩ below: tabular view of events, some of their details and related entities
-
-```js
-topics_count = md`showing ${ myReducedStory.n_topics } out of total ${ myStory.n_topics } topics`
-```
-
-```js
-timeline_tabular = myReducedStory/*myStory*/.tabular_view( ["person","OU"] )
-```
-
 ### (String) constants
 
 ```js

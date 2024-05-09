@@ -1,8 +1,12 @@
 import  * as Inputs from "@observablehq/inputs"
+import  * as d3     from "d3"
 import  * as htl    from "htl";
 import  * as UID    from "./uid.js";
 import  * as Text   from './Text.js'
 import{ KTS4HTML }  from "./KTS4HTML.js";
+import{
+        set_input_value,
+} from "./timelines2dot.js"
 
 //import {  Story } from "./Story.js";
 
@@ -22,7 +26,119 @@ class StoryToHTMLRenderer
     this.story = story;
   }
 
+  translate = ( name, fallback = Text.capitalize(name) ) =>
+  Text.translate( name, this.dictionary, fallback )
 
+/*
+ * deprecated "custom" table,
+ * TODO: replace (or complement) with D3 table
+ */
+tabular_view = ( column_names = [], title_names = [] ) => {
+  return d3.create('table').attr( "style", "max-width:100%" ).classed( "timeline_tabular_view", true )
+    .call(table => {
+      table.append('thead').append('tr').classed('header', true).call(headerline => {
+        if( column_names[0] )
+          headerline.append('th').text( title_names[0] ?? this.translate(column_names[0]) )
+
+        if( this.story.all_topicdetails_keys.has( "begin" ) )
+          headerline.append('th').text(  this.translate( "begin" )  )
+        
+        if( this.story.all_topicdetails_keys.has( "end" ) )
+          headerline.append('th').text('End').style( 'text-align','right')
+        
+          headerline.append('th').text(  this.translate( "label" )  )
+        
+        if( this.story.all_topicdetails_keys.has( "description" ) )
+          headerline.append('th').text('Description').style("width","70%")
+        
+        if( column_names[1] )
+          headerline.append('th').text( title_names[1] ?? this.translate(column_names.slice(-1)[0]) )
+      })
+    }) // end header
+    
+    .call(table => {
+    table.append('tbody')
+    
+    .selectAll('tr')
+    .data
+    (
+      Array.from
+      (
+        this.story.topic_events_map.entries() 
+      )
+      .filter(  ([topic,events]) => this.story.is_event_visible( [... events.values()][0] )  )
+      .map
+      ( 
+        ([topic, events]) => this.story.fullstory.get_topic_details( topic ) 
+      )
+    )
+    .join('tr')
+    .call(line => {
+      
+      if( column_names[0] )
+      line
+        .append('td')
+        .text(  topic => topic.get( column_names[0] ) )
+
+      if( this.story.all_topicdetails_keys.has( "begin" ) )
+      line
+        .append('td')
+        .text( topic => topic.get("begin") ) 
+
+      if( this.story.all_topicdetails_keys.has( "end" ) )
+      line
+        .append('td')
+        .text( topic => topic.get( "end" )  )
+
+      line
+        .append('td')
+        .append('b')
+        .text( topic => topic.get( "label" ) )
+
+      if( this.story.all_topicdetails_keys.has( "description" ) )
+      line
+        .append('td')
+        .selectAll('p')
+        .data( topic => topic.get( "description" ) ?? [] )
+        .join('p')
+        .text(description => description)
+      
+      if( column_names[1] )
+      line
+        .append('td')
+        .text( topic => topic.get( column_names.slice(-1)[0] ) ) 
+
+    }) // end topic line
+    }) // end tbody
+    .node() // of table, that is
+
+} // end of tabular_view()
+
+
+create_button_to_apply_visible_entities_as_new_filter = (input) =>
+Inputs.button( "apply visible entities as new entity selection", {reduce: () => set_input_value(input, this.story.visible_entity_keys) } )
+
+create_type_buttons = (view, model, string_truncate_length = 3) =>
+Inputs.button
+(
+  this.story.all_entity_types.reduce
+  ( (acc, type) =>
+    acc.concat
+    (
+    [
+    [ htl.html`<a title=" no ${ this.translate( type ) }">- ${ Text.truncate( this.translate( type ),string_truncate_length) }</a>`, () => 
+      set_input_value( view, model.filter( x => ! this.story.keep_types( ""+type ).includes(x) )  )  // ""+type casts "undefined" to String
+    ],
+    [ htl.html`<a title="all ${ this.translate( type ) }">+ ${ Text.truncate( this.translate( type ),string_truncate_length) }</a>`, () => 
+      set_input_value( view, model.concat(        this.story.keep_types( ""+type )             )  ) 
+    ]
+    ] 
+    )
+    ,
+    []  // accumulator
+  )
+)
+  
 
 create_daterange_input ( values_if_not_passed_in_url = ['',''] )
 {
@@ -154,7 +270,7 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
         name != 'undefined' 
         ?
         htl.html`&nbsp;<strong>${
-          Text.translate( name, this.dictionary, Text.capitalize(name) ) 
+          this.translate( name ) 
         }</strong>`
         :
         '' 
