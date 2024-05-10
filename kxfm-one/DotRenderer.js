@@ -1,7 +1,9 @@
 export class DotRenderer
 {
+  static lod_title_only = "title only"
+  static lod_full_descr = "full description"
 
-  constructor( project_lod = "title only" )
+  constructor( project_lod = DotRenderer.lod_full_descr )
   {
     this.project_lod = project_lod
   }

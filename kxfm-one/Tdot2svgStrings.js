@@ -83,7 +83,20 @@ dot2svg( dot_string, doc_or_tag = true )
 	} catch (e)
 	{
 		console.error( e.stack );
-		console.error( "... with following DOT source:\n~~~~~~~~\n" + dot_string + "\n~~~~~~~~" + "\ntransformed to: \n~~~~~~~~\n" + kts_dot + "\n~~~~~~~~" );
+		console.error
+    ( 
+      "... with following DOT source:\n~~~~~~~~\n" 
+      + 
+      dot_string 
+      + 
+      "\n~~~~~~~~" 
+      + 
+      "\ntransformed to: \n~~~~~~~~\n" 
+      + 
+      kts_dot.split( '\n' ).map( (l,i) => (i+1) + ": " + l ).join( '\n' ) // injecting line numbers - TODO: parse the error message for line number
+      + 
+      "\n~~~~~~~~" 
+    );
 		console.error( 'returning a synthetic "Error SVG" instead of crashing...\n~~~~~~~~' );
 		svg = Tdot2svgStrings.simple_svg_from_error( e );
 	}
