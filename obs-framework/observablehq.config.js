@@ -16,6 +16,14 @@ export default {
       ]
     }
     ,
+    { name: "Timelines Portfolio",
+      open:true,
+      pages: 
+      [
+        {name: "Sinking of Rainbow Warrior"    , path: "/rainbow-warrior"    },
+      ]
+    }
+    ,
     { name: "Value Maps demos",
       open:false,
       pages: 

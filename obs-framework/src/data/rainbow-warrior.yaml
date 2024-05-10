@@ -1,0 +1,312 @@
+France
+Authorization_1985_05_15
+FrenchDenial_1985_07_12 
+FrenchConfession_1985_09_22
+Mururoa_1985_10_24
+MafartReturnsToParis_1987_12_14
+PrieurReturnsToFrance_1988_05_06 
+PMajor_1989
+MColonel_1993
+PCommandant_2002
+DirHR_2009
+- country
+
+FrenchPresident
+Authorization_1985_05_15
+- rdfType: role, rdfLabel: President
+
+FrançoisMitterrand
+Authorization_1985_05_15
+MitterrandDies_1995_05
+- rdfType: person, showExit: false, rdfLabel: François Mitterrand
+
+DGSE
+Authorization_1985_05_15
+LacosteAuthorizing_1985_06
+- rdfType: OU, rdfDescription: General Directorate for External Security = the French foreign intelligence agency
+
+AdmPierreLacoste
+Authorization_1985_05_15
+LacosteAuthorizing_1985_06
+LacosteDies_2020
+- rdfType: person, showExit: false, rdfLabel: P Lacoste, rdfDescription: Admiral Pierre Lacoste, former head of France's General Directorate for External Security
+
+FrenchPrimeMinister 
+FrenchDenial_1985_07_12 
+FrenchConfession_1985_09_22
+- rdfType: role, rdfLabel: Prime Minister
+
+Fabius
+FrenchDenial_1985_07_12 
+FrenchConfession_1985_09_22
+- rdfType: person, rdfLabel: Laurent Fabius
+
+PrisonSentence
+sentenced_1985_11_22
+transferred_1986_07
+1989_1989
+1990_1990
+1991_1991
+1992_1992
+1993_1993
+1994_1994
+theoreticalEnd_1995_11
+- showExit: false
+
+NewZealand
+Auckland_1985_07_07
+Auckland_1985_07_10
+Auckland_1985_07_10_a
+Auckland_1985_07_10_b 
+arresting_1985_07_12
+NavalHarbour_1985_08_21
+sentenced_1985_11_22
+MatauriBay_1987_12_12
+appealToStopBroadcasting_2005
+ruleToBroadcast
+- country
+
+Greenpeace RainbowWarriorAcquired_1977 
+RWvarious
+PereiraJoinsGreenpeace_1982 Norfolk_1985
+RongelapAtoll
+Auckland_1985_07_07
+Auckland_1985_07_10 
+Auckland_1985_07_10_a
+- OU
+
+JeanCamas
+handover2 Auckland_1985_07_07_plus
+escape_A
+- rdfType: person, rdfLabel: J. Camas, rdfDescription: Jean Camas (frogman)
+
+Provence 
+OuvéaScuttled_1985_07_12
+escape_B
+- boat
+
+Import_Crew
+LacosteAuthorizing_1985_06
+importingBombs
+handover1
+NorfolkIsland OuvéaScuttled_1985_07_12
+escape_B
+- rdfType: person, rdfLabel: 3x Import Crew, dfDescription: "Roland Verge, Jean Michel Bartelo, Gérard Andries"
+
+Ouvéa 
+importingBombs
+handover1
+NorfolkIsland
+# after 'arrest' (1985-07-12)
+OuvéaScuttled_1985_07_12 
+- rdfType: boat, showExit: false
+
+JeanLucKister
+handover2 Auckland_1985_07_07_plus
+SouthIsland
+# "about 10 days later"
+escape_C
+- rdfType: person, rdfLabel: JL Kister, rdfDescription: Jean-Luc Kister (frogman)
+
+Hao
+Hao_1986_07
+Hao_1986_07_b
+Hao_1986_07_c_pregnant
+Hao_1987_12_14
+Hao_1988_05_06 
+- place
+
+JoelPrieur 
+Hao_1986_07_b
+Hao_1986_07_c_pregnant
+Hao_1987_12_14
+Hao_1988_05_06 
+PrieurReturnsToFrance_1988_05_06 
+- person
+
+DominiquePrieur
+handover1 handover2 arresting_1985_07_12 chargedWithMurder pleadsGuilty sentenced_1985_11_22
+transferred_1986_07
+Hao_1986_07
+Hao_1986_07_c_pregnant
+Hao_1987_12_14
+Hao_1988_05_06 
+PrieurReturnsToFrance_1988_05_06 
+PMajor_1989
+AgentSecrète_1995
+PCommandant_2002
+appealToStopBroadcasting_2005
+ruleToBroadcast
+DirHR_2009
+- rdfType: person, rdfLabel: D. Prieur, rdfDescription: Dominique Prieur
+
+Mafart
+handover1 handover2 arresting_1985_07_12 chargedWithMurder pleadsGuilty sentenced_1985_11_22 
+transferred_1986_07
+Hao_1986_07
+Hao_1987_12_14
+MafartReturnsToParis_1987_12_14
+EcoleDeGuerre_1988
+EcoleDeGuerre_1990
+MColonel_1993
+CarnetSecrets_1999
+appealToStopBroadcasting_2005
+ruleToBroadcast
+- person
+
+bombs
+importingBombs
+handover1
+handover2
+Auckland_1985_07_07_plus
+Auckland_1985_07_10
+- labelPrefix: 💣, showExit: false
+
+Rainbow_Warrior RainbowWarriorAcquired_1977
+RWvarious
+Norfolk_1985
+RongelapAtoll
+Auckland_1985_07_07
+Auckland_1985_07_07_plus
+Auckland_1985_07_10
+Auckland_1985_07_10_a
+Auckland_1985_07_10_b
+NavalHarbour_1985_08_21
+MatauriBay_1987_12_12
+- rdfType: boat,
+showExit: FALSE
+
+Pereira PereiraJoinsGreenpeace_1982 Norfolk_1985
+RongelapAtoll
+Auckland_1985_07_07
+Auckland_1985_07_10
+Auckland_1985_07_10_a
+Auckland_1985_07_10_b 
+- rdfType: person, rdfLabel: Fernando Pereira, showExit: FALSE
+
+- - -
+
+EcoleDeGuerre_1988: enrolling in\nWar College
+EcoleDeGuerre_1990: 🎓 graduating\nfrom War College
+MColonel_1993: Mafart\npromoted\nto Colonel
+CarnetSecrets_1999:
+- 📚 Carnets secrets d'un nageur de combat
+- |
+
+  Mafart publishes his book
+  'Carnets secrets d'un nageur de combat: 
+  Du Rainbow Warrior aux glaces de l'Arctique'
+
+sentenced_1985_11_22: ⚖️ sentenced\nto 10 years
+
+PMajor_1989: promoted\nto Major
+PCommandant_2002: Prieur\npromoted\nto Commandant
+AgentSecrète_1995:
+- 📚 Agent Secrète
+- |
+  Prieur published 
+  a book concerning her role in 
+  the bombing.  With regards to 
+  the death of Pereira, she wrote:
+  'We were terrified and appalled ... 
+  We hadn't come here to kill anyone.'
+
+appealToStopBroadcasting_2005:
+- guilty plea complaint
+- |
+
+  Prieur and Marfart
+  appealed to the 
+  New Zealand Supreme Court 
+  to stop footage of their 
+  guilty pleas being shown 
+  on television.
+
+ruleToBroadcast: 📣 Supreme Court\nallowed footage\nto go on air
+DirHR_2009:
+- Director of HR
+- |
+  Prieur gets 
+  hired as the director 
+  of human resources for 
+  the Paris Fire Brigade
+  (unit of the French Army)
+
+
+chargedWithMurder: 📣 Prieur + Mafart\ncharged with\nMurder
+
+NavalHarbour_1985_08_21: Rainbow Warrior\ninspected in\nNaval Harbour
+
+arresting_1985_07_12: ☍ NZ police\narresting\nPrieur + Mafart
+
+RongelapAtoll:
+- Rongelap Atoll
+- |
+  After relocating 
+  300 Marshall Islanders from Rongelap Atoll, 
+  which had been polluted by radioactive
+  fallout by past American nuclear tests,
+  Rainbow Warrior travelled to New Zealand
+
+Authorization_1985_05_15:
+- Mitterrand authorizing
+- |
+
+  Adm. Pierre Lacoste, 
+  the former head of France's 
+  General Directorate for External Security 
+  said  in a 1986 report that he
+  personally obtained approval to sink the ship 
+  from the late president François Mitterrand.
+
+FrenchConfession_1985_09_22:
+- confession
+- | 
+  The truth is cruel, [...] 
+  Agents of the French secret service sank this boat.
+  They were acting on orders.
+
+Mururoa_1985_10_24:
+- Héro test
+- |
+  nuclear test Héro was conducted
+  at Mururoa on 24 October 1985 
+  with a yield of 2 kilotonnes of TNT; 
+  France conducted 54 more nuclear tests 
+  until the end of nuclear testing in 1996
+
+FrenchDenial_1985_07_12:
+- denial
+- |
+  In no way is France involved [...] 
+  The French Government doesn't deal
+  with its opponents in such ways.
+
+Auckland_1985_07_07_plus: bombs attached
+
+RWvarious:
+- various campaigns
+- |
+  a number of anti-whaling, 
+  anti-seal hunting, anti-nuclear testing
+  and anti-nuclear waste dumping campaigns
+
+RainbowWarriorAcquired_1977: acquires
+
+Auckland_1985_07_10_b:
+- ✝
+- Pereiro dies on board of Rainbow Warrior
+
+Auckland_1985_07_10_a: sinking
+
+Auckland_1985_07_10: Explosion
+
+PereiraJoinsGreenpeace_1982: Pereira\njoining\nGreenpeace
+
+GacquiresS_1981: acquires
+
+PereiraBoardsRW: boards
+
+LacosteDies_2020: ✝
+
+MitterrandDies_1995_05: ✝
