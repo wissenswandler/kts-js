@@ -1,12 +1,35 @@
 @import url( "observablehq:default.css" );
 @import url( "observablehq:theme-air.css" );
-/*
-@import url( "observablehq:theme-air,near-midnight,alt,wide.css" );
-*/
+
 @import url( "lib/visco.css" );
 
+/* Framework does not resolve those:
+ *
+@import url( "observablehq:theme-wide.css" );
+@import url( "observablehq:theme-air,near-midnight,alt,wide.css" );
+*/
+
+/* from theme-wide.css 
+ * as work-around for the missing import
+ */
+#observablehq-main,
+#observablehq-header,
+#observablehq-footer {
+  max-width: none;
+}
+
 /*
- * mixed page layout
+ *
+ * Obs-Framework specific style from here on
+ *
+ */
+
+.ktscontainer {
+  box-shadow: 0 0 8px 1px rgba(0,0,0,.2);
+}
+
+/*
+ * for mixed page layout
  */
 .left  { float: left;  }
 .clear { clear: both;  }

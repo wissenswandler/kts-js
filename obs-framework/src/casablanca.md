@@ -2,19 +2,10 @@
   
 ```js
 import{ timelines } from "/lib/timelines4browser.js"
-```
 
-<div class="card">
+const story_text = await FileAttachment( "/data/casablanca.tmln" ).text()
+```
 
 ```js
-timelines `
-Rick      Casablanca_1941 airport
-
-Ilsa      Casablanca_1941 airport  airplane
-
-Strasser  Casablanca_1941 airport StrD - |
-- - -
-StrD: death
-`
+timelines `${ story_text }`
 ```
-</div>
