@@ -4,8 +4,10 @@ FrenchDenial_1985_07_12
 FrenchConfession_1985_09_22
 Mururoa_1985_10_24
 MafartReturnsToParis_1987_12_14
+EcoleDeGuerre_1988
 PrieurReturnsToFrance_1988_05_06 
 PMajor_1989
+EcoleDeGuerre_1990
 MColonel_1993
 PCommandant_2002
 DirHR_2009
@@ -73,6 +75,7 @@ RongelapAtoll
 Auckland_1985_07_07
 Auckland_1985_07_10 
 Auckland_1985_07_10_a
+photo_2014
 - OU
 
 JeanCamas
@@ -152,6 +155,7 @@ MColonel_1993
 CarnetSecrets_1999
 appealToStopBroadcasting_2005
 ruleToBroadcast
+photo_2014
 - person
 
 bombs
@@ -186,9 +190,17 @@ Auckland_1985_07_10_b
 
 - - -
 
-EcoleDeGuerre_1988: enrolling in\nWar College
+pleadsGuilty: 
+- guilty plea
+- |
+  Prieur + Mafart 
+  pleading guilty to charges 
+  of manslaughter 
+  and wilful damage
+
+EcoleDeGuerre_1988: 📜 enrolling\nin War College
 EcoleDeGuerre_1990: 🎓 graduating\nfrom War College
-MColonel_1993: Mafart\npromoted\nto Colonel
+MColonel_1993: 🎖️ Mafart\npromoted\nto Colonel
 CarnetSecrets_1999:
 - 📚 Carnets secrets d'un nageur de combat
 - |
@@ -199,8 +211,8 @@ CarnetSecrets_1999:
 
 sentenced_1985_11_22: ⚖️ sentenced\nto 10 years
 
-PMajor_1989: promoted\nto Major
-PCommandant_2002: Prieur\npromoted\nto Commandant
+PMajor_1989: 🎖️ Prieur\npromoted\nto Major
+PCommandant_2002: 🎖️ Prieur\npromoted\nto Commandant
 AgentSecrète_1995:
 - 📚 Agent Secrète
 - |
@@ -216,22 +228,35 @@ appealToStopBroadcasting_2005:
 - |
 
   Prieur and Marfart
-  appealed to the 
+  appealing to the 
   New Zealand Supreme Court 
   to stop footage of their 
   guilty pleas being shown 
-  on television.
+  on television (after each 
+  had published their book)
 
 ruleToBroadcast: 📣 Supreme Court\nallowed footage\nto go on air
 DirHR_2009:
-- Director of HR
+- 🎖️ Director of HR
 - |
-  Prieur gets 
-  hired as the director 
-  of human resources for 
-  the Paris Fire Brigade
+  Prieur
+  getting hired as the 
+  director of human resources 
+  for the Paris Fire Brigade
   (unit of the French Army)
 
+photo_2014:
+- 📸 Greenpeace calendar
+- |
+
+  one of Mafarts photos getting 
+  selected for inclusion - upon
+  realising the identity of the 
+  photographer, Greenpeace USA 
+  destroys 14,000 calendars it 
+  held in stock but could not 
+  prevent the majority from 
+  being sold to the public
 
 chargedWithMurder: 📣 Prieur + Mafart\ncharged with\nMurder
 
@@ -262,9 +287,10 @@ Authorization_1985_05_15:
 FrenchConfession_1985_09_22:
 - confession
 - | 
-  The truth is cruel, [...] 
-  Agents of the French secret service sank this boat.
-  They were acting on orders.
+  'The truth is cruel, [...] 
+  Agents of the French secret service
+  sank this boat. They were acting 
+  on orders.'
 
 Mururoa_1985_10_24:
 - Héro test
