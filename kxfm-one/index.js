@@ -6,9 +6,6 @@ export {  Tjira2dot        } from "./Tjira2dot.js"
 export {  KTS4HTML,
           get_url_param    } from "./KTS4HTML.js"
 export {  KTS4Dot          } from "./KTS4Dot.js"
-export {  KTS4Browser      ,
-          animate_content  ,
-       create_kts_console } from "./KTS4Browser.js"
 
 // silentium est aureum
 // output must not go to stdout because of CLI tools using that

@@ -1,18 +1,9 @@
 # Neural Network Animation
   
 ```js
-import {  KTS4Browser,animate_content,
-          create_kts_console  } from "@kxfm/one"
-
-import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
-
-const kts_console = create_kts_console()
-```
-
-```js
-const graphviz = await Graphviz.load()
-const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
-const digraph = transformer.digraph
+import{ digraph2svg     ,
+        animate_content ,
+        kts_console     } from "@kxfm/browser"
 ```
 
 <div class="card">
@@ -60,7 +51,7 @@ dot_source +=
 ```
 
 ```js
-const diagram = digraph( [ dot_source ] )
+const diagram = digraph2svg( dot_source )
 ```
 
 <div class="card">
@@ -70,7 +61,7 @@ diagram
 ```
 
 ```js
-create_kts_console()
+kts_console
 ```
 </div>
 

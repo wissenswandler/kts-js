@@ -7,17 +7,8 @@ Below you can edit DOT source which initially contains a syntax error (double hy
 *This is the same demo as the playground, except that the initial DOT source is invalid.*
 
 ```js
-import {  KTS4Browser,
-          create_kts_console  } from "@kxfm/one"
-
-import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
-
-const kts_console = create_kts_console()
-```
-
-```js
-const graphviz    = await Graphviz.load()
-const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
+import{ digraph2svg     ,
+        kts_console     } from "@kxfm/browser"
 ```
 
 <div class="card">
@@ -27,7 +18,7 @@ const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
 
 console.error( "↓ this syntax error in line 30 near '--' is triggered as an EXAMPLE - it is NOT a technical error" )
 
-display( transformer.digraph2svg( dot_source ) )
+display( digraph2svg( dot_source ) )
 ```
 
 ```js

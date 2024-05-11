@@ -1,0 +1,21 @@
+{
+  "name": "@kxfm/browser",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "methods for Browser clients to render SVG,operate on HTML/SVG DOM and utilize VisCo -- part of KTS (Knowledge Transformation System)",
+  "main": "./index.js",
+  "module": "./index.js",
+  "scripts": {
+    "test": "node .",
+    "link": "npm link ../kxfm-one/"
+  },
+  "author": "Boran Gögetap",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/wissenswandler/kts-js.git"
+  },
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "@kxfm/one": "latest"
+  }
+}

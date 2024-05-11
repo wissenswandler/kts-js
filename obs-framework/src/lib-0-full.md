@@ -4,19 +4,16 @@ toc: true
 # KTS Library (WIP migration from Obs)
   
 ```js
-import {  KTS4Browser, KTS4HTML, Tjira2dot,
-          create_kts_console  } from "@kxfm/one"
-import {  FlexibleCheckbox    } from "@kxfm/observablehq"
+import{ digraph2svg     ,
+        digraph         ,
+        dot2svg         ,
+        animate_content ,
+        KTS4Browser     ,
+        kts_console     } from "@kxfm/browser"
 
-import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
+import{ KTS4HTML, Tjira2dot } from "@kxfm/one"
 
-const kts_console = create_kts_console()
-```
-
-```js
-const graphviz    = await Graphviz.load()
-const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
-const digraph     = transformer.digraph
+import{ FlexibleCheckbox    } from "@kxfm/observablehq"
 ```
 
 <div class="card">
@@ -79,7 +76,7 @@ const include_types = view(  create_types_filter( issues )  )
 ```
 
 ```js 
-const valuemap = transformer.dot2svg
+const valuemap = dot2svg
 (
   Tjira2dot.jiraIssueArray2dotString
   (
@@ -123,7 +120,7 @@ const fit_width_layout_option = view( Inputs.select
 ```
 
 ```js
-const    diagram3 = transformer.digraph2svg( `A -> B -> C -> D`, {fit:fit_width_layout_option} )
+const    diagram3 = digraph2svg( `A -> B -> C -> D`, {fit:fit_width_layout_option} )
 display( diagram3 )
 
 const visco_buttons_Fe = view( Inputs.button

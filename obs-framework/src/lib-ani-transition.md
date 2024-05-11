@@ -3,8 +3,10 @@
 smooth transitions in changes between diagrams, thanks to [Magnus Jacobsson](https://observablehq.com/@magjac) and his ingenious library d3-graphviz
 
 ```js 
-import {  KTS4Browser, KTS4Dot, animate_content,  
-          create_kts_console  } from "@kxfm/one"
+import {  KTS4Dot } from "@kxfm/one"
+
+import {  KTS4Browser, animate_content,  
+          kts_console  } from "@kxfm/browser"
 
 const transformer = KTS4Browser.animinit()
 
@@ -69,7 +71,7 @@ current_content
 ```
 
 ```js echo
-create_kts_console() 
+kts_console
 // not really used in this example, but kept as a template for other,
 // slowly (manually) animating diagrams that you want to explore via VisCo
 ```

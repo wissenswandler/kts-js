@@ -5,18 +5,10 @@ Below is the simplest boilerplate code to support composed Value Maps.
 A composed diagram has multiple DOT sources. The user decides which of those to include in the final diagram.
 
 ```js 
-import {  KTS4Browser,
-          create_kts_console  } from "@kxfm/one"
-import {  FlexibleCheckbox    } from "@kxfm/observablehq"
+import{ digraph2svg     ,
+        kts_console     } from "@kxfm/browser"
 
-import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
-
-const kts_console = create_kts_console()
-```
-
-```js
-const graphviz = await Graphviz.load()
-const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
+import{ FlexibleCheckbox    } from "@kxfm/observablehq"
 ```
 
 ## Script
@@ -46,5 +38,5 @@ show_parts_view;
 ```
 
 ```js 
-transformer.digraph2svg( flixbox.combine_parts( show_parts_view ) )
+digraph2svg( flixbox.combine_parts( show_parts_view ) )
 ```

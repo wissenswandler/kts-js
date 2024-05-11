@@ -4,19 +4,11 @@ How Nature is Serving my Needs
 
 ### Patches of Knowledge creating a holistic Knowledge Map
 
-```js 
-import {  KTS4Browser,
-          create_kts_console  } from "@kxfm/one"
-import {  FlexibleCheckbox    } from "@kxfm/observablehq"
-
-import { Graphviz             } from "@hpcc-js/wasm/graphviz"
-
-const kts_console = create_kts_console()
-```
-
 ```js
-const graphviz = await Graphviz.load()
-const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
+import {  digraph2svg,
+          kts_console         } from "@kxfm/browser"
+
+import {  FlexibleCheckbox    } from "@kxfm/observablehq"
 ```
 
 ```js
@@ -276,7 +268,7 @@ show_parts_view;
 ```
 
 ```js 
-transformer.digraph2svg( flixbox.combine_parts( show_parts_view ) )
+digraph2svg( flixbox.combine_parts( show_parts_view ) )
 ```
 
 ```js

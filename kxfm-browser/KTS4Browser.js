@@ -5,8 +5,10 @@
   * and utilize VisCo
   */
 
-import { Tdot2svgStrings  } from "./Tdot2svgStrings.js"
-import { KTS4Dot          } from "./KTS4Dot.js"
+import{ KTS4Dot                 ,
+	Tdot2svgStrings         } from "@kxfm/one"
+
+import{  Graphviz               } from "@hpcc-js/wasm/graphviz"
 
 import * as         d3g           from "d3-graphviz"
 import * as              d3s      from "d3-selection"
@@ -240,4 +242,20 @@ dot2svg( dot_string_generator, options = this.constructor.default_options )
   return span
 }
 
-}
+} // end class KTS4Browser
+
+
+export
+const kts_console = create_kts_console()
+
+const graphviz = await Graphviz.load()
+const transformer = new KTS4Browser( graphviz )
+
+export 
+const dot2svg = transformer.dot2svg
+
+export
+const digraph = transformer.digraph
+
+export
+const digraph2svg = transformer.digraph2svg

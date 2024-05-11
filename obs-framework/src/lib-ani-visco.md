@@ -1,29 +1,26 @@
 # Animation via Visco Selections
   
 ```js
-import {  KTS4Browser,animate_content,
-          create_kts_console  } from "@kxfm/one"
+import{ KTS4Browser         ,
+        digraph2svg         ,
+        animate_content     ,
+        kts_console         } from "@kxfm/browser"
 
-import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
-
-const kts_console = create_kts_console()
+import{ Graphviz           } from "@hpcc-js/wasm/graphviz"
 ```
 
 <div class="card">
 
-```js echo
-create_kts_console()
+```js
+kts_console
 ```
 
 ```js echo
-const graphviz = await Graphviz.load()
-const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
-const digraph = transformer.digraph
-const chain = `Brest->Rennes->Paris->München->Salzburg->Wien`.split('->')
+const graph_source = `Brest->Rennes->Paris->München->Salzburg->Wien`
 ```
 
 ```js echo
-const diagram = digraph( [ chain.join('->') ] )
+const diagram = digraph2svg( graph_source )
 ```
 
 ```js
@@ -33,7 +30,7 @@ diagram
 ```js echo
 const current_content = animate_content
 ( 
-  chain.reduce
+  graph_source.split('->').reduce
   (
     (a, station) => 
       a.concat( [ [ (a.slice(-1)[0]??[null,null])[1], station] ] ) 

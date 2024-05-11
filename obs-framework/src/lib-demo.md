@@ -3,12 +3,8 @@
 Presenting a Value Map diagram with minimal boilerplate code
 
 ```js
-import {  KTS4Browser,
-          create_kts_console  } from "@kxfm/one"
-
-import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
-
-const kts_console = create_kts_console()
+import {  digraph,
+          kts_console         } from "@kxfm/browser"
 ```
 
 <div class="card">
@@ -16,13 +12,7 @@ const kts_console = create_kts_console()
 ## The simplest possible use of KTS in an Observable project.
 
 ```js echo
-create_kts_console()
-```
-
-```js echo
-const graphviz = await Graphviz.load()
-const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
-const digraph = transformer.digraph
+kts_console
 ```
 
 ```js echo

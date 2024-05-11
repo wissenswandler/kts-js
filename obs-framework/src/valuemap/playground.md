@@ -5,23 +5,14 @@ Below you can edit DOT source which will immediate translate into a diagram.
 Because every single keystroke is translated, there will be occasional errors in the diagram. Perfectly normal and nothing to worry about.
 
 ```js
-import {  KTS4Browser,
-          create_kts_console  } from "@kxfm/one"
-
-import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
-
-const kts_console = create_kts_console()
-```
-
-```js
-const graphviz    = await Graphviz.load()
-const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
+import{ digraph2svg     ,
+        kts_console     } from "@kxfm/browser"
 ```
 
 <div class="card">
 
 ```js
-display( transformer.digraph2svg( dot_source ) )
+digraph2svg( dot_source )
 ```
 
 ```js
@@ -48,6 +39,3 @@ kts_console
 ```
 
 </div>
-
-<link rel="stylesheet" href="/lib/graph.css" />
-<script src="/lib/graph.js"></script>
