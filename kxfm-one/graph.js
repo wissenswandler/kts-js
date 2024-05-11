@@ -1653,8 +1653,8 @@ function init_pan_zoom( document = globalThis.document )
 
   if( typeof svgPanZoom === "undefined" )
   {
-    console.warn( "svgPanZoom not available to KTS (not imported within scope of this script)" );
-    console.warn( "you can try importing it like this: <script src='https://unpkg.com/svg-pan-zoom/dist/svg-pan-zoom.min.js'></script> or <script src='https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js'></script>" );
+    console.info( "svgPanZoom not available to KTS (not imported within scope of this script)" );
+    console.info( "you can try importing it like this: <script src='https://unpkg.com/svg-pan-zoom/dist/svg-pan-zoom.min.js'></script> or <script src='https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js'></script>" );
     return;
   }
 
@@ -1747,11 +1747,6 @@ class SubDocument
 }
 
 /*
- * backward compatibility
- */
-//export function on_svg_load( dom ) { return on_svg_load( dom ) }
-
-/*
  * entry point for HTML/SVG documents upon loading static SVG
  * OR after creating dynamic SVG inside an HTML document
  * which implies that this function may be called multiple times in the lifetime of one HTML document
@@ -1760,11 +1755,9 @@ function on_svg_load( dom, options = {} )
 {
   if
   (
-    document.URL.startsWith("http://localhost") 
+    ["localhost","127.0.0.1"].includes( document.location.hostname )
     ||
-    document.URL.startsWith("http://127.0.0.1/") 
-    ||
-    document.URL.startsWith("file:") 
+    document.location.protocol == "file"
   ) KTSDEBUG = true;
 
   const n_containertags = document.querySelectorAll(".ktscontainer").length;
@@ -1809,7 +1802,7 @@ function on_svg_load( dom, options = {} )
     {
       execute_kts_action(document,"Escape");
       execute_kts_action(document,"Escape");
-      console.log( "-diagram is not initialized-" ); return null; 
+      console.warn( "KTS: diagram is not initialized (see debug logs for details)" ); return null; 
     }
     activate_visual_mode(); // visual mode = on by default
 
@@ -1860,7 +1853,7 @@ console.log = function(logMessage)
     //ktsConsole.style.display = "block";
     //ktsConsole.classList.remove( "no_flash" )
     //ktsConsole.classList.add( "yellow_flash" )
-  } catch(e) { console.warn( "could not log to KTS console...")  }
+  } catch(e) { console.warn( "could not log this to KTS console:")  }
 
   _log( logMessage );
 };
@@ -1922,7 +1915,6 @@ function devdebug( message_object, new_timer_name = null )
   console.debug( message_object );
   //console.timeLog( "KTS init"); // unfortunately, this prints to the "log" level, not "debug"
 }
-globalThis.devdebug = devdebug; // backward compatibility for many existing scripts
 
 function reset_timer( timer_name )
 {
@@ -1973,7 +1965,7 @@ window.addEventListener
   (event) =>
   {
     console.debug( "KTS handling load event in document " + document );
-    return visco.on_svg_load( {document:document} );
+    visco.on_svg_load( {document} );
   }
 );
 } catch(e) { /* most likely outside Browser environment */ }

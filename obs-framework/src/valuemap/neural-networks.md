@@ -52,6 +52,3 @@ transformer.dot2svg(
 )
 ```
 </div>
-
-<link rel="stylesheet" href="/lib/graph.css" />
-<script src="/lib/graph.js"></script>

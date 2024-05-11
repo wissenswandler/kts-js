@@ -323,6 +323,7 @@ p.disabled  {
 #ktstools {
   padding-bottom: 18px; /* to keep space for the browser toolbar, which frequently pops up in KTS diagrams */ }
 #ktstools {
+  z-index: 2;         /* above the SVG */
   position: absolute; /* position on left border,   */
   bottom  : 0;        /* ... v-aligned at bottom () */
   
