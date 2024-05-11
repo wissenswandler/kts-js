@@ -1,8 +1,8 @@
-import{  Graphviz              } from "@hpcc-js/wasm/graphviz"
+import{  get_url_param         	} from "@kxfm/one"
 
-import{  KTS4Browser,
-         create_kts_console,
-         get_url_param         } from "@kxfm/one"
+import{	kts_console 		,
+	dot2svg                 ,
+	digraph                 } from "@kxfm/browser"
 
 import{ StoryToDotRenderer, Story,
         show_future_faded,
@@ -12,19 +12,7 @@ import{ StoryToDotRenderer, Story,
         SharedEventFilter,
         DaterangeFilter,
         set_input_value,
-                               } from "/lib/timelines2dot.js"
-
-export
-const kts_console = create_kts_console()
-
-const graphviz = await Graphviz.load()
-const transformer = new KTS4Browser( graphviz )
-
-export 
-const dot2svg = transformer.dot2svg
-
-export
-const digraph = transformer.digraph
+                               	} from "/lib/timelines2dot.js"
 
 /*
  * tag function,
@@ -34,5 +22,5 @@ const digraph = transformer.digraph
 export
 function timelines( strings, ... keys )
 {
-  return transformer.dot2svg(   new StoryToDotRenderer(  strings.reduce( (a, c) => a + keys.shift() + c )  )   )
+  return dot2svg(   new StoryToDotRenderer(  strings.reduce( (a, c) => a + keys.shift() + c )  )   )
 }

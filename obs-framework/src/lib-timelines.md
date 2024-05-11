@@ -16,10 +16,15 @@ import{ StoryToDotRenderer, Story,
         set_input_value,
 } from "/lib/timelines2dot.js"
 
+import{ digraph2svg     ,
+        digraph         ,
+        dot2svg         ,
+        animate_content ,
+        KTS4Browser     ,
+        kts_console     } from "@kxfm/browser"
+
 import{ timelines,
-        dot2svg,
-        kts_console,
-                              } from "/lib/timelines4browser.js"
+                              } from "/libbr/timelines4browser.js"
 ```
 
 <div class="card">
