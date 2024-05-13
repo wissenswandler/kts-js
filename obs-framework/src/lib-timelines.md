@@ -6,27 +6,30 @@ toc: true
 demonstration of all KTS Timelines API features
 
 ```js
-import{ get_url_param         } from "@kxfm/one"
+import {  
+        get_url_param,
 
-import{ StoryToDotRenderer, Story,
-        show_future_faded,
-        only_shared_events,
-        StoryToHTMLRenderer,
-        ReducedStory,
-        SharedEventFilter,
-        DaterangeFilter,
-        set_input_value,
-} from "/lib/timelines2dot.js"
+        Story               ,
+        StoryToDotRenderer  ,
+        show_future_faded   ,
+        only_shared_events  ,
+        ReducedStory        ,
+        SharedEventFilter   ,
+        DaterangeFilter     ,
+                            } from "@kxfm/one"
+import { 
+        StoryToHTMLRenderer ,
+                            } from "@kxfm/observablehq"
 
-import{ digraph2svg     ,
-        digraph         ,
-        dot2svg         ,
-        animate_content ,
-        KTS4Browser     ,
-        kts_console     } from "@kxfm/browser"
-
-import{ timelines,
-                              } from "/libbr/timelines4browser.js"
+import{ digraph2svg         ,
+        digraph             ,
+        dot2svg             ,
+        animate_content     ,
+        KTS4Browser         ,
+        timelines           ,
+        set_input_value     ,
+        kts_console         ,
+                            } from "@kxfm/browser"
 ```
 
 <div class="card">

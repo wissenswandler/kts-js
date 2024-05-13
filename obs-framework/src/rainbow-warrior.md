@@ -1,7 +1,7 @@
 # The Sinking of Rainbow Warrior
   
 ```js
-import{ timelines } from "/libbr/timelines4browser.js"
+import{ timelines } from "@kxfm/browser"
 
 const story_text = await FileAttachment( "/data/rainbow-warrior.yaml" ).text()
 ```

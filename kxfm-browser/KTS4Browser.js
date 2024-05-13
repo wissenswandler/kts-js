@@ -165,7 +165,13 @@ render2( dot_string, dom_node, duration = 0.5 )
 
 static default_options = { fit : 'auto' }
 
-get width() { document.querySelector('body').clientWidth }
+/*
+ * unfortunately, following implementations are not equivalent
+ * the static initializer works in the browser,
+ * where the getter is failing
+ */
+//get width() { document.querySelector('body').clientWidth }
+      width  =  document.querySelector('body').clientWidth
 
 static async animinit()
 {

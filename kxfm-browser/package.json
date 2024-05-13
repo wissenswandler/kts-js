@@ -1,7 +1,7 @@
 {
   "name": "@kxfm/browser",
 
-  "version": "1.0.0",
+  "version": "1.1.0",
 
   "description": "methods for Browser clients to render SVG,operate on HTML/SVG DOM and utilize VisCo -- part of KTS (Knowledge Transformation System)",
 
@@ -25,6 +25,10 @@
   },
 
   "dependencies": {
-    "@kxfm/one": "latest"
+    "@kxfm/one": "^1.1.0",
+    "@hpcc-js/wasm":"^2.16.2",
+    "d3-graphviz":"^5.4.0",
+    "d3-selection":"^3.0.0",
+    "d3-transition":"^3.0.1"
   }
 }

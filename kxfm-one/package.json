@@ -1,19 +1,22 @@
 {
   "name": "@kxfm/one",
+  "version": "1.1.0",
+  "description": "lightweight core package, little dependencies -- KTS (Knowledge Transformation System)",
+  "author": "Boran Gögetap",
+  "license": "AGPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/wissenswandler/kts-js.git"
+  },
   "type": "module",
-  "version": "1.0.9",
-  "description": "lightweight singe package, zero dependencies / KTS (Knowledge Transformation System)",
   "main": "./index.js",
   "exports": "./index.js",
   "module": "./index.js",
   "scripts": {
     "test": "node .",
-    "link": "echo '(nothing to link in this package)'"
+    "link": "npm link js-yaml"
   },
-  "author": "Boran Gögetap",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/wissenswandler/kts-js.git"
-  },
-  "license": "AGPL-3.0-or-later"
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
 }

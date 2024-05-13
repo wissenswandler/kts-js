@@ -1,13 +1,13 @@
 {
   "name": "@kxfm/observablehq",
   "type": "module",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "adapters for the Observable ecosystem / part of KTS (Knowledge Transformation System)",
   "main": "./index.js",
   "module": "./index.js",
   "scripts": {
     "test": "node .",
-    "link": "echo '(nothing to link in this package)'"
+    "link": "npm link ../kxfm-one/"
   },
   "author": "Boran Gögetap",
   "repository": {
@@ -16,7 +16,7 @@
   },
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@kxfm/one": "^1.0.6",
+    "@kxfm/one": "^1.1.0",
     "@observablehq/inputs": "^0.10.6",
     "d3": "^7.9.0",
     "htl": "^0.3.1"

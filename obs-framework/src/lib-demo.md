@@ -3,17 +3,14 @@
 Presenting a Value Map diagram with minimal boilerplate code
 
 ```js
-import {  digraph,
-          kts_console         } from "@kxfm/browser"
+import{ digraph } from "@kxfm/browser"
 ```
 
 <div class="card">
 
 ## The simplest possible use of KTS in an Observable project.
 
-```js echo
-kts_console
-```
+<div id="ktsConsole">KTS loading...</div>
 
 ```js echo
 digraph`cause -> effect [label=value]` // template literal displays immediately

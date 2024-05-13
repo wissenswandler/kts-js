@@ -3,7 +3,7 @@
 The simplest possible use of KTS in an Observable project
 
 ```js 
-import{ digraph } from "/libbr/index.js" // "@kxfm/browser"
+import{ digraph } from "@kxfm/browser"
 ```
 
 <div class="card">

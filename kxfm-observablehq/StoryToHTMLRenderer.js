@@ -1,14 +1,16 @@
-import  * as Inputs from "@observablehq/inputs"
-import  * as d3     from "d3"
-import  * as htl    from "htl";
-import  * as UID    from "./uid.js";
-import  * as Text   from './Text.js'
-import{ KTS4HTML }  from "./KTS4HTML.js";
-import{
-        set_input_value,
-} from "./timelines2dot.js"
+import    * as Inputs       from "@observablehq/inputs"
+import    * as d3           from "d3"
+import    * as htl          from "htl";
 
-//import {  Story } from "./Story.js";
+import {  
+          Text            ,
+          KTS4HTML        ,
+                          } from '@kxfm/one'
+import {
+          set_input_value ,
+                          } from "@kxfm/browser"
+
+import    * as UID          from "./uid.js";
 
 export
 class StoryToHTMLRenderer
