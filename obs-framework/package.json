@@ -14,7 +14,8 @@
     "update-kts": "npm run update-one && npm run update-bro && npm run update-obs",
     "update-one": "rm -r src/.observablehq/cache/_node/@kxfm/one*; cp ../kxfm-one/*.*          node_modules/@kxfm/one/         ",
     "update-bro": "rm -r src/.observablehq/cache/_node/@kxfm/bro*; cp ../kxfm-browser/*.*      node_modules/@kxfm/browser/     ",
-    "update-obs": "rm -r src/.observablehq/cache/_node/@kxfm/obs*; cp ../kxfm-observablehq/*.* node_modules/@kxfm/observablehq/"
+    "update-obs": "rm -r src/.observablehq/cache/_node/@kxfm/obs*; cp ../kxfm-observablehq/*.* node_modules/@kxfm/observablehq/",
+    "prime-android": "npm install @rollup/rollup-android-arm64"
   },
   "dependencies": {
     "@hpcc-js/wasm": "^2.15.1",
@@ -23,7 +24,6 @@
     "@kxfm/one": "latest",
     "@observablehq/framework": "latest",
     "@observablehq/inputs": "^0.10.6",
-    "@rollup/rollup-android-arm64": "^4.16.4",
     "canvas-confetti": "^1.9.2",
     "d3": "^7.9.0",
     "d3-dsv": "^3.0.1",

@@ -3,6 +3,8 @@ toc: true
 ---
 # Timelines Lib
   
+demonstration of all KTS Timelines API features
+
 ```js
 import{ get_url_param         } from "@kxfm/one"
 
@@ -155,6 +157,8 @@ reducedStoryRenderer.tabular_view( ["person","OU"] )
 ```
 </div>
 
+## Story definition
+
 ```js
 const myStory = new Story( story_text )
 ```
@@ -291,7 +295,9 @@ Construction_1991: finish
 `
 ```
 
-```js
+## very optional details
+
+```js echo
 // demonstration how to manipulate the "future" style
 // IF future should not be faded
 const diagram_styles = htl.html`<style>

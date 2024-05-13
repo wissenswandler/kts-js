@@ -5,17 +5,23 @@
   * and utilize VisCo
   */
 
-import{ KTS4Dot                 ,
-	Tdot2svgStrings         } from "@kxfm/one"
+import {  
+          KTS4Dot             ,
+	        Tdot2svgStrings     ,
+          StoryToDotRenderer  ,
+                              } from "@kxfm/one"
 
-import{  Graphviz               } from "@hpcc-js/wasm/graphviz"
+import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
 
+/*
+ * imports and merge for d3-graphviz functionality
+ */
 import * as         d3g           from "d3-graphviz"
 import * as              d3s      from "d3-selection"
 import * as                   d3t from "d3-transition"
 const  d6 = merge( [d3g, d3s, d3t] )
 
-function merge(modules) {
+  function merge(modules) {
   const o = {};
   for (const m of modules) {
     for (const k in m) {
@@ -31,7 +37,11 @@ function merge(modules) {
     return () => object[name];
   }
 }
+/* end d3-graphviz */
 
+// pseudo compatibility with nodejs so that REPL can try to load this module
+// of course, using 'document' in nodejs will fail
+const document = globalThis.document ?? {}
 
 /*
  * animating DOT content which is passed as an array of strings
@@ -55,13 +65,27 @@ export async function* animate_content( contents, duration, visibility )
   }
 } 
 
-export const create_kts_console = () =>
+/*
+ * DEPRECATED: 
+ * creating the KTS console in a markdown expression will delay the rendering,
+ * which prevents KTS initialization on the console.
+ * the only way to support initialization is to create the console with verbatim text,
+ * like so:
+ * <div id="ktsConsole">KTS loading...</div>
+ */
+export
+const               create_kts_console = () =>
 {
+  try{
   const div = document.createElement( 'div' )
   div.setAttribute( "id", "ktsConsole" )
   div.innerText =  "KTS loading..."
   return div
+  } catch( error ) { /*probably REPL*/ }
 }
+export
+const kts_console = create_kts_console()
+
 
  /*
   * class for rendering DOT content to SVG in the browser
@@ -141,7 +165,7 @@ render2( dot_string, dom_node, duration = 0.5 )
 
 static default_options = { fit : 'auto' }
 
-width = document.querySelector('body').clientWidth
+get width() { document.querySelector('body').clientWidth }
 
 static async animinit()
 {
@@ -237,16 +261,17 @@ dot2svg( dot_string_generator, options = this.constructor.default_options )
   if( typeof visco === 'undefined' )
     console.error( "KTS: visco is not defined, unable to initialize interaction" )
   else
+  {
+    visco.on_svg_load( {document} )
     visco.on_svg_load( {document:span} )
+    console.debug( "KTS: visco initialized" )
+  }
 
   return span
 }
 
 } // end class KTS4Browser
 
-
-export
-const kts_console = create_kts_console()
 
 const graphviz = await Graphviz.load()
 const transformer = new KTS4Browser( graphviz )
@@ -259,3 +284,14 @@ const digraph = transformer.digraph
 
 export
 const digraph2svg = transformer.digraph2svg
+
+/*
+ * tag function,
+ * turning the template literal into a KTS Timelines diagram
+ * accepts a Timelines story
+ */
+export
+function timelines( strings, ... keys )
+{
+  return dot2svg(   new StoryToDotRenderer(  strings.reduce( (a, c) => a + keys.shift() + c )  )   )
+}

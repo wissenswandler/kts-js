@@ -3,7 +3,6 @@ export {  ReducedStory        } from "./ReducedStory.js"
 export {  DaterangeFilter     } from "./DaterangeFilter.js"
 export {  SharedEventFilter   } from "./SharedEventFilter.js"
 export {  StoryToDotRenderer  } from "./StoryToDotRenderer.js"
-export {  StoryToHTMLRenderer } from "./StoryToHTMLRenderer.js"
 
 export const only_shared_events               = "only shared events"
 export const show_future_faded                = "fade future"
@@ -29,17 +28,6 @@ function set_input_value(input, value, add_or_remove = undefined )
   }
   
   input.dispatchEvent(new Event("input", {bubbles: true}));
-}
-
-/*
- * tag function,
- * turning the template literal into a KTS Timelines diagram
- * accepts a Timelines story
- */
-export
-function timelines( strings, ... keys )
-{
-  return dot2svg(   new StoryToDotRenderer(  strings.reduce( (a, c) => a + keys.shift() + c )  )   )
 }
 
 /* TODO: apply to demo story */

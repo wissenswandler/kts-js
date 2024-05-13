@@ -7,6 +7,19 @@ export {  KTS4HTML,
           get_url_param    } from "./KTS4HTML.js"
 export {  KTS4Dot          } from "./KTS4Dot.js"
 
+export { 
+          Story,
+          ReducedStory,
+
+          only_shared_events,
+          SharedEventFilter,
+          DaterangeFilter,
+  
+          StoryToDotRenderer, 
+          show_future_faded,
+          set_input_value,
+                               	} from "./timelines2dot.js"
+
 // silentium est aureum
 // output must not go to stdout because of CLI tools using that
 //console.error( "\x1b[30mkxfm/one loaded via index.js\x1b[0m" )
