@@ -15,34 +15,22 @@ See corresponding demo in on <a href="http://127.0.0.1:3000/demo">local Observab
 
 </script>
 
+<div id="ktsConsole">KTS loading...</div>
+
 <div id="results"></div>
 <div id="log">KTS loading... check browser console (CTRL-Shift-K) if nothing happens within a few seconds.</div>
 
 <script type="module">
  
-import { Graphviz    } from "@hpcc-js/wasm/graphviz"  // standard (bare) specifier - use wds to host
-import { KTS4Browser,
-  create_kts_console } from "@kxfm/one"               // standard (bare) specifier - use wds
+import{ digraph } from "@kxfm/browser"
 
 try
 {
 
 document.querySelector('#results').append
 (
-  create_kts_console()
-)
-
-const transformer = 
-  new KTS4Browser
-  (
-    await Graphviz.load() 
-  )
-
-document.querySelector('#results').append
-(
-  transformer.digraph ` ca->fe ` ,
-  transformer.dot2svg( ` rather -> long -> diagram -> here -> too_long_to_fit_in_half_screen_without_scaling_it_down ` ),
-  transformer.digraph ` rather -> long -> diagram -> here -> too_long_to_fit_in_one_screen_without_scaling_it_down -> because_here_is_nicer_text_than_lorem_ipsum -> and_one_more_go_and_we_are_finished ` ,
+  digraph ` ca->fe ` ,
+  digraph ` rather -> long -> diagram -> here -> too_long_to_fit_in_one_screen_without_scaling_it_down -> because_here_is_nicer_text_than_lorem_ipsum -> and_one_more_go_and_we_are_finished ` ,
   `
 The longer chain above is to demonstrate the reactive/response property of the diagram. It scales down if needed. On a very wide screen it will present 1:1, like the small first diagram.
   `
