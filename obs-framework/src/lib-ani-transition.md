@@ -5,10 +5,13 @@ smooth transitions in changes between diagrams, thanks to [Magnus Jacobsson](htt
 ```js 
 import {  KTS4Dot } from "@kxfm/one"
 
-import {  KTS4Browser, animate_content,  
-          kts_console  } from "@kxfm/browser"
+import {  KTS4Browser     , 
+          animate_content ,  
+          kts_console     ,  
+          animinit        ,
+                          } from "@kxfm/browser"
 
-const transformer = KTS4Browser.animinit()
+const transformer = animinit()
 
 const error_diagram = html`<div class="ktscontainer" style="width: ${width}px"></div>`
 const       diagram = html`<div class="ktscontainer" style="width: ${width}px"></div>`

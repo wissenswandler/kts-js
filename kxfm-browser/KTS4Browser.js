@@ -39,6 +39,15 @@ const  d6 = merge( [d3g, d3s, d3t] )
 }
 /* end d3-graphviz */
 
+export
+const default_options = { fit : 'auto' }
+
+export
+async function animinit()
+{
+  return new KTS4Browser( d6 )
+}
+
 // pseudo compatibility with nodejs so that REPL can try to load this module
 // of course, using 'document' in nodejs will fail
 const document = globalThis.document ?? {}
@@ -163,20 +172,13 @@ render2( dot_string, dom_node, duration = 0.5 )
 }
 
 
-static default_options = { fit : 'auto' }
-
 /*
- * unfortunately, following implementations are not equivalent
+ * unfortunately, following implementations are not equivalent;
  * the static initializer works in the browser,
  * where the getter is failing
  */
 //get width() { document.querySelector('body').clientWidth }
       width  =  document.querySelector('body').clientWidth
-
-static async animinit()
-{
-  return new KTS4Browser( d6 )
-}
 
 constructor( graphvizInstance, options = {},  ...rest)
 {
@@ -206,7 +208,7 @@ this.dot2svg( KTS4Dot.dot_fragment_2_dot_string(inside_digraph_block, options ),
  /*
   * returns an HTML <span> element containing the diagram
   */
-dot2svg( dot_string_generator, options = this.constructor.default_options )
+dot2svg( dot_string_generator, options = default_options )
 {
   const dot_string =
     typeof dot_string_generator === String 

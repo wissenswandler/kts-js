@@ -1,11 +1,13 @@
 export {  
-          KTS4Browser,
-          digraph,
-          digraph2svg,
-          dot2svg,
-          animate_content,
-       	  kts_console,      
-          timelines,        
+          KTS4Browser     ,
+          digraph         ,
+          digraph2svg     ,
+          dot2svg         ,
+          animate_content ,
+       	  kts_console     ,      
+          timelines       ,        
+          default_options ,
+          animinit        , 
                           } from "./KTS4Browser.js"
 
 export

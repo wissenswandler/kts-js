@@ -9,7 +9,9 @@ import{ digraph2svg     ,
         dot2svg         ,
         animate_content ,
         KTS4Browser     ,
-        kts_console     } from "@kxfm/browser"
+        default_options ,
+        kts_console     ,
+                        } from "@kxfm/browser"
 
 import{ KTS4HTML, Tjira2dot } from "@kxfm/one"
 
@@ -108,10 +110,10 @@ const fit_width_layout_option = view( Inputs.select
     value:  
     {
       "false" : false,
-      "" : KTS4Browser.default_options.fit,
+      "" : default_options.fit,
       "auto" : 'auto',
       "true" : true
-    }[ KTS4HTML.get_url_param( "fit", [ KTS4Browser.default_options.fit] )[0] ]
+    }[ KTS4HTML.get_url_param( "fit", [ default_options.fit] )[0] ]
     , 
     format: v => { return {false:'never fit (always 1:1)','auto':'auto (scale down if needed)', true:'always fit (scale up or down)'}[v] }  
   } 
