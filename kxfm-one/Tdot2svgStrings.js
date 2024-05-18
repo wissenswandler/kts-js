@@ -19,7 +19,22 @@ export class Tdot2svgStrings
 		if( graphvizImplementation == null )
 			throw new Error( "graphvizImplementation must not be null" );
 
-		this.graphviz = graphvizImplementation;
+    if( typeof graphvizImplementation.dot     === 'function' )
+    {
+      this.graphviz = graphvizImplementation
+      //console.debug( "KTS: hp-graphviz passed into constructor" ) // can't use that debug statement as output in CLI mode
+    }
+    else
+    if( typeof graphvizImplementation.select  === 'function' )
+    {
+      this.graphviz = graphvizImplementation
+      console.debug( "KTS: d3-graphviz passed into constructor" )
+    }
+    else
+    {
+      console.debug( "KTS: no initialized graphviz passed into constructor, keeping the factory" )
+      this.graphvizImplementation = graphvizImplementation; // keep it for deferred load()ing
+    }
 	}
 
 /*
@@ -31,11 +46,18 @@ export class Tdot2svgStrings
  * 
  * called by KTS CLI
  */
-build_diagram_from_string( dot_string, libPath )
+async build_diagram_from_string( dot_string, libPath )
 {
 	try
 	{
-		return KTS4SVG.rewrite_GraphViz_SVG_to_KTS_SVG(  this.dot2svg( dot_string ), libPath  );
+    const svg = await this.dot2svg( dot_string )
+
+		return KTS4SVG.rewrite_GraphViz_SVG_to_KTS_SVG
+    (  
+      svg
+      , 
+      libPath  
+    )
 	}
 	catch (e)
 	{
@@ -50,22 +72,33 @@ build_diagram_from_string( dot_string, libPath )
  * translator from DOT source string via KTS preprocess, then unflatten, to SVG (document) string
  * if the doc_or_tag option == false then the SVG document string is cut down to the <svg> tag
  */
-dot2svg( dot_string, doc_or_tag = true )
+async dot2svg( dot_string, doc_or_tag = true )
 {
+  if( ! this.graphviz )
+  {
+    console.debug( "KTS: loading graphviz before use in dot2svg" );
+
+    this.graphviz = await this.graphvizImplementation.load();
+
+    if( typeof this.graphviz.dot === 'function' )
+      console.debug( "KTS: graphviz loaded" )
+    else
+      throw new Error( "KTS: unable to load graphviz" );
+  }
+
+  // successful here
+  //console.debug( this.graphviz.dot( "digraph { a -> b }" ) )
+
   if( dot_string.indexOf( "digraph" ) === -1 )
       dot_string = "digraph {" + dot_string + "}";
 
 	let svg;
 	let kts_dot;
-	/*
-	 * BUG: unfortunately this try block never catches errors from graphviz, such as:
-	 * Error: syntax error in line 35 near '-'
-	 * instead, such error is simply logged to the console outside KTS (by hpcc-js/wasm ?)
-	 */
-	try
-	{
+
+	//try
+	//{
 		const imageAttributeArray = Tdot2svgStrings.getImageAttributeArray( dot_string );
-		kts_dot = KTS4Dot.preprocess(dot_string);
+		kts_dot = KTS4Dot.preprocess( dot_string );
 		svg = this.graphviz.dot
 		(
 			this.graphviz.unflatten
@@ -80,6 +113,7 @@ dot2svg( dot_string, doc_or_tag = true )
 		.replace( /<!--.*-->/g, "" )  // remove SVG comments for easier inspection of SVG source
 		;
 	
+  /*
 	} catch (e)
 	{
 		console.error( e.stack );
@@ -100,6 +134,7 @@ dot2svg( dot_string, doc_or_tag = true )
 		console.error( 'returning a synthetic "Error SVG" instead of crashing...\n~~~~~~~~' );
 		svg = Tdot2svgStrings.simple_svg_from_error( e );
 	}
+  */
 
   if( doc_or_tag === false )
 	svg =   svg

@@ -2,12 +2,9 @@
   "name": "KTS",
   "description": "Knowledge Transformation System, JavaScript implementation (this parent not for NPM distribution)",
   "scripts": {
-    "publish-npms"  : "for d in kxfm-* ; do cd $d ; npm publish --access public ; cd -; done"
-    ,
-    "publish-visco" : "cd kxfm-visco ; npm publish --access public ; cd -"
-    ,
-    "create-links" : "for d in kxfm-* ; do cd $d ; npm     link ; cd -; done"
-    ,
+    "publish-npms": "for d in kxfm-* ; do cd $d ; npm publish --access public ; cd -; done",
+    "publish-visco": "cd kxfm-visco ; npm publish --access public ; cd -",
+    "create-links": "for d in kxfm-* ; do cd $d ; npm     link ; cd -; done",
     "consume-links": "for d in kxfm-* ; do cd $d ; npm run link ; cd -; done"
   },
   "repository": {
@@ -19,5 +16,11 @@
   "bugs": {
     "url": "https://bitbucket.org/wissenswandler/kts-js/issues"
   },
-  "homepage": "https://bitbucket.org/wissenswandler/kts-js#readme"
+  "homepage": "https://bitbucket.org/wissenswandler/kts-js#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.24.5",
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "eslint": "^9.3.0"
+  }
 }

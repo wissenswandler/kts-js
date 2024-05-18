@@ -78,7 +78,7 @@ const include_types = view(  create_types_filter( issues )  )
 ```
 
 ```js 
-const valuemap = dot2svg
+const valuemap = await dot2svg
 (
   Tjira2dot.jiraIssueArray2dotString
   (
@@ -122,9 +122,10 @@ const fit_width_layout_option = view( Inputs.select
 ```
 
 ```js
-const    diagram3 = digraph2svg( `A -> B -> C -> D`, {fit:fit_width_layout_option} )
-display( diagram3 )
+digraph2svg( `A -> B -> C -> D`, {fit:fit_width_layout_option} )
+```
 
+```js
 const visco_buttons_Fe = view( Inputs.button
 (
   [

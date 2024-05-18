@@ -20,24 +20,38 @@ export class Tdot2svgFiles
  */
 static build_diagram_from_file( dotsource_filename, svgproduct_filename, graphviz, libPath )
 {
-	fs.readFile(dotsource_filename, 'utf8', function (err, data) {
-		if (err) {
-			return console.error(chalk.red(err));
-		}
+  let dot_string
 
-		let transformer = new Tdot2svgStrings( graphviz );
+	fs.readFile
+  (
+    dotsource_filename, 
+    'utf8', 
+    function (err, data) 
+    {
+		  if (err) 
+      {
+			  return console.error(chalk.red(err));
+		  }
 
-		const svg_kts = transformer.build_diagram_from_string( data, libPath );
 
-		fs.writeFile( svgproduct_filename, svg_kts, err => {
-			if (err) {
-				console.error( err );
-			}
+      let transformer = new Tdot2svgStrings( graphviz );
 
-			else
-				console.warn( svgproduct_filename + " written." );
-		});
-	});
-}
+      transformer.build_diagram_from_string( data, libPath )
+      .then
+      ( svg_kts => 
+        {
+          fs.writeFile( svgproduct_filename, svg_kts, err => {
+            if (err) {
+              console.error( err );
+            }
+
+            else
+              console.warn( svgproduct_filename + " written." );
+          });
+        }
+      )
+    }
+  );
+} // end build_diagram_from_file
 
 } // end class Tdot2svgFiles

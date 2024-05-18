@@ -24,7 +24,8 @@ static build_diagram_from_stdin( libPath, graphviz )
 	);
 	process.stdin.on
 	(	'end',
-		() => console.log( transformer.build_diagram_from_string( stream_input, libPath ) )
+		() => 
+      transformer.build_diagram_from_string( stream_input, libPath ).then(  svg => console.log( svg )  )
 	);
 }
 

@@ -18,7 +18,7 @@ import{ digraph2svg     ,
 
 console.error( "↓ this syntax error in line 30 near '--' is triggered as an EXAMPLE - it is NOT a technical error" )
 
-display( digraph2svg( dot_source ) )
+display( await digraph2svg( dot_source ) )
 ```
 
 ```js

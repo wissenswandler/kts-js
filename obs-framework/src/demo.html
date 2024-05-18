@@ -27,8 +27,8 @@ try
 
 document.querySelector('#results').append
 (
-  digraph ` ca->fe ` ,
-  digraph ` rather -> long -> diagram -> here -> too_long_to_fit_in_one_screen_without_scaling_it_down -> because_here_is_nicer_text_than_lorem_ipsum -> and_one_more_go_and_we_are_finished ` ,
+  await digraph ` ca->fe ` ,
+  await digraph ` rather -> long -> diagram -> here -> too_long_to_fit_in_one_screen_without_scaling_it_down -> because_here_is_nicer_text_than_lorem_ipsum -> and_one_more_go_and_we_are_finished ` ,
   `
 The longer chain above is to demonstrate the reactive/response property of the diagram. It scales down if needed. On a very wide screen it will present 1:1, like the small first diagram.
   `

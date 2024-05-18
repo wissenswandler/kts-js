@@ -13,6 +13,7 @@ export class KTS4SVG
 		if( ! (typeof _svg === 'string')  ) 
 		{
 			console.debug( "_svg of type " + typeof _svg );
+      console.debug( JSON.stringify( _svg )  ); //stringify object
 			throw new Error( "SVG is not of String type" );
 		}
 
