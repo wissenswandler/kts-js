@@ -4,7 +4,20 @@ import { Event      }    from "./Event.js"
 export
 class EventArena
 {
-  events = new Map()
+  constructor()
+  {
+    this.events = new Map()
+  }
+
+  getEvent( key ) 
+  {
+    return this.events.get( key )
+  }
+
+  size() 
+  {
+    return this.events.size
+  }
 
   addEvent( event )
   {
@@ -43,7 +56,4 @@ class EventArena
     return result
   }
 
-  getEvent = ( key ) => this.events.get( key )
-
-  size = () => this.events.size
 }

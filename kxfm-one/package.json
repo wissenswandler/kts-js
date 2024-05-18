@@ -1,6 +1,6 @@
 {
   "name": "@kxfm/one",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "lightweight core package, little dependencies -- KTS (Knowledge Transformation System)",
   "author": "Boran Gögetap",
   "license": "AGPL-3.0-or-later",
