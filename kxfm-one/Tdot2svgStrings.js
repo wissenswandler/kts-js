@@ -7,13 +7,11 @@
 import {KTS4Dot} from './KTS4Dot.js';
 import {KTS4SVG} from './KTS4SVG.js';
 
+// standard image size to be used for both dimensions
+const IMAGE_SIZE = 16;
+
 export class Tdot2svgStrings
 {
-	// standard image size to be used for both dimensions
-	static IMAGE_SIZE = 16;
-
-	graphviz = null;
-
 	constructor( graphvizImplementation	)
 	{
 		if( graphvizImplementation == null )
@@ -33,6 +31,7 @@ export class Tdot2svgStrings
     else
     {
       console.debug( "KTS: no initialized graphviz passed into constructor, keeping the factory" )
+      this.graphviz = null
       this.graphvizImplementation = graphvizImplementation; // keep it for deferred load()ing
     }
 	}
@@ -185,7 +184,7 @@ static getImageAttributeArray( dot_string )
   let imageUrlArray = Array.from(dot_string.matchAll(regex)).map((match) => match[1]);
 
   // create an array with entries of form { path:"", width:"16px", height:"16px" } for every entry of input array [C]
-  return imageUrlArray.map(  image => ({ path: image, width: this.IMAGE_SIZE+'px', height: this.IMAGE_SIZE+'px' }) );
+  return imageUrlArray.map(  image => ({ path: image, width: IMAGE_SIZE+'px', height: IMAGE_SIZE+'px' }) );
 }
 
 } // end of class Tdot2svgStrings

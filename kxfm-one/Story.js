@@ -1,6 +1,6 @@
 import * as yaml  from "js-yaml"
 
-import {  Arr         } from './Arr.js'
+import * as  Arr        from './Arr.js'
 import {  EventArena  } from './EventArena.js'
 import {  DotRenderer } from './DotRenderer.js'
 import * as  Text       from './Text.js'
