@@ -10,17 +10,15 @@ class SharedEventFilter extends EventFilter
     this.only_shared_events = only_shared_events
   }
 
-  filter = ( event, story ) =>
-    !this.diagram_toggles.includes( this.only_shared_events )
-    ||
-    story.event_entity_map.get( event )
-    &&
-    story.event_entity_map.get( event ).size > 1
-  
-  static filter = ( event, story ) =>
-    !diagram_toggles.includes( only_shared_events )
-    ||
-    story.event_entity_map.get( event )
-    &&
-    story.event_entity_map.get( event ).size > 1
+  filter( event, story )
+  {
+    return (
+      ! this.diagram_toggles.includes( this.only_shared_events )
+      ||
+      story.event_entity_map.get( event )
+      &&
+      story.event_entity_map.get( event ).size > 1
+    )
+  } 
+
 }

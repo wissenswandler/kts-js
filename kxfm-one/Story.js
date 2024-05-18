@@ -184,10 +184,19 @@ calculate_derived_fields( selected_entities_or_everything_flag )
   )
 }  
 
-keep_types = type_array => this.constructor.filter_types( type_array, this.entity_timelines, true  )
-hide_types = type_array => this.constructor.filter_types( type_array, this.entity_timelines, false )
-  
-type_of = ( entity ) => this.entity_timelines[entity]?.options?.rdfType
+keep_types( type_array )
+{
+  return this.constructor.filter_types( type_array, this.entity_timelines, true  )
+}
+hide_types( type_array )
+{
+  return this.constructor.filter_types( type_array, this.entity_timelines, false )
+}
+
+type_of( entity )
+{
+  return this.entity_timelines[entity]?.options?.rdfType
+}
 
  /*
   * return a Set of all visible "date labels" (as used in the time scale);
@@ -222,7 +231,7 @@ get_date_labels()
   return result.filter( Arr.unique ).sort()
 }
   
-static split_story = text =>
+static split_story( text )
 {
   // split the text at a delimiter line that starts with "- - -" and return an array of two elements:
   //
@@ -360,13 +369,18 @@ parse_event( event, entity, topics, event_entity_map )
   topics.set( event_o.topic, events_for_topic );
 }
 
-first_notice_of = entity => this.entity_timelines[entity].events[0].split('_').slice(1) // return the split datepart of the first event in the given entity's timeline
+// return the split datepart of the first event in the given entity's timeline
+first_notice_of( entity )
+{
+  return this.entity_timelines[entity].events[0].split('_').slice(1) 
+}
 
  /*
   * TODO: add transitive steps to calculate additional certain_ranges from previously inferred certain_ranges
   */
-calculate_undated_event_certain_ranges = () =>
-[ ...this.events.values() ].filter( e => !e.date ).map( e => e.key ).map
+calculate_undated_event_certain_ranges()
+{
+  return [ ...this.events.values() ].filter( e => !e.date ).map( e => e.key ).map
 ( eventkey => 
   {
     return {
@@ -403,6 +417,7 @@ calculate_undated_event_certain_ranges = () =>
 ( o =>
   this.addEvent( o.eventkey ).certain_date_range = o.range
 )
+}
 
   
 event_details_map()
@@ -545,7 +560,7 @@ get_topic_details( topic )
 // we want to option to find invisible entities, too - 
 // so we need to be able to pass an arbitrary entities object
 // hence a static method
-static find_entities_by_event = ( event, entities, except ) =>
+static find_entities_by_event( event, entities, except )
 {
   return Object.keys( entities ).filter
   ( key => 
@@ -671,7 +686,7 @@ static substitute( k, v )
  /*
   * create a simple JSON fact-object from a label and an optional description
   */
-static create_event_object = ( rdfLabel, rdfDescription ) => 
+static create_event_object( rdfLabel, rdfDescription )
 {
   const event = { rdfLabel }
   if( rdfDescription )
@@ -680,5 +695,9 @@ static create_event_object = ( rdfLabel, rdfDescription ) =>
   return event
 }
 
-static datepart_from_event = event => event.split('_').slice(1).join('_')
+static datepart_from_event( event )
+{
+  return event.split('_').slice(1).join('_')
+}
+
 }
