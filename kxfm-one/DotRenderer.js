@@ -11,9 +11,12 @@ export class DotRenderer
     this.constructor.lod_full_descr = "full description"
   }
   
-  static id_from_options_or_label = ( rdfLabel, options = {} ) => options.id ?? rdfLabel.replaceAll( ' ',"" )
+  static id_from_options_or_label( rdfLabel, options = {} ) 
+  {
+    return options.id ?? rdfLabel.replaceAll( ' ',"" )
+  }
 
-  static to_dot_label_raw = value => 
+  static to_dot_label_raw( value )
   {
     return value === null ? "" :
     typeof( value ) === 'string' 
