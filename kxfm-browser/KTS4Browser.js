@@ -11,7 +11,27 @@ import {
           StoryToDotRenderer  ,
                               } from "@kxfm/one"
 
-import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
+// works in Obs Frame, but not on unpkg
+//import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
+
+async function import_graphviz()
+{
+let hwas
+try
+{
+  // preferred way: coming from local node module
+	hwas = await import("@hpcc-js/wasm/graphviz")
+  console.info( "loaded graphviz from local node module" )
+}
+catch( error )
+{
+	console.info( "caught " + error + ", falling back to online lib" )
+	hwas = await import("https://unpkg.com/@hpcc-js/wasm@2.16.2/dist/graphviz.js")
+  console.info( "loaded graphviz from unkpg" )
+}
+return hwas.Graphviz
+}
+const Graphviz = import_graphviz()
 
 /*
  * imports and merge for d3-graphviz functionality

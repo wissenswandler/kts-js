@@ -77,7 +77,7 @@ async dot2svg( dot_string, doc_or_tag = true )
   {
     console.debug( "KTS: loading graphviz before use in dot2svg" );
 
-    this.graphviz = await this.graphvizImplementation.load();
+    this.graphviz = await (await this.graphvizImplementation).load();
 
     if( typeof this.graphviz.dot === 'function' )
       console.debug( "KTS: graphviz loaded" )
