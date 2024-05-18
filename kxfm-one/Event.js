@@ -13,8 +13,6 @@ import {
  */
 export class Event
 {
-  certain_date_range = [undefined, undefined]
-  
   constructor( key, certain_date_range = [undefined, undefined] )
   {
     /* hiding functions from being enumerable makes getters appear as undefined for D3 table input !! 
@@ -63,12 +61,18 @@ export class Event
   /* defining toString will allow Arrays or Sets of Events
    * to be sorted by date (more) automatically 
    */
-  toString = () => this.approximateDate ? this.approximateDate.toISOString()+"__"+this.topic : this.key
+  toString()
+  {
+    return this.approximateDate ? this.approximateDate.toISOString()+"__"+this.topic : this.key
+  }
   
   /*
    * presentation helper, returns the 'date' part (without time) in ISO format (e.g. 1980-12-30), or 'undefined'
    */
-  toISODatepart = () => this.date?.toISOString().slice(0,10) ?? undefined
+  toISODatepart()
+  {
+    return this.date?.toISOString().slice(0,10) ?? undefined
+  }
    
   // binary logic
   get isOpenToFuture    () { return this.certain_date_range[0] !== undefined && this.certain_date_range[1] === undefined }
@@ -122,16 +126,22 @@ export class Event
    *  an empty "date" string acts as a Null filter:
    *  (letting any date value pass, including 'undefined') 
    */
-  within = ( date_range ) => //Logic.and (
+  within( date_range )
+  {
+    return ( //Logic.and
       this.after_ ( date_range[0] ) &&
       this.before_( date_range[1] )
-    //)
+    )
+  }
 
-  within_ = ( date_range ) => (
+  within_( date_range )
+  {
+    return (
     ! this.after ( date_range[1] )
     &&
     ! this.before( date_range[0] )
     )
+  }
   
   /**
     * chronological comparisons in UPL; read "this Event occurs before / after that filter_date"
@@ -141,12 +151,12 @@ export class Event
     * 
     * method variation with trailing underscore implements an inclusive filter
     */
-  before  = filter_date =>  this.#compare_to(  filter_date, (base, filter) => Logic.le( filter, base[0] ) === true ? false : Logic.lt( base[1], filter ) === true ? true : undefined  )
-  before_ = filter_date =>  this.#compare_to(  filter_date, (base, filter) => Logic.lt( filter, base[0] ) === true ? false : Logic.le( base[1], filter ) === true ? true : undefined  )
-  after_  = filter_date =>  this.#compare_to(  filter_date, (base, filter) => Logic.lt( base[1], filter ) === true ? false : Logic.le( filter, base[0] ) === true ? true : undefined  )
-  after   = filter_date =>  this.#compare_to(  filter_date, (base, filter) => Logic.le( base[1], filter ) === true ? false : Logic.lt( filter, base[0] ) === true ? true : undefined  )
+  before ( filter_date ) {return  this._compare_to(  filter_date, (base, filter) => Logic.le( filter, base[0] ) === true ? false : Logic.lt( base[1], filter ) === true ? true : undefined  ) }
+  before_( filter_date ) {return  this._compare_to(  filter_date, (base, filter) => Logic.lt( filter, base[0] ) === true ? false : Logic.le( base[1], filter ) === true ? true : undefined  ) }
+  after_ ( filter_date ) {return  this._compare_to(  filter_date, (base, filter) => Logic.lt( base[1], filter ) === true ? false : Logic.le( filter, base[0] ) === true ? true : undefined  ) }
+  after  ( filter_date ) {return  this._compare_to(  filter_date, (base, filter) => Logic.le( base[1], filter ) === true ? false : Logic.lt( filter, base[0] ) === true ? true : undefined  ) }
 
-  #compare_to = (filter_date, compare_fn, range_index ) =>
+  _compare_to( filter_date, compare_fn, range_index )
   {
     if( filter_date === "" )      return true               // by convention we define an empty filter as not-filtering
     
@@ -173,4 +183,5 @@ export class Event
       filter_date
     )
   }
+
 }

@@ -25,7 +25,7 @@
   },
 
   "dependencies": {
-    "@kxfm/one": "^1.1.0",
+    "@kxfm/one": "latest",
     "@hpcc-js/wasm":"^2.16.2",
     "d3-graphviz":"^5.4.0",
     "d3-selection":"^3.0.0",

@@ -2,7 +2,7 @@
   "type": "module",
   "dependencies": {
     "@hpcc-js/wasm": "^2.7.0",
-    "@kxfm/one": "^1.0.0",
+    "@kxfm/one": "latest",
     "chalk": "^5.2.0",
     "jira-client": "^8.2.2"
   },
