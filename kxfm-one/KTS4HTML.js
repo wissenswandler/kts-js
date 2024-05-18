@@ -5,15 +5,9 @@
   *
   * and for the HTTP protocol
   */
-export class KTS4HTML
-{
-  static URL_PARAMETER_VALUES_SEPARATOR = ','
 
-  static    get_url_param( param_name, default_if_no_url_parameter ) 
-  { 
-    return  get_url_param( param_name, default_if_no_url_parameter );
-  }
-}
+export
+const URL_PARAMETER_VALUES_SEPARATOR = ','
 
  /*
   * read URL parameters
@@ -25,7 +19,7 @@ export class KTS4HTML
 export function get_url_param( param_name, default_if_no_url_parameter ) 
 { 
   const  values = new URLSearchParams(location.search)
-                  .get(       param_name )?.split( KTS4HTML.URL_PARAMETER_VALUES_SEPARATOR )
+                  .get(       param_name )?.split( URL_PARAMETER_VALUES_SEPARATOR )
 
   return values ?? default_if_no_url_parameter;
 }

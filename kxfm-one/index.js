@@ -3,9 +3,9 @@ export {  Tdot2svgStrings  } from "./Tdot2svgStrings.js"
 export    * as  Arr          from "./Arr.js"
 export    * as  Logic        from "./Logic.js"
 export    * as  Text         from "./Text.js"
+export    * as  KTS4HTML     from "./KTS4HTML.js"
+export {  get_url_param    } from "./KTS4HTML.js"
 export {  Tjira2dot        } from "./Tjira2dot.js"
-export {  KTS4HTML,
-          get_url_param    } from "./KTS4HTML.js"
 export {  KTS4Dot          } from "./KTS4Dot.js"
 
 export { 
