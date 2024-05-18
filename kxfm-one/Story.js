@@ -114,8 +114,11 @@ constructor( story_text_or_object, selected_entities_or_everything_flag = true )
   )   
 }
 
-addFilter = (filter_object) => { this.event_filter_objects.push( filter_object ); return this }
-
+addFilter( filter_object ) 
+{
+  this.event_filter_objects.push( filter_object )
+  return this
+}
   
  /*
   * get this story's visible events
