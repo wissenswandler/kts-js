@@ -5,30 +5,34 @@ export
 class StoryToDotRenderer extends DotRenderer
 {
 
-  diagram_options = 
-  {
-    future_pointer_minlen: 1
-    ,
-    places_edge_style : "dotted"
-
-    , entryArrowtail : "crow" // for a nicer distinction between the entity's name and its first event along the timeline
-    
-    //, entity_edge_style : "dashed"
-    
-    //, showExit : false // a river e.g. never extends beyond its estuary
-
-    //, render_terminal_event_boxed : true
-  }
-
-  static highlight_all_timelines_of_event = "highlight all timelines of event"
-
-  title_dot = "" // to be included near the top of DOT source - can be used to implement a title or supplementary graphics
-
-  story
-  
   constructor( story, diagram_toggles, project_lod )
   {
     super( project_lod )
+
+    /*
+     * class properties workaround
+     */
+    this.diagram_options = 
+    {
+      future_pointer_minlen: 1
+      ,
+      places_edge_style : "dotted"
+
+      , entryArrowtail : "crow" // for a nicer distinction between the entity's name and its first event along the timeline
+      
+      //, entity_edge_style : "dashed"
+      
+      //, showExit : false // a river e.g. never extends beyond its estuary
+
+      //, render_terminal_event_boxed : true
+    }
+
+    this.title_dot = "" // to be included near the top of DOT source - can be used to implement a title or supplementary graphics
+
+    this.constructor.highlight_all_timelines_of_event = "highlight all timelines of event"
+    /*
+     * end class properties workaround
+     */
 
     switch( typeof story )
     {

@@ -1,16 +1,24 @@
 import * as yaml  from "js-yaml"
 
 import * as  Arr        from './Arr.js'
+import * as  Text       from './Text.js'
 import {  EventArena  } from './EventArena.js'
 import {  DotRenderer } from './DotRenderer.js'
-import * as  Text       from './Text.js'
 
 export 
 class Story extends EventArena
 {
-  central_entity = ""
 
-  entity_default_properties_by_type = new Map(
+constructor( story_text_or_object, selected_entities_or_everything_flag = true )
+{
+  super()
+  
+  /* initializing class properties as workaround
+   * for "experimental classProperty syntax"
+   */
+  this.central_entity = ""
+
+  this.entity_default_properties_by_type = new Map(
     [
       [  "replacement", { labelPrefix : "⚙" ,showExit : false  }  ]
       ,
@@ -33,32 +41,25 @@ class Story extends EventArena
   // full set of all timelines 
   // never filtered in base class and always constant
   // entries are parsed from "story" text in parse_timeline()
-  entity_timelines = {}
-  
-  events_json // assigned in constructor, parsed in split_story
-  
-  topic_events_map // assigned in harvest_story
-  event_entity_map // assigned in harvest_story 
+  this.entity_timelines = {}
 
-  event_filters = []
+  this.event_filters = []
 
-  event_filter_objects = []
+  this.event_filter_objects = []
   
-  static story_delimiter = /- - -.*/
+  this.constructor.story_delimiter = /- - -.*/
   
-  static color_12_paired = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928']
-  static color_12_set3 = ['#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#d9d9d9','#bc80bd','#ccebc5','#ffed6f']
-  static color_12_set3_minus_yellow = [
+  this.constructor.color_12_paired = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928']
+  this.constructor.color_12_set3 = ['#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#d9d9d9','#bc80bd','#ccebc5','#ffed6f']
+  this.constructor.color_12_set3_minus_yellow = [
 '#b3de69','#fccde5','#d9d9d9','#bc80bd','#ccebc5','#ffed6f',
 '#8dd3c7','#bebada','#fb8072','#80b1d3','#fdb462',
 ] // found yellow too hard to read on most screens, and changed the order so that it starts with bright green
   
-  static color_palette = this.color_12_set3_minus_yellow;
-  
+  this.constructor.color_palette = this.constructor.color_12_set3_minus_yellow;
 
-constructor( story_text_or_object, selected_entities_or_everything_flag = true )
-{
-  super()
+  /* 
+   * end class properties workaround */
   
   switch( typeof story_text_or_object )
   {

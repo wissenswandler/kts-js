@@ -3,9 +3,6 @@ import { EventFilter } from './EventFilter.js'
 export
 class SharedEventFilter extends EventFilter
 {
-  diagram_toggles
-  only_shared_events
-  
   constructor( diagram_toggles, only_shared_events )
   {
     super();
