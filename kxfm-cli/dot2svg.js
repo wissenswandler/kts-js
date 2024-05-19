@@ -5,17 +5,19 @@
  *
  * this depends on filesystem, streams and graphviz renderer implementation, 
  * so it is rather heavyweight and cannot be used in some environments (Forge FaaS, Browser...)
- *
- * also the graphviz renderer is constructed here
  */
 
-import { exit } from 'process';
-import fs from 'fs'
-import chalk from 'chalk'	
-import {Tdot2svgStreams}	from '@kxfm/one'
-import {Tdot2svgFiles}		from './Tdot2svgFiles.js'
+import {  exit            } from 'process'
+import    fs                from 'fs'
 
-import { Graphviz } from "@hpcc-js/wasm/graphviz";
+import    chalk             from 'chalk'	        // colorize console output  (does not work in Forge FaaS)
+
+import {  Graphviz        } from "@hpcc-js/wasm"
+
+import {  Tdot2svgStreams }	from '@kxfm/one'
+
+import {  Tdot2svgFiles   }	from './Tdot2svgFiles.js'
+
 const graphviz = await Graphviz.load();
 
 let dotsource_filename;
