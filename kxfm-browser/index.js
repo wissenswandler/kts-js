@@ -1,5 +1,4 @@
 export {  
-          KTS4Browser         ,
           digraph             ,
           digraph2svg         ,
           dot2svg             ,

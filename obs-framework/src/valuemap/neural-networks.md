@@ -3,17 +3,9 @@
 models refined, based on ChatGPT
 
 ```js
-import {  KTS4Browser,
-          create_kts_console  } from "@kxfm/one"
-
-import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
-
-const kts_console = create_kts_console()
-const graphviz = await Graphviz.load()
-```
-
-```js
-const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
+import { 
+          dot2svg         ,
+                          } from "@kxfm/browser"
 ```
 
 <div class="card">
@@ -21,22 +13,20 @@ const transformer = new KTS4Browser( graphviz, {clientwidth:width} )
 ## is n-partite (sais ai)
 
 ```js 
-transformer.dot2svg(
+dot2svg(
     await FileAttachment( "/data/nn-n-p.dot" ).text()
 )
 ```
 </div>
 
-```js
-create_kts_console()
-```
+<div id="ktsConsole">KTS loading...</div>
 
 <div class="card">
 
 ## not n-partite (sais ai) - but actually is n-partite
 
 ```js 
-transformer.dot2svg(
+dot2svg(
     await FileAttachment( "/data/nn-not-n-p.dot" ).text()
 )
 ```
@@ -47,7 +37,7 @@ transformer.dot2svg(
 ## demo for links with strength attribute
 
 ```js 
-transformer.dot2svg(
+dot2svg(
     await FileAttachment( "/data/nn-strength.dot" ).text()
 )
 ```

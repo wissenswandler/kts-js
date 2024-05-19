@@ -4,17 +4,18 @@ toc: true
 # KTS Value Maps Library
   
 ```js
-import{ digraph2svg     ,
-        digraph         ,
-        dot2svg         ,
-        animate_content , //TODO: include API demo
-        default_options ,
-        kts_console     ,
-                        } from "@kxfm/browser"
+import { 
+          digraph2svg       ,
+          digraph           ,
+          dot2svg           ,
+          animate_content   , //TODO: include API demo
+          default_options   ,
+                            } from "@kxfm/browser"
+import {  
+          KTS4HTML          ,
+          Tjira2dot         } from "@kxfm/one"
 
-import{ KTS4HTML, Tjira2dot } from "@kxfm/one"
-
-import{ FlexibleCheckbox    } from "@kxfm/observablehq"
+import {  FlexibleCheckbox  } from "@kxfm/observablehq"
 ```
 
 <div class="card">
@@ -62,9 +63,7 @@ display( composed )
 ```
 </div>
 
-```js 
-kts_console
-```
+<div id="ktsConsole">KTS loading...</div>
 
 <div class="card">
 
