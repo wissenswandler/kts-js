@@ -1,14 +1,13 @@
 ---
 toc: true
 ---
-# Timelines Lib
+# KTS Timelines Library
   
 demonstration of all KTS Timelines API features
 
 ```js
 import {  
         get_url_param,
-
         Story               ,
         StoryToDotRenderer  ,
         show_future_faded   ,
@@ -21,11 +20,8 @@ import {
         StoryToHTMLRenderer ,
                             } from "@kxfm/observablehq"
 
-import{ digraph2svg         ,
-        digraph             ,
+import{ 
         dot2svg             ,
-        animate_content     ,
-        KTS4Browser         ,
         timelines           ,
         set_input_value     ,
         kts_console         ,
@@ -40,7 +36,6 @@ import{ digraph2svg         ,
 const storyToHTMLRenderer = new StoryToHTMLRenderer( myStory )
 ```
 ```js
-//dot2svg(  new StoryToDotRenderer( myStory, diagram_toggles, project_lod )  ) 
 timelines`${story_text}`
 ```
 </div>

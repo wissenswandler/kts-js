@@ -1,12 +1,10 @@
 # Animation via Visco Selections
   
 ```js
-import{ KTS4Browser         ,
-        digraph2svg         ,
-        animate_content     ,
-        kts_console         } from "@kxfm/browser"
-
-import{ Graphviz           } from "@hpcc-js/wasm/graphviz"
+import { 
+          digraph2svg         ,
+          animate_content     ,
+          kts_console         } from "@kxfm/browser"
 ```
 
 <div class="card">

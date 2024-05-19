@@ -8,28 +8,30 @@
 import {  
           KTS4Dot             ,
 	        Tdot2svgStrings     ,
-          StoryToDotRenderer  ,
                               } from "@kxfm/one"
 
-// works in Obs Frame, but not on unpkg
+// works in Obs Framew, but not on unpkg due to the "graphviz" part of the URL !
 //import {  Graphviz            } from "@hpcc-js/wasm/graphviz"
+
+// works on unpkg, but not in Obs Framew !
+//import {  Graphviz            } from "@hpcc-js/wasm"
 
 async function import_graphviz()
 {
-let hwas
-try
-{
-  // preferred way: coming from local node module
-	hwas = await import("@hpcc-js/wasm/graphviz")
-  console.info( "loaded graphviz from local node module" )
-}
-catch( error )
-{
-	console.info( "caught " + error + ", falling back to online lib" )
-	hwas = await import("https://unpkg.com/@hpcc-js/wasm@2.16.2/dist/graphviz.js")
-  console.info( "loaded graphviz from unkpg" )
-}
-return hwas.Graphviz
+  let hwas
+  try
+  {
+    // preferred way: importing from local node module
+    hwas = await import("@hpcc-js/wasm/graphviz")
+    console.info( "KTS: imported graphviz from local node module" )
+  }
+  catch( error )
+  {
+    console.info( "KTS: caught " + error + ", falling back to online lib" )
+    hwas = await import("https://unpkg.com/@hpcc-js/wasm/dist/graphviz.js")
+    console.info( "KTS: imported graphviz from unkpg online" )
+  }
+  return hwas.Graphviz
 }
 const Graphviz = import_graphviz()
 
@@ -41,7 +43,8 @@ import * as              d3s      from "d3-selection"
 import * as                   d3t from "d3-transition"
 const  d6 = merge( [d3g, d3s, d3t] )
 
-  function merge(modules) {
+function merge(modules) 
+{
   const o = {};
   for (const m of modules) {
     for (const k in m) {
@@ -69,30 +72,8 @@ async function animinit()
 }
 
 // pseudo compatibility with nodejs so that REPL can try to load this module
-// of course, using 'document' in nodejs will fail
+// of course: using 'document' in nodejs will fail
 const document = globalThis.document ?? {}
-
-/*
- * animating DOT content which is passed as an array of strings
- * @param {Array} contents - an array of DOT strings
- * @param {Number} duration - the duration of each content display in seconds
- * @param {Function} visibility - a function that returns a promise that resolves when the caller is visible
- */
-export async function* animate_content( contents, duration, visibility )
-{
-  let i = 0;
-  while (true)
-  {
-    if(   visibility )
-    await visibility()
-
-    yield( contents[i] );
-
-    await new Promise( (resolve) => setTimeout(resolve, duration*1000 ) );
-
-    i = (i+1) % contents.length
-  }
-} 
 
 /*
  * DEPRECATED: 
@@ -235,6 +216,8 @@ digraph2svg ( inside_digraph_block, options )
   */
 async dot2svg ( dot_string_generator, options = default_options )
 {
+  this.width = options.width ?? document.querySelector?.('body').clientWidth ?? 480
+
   const dot_string =
     typeof dot_string_generator === String 
     ?
@@ -313,18 +296,6 @@ const dot2svg = transformer.dot2svg
 
 export
 const digraph = transformer.digraph
-//const async digraph = ( ...rest ) => await transformer.digraph( ...rest )
 
 export
 const digraph2svg = transformer.digraph2svg
-
-/*
- * tag function,
- * turning the template literal into a KTS Timelines diagram
- * accepts a Timelines story
- */
-export
-function timelines( strings, ... keys )
-{
-  return dot2svg(   new StoryToDotRenderer(  strings.reduce( (a, c) => a + keys.shift() + c )  )   )
-}

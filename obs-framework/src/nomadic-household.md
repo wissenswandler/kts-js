@@ -268,7 +268,7 @@ show_parts_view;
 ```
 
 ```js 
-digraph2svg( flixbox.combine_parts( show_parts_view ) )
+digraph2svg(  flixbox.combine_parts( show_parts_view ), { width, fit:"auto" }  ) // referencing 'width' makes the svg responsive
 ```
 
 ```js

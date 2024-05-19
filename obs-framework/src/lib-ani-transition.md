@@ -5,7 +5,7 @@ smooth transitions in changes between diagrams, thanks to [Magnus Jacobsson](htt
 ```js 
 import {  KTS4Dot } from "@kxfm/one"
 
-import {  KTS4Browser     , 
+import {
           animate_content ,  
           kts_console     ,  
           animinit        ,

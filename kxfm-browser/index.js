@@ -1,14 +1,28 @@
 export {  
-          KTS4Browser     ,
-          digraph         ,
-          digraph2svg     ,
-          dot2svg         ,
-          animate_content ,
-       	  kts_console     ,      
-          timelines       ,        
-          default_options ,
-          animinit        , 
-                          } from "./KTS4Browser.js"
+          KTS4Browser         ,
+          digraph             ,
+          digraph2svg         ,
+          dot2svg             ,
+       	  kts_console         ,      
+          default_options     ,
+          animinit            , 
+                              } from "./KTS4Browser.js"
+import {  
+          dot2svg             ,
+                              } from "./KTS4Browser.js"
+import {  
+          StoryToDotRenderer  ,
+                              } from "@kxfm/one"
+/*
+ * tag function,
+ * turning the template literal into a KTS Timelines diagram
+ * accepts a Timelines story
+ */
+export
+function timelines( strings, ... keys )
+{
+  return dot2svg(   new StoryToDotRenderer(  strings.reduce( (a, c) => a + keys.shift() + c )  )   )
+}
 
 export
 function set_input_value(input, value, add_or_remove = undefined ) 
@@ -32,3 +46,34 @@ function set_input_value(input, value, add_or_remove = undefined )
   
   input.dispatchEvent(new Event("input", {bubbles: true}));
 }
+
+/*
+ * Zero Dependencies
+ */
+
+
+/*
+ * animating content from an array, optionally awaiting the visibility() Promise
+ * @param {Array} contents - an array of DOT strings
+ * @param {Number} duration - the duration of each content display in seconds
+ * @param {Function} visibility - a function that returns a promise that resolves when the caller is visible
+ * - pure JavaScript, no dependencies, most likely only useful in an interactive (browser) environment
+ */
+export
+async function* animate_content( contents, duration, visibility )
+{
+  let i = 0;
+  while (true)
+  {
+    if(   visibility )
+    await visibility()
+
+    yield( contents[i] )
+
+                    i =
+                   (i+1) 
+         % contents.length
+
+    await new Promise( (resolve) => setTimeout(resolve, duration*1000 ) );
+  }
+} 

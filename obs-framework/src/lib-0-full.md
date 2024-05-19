@@ -1,14 +1,13 @@
 ---
 toc: true
 ---
-# KTS Library (WIP migration from Obs)
+# KTS Value Maps Library
   
 ```js
 import{ digraph2svg     ,
         digraph         ,
         dot2svg         ,
-        animate_content ,
-        KTS4Browser     ,
+        animate_content , //TODO: include API demo
         default_options ,
         kts_console     ,
                         } from "@kxfm/browser"
@@ -54,7 +53,7 @@ show_parts_view;
 ```
 
 ```js
-digraph` ${composed} `
+digraph2svg(  composed, { fit:'auto' , width }  )
 ```
 
 ```js
@@ -78,7 +77,7 @@ const include_types = view(  create_types_filter( issues )  )
 ```
 
 ```js 
-const valuemap = await dot2svg
+const valuemap = dot2svg
 (
   Tjira2dot.jiraIssueArray2dotString
   (
@@ -88,10 +87,12 @@ const valuemap = await dot2svg
     )
   )
   ,
-  {domId:"valuemap",fit:'auto'} 
+  { domId:"valuemap" , fit:'auto' , width } 
 )
+```
 
-display( valuemap )
+```js 
+valuemap
 ```
 </div>
 
@@ -122,7 +123,7 @@ const fit_width_layout_option = view( Inputs.select
 ```
 
 ```js
-digraph2svg( `A -> B -> C -> D`, {fit:fit_width_layout_option} )
+digraph2svg(  `A -> B -> C -> D`, { fit:fit_width_layout_option , width }  )
 ```
 
 ```js
