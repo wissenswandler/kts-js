@@ -2,13 +2,12 @@ export {
           digraph             ,
           digraph2svg         ,
           dot2svg             ,
-       	  kts_console         ,      
           default_options     ,
           animinit            , 
-                              } from "./KTS4Browser.js"
+                              } from "./Tdot2svgDOM.js"
 import {  
           dot2svg             ,
-                              } from "./KTS4Browser.js"
+                              } from "./Tdot2svgDOM.js"
 import {  
           StoryToDotRenderer  ,
                               } from "@kxfm/one"

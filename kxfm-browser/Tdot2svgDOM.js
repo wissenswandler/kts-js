@@ -68,33 +68,12 @@ const default_options = { fit : 'auto' }
 export
 async function animinit()
 {
-  return new KTS4Browser( d6 )
+  return new Tdot2svgDOM( d6 )
 }
 
 // pseudo compatibility with nodejs so that REPL can try to load this module
 // of course: using 'document' in nodejs will fail
 const document = globalThis.document ?? {}
-
-/*
- * DEPRECATED: 
- * creating the KTS console in a markdown expression will delay the rendering,
- * which prevents KTS initialization on the console.
- * the only way to support initialization is to create the console with verbatim text,
- * like so:
- * <div id="ktsConsole">KTS loading...</div>
- */
-export
-const               create_kts_console = () =>
-{
-  try{
-  const div = document.createElement( 'div' )
-  div.setAttribute( "id", "ktsConsole" )
-  div.innerText =  "KTS loading..."
-  return div
-  } catch( error ) { /*probably REPL*/ }
-}
-export
-const kts_console = create_kts_console()
 
 
  /*
@@ -107,7 +86,7 @@ const kts_console = create_kts_console()
   * after calling render()
   *
   */
-export class KTS4Browser extends Tdot2svgStrings
+export class Tdot2svgDOM extends Tdot2svgStrings
 {
 
 // installing a Promise to animate 
@@ -286,16 +265,16 @@ async dot2svg ( dot_string_generator, options = default_options )
   return span
 }
 
-} // end class KTS4Browser
+} // end class Tdot2svgDOM
 
 
-const transformer = new KTS4Browser( Graphviz )
+const transformer = new Tdot2svgDOM( Graphviz )
 
 export 
-const dot2svg = transformer.dot2svg
+const dot2svg     = transformer.dot2svg
 
 export
-const digraph = transformer.digraph
+const digraph     = transformer.digraph
 
 export
 const digraph2svg = transformer.digraph2svg
