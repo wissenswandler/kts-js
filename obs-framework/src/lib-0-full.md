@@ -22,8 +22,6 @@ import {  FlexibleCheckbox  } from "@kxfm/observablehq"
 
 ## Simplest Example
 
-digraph fragment in template literal
-
 ```js echo
 digraph`cause -> effect [label=value]`
 ```
@@ -33,7 +31,7 @@ digraph`cause -> effect [label=value]`
 
 ## Composition Example
 
-```js echo
+```js 
 const
 flixbox = new FlexibleCheckbox()
 flixbox.set_part("a","Brest->Rennes->Paris")
@@ -54,12 +52,7 @@ show_parts_view;
 ```
 
 ```js
-digraph2svg(  composed, { fit:'auto' , width }  )
-```
-
-```js
-const composed = flixbox.combine_parts( show_parts_view )
-display( composed )
+digraph2svg(  flixbox.combine_parts( show_parts_view ), { fit:'auto' , width }  )
 ```
 </div>
 
@@ -69,7 +62,7 @@ display( composed )
 
 ## Jira Issues Example 
 
-A few Jira issues from an attached JSON array. Issues can be filtered by type. Type filter is generated dynamically.
+A few Jira issues from an attached JSON array. Type filter is generated dynamically.
 
 ```js 
 const include_types = view(  create_types_filter( issues )  )
@@ -97,7 +90,7 @@ valuemap
 
 <div class="card">
 
-## Zoom/Fit Control and Visco controls
+## Zoom/Fit Control
 
 Fit Control reads initial value from URL parameter `fit` (false/auto/true), defaults to 'auto'
 
@@ -122,8 +115,13 @@ const fit_width_layout_option = view( Inputs.select
 ```
 
 ```js
-digraph2svg(  `A -> B -> C -> D`, { fit:fit_width_layout_option , width }  )
+digraph2svg(  `A->B->C->D->E`, { fit:fit_width_layout_option , width }  )
 ```
+</div>
+
+<div class="card">
+
+## Visco controls
 
 ```js
 const visco_buttons_Fe = view( Inputs.button
@@ -132,10 +130,9 @@ const visco_buttons_Fe = view( Inputs.button
     [ "focus"        ,  () => visco.press("F") ],
     [ "restore color",  () => visco.press("e") ] ,
   ]
-  , {label: "visual controls" }
+  , {label: "visual controls (use after clicks in diagram)" }
 ) )
 ```
-Visco controls are useful after clicking the diagram.
 </div>
 
 ## Props...

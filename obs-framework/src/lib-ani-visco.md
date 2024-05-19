@@ -4,14 +4,12 @@
 import { 
           digraph2svg         ,
           animate_content     ,
-          kts_console         } from "@kxfm/browser"
+                              } from "@kxfm/browser"
 ```
 
 <div class="card">
 
-```js
-kts_console
-```
+<div id="ktsConsole">KTS loading...</div>
 
 ```js echo
 const graph_source = `Brest->Rennes->Paris->München->Salzburg->Wien`

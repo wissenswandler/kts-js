@@ -7,9 +7,10 @@ import {  KTS4Dot } from "@kxfm/one"
 
 import {
           animate_content ,  
-          kts_console     ,  
-          animinit        ,
                           } from "@kxfm/browser"
+import {
+          animinit        ,
+                          } from "./libbr/Tdot2svgAnim.js"
 
 const transformer = animinit()
 
@@ -73,9 +74,6 @@ current_content
 // otherwise we could just call the generator function directly in the call to 'animate_this_inside'
 ```
 
-```js echo
-kts_console
-// not really used in this example, but kept as a template for other,
-// slowly (manually) animating diagrams that you want to explore via VisCo
-```
+<div id="ktsConsole">KTS loading...</div>
+
 </div>

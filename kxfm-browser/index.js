@@ -3,7 +3,6 @@ export {
           digraph2svg         ,
           dot2svg             ,
           default_options     ,
-          animinit            , 
                               } from "./Tdot2svgDOM.js"
 import {  
           dot2svg             ,
