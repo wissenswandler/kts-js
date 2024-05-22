@@ -1,8 +1,7 @@
  /*
-  * methods for Browser clients
-  * to render SVG,
-  * operate on HTML/SVG DOM
-  * and utilize VisCo
+  * class for rendering DOT content via SVG to DOM in the browser
+  *
+  * and base for animated subclass
   */
 
 import {  
@@ -49,16 +48,6 @@ export
 const default_options = { fit : 'auto' }
 
 
- /*
-  * class for rendering DOT content to SVG in the browser
-  * via different renderer implementations (once versus animated)
-  *
-  * construct with a graphviz instance for one-time rendering, resulting in a <span><svg>
-  *
-  * construct with no parameter for animated rendering, resulting in a updated dom element
-  * after calling render()
-  *
-  */
 export class Tdot2svgDOM extends Tdot2svgStrings
 {
 
@@ -188,3 +177,18 @@ const digraph     = transformer.digraph
 
 export
 const digraph2svg = transformer.digraph2svg
+
+export
+const dotReplaceWithSvg = ( selector = '.dotcontainer' ) =>
+  document
+  .querySelectorAll( selector )
+  .forEach
+  ( container =>
+    dot2svg( container.innerText, false )
+    .then
+    ( svg_tag =>
+    { container.innerHTML = svg_tag.outerHTML;
+      visco.on_svg_load( {document:container} )
+    }
+    )
+  )

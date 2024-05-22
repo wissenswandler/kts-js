@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SVG from all DOT in HTML tags</title>
+</head>
+<body>
+  <digraph>cause->effect</digraph>
+  <digraph>Gödel->Incompleteness_Theorem->Mathematics_is_broken</digraph>
+  <div id="ktsConsole">KTS loading...</div>
+  <link  href="/lib/graph.css" rel="stylesheet" />
+  <script src="/lib/graph.js"></script>
+  <script type="module">
+    import { dotReplaceWithSvg } from "@kxfm/browser";
+    dotReplaceWithSvg( 'digraph' )
+  </script>
+</body>
+</html>

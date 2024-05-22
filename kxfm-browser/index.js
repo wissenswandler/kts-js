@@ -1,7 +1,15 @@
+ /*
+  * functions for Browser clients
+  * to render SVG,
+  * operate on HTML/SVG DOM
+  * and utilize VisCo
+  */
+
 export {  
           digraph             ,
           digraph2svg         ,
           dot2svg             ,
+          dotReplaceWithSvg   ,
           default_options     ,
                               } from "./Tdot2svgDOM.js"
 import {  

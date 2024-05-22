@@ -65,3 +65,14 @@ body {
 	text-decoration-skip-ink: auto;
   /* end Jira */
 }
+
+
+digraph
+{
+  display:block;
+}
+digraph:not(:has( > span > svg ))
+{
+  color:forestgreen;
+  background:whitesmoke
+}

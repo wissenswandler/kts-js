@@ -319,7 +319,7 @@ p.disabled  {
   opacity: 0.7;
 }
 
-.fullpage
+./shodfullpage
 #ktstools {
   padding-bottom: 18px; /* to keep space for the browser toolbar, which frequently pops up in KTS diagrams */ }
 #ktstools {
@@ -342,7 +342,9 @@ p.disabled  {
   display: inline-block; /* use only least necessary width */
 }
 
-#ktsKeyboardHelp, #ktsConsole {
+#ktsKeyboardHelp, 
+#ktsConsole
+{
   margin: 4px;
   animation-name: fadeIn;
   animation-duration: 0.4s;
