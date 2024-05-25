@@ -10,6 +10,7 @@ import {
           dot2svg           ,
           animate_content   , //TODO: include API demo
           default_options   ,
+        dotReplaceWithSvg 
                             } from "@kxfm/browser"
 import {  
           KTS4HTML          ,
@@ -25,6 +26,23 @@ import {  FlexibleCheckbox  } from "@kxfm/observablehq"
 ```js echo
 digraph`cause -> effect [label=value]`
 ```
+</div>
+
+<div class="card">
+
+## DOT Translation approach
+
+equally simple and better suited for non-reactive (plain HTML) environments:
+writing an HTML tag (here: `digraph`) and letting KTS replace it with an SVG.
+
+Useful where authors want to keep the DOT code in the HTML source, e.g. where there is little chance to re-use that DOT in other documents.
+
+<digraph>Gödel->Incompleteness_Theorem->Mathematics_is_broken</digraph>
+
+```js echo
+dotReplaceWithSvg( 'digraph' );
+```
+
 </div>
 
 <div class="card">
