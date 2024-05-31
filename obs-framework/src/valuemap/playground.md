@@ -6,7 +6,7 @@ Because every single keystroke is translated, there will be occasional errors in
 
 ```js
 import{ digraph2svg     ,
-        kts_console     } from "@kxfm/browser"
+                        } from "@kxfm/browser"
 ```
 
 <div class="card">
@@ -34,8 +34,6 @@ const dot_source = view( Inputs.textarea(
     ) )
 ```
 
-```js 
-kts_console
-```
+<div id="ktsConsole">KTS loading...</div>
 
 </div>

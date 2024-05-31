@@ -8,52 +8,54 @@ export default {
   // lets you organize them into sections and have unlisted pages.
   pages:
   [
-    { name: "Value Maps Portfolio",
+    { name: "1a Value Maps Portfolio",
       open:true,
       pages: 
       [
-        {name: "Nomadic Sustainable Life"      , path: "/nomadic-household"},
+        {name: "Nomadic Sustainable Life (i)"  , path: "/nomadic-household"},
       ]
-    }
-    ,
-    { name: "Timelines Portfolio",
+    } ,
+    { name: "1b Timelines Portfolio",
       open:true,
       pages: 
       [
         {name: "Sinking of Rainbow Warrior"    , path: "/rainbow-warrior"    },
       ]
-    }
-    ,
-    { name: "Value Maps demos",
+    } ,
+    { name: "2a Value Maps demos",
       open:false,
       pages: 
       [
-        {name: "Value Map Playground"          , path: "/valuemap/playground"},
-        {name: "Neural Network Animation"      , path: "/neural-network"},
+        {name: "Value Map Playground (i)"      , path: "/valuemap/playground"},
+        {name: "Neural Network Animation (i,a)", path: "/neural-network"},
       ]
-    }
-    ,
-    { name: "Timelines demos",
+    } ,
+    { name: "2b Timelines demos",
       open:false,
       pages: 
       [
         {name: "Casablanca"                    , path: "/casablanca"},
       ]
-    }
-    ,
-    { name: "kxfm lib tests",
+    } ,
+    { name: "3a Value Maps (+ kxfm) library",
       open:false,
       pages:
       [
         {name: "simplest demo (static diagram)", path: "/lib-demo"               },
         {name: "animated diagram transitions"  , path: "/lib-ani-transition"     },
         {name: "animated diagram selections"   , path: "/lib-ani-visco"          },
-        {name: "Timelines"                     , path: "/lib-timelines"          },
-        {name: "full API demo"                 , path: "/lib-0-full"             },
+        {name: "full Value Maps demo"          , path: "/lib-0-full"             },
         {name: "composed diagram (details)"    , path: "/lib-z-composed-parts"   },
         {name: "error handling in DOT source"  , path: "/lib-9-dot-source-error" },
       ]
-    }
+    } ,
+    { name: "3b Timelines library",
+      open:false,
+      pages:
+      [
+        {name: "full Timelines  demo"          , path: "/lib-timelines"          },
+      ]
+    } ,
   ],
 
   root : "src", // path to the source root for preview

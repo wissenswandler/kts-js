@@ -8,7 +8,8 @@ Below you can edit DOT source which initially contains a syntax error (double hy
 
 ```js
 import{ digraph2svg     ,
-        kts_console     } from "@kxfm/browser"
+        kts_console     
+                        } from "@kxfm/browser"
 ```
 
 <div class="card">
@@ -40,7 +41,6 @@ const dot_source = view( Inputs.textarea(
     ) )
 ```
 
-```js 
-kts_console
-```
+<div id="ktsConsole">KTS loading...</div>
+
 </div>

@@ -3,7 +3,7 @@
 ```js
 import{ digraph2svg     ,
         animate_content ,
-        kts_console     } from "@kxfm/browser"
+                        } from "@kxfm/browser"
 ```
 
 <div class="card">
@@ -60,9 +60,8 @@ const diagram = digraph2svg( dot_source )
 diagram
 ```
 
-```js
-kts_console
-```
+<div id="ktsConsole">KTS loading...</div>
+
 </div>
 
 ```js

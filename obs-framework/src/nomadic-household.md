@@ -6,7 +6,7 @@ How Nature is Serving my Needs
 
 ```js
 import {  digraph2svg,
-          kts_console         } from "@kxfm/browser"
+                              } from "@kxfm/browser"
 
 import {  FlexibleCheckbox    } from "@kxfm/observablehq"
 ```
@@ -271,6 +271,4 @@ show_parts_view;
 digraph2svg(  flixbox.combine_parts( show_parts_view ), { width, fit:"auto" }  ) // referencing 'width' makes the svg responsive
 ```
 
-```js
-kts_console
-```
+<div id="ktsConsole">KTS loading...</div>

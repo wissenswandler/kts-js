@@ -24,7 +24,6 @@ import{
         dot2svg             ,
         timelines           ,
         set_input_value     ,
-        kts_console         ,
                             } from "@kxfm/browser"
 ```
 
@@ -142,9 +141,8 @@ dot2svg(  new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod )
 ```
 </div>
 
-```js
-kts_console
-```
+<div id="ktsConsole">KTS loading...</div>
+
 <div class="card">
 
 ## Tabular view of events
