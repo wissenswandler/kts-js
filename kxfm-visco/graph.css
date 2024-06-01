@@ -1,0 +1,78 @@
+/*  Copyright 2019-2024 Boran Gögetap <- boran@goegetap.name
+
+    visual styles for interactive SVG graph viewer,
+    ... Teil von // part of ...
+    Knowledge Transformation System (KTS)
+
+    KTS ist Freie Software: Sie können es unter den Bedingungen
+    der GNU Affero General Public License, wie von der Free Software Foundation,
+    Version 3 der Lizenz oder (nach Ihrer Wahl) jeder neueren
+    veröffentlichten Version, weiter verteilen und/oder modifizieren.
+
+    KTS wird in der Hoffnung, dass es nützlich sein wird, aber
+    OHNE JEDE GEWÄHRLEISTUNG, bereitgestellt; sogar ohne die implizite
+    Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+    Siehe die GNU Affero General Public License für weitere Details.
+
+    Sie sollten eine Kopie der GNU Affero General Public License zusammen mit diesem
+    Programm erhalten haben. Wenn nicht, siehe <https://www.gnu.org/licenses/>.
+
+    //
+
+    KTS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    KTS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with KTS.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+
+/* core styles for color scales and path selection
+ * coming from visco.css
+ * those must be available for each and any Value Map
+ */ 
+@import url( "visco.css" );
+
+
+/* following is great for 1-diagram pages / full-page diagrams
+ * but not text-image mixtures or multi-diagram pages
+ * because it limits the page (length + height) to the viewport
+ */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  /*
+   * imitating Jira style
+   */
+	/*color: #172b4d;*/
+	font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1.42857142857143;
+	text-decoration-skip-ink: auto;
+  /* end Jira */
+}
+
+
+digraph
+{
+  display:block;
+}
+digraph:not(:has( > span > svg ))
+{
+  color:forestgreen;
+  background:whitesmoke
+}

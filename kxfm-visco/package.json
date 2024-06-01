@@ -1,12 +1,13 @@
 {
   "name": "@kxfm/visco",
   "type" : "commonjs",
-  "version": "1.4.34",
+  "version": "1.4.35",
   "description": "Visual Cortex (VisCo) = lightweight JS + CSS lib for exploring SVG graphs / part of KTS (Knowledge Transformation System)",
   "main": "graph.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "link": "echo '(nothing to link in this package)'"
+    "link": "echo '(nothing to link in this package)'",
+    "prepack": "cp ../kxfm-one/graph.js . && cp ../kxfm-one/graph.css . && cp ../kxfm-one/visco.css ."
   },
   "author": "Boran Gögetap",
   "repository": {
