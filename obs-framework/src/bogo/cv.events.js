@@ -6,17 +6,6 @@
  }
 
 , project_json(
-  "EmotionalIntelligence_2023_11",
-  "Emotional Intelligence Workshop",`delivering a method 
-(Angstregulierung) and performing exercises 
-to manage anxiety in potentially stressful situations
-
-see https://observablehq.com/@bogo/angstbewaeltigung
-
-Boran contributes as Coach`
-)
-
-, project_json(
 "SwedenToFrance_2022_05",
 "Sweden to Bretagne",`solo sailing trip from Sweden to Bretagne on small hybrid katamaran Maru`,
 "SwedenToFrance_2022_10"
@@ -99,48 +88,6 @@ dropped out without diploma`,
 )
 
 , project_json(
-"MagicMotion_1995",
-"📀 Magic Motion",`CD-Rom Content and Software production
-
-inventing animated stereovision (1st in history) 
-based on the algorithm for "Magic Eye" still images,
-we create suitable 3D models in 3D Studio (3DS),
-implement a post-processing filter for 3DS, 
-render "Magic Motion" videos, and
-implemented a custom UI for viewing such videos
-
-published under ISBN 9783760711461
-
-Boran serves as Solution Architect
-and Software Developer`)
-
-, project_json(
-"Cybertennis_1996",
-"📦 Cybertennis",`immersive VR development
-
-designing an immersive tennis court featuring
-a real tennis racket with force feedback
-plus a 3D-tracked head-mounted display (HMD)
-as one part of the UI, and a virtual opponent
-in a 3D scene which is rendered in real-time
-and viewed in the HMD.
-
-Boran serves as Solution Architect 
-and Software Developer`
-)
- 
-, project_json(
-"Magellan_1993_10",
-"Magellan suite for AutoCAD",`
-working with Logitech (USA) to create a toolset
-for intuitive designing and viewing of 3D models
-within the AutoCAD software application
-
-Boran serves as 3D Consultant + Solution Architect`,
-"Magellan_1994_03"
-)
-
-, project_json(
   "ClimbingInstructor_2014_05",
   "🎓 Climbing Instructor","license to coach rock climbing (Trainer-C level, issued by DAV, DE)" 
 )
@@ -193,29 +140,6 @@ Boran manages projects on customer’s side`,
 "ITProjectManager_1999_06"
 )
 
-, project_json(
-"Lithotrack_1997",
-"📦 Lithotrack",`
-developing a 3D navigation system to visualize 
-and guide non-invasive medical surgery; 
-
-certified for clinical use by 
-FDA (US Food and Drug Administration)
-and LGA (German Landesgewerbeanstalt) 
-
-Boran manages project on supplier’s side
-and contributes as Solution Architect`,
-"Lithotrack_2001_12"
-)
-
-, project_json( 
-"LithotrackJ_2002",
-"📦 Lithotrack-J",`migrating Lithotrack
-from 'PC' to 'Pocket-PC' hardware platform, and
-from C++ based CDK to Java based 3D toolkit
-to enable a much leaner form factor`,
-"LithotrackJ_2006_06"
-)
 
 , project_json(
 "UIS_1999_10",

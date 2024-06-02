@@ -285,7 +285,12 @@ const reducedStoryRenderer = new StoryToHTMLRenderer( myReducedStory )
 ```
 
 ```js
-dot2svg(  new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod )  )
+dot2svg
+(
+  new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod ) ,
+
+  { domId:'diagram' , fit:'auto' , width } 
+)
 ```
 
 <div id="ktsConsole">KTS loading...</div>
@@ -297,6 +302,10 @@ dot2svg(  new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod )
 ```js echo
 // TODO notes
 ```
+
+<span class="screenonly">
+
+## authoring tools
 
 ```js
 const diagram_toggles = view( Inputs.checkbox
@@ -323,6 +332,8 @@ date_range.join(',')
 diagram_toggles.includes( only_shared_events )
 }">bookmark current set of details</a></p>`
 ```
+
+</span>
 
 ```js
 const bogo_most_recent = "" // to be overridden e.g. in job applications to include a latest "open to work" event
