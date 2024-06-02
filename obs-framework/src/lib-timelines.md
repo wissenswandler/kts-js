@@ -32,9 +32,6 @@ import{
 ## diagram: full story
 
 ```js
-const storyToHTMLRenderer = new StoryToHTMLRenderer( myStory )
-```
-```js
 timelines`${story_text}`
 ```
 </div>
@@ -84,14 +81,7 @@ storyToHTMLRenderer.create_type_buttons( selected_entities_input, selected_entit
 ```
 
 ```js
-Inputs.button
-( 
-  [
-    [ "none", () => set_input_value( selected_entities_input, [] ) ]
-    ,
-    [  "all", () => set_input_value( selected_entities_input,  myStory.entity_keys ) ]
-  ]
-)
+selected_entities_input.none_all_buttons()
 ```
 </div>
 
@@ -157,7 +147,9 @@ reducedStoryRenderer.tabular_view( ["person","OU"] )
 
 ```js
 const myStory = new Story( story_text )
+const storyToHTMLRenderer = new StoryToHTMLRenderer( myStory )
 ```
+
 ```js echo
 //
 // definition of this diagram's story

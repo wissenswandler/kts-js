@@ -289,12 +289,32 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
     <div class="${scope}-body">${input}</div>
     ${style}
   `;
-  return Object.defineProperty(widget, "value", {
-    get: () => input.value,
-    set: (v) => {
-      input.value = v;
+
+  Object.defineProperty
+  ( widget, 
+    "none_all_buttons", 
+    {
+      value: () =>
+      Inputs.button
+      ( 
+        [
+          [ "none", () => set_input_value( widget, []                               ) ]
+          ,
+          [  "all", () => set_input_value( widget, this.story.fullstory.entity_keys ) ]
+        ]
+      )
+    } 
+  )
+
+
+  return Object.defineProperty
+  ( widget, 
+    "value", 
+    {
+      get: ( ) =>   input.value     ,
+      set: (v) => { input.value = v }
     }
-  });
+  )
 
 } // end of create_grouped_input()
 
