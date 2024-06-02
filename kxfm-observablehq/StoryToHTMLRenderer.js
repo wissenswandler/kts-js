@@ -123,7 +123,9 @@ Inputs.button( "apply visible entities as new entity selection", {reduce: () => 
 create_type_buttons = (view, model, string_truncate_length = 3) =>
 Inputs.button
 (
-  this.story.all_entity_types.reduce
+  this.story.all_entity_types
+  // TODO: .filter for types with more than one entity
+  .reduce
   ( (acc, type) =>
     acc.concat
     (
@@ -179,7 +181,6 @@ create_daterange_input ( values_if_not_passed_in_url = ['',''] )
         </style>
       `
     }
-    // following references would cause a circular definition
   )
 
   /*static*/ function create_date_text_input( label, values_if_not_passed_in_url, index, placeholder = "YYYY-MM-DD" )
@@ -305,7 +306,6 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
       )
     } 
   )
-
 
   return Object.defineProperty
   ( widget, 

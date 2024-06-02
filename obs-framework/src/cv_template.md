@@ -20,7 +20,8 @@ import {
                             } from "@kxfm/one"
 import { 
         StoryToHTMLRenderer ,
-                            } from "@kxfm/observablehq"
+                            } from "./libob/StoryToHTMLRenderer.js"
+//                          } from "@kxfm/observablehq"
 
 import{ 
         dot2svg             ,
@@ -82,7 +83,7 @@ const date_range = view( date_range_input )
 plus some of their details and related entities
 
 ```js
-reducedStoryRenderer.tabular_view( ["person","OU"] )
+reducedStoryRenderer.tabular_view( ["client","skill"], ["Client / School","Skills involved"] )
 ```
 - - -
 

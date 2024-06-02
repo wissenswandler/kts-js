@@ -66,7 +66,9 @@ body {
   /* end Jira */
 }
 
-
+/*
+ * for coding (DOT) digraph text inside <digraph> tags
+ */
 digraph
 {
   display:block;
@@ -76,3 +78,4 @@ digraph:not(:has( > span > svg ))
   color:forestgreen;
   background:whitesmoke
 }
+
