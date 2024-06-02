@@ -268,20 +268,6 @@ reducedStoryRenderer.tabular_view( ["client","skill"], ["Client / School","Skill
 ## 3. Diagram View
 
 ```js
-const diagram_toggles = view( Inputs.checkbox
-(
-  [only_shared_events,StoryToDotRenderer.highlight_all_timelines_of_event], 
-  {
-    value: get_url_param( "only_shared_events", false )[0]==='true' ? [only_shared_events] : []
-  } 
-) )
-```
-
-```js
-const project_lod = view( Inputs.radio(["title only", "full description"], {label: "level of detail", value: "title only"}) )
-```
-
-```js
 const myStory = new Story( story_text )
 const storyToHTMLRenderer = 
 new   StoryToHTMLRenderer( myStory )
@@ -310,6 +296,32 @@ dot2svg(  new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod )
 
 ```js echo
 // TODO notes
+```
+
+```js
+const diagram_toggles = view( Inputs.checkbox
+(
+  [only_shared_events,StoryToDotRenderer.highlight_all_timelines_of_event], 
+  {
+    value: get_url_param( "only_shared_events", false )[0]==='true' ? [only_shared_events] : []
+  } 
+) )
+
+const project_lod = view( Inputs.radio(["title only", "full description"], {label: "level of detail", value: "title only"}) )
+```
+
+```js
+reducedStoryRenderer.create_button_to_apply_visible_entities_as_new_filter( selected_entities_input )
+```
+
+```js
+htl.html`<p><a class="screenonly" href="?details=${
+selected_entities.join(',')
+}&date_range=${
+date_range.join(',')
+}&only_shared_events=${
+diagram_toggles.includes( only_shared_events )
+}">bookmark current set of details</a></p>`
 ```
 
 ```js
