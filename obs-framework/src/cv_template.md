@@ -17,7 +17,8 @@ import {
         ReducedStory        ,
         SharedEventFilter   ,
         DaterangeFilter     ,
-                            } from "@kxfm/one"
+                            } from "./lib/index.js"
+//                          } from "@kxfm/one"
 import { 
         StoryToHTMLRenderer ,
                             } from "./libob/StoryToHTMLRenderer.js"
@@ -38,6 +39,11 @@ showing ${ myReducedStory.n_topics } out of total ${ myStory.n_topics } topics
 const myStory = new Story( story_text )
 const storyToHTMLRenderer = 
 new   StoryToHTMLRenderer( myStory )
+      storyToHTMLRenderer.dictionary = 
+  {
+    "label":"Project / Product / Topic" ,
+    "OU": "Client"                      ,
+  }
 ```
 
 ```js
@@ -49,10 +55,21 @@ const myReducedStory = new ReducedStory
 .addFilter(  new SharedEventFilter( diagram_toggles, only_shared_events )  )
 
 const reducedStoryRenderer = new StoryToHTMLRenderer( myReducedStory )
+
+const
+storyToDotRenderer = new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod )
+storyToDotRenderer.style = // custom edge styles which are better suited for the elements of a CV than those of a general Timeline diagram
+{
+    future_pointer_minlen : 2 // more visible future pointers
+    ,
+    places_edge_style : "solid" // topics (=projects) should be the most prominent timelines in this diagram
+    ,
+    entity_edge_style : "dashed" // entities rather dashed (than solid) because skills are "dormant" between projects
+}
 ```
 
 ```js
-dot2svg(  new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod )  )
+dot2svg( storyToDotRenderer )
 ```
 
 <div id="ktsConsole">KTS loading...</div>
@@ -178,6 +195,8 @@ const story_text = `
 Boran
 Istanbul_1969
 GymnasticsCoach_1987
+Magellan_1993_10
+Magellan_1994_03
 Cybertennis_1996 
 ITILServiceManager_2003 ITILv3Expert_2007 QualityClimbingSession1_2011_05
 ParaglidingPilot_2013_06  ClimbingInstructor_2014_05  QualityClimbingSession2_2014_08 PassengerPermit_2015_08 ParaglidingInstructor_2017_11 TandemPilot_2020_07
@@ -203,6 +222,11 @@ Cybertennis_1996 - "rdfDescription":"Cyberspace Developer Kit by Autodesk","edge
 ADP
 QualityClimbingSession1_2011_05 QualityClimbingSession2_2014_08 - rdfLabel: Amadeus Data Processing GmbH, labelPrefix: 🏢, rdfType: OU
 
+Logitech
+Magellan_1993_10
+Magellan_1994_03
+- OU
+
 SkyAdventures
 TandemPilot_2020_07 - OU
 
@@ -210,6 +234,19 @@ Völkl
 Cybertennis_1996 - OU
 
 - - -
+
+Magellan_1993_10:
+- Magellan suite for AutoCAD
+- |
+
+  working with Logitech (USA) to create a toolset
+  for intuitive designing and viewing of 3D models
+  within the AutoCAD software application
+
+  Boran serves as 3D Consultant + Solution Architect
+
+Magellan_1994_03: finish
+
 
 TandemPilot_2020_07:
 - Tandem Flights
@@ -224,15 +261,4 @@ TandemPilot_2020_07:
 
 ```js
 const this_particular_diagram = "This particular diagram is the template for a curriculum vitae (CV) with an emphasis on 'professional' events. It has subtle visual variations from other Timeline diagrams (projects' timelines shown with solid lines, entities with dashed lines)."
-```
-
-```js
-const diagram_options = // custom edge styles which are better suited for the elements of a CV than those of a general Timeline diagram
-{
-    future_pointer_minlen : 2 // more visible future pointers
-    ,
-    places_edge_style : "" // topics (=projects) should be the most prominent timelines in this diagram
-    ,
-    entity_edge_style : "dashed" // entities rather dashed (than solid) because skills are "dormant" between projects
-}
 ```

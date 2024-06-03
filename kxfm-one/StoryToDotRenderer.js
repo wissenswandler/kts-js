@@ -5,50 +5,49 @@ export
 class StoryToDotRenderer extends DotRenderer
 {
 
-  constructor( story, diagram_toggles, project_lod )
+constructor( story, diagram_toggles, project_lod )
+{
+  super( project_lod )
+
+  this.diagram_options = 
   {
-    super( project_lod )
+    future_pointer_minlen: 1
+    ,
+    places_edge_style : "dotted"
 
-    /*
-     * class properties workaround
-     */
-    this.diagram_options = 
-    {
-      future_pointer_minlen: 1
-      ,
-      places_edge_style : "dotted"
+    , entryArrowtail : "crow" // for a nicer distinction between the entity's name and its first event along the timeline
+    
+    //, entity_edge_style : "dashed"
+    
+    //, showExit : false // a river e.g. never extends beyond its estuary
 
-      , entryArrowtail : "crow" // for a nicer distinction between the entity's name and its first event along the timeline
-      
-      //, entity_edge_style : "dashed"
-      
-      //, showExit : false // a river e.g. never extends beyond its estuary
-
-      //, render_terminal_event_boxed : true
-    }
-
-    this.title_dot = "" // to be included near the top of DOT source - can be used to implement a title or supplementary graphics
-
-    this.constructor.highlight_all_timelines_of_event = "highlight all timelines of event"
-    /*
-     * end class properties workaround
-     */
-
-    switch( typeof story )
-    {
-      case 'object':
-        this.story = story
-        break;
-      case 'string':
-        this.story = new Story( story )
-        break;
-      default:
-        throw(  new Error( "invalid datatype of story" )  )
-    }     
-    this.diagram_toggles = diagram_toggles
-
-    //this.connect_entrynode_with_first_event = this.connect_entrynode_with_first_event.bind( this )
+    //, render_terminal_event_boxed : true
   }
+
+  this.title_dot = "" // to be included near the top of DOT source - can be used to implement a title or supplementary graphics
+
+  switch( typeof story )
+  {
+    case 'object':
+      this.story = story
+      break;
+    case 'string':
+      this.story = new Story( story )
+      break;
+    default:
+      throw(  new Error( "invalid datatype of story" )  )
+  }     
+  this.diagram_toggles = diagram_toggles
+
+  //this.connect_entrynode_with_first_event = this.connect_entrynode_with_first_event.bind( this )
+}
+
+static get highlight_all_timelines_of_event() { return "highlight all timelines of event" }
+
+set style( style )
+{
+  this.diagram_options = Object.assign( this.diagram_options, style )
+}
 
 /*
  * render Graphviz code compatible with "DOT"
@@ -363,6 +362,8 @@ render_topics()
     node [ ${ this.diagram_options.repeat_entity_in_future ? `shape=box${ color_clause } label=${ dotLabel }` : "style=invis height=0 width=0 fixedsize=true" }]
     edge [class="global_type_${id} _future" arrowhead=""${this.diagram_options?.future_pointer_minlen != 1 ? " minlen="+this.diagram_options?.future_pointer_minlen : ""}] <${ events[events.length-1] }>-><${endNode}>` : ""
     }
+
   } // end render_timeline
-}
+
+}   // end class StoryToDotRenderer
 

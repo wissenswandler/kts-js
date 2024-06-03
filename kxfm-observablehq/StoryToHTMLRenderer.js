@@ -16,20 +16,21 @@ export
 class StoryToHTMLRenderer
 {
 
-  dictionary = 
+constructor( story )
+{
+  this.dictionary = 
   {
       "OU"    : "Organization"            ,
       "begin" : "Start"                   ,
       "label" : "Place / Topic / Project" ,
   }
+  this.story = story;
+}
 
-  constructor( story )
-  {
-    this.story = story;
-  }
+add_dictionary( dict ) {  this.dictionary = Object.assign( this.dictionary, dict )  }
 
-  translate = ( name, fallback = Text.capitalize(name) ) =>
-  Text.translate( name, this.dictionary, fallback )
+translate = ( name, fallback = Text.capitalize(name) ) =>
+Text.translate( name, this.dictionary, fallback )
 
 /*
  * deprecated "custom" table,
@@ -204,7 +205,7 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
   {
     const group = d[1].options.rdfType
     const name =  d[0]
-    const label = htl.html`<span>${name}</span>`;
+    const label = htl.html`&nbsp<span>${name}</span>`;
     (groups[group] || (groups[group] = [])).push(label);
     return label;
   };
@@ -235,7 +236,7 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
   display: block;
 }
 .${scope}-body {
-  padding-left: 1em;
+  padding-left: 0em;
 }
 .${scope}-input {
   max-width: none;
@@ -267,12 +268,12 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
     g.append
     (
       htl.html`
-      <span class="screenonly">show</span>${
+      <span class="screenonly">show&nbsp;</span>${
         Object.entries(groups).length>1 
         && 
         name != 'undefined' 
         ?
-        htl.html`&nbsp;<strong>${
+        htl.html`<strong>${
           this.translate( name ) 
         }</strong>`
         :

@@ -41,7 +41,8 @@ import {
         ReducedStory        ,
         SharedEventFilter   ,
         DaterangeFilter     ,
-                            } from "@kxfm/one"
+                            } from "../lib/index.js"
+//                          } from "@kxfm/one"
 import { 
         StoryToHTMLRenderer ,
                             } from "../libob/StoryToHTMLRenderer.js"
@@ -77,7 +78,7 @@ const total_topics =  myStory.n_topics
 ```js
 const selected_entities_input = storyToHTMLRenderer.create_grouped_input
 (
-  htl.html`select<span class="printonly">ed</span> CV elements, grouped by type...` ,
+  htl.html`select<span class="printonly">ed</span> CV elements:` ,
   "EXIN,Axelos,ConfigManagement,AfI,BIT,bitvoodoo,kubus,mITSM,AOKS,LHMS,DZB,SymGmbH,Wissenswandler".split(',')
 ) 
 const selected_entities = 
@@ -107,139 +108,60 @@ Inputs.button
       "Paragliding", 
       () => set_input_value
       (
-        selected_entities, 
+        selected_entities_input, 
           "DHV,Paragliding,SkyAdventures".split(',') 
       )
-    ]
-    ,
+    ] ,
     [
       "Coaching", 
       () => set_input_value
       (
-        selected_entities, 
+        selected_entities_input, 
           "Coaching".split(',')
       )
-    ]
-    ,
+    ] ,
     [
       "Visualization", 
       () => 
       {
       set_input_value
       (
-        selected_entities,
+        selected_entities_input,
           "CDK,Java3D,_3DS,Visualization,Graphviz,ArsEdition,ING,Storz".split(',')
       )
       }
-    ]
-    ,
+    ] ,
     [
       "EAM", // Enterprise Architecture Management 
       () => 
       {
         set_input_value
       (
-        selected_entities,
+        selected_entities_input,
           "TUM,EXIN,Axelos,EnterpriseArchitecture,AOKP,BMWBank,mITSM,SAP,SymGmbH".split(',')
       )
       }
-    ]
-    ,
+    ] ,
     [
       "Config Management", // Configuration Management
       () => set_input_value
       (
-        selected_entities, 
+        selected_entities_input, 
           "EXIN,Axelos,ConfigManagement,AfI,AOKS,BIT,bitvoodoo,DZB,kubus,LHMS,mITSM,SymGmbH,Wissenswandler".split(',')
       )
-    ]
-    ,
+    ] ,
     [
       "Service Management", 
       () => 
       {
       set_input_value
       (
-        selected_entities, 
+        selected_entities_input, 
           "TUM,EXIN,Axelos,ServiceManagement,ADP,kubus,LHS,AOKS,HNU,BMWBank,SSB".split(',')
       )
       visco.explore("ServiceManagement") // highlight the Service Management track so that projects within that scope are more obvious
       }
-    ]
-    ,
-    [
-      "Semantic + EAM", 
-      () => 
-      {
-      set_input_value
-      (
-        selected_entities,
-          "TUM,KnowledgeManagement,EnterpriseArchitecture,AOKP,mITSM,SymGmbH".split(',')
-      )
-      }
-    ]
-    ,
-    [
-      "typed languages", 
-      () => 
-      {
-      set_input_value
-      (
-        selected_entities, 
-          "Cpp,_3DS,CDK,Java3D,JavaEE,ArsEdition,Logitech,mITSM,Storz,BMWBank,DCB,Völkl,CoSo,Wissenswandler".split(',')
-      )
-      visco.explore("Cpp") // highlight
-      }
-    ]
-    
-    /*
-    [
-      "Semantic + Java", 
-      () => 
-      {
-      set_input_value
-      (
-        selected_entities,
-          "TUM,Java,KnowledgeManagement,BMWBank,DCB,mITSM,SAP,Storz,Wissenswandler".split(','),
-          entity_timelines
-      )
-      }
-    ]
-    ,
-    [
-      "Cloud Architect (Java)", 
-      () => 
-      set_input_value
-      (
-        selected_entities,
-          "TUM,KnowledgeManagement,SwEngineering,Java3D,JavaEE,Javascript,SAP,Storz,SymGmbH".split(','),
-          entity_timelines
-      )
-    ]
-    ,
-    [
-      "Gaming & Data", 
-      () => 
-      set_input_value
-      (
-        selected_entities,
-          "KnowledgeManagement,Visualization,ArsEdition,SAP,Storz,BMWBank,Völkl,SymGmbH".split(','),
-          entity_timelines
-      )
-    ]
-    ,
-    [
-      "SNow CMDB JS", // ServiceNow CMDB Javascript
-      () => 
-      set_input_value
-      (
-        selected_entities,
-          "EXIN,Axelos,ConfigManagement,Javascript,ServiceNow,AfI,BIT,bitvoodoo,kubus,AOKS,LHMS,DZB,ING,SymGmbH".split(','),
-          entity_timelines
-      )
-    ]
-    */
-    
+    ] ,
   ] // end skill buttons array
 )
   ]
@@ -271,6 +193,11 @@ reducedStoryRenderer.tabular_view( ["client","skill"], ["Client / School","Skill
 const myStory = new Story( story_text )
 const storyToHTMLRenderer = 
 new   StoryToHTMLRenderer( myStory )
+      storyToHTMLRenderer.dictionary = 
+  {
+    "label":"Project / Product / Topic" ,
+    "OU": "Client"                      ,
+  }
 ```
 
 ```js
@@ -288,7 +215,6 @@ const reducedStoryRenderer = new StoryToHTMLRenderer( myReducedStory )
 dot2svg
 (
   new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod ) ,
-
   { domId:'diagram' , fit:'auto' , width } 
 )
 ```
@@ -316,7 +242,8 @@ const diagram_toggles = view( Inputs.checkbox
   } 
 ) )
 
-const project_lod = view( Inputs.radio(["title only", "full description"], {label: "level of detail", value: "title only"}) )
+const project_lod_input = Inputs.radio( StoryToDotRenderer.lod_options, {label: "level of detail", value: StoryToDotRenderer.lod_options[0] }) 
+const project_lod       = view( project_lod_input )
 ```
 
 ```js
@@ -352,29 +279,29 @@ const style_buttons = Inputs.button
 ( [
   ["nothing", () => 
    {
-     set_input_value( selected_entities, [] );
+     set_input_value( selected_entities_input, [] );
    }
   ]
   ,
-  ["all skills", () => set_input_value(  selected_entities, myStory.keep_types( ["skill"] )  )]
+  [ "all skills", () => set_input_value(  selected_entities_input, myStory.keep_types( [ "skill" ] )  )   ]
   ,
-  ["all clients", () => set_input_value(  selected_entities, myStory.keep_types( ["OU"] )  )]
+  ["all clients", () => set_input_value(  selected_entities_input, myStory.keep_types( [ "OU"    ] )  )   ]
   ,
-  ["linear CV (Boran's timeline)", () => set_input_value(  selected_entities, ["Boran"] ) ]
+  ["linear CV (Boran's timeline)", () => set_input_value(  selected_entities_input, ["Boran"] ) ]
   ,
   ["Social CV (all people's timelines)", () => 
     {
-      set_input_value(  selected_entities, myStory.keep_types( ["person"] )  );
-      set_input_value(  project_lod, ["summary only"]          );
+      set_input_value(  selected_entities_input, myStory.keep_types( ["person"] )  );
+      set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0]       );
     }  
   ]
   ,
-  ["People & Clients", () => set_input_value( selected_entities, myStory.keep_types( ["person","OU"] ) )]
+  ["People & Clients", () => set_input_value( selected_entities_input, myStory.keep_types( ["person","OU"] ) )]
   ,
   ["everything", () => 
    {
-     set_input_value(  selected_entities, myStory.entity_timelines );
-     set_input_value(  project_lod, []          );
+     set_input_value(  selected_entities_input, myStory.entity_keys );
+     set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0] );
    }
   ]
 ]
@@ -383,22 +310,9 @@ const style_buttons = Inputs.button
 
 ```js
 const dob = myStory.first_notice_of( "Boran" )
-
-```
-
-```js
 const age = new Date
   (
     Date.now() - 
     new Date( dob.join('-') )
   ).getUTCFullYear() - 1970
-```
-
-```js
-const roles_dict = 
-{
-  "OU": "Client"
-  ,
-  "label":"Project / Product / Topic"
-}
 ```

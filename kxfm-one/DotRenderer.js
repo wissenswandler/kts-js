@@ -1,14 +1,16 @@
+const lod_title_only = "title only"
+const lod_full_descr = "full description"
+
 export class DotRenderer
 {
-  constructor( project_lod = DotRenderer.lod_full_descr )
+  constructor( project_lod = lod_full_descr )
   {
     this.project_lod = project_lod
+  }
 
-    /* 
-     * class properties
-     */
-    this.constructor.lod_title_only = "title only"
-    this.constructor.lod_full_descr = "full description"
+  static get lod_options()
+  {
+    return [ lod_title_only, lod_full_descr ]
   }
   
   static id_from_options_or_label( rdfLabel, options = {} ) 
@@ -31,7 +33,7 @@ export class DotRenderer
   
   translate_nodeValues_to_dotValues( node_o )
   {
-    const view_summary = this.project_lod == "title only"
+    const view_summary = this.project_lod == this.constructor.lod_options[0]
     
     const labelAndDescription = 
       node_o.rdfDescription ?

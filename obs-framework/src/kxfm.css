@@ -34,6 +34,13 @@
 .left  { float: left;  }
 .clear { clear: both;  }
 
+/*
+ * description paragraphs in tables shall not consume 
+ * margin on top and bottom of the table cell
+ */
+td p                  {margin : 0; max-width : unset }
+td p:not(:last-child) {margin-bottom : 1em}
+
 @media screen
 {
   /*
