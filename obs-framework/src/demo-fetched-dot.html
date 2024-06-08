@@ -5,37 +5,26 @@
     <meta charset="utf-8" />
     <base target="ktsdetail" />
     <link rel="stylesheet" href="/lib/graph.css" />
-    <script defer="" src="/lib/graph.js"></script>
 </head>
 <body>
-<div class="ktscontainer fullpage">waiting for KTS Javascript to load...</div>
+<div class="fullpage">KTS loading...</div>
 </body>
 <script type="module">
-  visco.devdebug( "importing graphviz" );
-  import { Graphviz } from "@hpcc-js/wasm";
+  import { dot2svg } from "@kxfm/browser"
 
-  import {Tdot2svgStrings} from "@kxfm/one";
-  
-  visco.devdebug( "loading graphviz" );
-  const transformer = new Tdot2svgStrings( await Graphviz.load() );
-
-  visco.devdebug( "fetching DOT source" );
   fetch( "./data/wissenswandler.atlassian.net/CEP/graph.dot" )
     .then(    response => response.text()  )
     .then
-    (  dot_string => 
+    ( dot_string => 
     {
-      visco.devdebug( "transforming DOT->SVG" );
-      transformer.dot2svg( dot_string, false )
+      dot2svg( dot_string )
       .then
       ( svg_tag => 
       {
-        document.querySelector( '.ktscontainer' ).innerHTML = svg_tag
-        visco.on_svg_load( ".ktscontainer" );
-        visco.devdebug( "HTML BODY done." );
+        document.querySelector( '.fullpage' ).innerHTML = svg_tag.outerHTML
       }
       )
     }
-    );
+    )
 </script>
 </html>

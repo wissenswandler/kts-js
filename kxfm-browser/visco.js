@@ -1,4 +1,4 @@
-/*  Copyright 2019-2023 Boran Gögetap <- boran@goegetap.name
+/*  Copyright 2019-2024 Boran Gögetap <- boran@goegetap.name
 
     javascript for interactive SVG graph viewer,
     ... Teil von // part of ...
@@ -37,9 +37,6 @@
   * KTS contract for the id of edges so that we can split the edge id into node ids;
   * must be the same value as in DOT files, set via attribute: edge [ id="\\T___\\H" ]
   */
-
-var visco = (function()
-{
 
 const NODE_SEPARATOR	= "___"
 const CLASS_PREFIX_TYPE         = "type_"         // prefix for class names, declaring the type of nodes or  edges
@@ -107,6 +104,8 @@ function   click( elm ) { return explore( elm ) }
  */
 function explore( elm_id, selector )
 {
+  console.log( "exploring " + elm_id + " nested in " + selector );
+
   if( typeof selector === 'undefined' )
     return explore_elm_id( elm_id );
   else
@@ -118,17 +117,26 @@ function explore( elm_id, selector )
  */
 function explore_nested( elm_id, selector)
 {
-  let selected = document.querySelector( selector );
+  console.log( "exploring " + elm_id + " nested in " + selector );
+
+  let selected = 
+    typeof selector === 'string' 
+    ? 
+    document.querySelector( selector ) 
+    : 
+    selector;
+
   if( !selected )
   {
     console.error( "could not find element with selector " + selector );
-    return; // don't throw from this API entry, because calling script (on HTML page) shall be allowed to continue exploring other elements without catching
+    return selector; // don't throw from this API entry, because calling script (on HTML page) shall be allowed to continue exploring other elements without catching
   }
   if(                         selected.getSVGDocument                             )
   {
     if(                       selected.getSVGDocument().getElementById( elm_id )  )
     {
-      return on_click( selected.getSVGDocument().getElementById( elm_id )  );
+      on_click( selected.getSVGDocument().getElementById( elm_id )  );
+      return selector
     }
     else
     {
@@ -139,13 +147,15 @@ function explore_nested( elm_id, selector)
   {
     if(                       selected.querySelector( "#"+elm_id )  )
     {
-      return on_click( selected.querySelector( "#"+elm_id )  );
+      on_click( selected.querySelector( "#"+elm_id )  );
+      return selector
     }
     else
     {
       console.error( "could not find element with id " + elm_id + " in ELEMENT " + selected.getSVGDocument() );
     }
   }
+  return selector
 }
 
 /*
@@ -503,12 +513,14 @@ function process_graph_element( elm , current_dist, current_rank , total_ranks ,
     isActivated = nIncomingEdges == nActivatedEdges;
     if( isActivated )
     {
-      elm.classList.remove( "hover" );
+      elm.classList.remove( "hover"           )
+      elm.classList.remove( "hover_by_logic"  )
       devdebug( "  " + elm.id + " is activated" );
     }
     else
     {
-      add_class( elm, "hover",  );
+      add_class( elm, "hover"          , is_flash_event  )
+      add_class( elm, "hover_by_logic"  )
 
       devdebug( "  " + elm.id + " is NOT activated" );
     }
@@ -676,7 +688,7 @@ e : { text : "r[e]store all colors",
 
 F : { f : function(document)  // backward compatibility
       {
-        execute_kts_action( document, "F" )
+        execute_kts_action( document, "f" )
       },
       s : 32
       ,
@@ -738,7 +750,7 @@ i : { text : "keep [i]ntersecting paths (clear the rest) = inverse of [o]",		f :
 j : { text : "concentrate on intersection (= shortcut for [i] + [F] )",		f : function(document)
     {
       execute_kts_action( document, "i" )
-      execute_kts_action( document, "F" )
+      execute_kts_action( document, "f" )
       }
       ,
       s : 41
@@ -1191,20 +1203,8 @@ function add_mouseover_listeners_to_nodes( document )
   document.querySelectorAll( "g.node , g.edge" ).forEach
   ( elm =>
   {
-    elm.onmouseenter = event => on_focus( elm, event, document );
-    /*
-    elm.addEventListener
-    ( "mouseenter", event => on_focus( elm, event, document ) ,
-      { options : { passive : true } }
-    );
-    */
-    elm.onmouseleave = event => on_blur( elm, event, document );
-    /*
-    elm.addEventListener
-    ( "mouseleave", event => on_blur(  elm, event, document ) ,
-      { options : { passive : true } }
-    );
-    */
+    elm.onmouseenter = event => on_focus( elm, event, document )
+    elm.onmouseleave = event => on_blur ( elm, event, document )
   }
   )
 }
@@ -1257,9 +1257,6 @@ function explore_same_types( elm, event, document, graph_element_class )
 /* shortcut and encapsulating the use of "hover" class */
 function present_element_as_same( elm, is_flash_event, focussed_type )
 {
-  //return add_class( elm, "hover", is_flash_event );
-  //return add_class( elm, "same", is_flash_event );
-
   const tag1 = elm.getAttribute( "tag1" );
   if( tag1 && tag1 !== focussed_type )
     set_attribute( elm, "tag2", focussed_type, is_flash_event );
@@ -1346,15 +1343,15 @@ function remove_flashes( document )
   ( n => 
   {
     n.removeAttribute(  t );
-    n.classList.remove( t + "_by_flash" );
+    n.classList.remove( t + "_by_flash" )
   }
   )
   );
   document.querySelectorAll( '.hover_by_flash' ).forEach
   ( n => 
   {
-    n.classList.remove( "hover" );  // mind that hover is a class, not an attribute!
-    n.classList.remove( "hover_by_flash" );
+    n.classList.remove( "hover"           )
+    n.classList.remove( "hover_by_flash"  )
   }
   )
 }
@@ -1482,7 +1479,7 @@ function generateKeyboardShortcutButtons( document )
  * activate the visual mode = traverse the graph by clicking on nodes
  * implemented via onclick event handler on each graph node
  */
-function activate_visual_mode()
+function activate_visual_mode( document = globalThis.document )
 {
   document.querySelectorAll( "g.node,g.edge" ).forEach( svgElm => { svgElm.onclick = event => {  on_click( svgElm, event )  }   }    )
 }
@@ -1540,16 +1537,30 @@ function getParametersByName(name)
 
 function add_key_listener ( document )
 {
-  if( document.querySelectorAll( 'svg' ).length == 1 )
+  /*
+  document.querySelectorAll( "g.node , g.edge" ).forEach
+  ( elm =>
   {
-      document.querySelector   ( 'svg' ).addEventListener(  "keydown", event => on_keydown( event, document )  );
-      devdebug( "added key listener to svg inside " + document?.selector );
+    elm.onmouseenter = event => on_focus( elm, event, document )
+    elm.onmouseleave = event => on_blur ( elm, event, document )
   }
-/*  else
-  {*/
+  )
+  */
+
+  //if( document.querySelectorAll( 'svg' ).length == 1 )
+  {
+    //document.querySelector   ( 'svg' ).addEventListener(  "keydown", event => on_keydown( event, document )  );
+      document.querySelectorAll( 'svg' ).forEach
+    ( elm =>
+      {
+        elm.keydown = event => on_keydown( event, document )
+      }
+    )
+      devdebug( "added key listener to svg inside " + document );
+  }
+
       window                            .addEventListener(  "keydown", on_keydown  );
       devdebug( "added key listener to window" );
-/*  }*/
 }
 
 function on_keydown(event, doc = document)
@@ -1602,10 +1613,11 @@ function execute_url_commands()
   }
 }
 
-function execute_command_sequence( command_sequence )
+function execute_command_sequence( command_sequence, document )
 {
-  if( command_sequence == "" ) return;
-  command_sequence.split( "," ).forEach( (command) => e( command ) )
+  if( command_sequence == "" ) return document
+  command_sequence.split( "," ).forEach( (command) => e( command, document ) )
+  return document
 }
 
 function analyze_graph()
@@ -1664,8 +1676,11 @@ function init_pan_zoom( document = globalThis.document )
 
   if( typeof svgPanZoom === "undefined" )
   {
-    console.info( "svgPanZoom not available to KTS (not imported within scope of this script)" );
-    console.info( "you can try importing it like this: <script src='https://unpkg.com/svg-pan-zoom/dist/svg-pan-zoom.min.js'></script> or <script src='https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js'></script>" );
+    /*
+    devdebug( `svgPanZoom not available to KTS (not imported within scope of this script); you can try importing it like this:
+<script src='https://unpkg.com/svg-pan-zoom/dist/svg-pan-zoom.min.js'></script> or 
+<script src='https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js'></script>` );
+    */
     return;
   }
 
@@ -1693,6 +1708,8 @@ class SubDocument
   get childNodes()  { return this.document.childNodes;  }
   get doctype()     { return this.document.doctype;     }
 
+  toString()        { return `{ document: ${this.document}, selector: "${this.selector}" }`  }
+
   constructor( dom )
   {
     if( dom?.document )
@@ -1701,7 +1718,8 @@ class SubDocument
       if( document === dom.document )
         devdebug( "SubDocument: passed document is identical with document in scope" )
       else
-        devdebug( "Subdocument: passed document is DIFFERENT from document in scope" )
+        devdebug( "Subdocument: passed document is different from document in scope" )
+        devdebug( "Subdocument: " + this.document )
     }
     else
     {
@@ -1817,7 +1835,7 @@ function on_svg_load( dom, options = {} )
       execute_kts_action(document,"Escape");
       console.warn( "KTS: diagram is not initialized (see debug logs for details)" ); return null; 
     }
-    activate_visual_mode(); // visual mode = on by default
+    activate_visual_mode( sd ); // visual mode = on by default; adds onclick event handlers
 
     if( n_nodes_with_global_type && n_edges_with_global_type )
     {
@@ -1840,7 +1858,14 @@ function on_svg_load( dom, options = {} )
   {
     console.info( "no SVG diagram (yet) - skipping KTS on_svg_load()..." )
   }
+  try
+  {
   sd.document.classList.add( 'kts_initialized' )
+  }
+  catch( e )
+  {
+    console.error( "could not add class 'kts_initialized' to document " + sd.document )
+  }
 }
 
 function highlight_node( id )
@@ -1949,55 +1974,16 @@ function pick_random_element( array )
   return array[ Math.floor( Math.random() * array.length ) ];
 }
 
-// close to END visco
-
- return {
-    devdebug: devdebug
-    ,
-    on_svg_load: on_svg_load
-    ,
-    press: press
-    ,
-    explore: explore
-    ,
-    set_mouse_mode: set_mouse_mode
-    ,
-    e : e
-    ,
-    execute_command_sequence : execute_command_sequence
- }
-})()  // END visco
-
-/*
- * browser lifecycle hook
- * and the only expression in this module that is not a function declaration or global variable
- */
-try
-{
-window.addEventListener
-( "load",
-  (event) =>
-  {
-    console.debug( "KTS handling load event in document " + document );
-    visco.on_svg_load( {document} );
-  }
-);
-} catch(e) { /* most likely outside Browser environment */ }
-
-if (typeof exports !== "undefined")
-{
-  exports.on_svg_load     = visco.on_svg_load
-  exports.explore         = visco.explore
-  exports.click           = visco.click
-  exports.press           = visco.press
-  exports.node_name_by_id = visco.node_name_by_id
-  exports.execute_command_sequence = visco.execute_command_sequence
-  exports.e               = visco.e
-  exports.visco           = visco
-  visco.devdebug( "exports set" );
+export 
+{ 
+  click, 
+  devdebug, 
+  e, 
+  execute_command_sequence, 
+  explore, 
+  node_name_by_id, 
+  on_svg_load, 
+  press, 
+  set_mouse_mode, 
+  NODE_SEPARATOR,
 }
-else
-{
-  visco.devdebug( "NO exports" );
-}
-

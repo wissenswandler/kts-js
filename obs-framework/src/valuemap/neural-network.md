@@ -1,9 +1,9 @@
 # Neural Network Animation
   
 ```js
-import{ digraph2svg     ,
-        animate_content ,
-                        } from "@kxfm/browser"
+import {  digraph2svg     ,
+          animate_content ,
+                          } from "@kxfm/browser"
 ```
 
 <div class="card">
@@ -75,11 +75,5 @@ animate_content
 ```
 
 ```js
-diagram
-visco.on_svg_load( diagram )
-a1()
-```
-
-```js
-const a1 = () => visco.execute_command_sequence( current_content )
+diagram.execute_command_sequence( current_content )
 ```

@@ -4,6 +4,9 @@
   * and base for animated subclass
   */
 
+import    
+          * as visco               
+                                from "./visco.js"
 import {  
           KTS4Dot             ,
 	        Tdot2svgStrings     ,
@@ -70,6 +73,8 @@ constructor( graphvizInstance, options = {},  ...rest)
   this.digraph      = this.digraph    .bind( this )
   this.digraph2svg  = this.digraph2svg.bind( this )
 }
+
+static get default_options() { return default_options }
 
 /*
  * tag function,
@@ -147,17 +152,17 @@ async dot2svg ( dot_string_generator, options = default_options )
   const 
   span = document.createElement( 'span' )
   span.innerHTML =  svg_string
-  span.setAttribute( "id", options.domId )
-  if( transformer_error )
-  span.classList.add( 'transformer_error' )
   span.classList.add( 'ktscontainer' )
+  if( transformer_error ) span.classList.add( 'transformer_error' )
+  if( options.domId     ) span.id = options.domId
 
   if( typeof visco === 'undefined' )
     console.error( "KTS: visco is not defined, unable to initialize interaction" )
   else
   {
-    visco.on_svg_load( {document} )
     visco.on_svg_load( {document:span} )
+    span.explore                  = elm => visco.explore                  ( elm, span )
+    span.execute_command_sequence = seq => visco.execute_command_sequence ( seq, span )
     console.debug( "KTS: visco initialized" )
   }
 
@@ -179,12 +184,12 @@ export
 const digraph2svg = transformer.digraph2svg
 
 export
-const dotReplaceWithSvg = ( selector = '.dotcontainer' ) =>
+const dotReplaceWithSvg = ( selector = '.dotcontainer, digraph', options ) =>
   document
   .querySelectorAll( selector )
   .forEach
   ( container =>
-    dot2svg( container.innerText, false )
+    dot2svg( container.innerText, options )
     .then
     ( svg_tag =>
     { container.innerHTML = svg_tag.outerHTML;

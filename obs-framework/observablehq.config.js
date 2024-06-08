@@ -26,8 +26,9 @@ export default {
       open:false,
       pages: 
       [
-        {name: "Value Map Playground (i)"      , path: "/valuemap/playground"},
-        {name: "Neural Network Animation (i,a)", path: "/neural-network"},
+        {name: "Value Map Playground (i)"      , path: "/valuemap/playground"    },
+        {name: "Neural Network Animation (i,a)", path: "/valuemap/neural-network"},  
+        {name: "Logical AND (i)"               , path: "/valuemap/logical-and"   },
       ]
     } ,
     { name: "2b Timelines demos",
@@ -63,7 +64,7 @@ export default {
   style: "kxfm.css",
 
   // header: "", // what to show in the header (HTML)
-  footer: '<script src="/lib/graph.js"></script>', // what to show in the footer (HTML)
+  //footer: '<script src="/lib/graph.js"></script>', // what to show in the footer (HTML)
 
   search: true, // activate search
   toc: false, // whether to show the table of contents

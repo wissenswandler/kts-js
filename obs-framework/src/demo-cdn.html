@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SVG from client-side DOT and local libraries</title>
+    <title>SVG from client-side DOT and CDN libraries</title>
     <meta charset="utf-8" />
     <base target="ktsdetail" />
-    <link rel="stylesheet" href="./lib/graph.css" />
-    <script defer="" src=                            "./lib/graph.js"></script>
- <!--script defer="" src="https://unpkg.com/@kxfm/one@1.0.6/graph.js"></script ALSO WORKS-->
+    <link rel="stylesheet" href="https://unpkg.com/@kxfm/one@1.1.15/graph.css" />
 </head>
 <body>
 <h1>Using the kxfm Library in vanilla JS / HTML</h1>
@@ -21,7 +19,6 @@ See corresponding demo in on <a href="http://127.0.0.1:3000/demo">local Observab
 <script type="module">
  
 const kxfm = await import('https://unpkg.com/@kxfm/browser?module')
-
 const digraph = kxfm.digraph
 
 try

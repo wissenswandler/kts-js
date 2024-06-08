@@ -10,7 +10,8 @@ import {
           dot2svg           ,
           animate_content   , //TODO: include API demo
           default_options   ,
-        dotReplaceWithSvg 
+          dotReplaceWithSvg ,
+          visco             ,
                             } from "@kxfm/browser"
 import {  
           KTS4HTML          ,

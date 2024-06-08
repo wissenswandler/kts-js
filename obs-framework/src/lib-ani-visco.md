@@ -39,15 +39,10 @@ const current_content = animate_content
 ```
 
 ```js
-diagram
-a1()
+diagram.execute_command_sequence( current_content );
 ```
 
 ```js 
 current_content
-```
-
-```js
-const a1 = () => visco.execute_command_sequence( current_content )
 ```
 </div>

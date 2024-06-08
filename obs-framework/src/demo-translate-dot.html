@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>SVG from all DOT in HTML tags</title>
-</head>
+<head> <title>SVG from all DOT in HTML tags</title> </head>
 <body>
-  <digraph>cause->effect</digraph>
-  <digraph>Gödel->Incompleteness_Theorem->Mathematics_is_broken</digraph>
+  <i>Following tag is the only one that will not be rendered as SVG:</i>
+  <p                      >cause->effect</p>
+  <hr/>
+  <i>Rendering per default CSS class:</i>
+  <p class="dotcontainer" >cause->effect</p>
+  <hr/>
+  <i>Rendering per custom tag:</i><br/>
+  <small                  >cause->effect</small>
+  <hr/>
+  <i>Rendering per default HTML tag:</i>
+  <digraph                >Gödel->Incompleteness_Theorem->Mathematics_is_broken</digraph>
+  <hr/>
   <div id="ktsConsole">KTS loading...</div>
-  <link  href="/lib/graph.css" rel="stylesheet" />
-  <script src="/lib/graph.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@kxfm/one/graph.css" />
   <script type="module">
-    import { dotReplaceWithSvg } from "@kxfm/browser";
-    dotReplaceWithSvg( 'digraph' )
+    const kxfm = await import('https://unpkg.com/@kxfm/browser?module')
+    const dotReplaceWithSvg = kxfm.dotReplaceWithSvg
+    dotReplaceWithSvg( undefined  ) // translating the default tags (.dotcontainer class, digraph tag)
+    dotReplaceWithSvg( 'small'    ) // translating a custom tag
   </script>
 </body>
 </html>

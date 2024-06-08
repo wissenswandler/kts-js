@@ -7,16 +7,9 @@ const story_text = await FileAttachment( "/data/rainbow-warrior.yaml" ).text()
 ```
 
 ```js
-const diagram = timelines `${ story_text }`;
+timelines `${ story_text }`
 ```
 
-```js
-diagram
-```
-
-```js
-visco.on_svg_load( diagram );
-```
 - - -
 ## Appendix
 

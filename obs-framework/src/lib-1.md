@@ -14,7 +14,3 @@ import{ digraph } from "@kxfm/browser"
 digraph`cause -> effect [label=value]`
 ```
 </div>
-
-```js
-Inputs.button( "init", {reduce: ()=> visco.on_svg_load() } ) 
-```

@@ -12,6 +12,9 @@ export {
           dotReplaceWithSvg   ,
           default_options     ,
                               } from "./Tdot2svgDOM.js"
+export    
+          * as visco               
+                                from "./visco.js"
 import {  
           dot2svg             ,
                               } from "./Tdot2svgDOM.js"
@@ -26,7 +29,13 @@ import {
 export
 function timelines( strings, ... keys )
 {
-  return dot2svg(   new StoryToDotRenderer(  strings.reduce( (a, c) => a + keys.shift() + c )  )   )
+  return timelines2svg(  strings.reduce( (a, c) => a + keys.shift() + c )  )
+}
+
+export
+function timelines2svg( timelines_text, options )
+{
+  return dot2svg(  new StoryToDotRenderer( timelines_text ), options  )
 }
 
 export

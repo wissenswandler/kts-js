@@ -19,7 +19,3 @@ export {
           StoryToDotRenderer, 
           show_future_faded,
                                	} from "./timelines2dot.js"
-
-// silentium est aureum
-// output must not go to stdout because of CLI tools using that
-//console.error( "\x1b[30mkxfm/one loaded via index.js\x1b[0m" )
