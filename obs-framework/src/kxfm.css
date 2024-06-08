@@ -24,6 +24,26 @@
  *
  */
 
+code
+{
+  /* inspired by stackoverflow */
+
+    color: rgb(12, 13, 14);
+    background-color: rgb(227, 230, 232) ;
+    border-radius: 2px;
+    margin: 0px;
+}
+pre > code
+{
+  /* code sections in fenced blocks */
+
+    color           : unset;
+    background-color: unset;
+    border-radius   : unset;
+    margin          : unset;
+}
+
+
 .ktscontainer {
   box-shadow: 0 0 8px 1px rgba(0,0,0,.2);
 }
@@ -69,8 +89,12 @@ td p:not(:last-child) {margin-bottom : 1em}
   ,
   div:has( > form > button )  /* input buttons are useless in print */
   ,
-  input[type=checkbox], label:has( input:not(:checked) ) /* print no checkboxes and only labels of selected ones */
-  ,
+  /* print no checkboxes and only labels of selected ones */
+  input[type=checkbox],
+  label:has( input:not(:checked) ) ,
+  label:has( input:not(:checked) ) ,
+  div.O-1-group:not(  :has( input:checked )  ), /* hide group if no checkbox is checked */
+
   div:has( > span > div > details )
   ,
   div > form > div > input

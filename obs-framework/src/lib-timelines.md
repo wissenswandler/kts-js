@@ -7,24 +7,29 @@ demonstration of all KTS Timelines API features
 
 ```js
 import {  
-        get_url_param,
-        Story               ,
-        StoryToDotRenderer  ,
-        show_future_faded   ,
-        only_shared_events  ,
-        ReducedStory        ,
-        SharedEventFilter   ,
-        DaterangeFilter     ,
-                            } from "@kxfm/one"
+          get_url_param,
+          Story               ,
+          StoryToDotRenderer  ,
+          show_future_faded   ,
+          only_shared_events  ,
+          ReducedStory        ,
+          SharedEventFilter   ,
+          DaterangeFilter     ,
+                              } from "./lib/index.js"
+//                            } from "@kxfm/one"
 import { 
-        StoryToHTMLRenderer ,
-                            } from "@kxfm/observablehq"
+          StoryToHTMLRenderer ,
+                              } from "./libob/StoryToHTMLRenderer.js"
+//                            } from "@kxfm/observablehq"
 
-import{ 
-        dot2svg             ,
-        timelines           ,
-        set_input_value     ,
-                            } from "@kxfm/browser"
+import { 
+          dot2svg             ,
+          timelines2svg       ,
+          timelines           ,
+          set_input_value     ,
+          default_options     ,
+                              } from "./libbr/index.js"
+//                            } from "@kxfm/browser"
 ```
 
 <div class="card">
@@ -32,7 +37,8 @@ import{
 ## diagram: full story
 
 ```js
-timelines`${story_text}`
+//timelines`${ story_text }`
+timelines2svg( story_text, { fit: true } )
 ```
 </div>
 

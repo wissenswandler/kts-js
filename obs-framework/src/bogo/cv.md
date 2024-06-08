@@ -43,9 +43,11 @@ import {
         DaterangeFilter     ,
                             } from "../lib/index.js"
 //                          } from "@kxfm/one"
+
 import { 
         StoryToHTMLRenderer ,
-                            } from "../libob/StoryToHTMLRenderer.js"
+        cv                  ,
+                            } from "../libob/index.js"
 //                          } from "@kxfm/observablehq"
 
 import{ 
@@ -225,8 +227,8 @@ dot2svg
 
 ## Appendix
 
-```js echo
-// TODO notes
+```js
+cv.how_to_read `_This particular diagram's central story is Boran's curriculum vitae (CV) with an emphasis on 'professional' events_`
 ```
 
 <span class="screenonly">
@@ -236,7 +238,7 @@ dot2svg
 ```js
 const diagram_toggles = view( Inputs.checkbox
 (
-  [only_shared_events,StoryToDotRenderer.highlight_all_timelines_of_event], 
+  [ only_shared_events, StoryToDotRenderer.highlight_all_timelines_of_event ], 
   {
     value: get_url_param( "only_shared_events", false )[0]==='true' ? [only_shared_events] : []
   } 
@@ -268,10 +270,6 @@ const bogo_most_recent = "" // to be overridden e.g. in job applications to incl
 
 ```js
 const story_text = await FileAttachment( "./cv.yaml" ).text()
-```
-
-```js
-const this_particular_diagram = "This particular diagram's central story is Boran's curriculum vitae (CV) with an emphasis on 'professional' events"
 ```
 
 ```js

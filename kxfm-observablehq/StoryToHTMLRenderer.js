@@ -1,23 +1,26 @@
-import    * as Inputs       from "@observablehq/inputs"
-import    * as d3           from "d3"
-import    * as htl          from "htl";
+import    * as Inputs         from "@observablehq/inputs"
+import    * as d3             from "d3"
+import    * as htl            from "htl";
 
 import {  
-          Text            ,
-          KTS4HTML        ,
-                          } from '@kxfm/one'
+          Text                ,
+          KTS4HTML            ,
+          StoryToDotRenderer  ,
+                              } from '@kxfm/one'
 import {
-          set_input_value ,
-                          } from "@kxfm/browser"
+          set_input_value     ,
+                              } from "@kxfm/browser"
 
-import    * as UID          from "./uid.js";
+import    * as UID            from "./uid.js";
 
 export
-class StoryToHTMLRenderer
+class StoryToHTMLRenderer extends StoryToDotRenderer
 {
 
-constructor( story )
+constructor( story, diagram_toggles, project_lod )
 {
+  super( story, diagram_toggles, project_lod )
+
   this.dictionary = 
   {
       "OU"    : "Organization"            ,
@@ -205,7 +208,7 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
   {
     const group = d[1].options.rdfType
     const name =  d[0]
-    const label = htl.html`&nbsp<span>${name}</span>`;
+    const label = htl.html` <span>${name}</span>`;
     (groups[group] || (groups[group] = [])).push(label);
     return label;
   };
@@ -278,8 +281,7 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
         }</strong>`
         :
         '' 
-      }
-      ` 
+      }&nbsp` 
     )
     //g.append( Inputs.button("+") ) // can't get this button to set the inputvalue of surrounding cell because of circular definition by Observable means -- also can't manipulate via HTML DOM ('checked' attribute) because d3 does not reflect such a change in the value of the input: value remains unchanged even with checkbox being visibly checked or unchecked
     g.append( wrap )
