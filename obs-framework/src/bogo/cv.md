@@ -1,35 +1,10 @@
 ---
 toc: true
 ---
-<div style="float: right">
-<img src="/img/20220830_184948~3.jpg" style="width: 203px"/>
-<p>
+<div class="grid grid-cols-2">
+<div class="card">
 
-[boran@goegetap.name](mailto:boran@goegetap.name)
-
-</p>
-<p>
-🇬🇧 English: fluent, professional
-<br/>
-🇩🇪 German: native
-<br/>
-🇫🇷 French, Italian, Spanish: basic
-</p>
-<p>
-Sailor,<br/>
-Alpinist,<br/>
-Pilot 🎓
-</p>
-<p>
-Knowledge Manager,<br/>
-Product Owner,<br/>
-Scrum Master,<br/>
-ITIL V3 Expert 🎓
-</p>
-<p>born ${dob[0]} (age ${age})</p>
-</div>
-
-# Boran's CV${ myReducedStory.get_flavour() }
+# Boran Gögetap${ myReducedStory.get_flavour() }
 
 ```js
 import {  
@@ -54,6 +29,7 @@ import{
         dot2svg             ,
         timelines           ,
         set_input_value     ,
+        visco               ,
                             } from "@kxfm/browser"
 ```
 
@@ -75,7 +51,7 @@ const total_topics =  myStory.n_topics
 
 </span>
 
-## 1. Content Selection (check the boxes or click buttons)
+## 1. Content Filter
 
 ```js
 const selected_entities_input = storyToHTMLRenderer.create_grouped_input
@@ -87,22 +63,18 @@ const selected_entities =
 view( selected_entities_input )
 ```
 
+<details name="entity_selection"     ><summary>by type</summary>
+
 ```js
+// WARNING: "name" attribute not supported by Firefox as of 2024 - see https://caniuse.com/mdn-html_elements_details_name
+// make sure that at least upon page load that only one of the details group is open
 storyToHTMLRenderer.create_type_buttons( selected_entities_input, selected_entities, 9 )
 ```
+</details>
+
+<details name="entity_selection" open><summary>by skillset</summary>
 
 ```js
-selected_entities_input.none_all_buttons()
-```
-
-```js
-const nestedForm = view
-(
-Inputs.form
-(
-  [
-    style_buttons ,
-
 Inputs.button
 (
   [
@@ -161,33 +133,87 @@ Inputs.button
         selected_entities_input, 
           "TUM,EXIN,Axelos,ServiceManagement,ADP,kubus,LHS,AOKS,HNU,BMWBank,SSB".split(',')
       )
-      visco.explore("ServiceManagement") // highlight the Service Management track so that projects within that scope are more obvious
+      visco.explore( "ServiceManagement", '#diagram' ) // highlight the Service Management track so that projects within that scope are more obvious
       }
     ] ,
   ] // end skill buttons array
 )
-  ]
-  ,
-  { template: inputs => htl.html `
-    <div>
-      <details><summary>styles</summary>${inputs[0]}</details>
-      <details open><summary>skill-based profiles</summary>${inputs[1]}</details>
-    </div>`
-  } 
-)
-)
 ```
+</details>
+
+<details name="entity_selection" ><summary>by CV styles</summary>
+
+```js
+Inputs.button
+( [
+  ["nothing", () => 
+   {
+     set_input_value( selected_entities_input, [] );
+   }
+  ] ,
+  [ "all skills", () => set_input_value(  selected_entities_input, myStory.keep_types( [ "skill" ] )  )   ]
+  ,
+  ["all clients", () => set_input_value(  selected_entities_input, myStory.keep_types( [ "OU"    ] )  )   ]
+  ,
+  ["linear CV (Boran's timeline)", () => set_input_value(  selected_entities_input, ["Boran"] ) ]
+  ,
+  ["Social CV (all people's timelines)", () => 
+    {
+      set_input_value(  selected_entities_input, myStory.keep_types( ["person"] )  );
+      set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0]       );
+    }  
+  ] ,
+  ["People & Clients", () => set_input_value( selected_entities_input, myStory.keep_types( ["person","OU"] ) )]
+  ,
+  ["everything", () => 
+   {
+     set_input_value(  selected_entities_input, myStory.entity_keys );
+     set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0] );
+   }
+  ] ,
+] )
+```
+
+</details>
 
 ```js
 const date_range_input = storyToHTMLRenderer.create_daterange_input()
 const date_range = view( date_range_input )
 ```
 
+</div>
+<div class="card">
+
+![](/img/20220830_184948~3.jpg)
+
+[boran@goegetap.name](mailto:boran@goegetap.name)
+
+🇬🇧 English: fluent, professional<br/>
+🇩🇪 German: native<br/>
+🇫🇷 French, Italian, Spanish: basic
+
+Sailor, Alpinist, Pilot 🎓
+
+Knowledge Manager,<br/>
+Product Owner,<br/>
+Scrum Master,<br/>
+ITIL V3 Expert 🎓
+
+born ${dob[0]} (age ${age})
+
+</div>
+</div>
+
+<div class="card">
+
 ## 2. Tabular View
 
 ```js
 reducedStoryRenderer.tabular_view( ["client","skill"], ["Client / School","Skills involved"] )
 ```
+
+</div>
+<div class="card">
 
 ## 3. Diagram View
 
@@ -223,7 +249,7 @@ dot2svg
 
 <div id="ktsConsole">KTS loading...</div>
 
-- - -
+</div>
 
 ## Appendix
 
@@ -273,40 +299,6 @@ const story_text = await FileAttachment( "./cv.yaml" ).text()
 ```
 
 ```js
-const style_buttons = Inputs.button
-( [
-  ["nothing", () => 
-   {
-     set_input_value( selected_entities_input, [] );
-   }
-  ]
-  ,
-  [ "all skills", () => set_input_value(  selected_entities_input, myStory.keep_types( [ "skill" ] )  )   ]
-  ,
-  ["all clients", () => set_input_value(  selected_entities_input, myStory.keep_types( [ "OU"    ] )  )   ]
-  ,
-  ["linear CV (Boran's timeline)", () => set_input_value(  selected_entities_input, ["Boran"] ) ]
-  ,
-  ["Social CV (all people's timelines)", () => 
-    {
-      set_input_value(  selected_entities_input, myStory.keep_types( ["person"] )  );
-      set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0]       );
-    }  
-  ]
-  ,
-  ["People & Clients", () => set_input_value( selected_entities_input, myStory.keep_types( ["person","OU"] ) )]
-  ,
-  ["everything", () => 
-   {
-     set_input_value(  selected_entities_input, myStory.entity_keys );
-     set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0] );
-   }
-  ]
-]
-)
-```
-
-```js
 const dob = myStory.first_notice_of( "Boran" )
 const age = new Date
   (
@@ -314,3 +306,42 @@ const age = new Date
     new Date( dob.join('-') )
   ).getUTCFullYear() - 1970
 ```
+
+```js
+window.addEventListener('beforeprint', (event) => {
+  for (const detailEl of document.querySelectorAll('details')) {
+    if (detailEl.getAttribute('open') == null) {
+      detailEl.setAttribute('data-was-closed', 'true')
+    }
+    detailEl.setAttribute('open', '')
+  }
+})
+
+window.addEventListener('afterprint', (event) => {
+  for (const detailEl of document.querySelectorAll('details')) {
+    if (detailEl.getAttribute('data-was-closed') != null) {
+      detailEl.removeAttribute('data-was-closed')
+      detailEl.removeAttribute('open')
+    }
+  }
+})
+```
+
+<style>
+
+  img { width: 210px }
+
+  div:has( div img ) { grid-template-columns: auto min-content!important }
+
+  details form 
+  {
+    flex-wrap: wrap !important ;
+    --input-width: 100% !important ;
+  }
+
+@media print
+{
+
+}
+
+</style>

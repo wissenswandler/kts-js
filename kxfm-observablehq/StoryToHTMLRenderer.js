@@ -153,14 +153,14 @@ create_daterange_input ( values_if_not_passed_in_url = ['',''] )
   return Inputs.form
   (
     [
-      create_date_text_input( "show events ranging from", values_if_not_passed_in_url, 0, this.story.get_date_labels()[0]     )
+      create_date_text_input( " from " , values_if_not_passed_in_url, 0, this.story.get_date_labels()[0]     )
       ,
-      create_date_text_input( "until",                    values_if_not_passed_in_url, 1, this.story.get_date_labels().pop()  )
+      create_date_text_input( " until ", values_if_not_passed_in_url, 1, this.story.get_date_labels().pop()  )
     ],
     {
       template: inputs => htl.html`
-        <details class="date_range screenonly">
-          <summary>Date range filter</summary>
+        <details class="date_range" open>
+          <summary>date range shows events ...</summary>
           <div>
             ${inputs[0]}
             &nbsp;
@@ -168,13 +168,17 @@ create_daterange_input ( values_if_not_passed_in_url = ['',''] )
           </div>
         </details>
         <style>
+
+          details.date_range > div ,
+          details.date_range > div > form
+          {
+            display: flex;
+          }
         
-          details.date_range { max-width: 40% }
-          
           details.date_range > div > form
           ,
           details.date_range > div > form > label
-          { width: unset; max-width: unset; display: inline-block }
+          { width: unset; max-width: unset }
           
           details.date_range > div > form > div > input
           { width: 10em; max-width: 10em }

@@ -18,7 +18,7 @@ export function how_to_read( strings, ... keys )
   return how_to_read_note(  strings.reduce( (a, c) => a + keys.shift() + c )  )
 }
 
-const how_to_read_note = (this_particular_diagram = "") => md`<details><summary>How to read a CV Diagram</summary>
+const how_to_read_note = (this_particular_diagram = "") => md`<details><summary>How to read this CV Diagram</summary>
 
 Like street maps, a CV diagram can be **large**. That's why it works best with a larger screen (pc / laptop). The diagram may tell a story of _epic_ dimension, so it takes some time to read.
 
