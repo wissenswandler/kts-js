@@ -31,6 +31,8 @@ import{
         set_input_value     ,
         visco               ,
                             } from "@kxfm/browser"
+
+const story_text = await FileAttachment( "./cv.yaml" ).text()
 ```
 
 ```js
@@ -79,42 +81,17 @@ Inputs.button
 (
   [
     [
-      "Paragliding", 
-      () => set_input_value
-      (
-        selected_entities_input, 
-          "DHV,Paragliding,SkyAdventures".split(',') 
-      )
+      "Paragliding"   , () => set_input_value(  selected_entities_input, "DHV,Paragliding,SkyAdventures".split( ',' )  )
     ] ,
     [
-      "Coaching", 
-      () => set_input_value
-      (
-        selected_entities_input, 
-          "Coaching".split(',')
-      )
+      "Coaching"      , () => set_input_value(  selected_entities_input, "Coaching"                     .split( ',' )  )
     ] ,
     [
-      "Visualization", 
-      () => 
-      {
-      set_input_value
-      (
-        selected_entities_input,
-          "CDK,Java3D,_3DS,Visualization,Graphviz,ArsEdition,ING,Storz".split(',')
-      )
-      }
+      "Visualization" , () => set_input_value(  selected_entities_input, "CDK,Java3D,_3DS,Visualization,Graphviz,ArsEdition,ING,Storz"          .split( ',' )  )
     ] ,
     [
-      "EAM", // Enterprise Architecture Management 
-      () => 
-      {
-        set_input_value
-      (
-        selected_entities_input,
-          "TUM,EXIN,Axelos,EnterpriseArchitecture,AOKP,BMWBank,mITSM,SAP,SymGmbH".split(',')
-      )
-      }
+      "Enterprise Architecture"
+                      , () => set_input_value(  selected_entities_input, "TUM,EXIN,Axelos,EnterpriseArchitecture,AOKP,BMWBank,mITSM,SAP,SymGmbH".split( ',' )  )
     ] ,
     [
       "Config Management", // Configuration Management
@@ -125,15 +102,9 @@ Inputs.button
       )
     ] ,
     [
-      "Service Management", 
-      () => 
-      {
-      set_input_value
-      (
-        selected_entities_input, 
-          "TUM,EXIN,Axelos,ServiceManagement,ADP,kubus,LHS,AOKS,HNU,BMWBank,SSB".split(',')
-      )
-      visco.explore( "ServiceManagement", '#diagram' ) // highlight the Service Management track so that projects within that scope are more obvious
+      "Service Management", () => 
+      {                     set_input_value ( selected_entities_input, "TUM,EXIN,Axelos,ServiceManagement,ADP,kubus,LHS,AOKS,HNU,BMWBank,SSB".split(',')  )
+        visco.explore( "ServiceManagement", '#diagram' ) // highlight the Service Management track so that projects within that scope are more obvious
       }
     ] ,
   ] // end skill buttons array
@@ -270,7 +241,14 @@ const diagram_toggles = view( Inputs.checkbox
   } 
 ) )
 
-const project_lod_input = Inputs.radio( StoryToDotRenderer.lod_options, {label: "level of detail", value: StoryToDotRenderer.lod_options[0] }) 
+const project_lod_input = Inputs.radio
+(
+  StoryToDotRenderer.lod_options, 
+  {
+    label: "level of detail", 
+    value: StoryToDotRenderer.lod_options[ get_url_param( "lod", '0' )[0] ]
+  }
+) 
 const project_lod       = view( project_lod_input )
 ```
 
@@ -285,17 +263,13 @@ selected_entities.join(',')
 date_range.join(',')
 }&only_shared_events=${
 diagram_toggles.includes( only_shared_events )
-}">bookmark current set of details</a></p>`
+}&lod=${ project_lod == StoryToDotRenderer.lod_options[0] ? 0 : 1 }">bookmark current set of details</a></p>`
 ```
 
 </span>
 
 ```js
 const bogo_most_recent = "" // to be overridden e.g. in job applications to include a latest "open to work" event
-```
-
-```js
-const story_text = await FileAttachment( "./cv.yaml" ).text()
 ```
 
 ```js
