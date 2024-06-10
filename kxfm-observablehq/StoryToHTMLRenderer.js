@@ -27,7 +27,7 @@ constructor( story, diagram_toggles, project_lod )
       "begin" : "Start"                   ,
       "label" : "Place / Topic / Project" ,
   }
-  this.story = story;
+  this.story = story // TODO: extract to base class
 }
 
 add_dictionary( dict ) {  this.dictionary = Object.assign( this.dictionary, dict )  }

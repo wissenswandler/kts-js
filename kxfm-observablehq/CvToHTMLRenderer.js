@@ -1,6 +1,55 @@
-import  markdownit          from "markdown-it"
+import {  html                } from "htl"
+import {  StoryToHTMLRenderer
+                              } from "./StoryToHTMLRenderer.js"
 
-const markdowner = new markdownit( {html: true} );
+import                  markdownit  from "markdown-it"
+const markdowner = new  markdownit( {html: true} );
+
+
+export
+class CvToHTMLRenderer extends StoryToHTMLRenderer
+{
+
+constructor(  story, diagram_toggles, project_lod )
+{
+  super(      story, diagram_toggles, project_lod )
+
+  super.dictionary = 
+  {
+    "OU"    : "Client"                    ,
+    "begin" : "Start"                     ,
+    "label" :"Project / Product / Topic"  ,
+  }
+}
+
+/* tag function for customizing the note */
+static how_to_read( strings, ... keys )
+{
+  return how_to_read_note(  strings.reduce( (a, c) => a + keys.shift() + c )  )
+}
+
+static get style ()
+{
+  return html`
+<style>
+
+  /* limit the summary card to the width of the photo and give remaining width to the main content */
+  div:has( div img ) { grid-template-columns: auto min-content!important }
+               img   { width: 210px }
+
+  /* let the content selection buttons use all width, then wrap */
+  details form 
+  {
+    flex-wrap: wrap !important ;
+    --input-width: 100% !important ;
+  }
+
+</style>
+`
+}
+
+} // end of class StoryToHTMLRenderer
+
 
 function md(        strings, ... keys  )
 {
@@ -11,11 +60,6 @@ function markdown(  string  )
   template = document.createElement( 'template' )
   template.innerHTML = markdowner.render(  string )
   return template.content.cloneNode( true )
-}
-
-export function how_to_read( strings, ... keys )
-{
-  return how_to_read_note(  strings.reduce( (a, c) => a + keys.shift() + c )  )
 }
 
 const how_to_read_note = (this_particular_diagram = "") => md`<details><summary>How to read this CV Diagram</summary>
