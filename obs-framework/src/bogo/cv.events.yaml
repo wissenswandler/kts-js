@@ -1,0 +1,361 @@
+
+
+
+BusinessServiceManagement_2018_04:
+- Agile Management Processes
+
+- |
+
+    designing and implementing additional Management 
+    Processes following the sucessful pattern of "ZAM"
+
+    Implementing prototypes and operational versions of:
+    Risk Management, Management by Objectives (MBO), 
+    Talent-Management, agenda items and formal protocols.
+
+    Establishing a new internal full-stack support team.
+
+    Using Jira as an agile process- and service platform.
+
+    Boran contributes als Process Consultant and Architect
+
+  htmlTooltip: |-
+    Agile Management Processes: 
+    designing and implementing additional Management 
+    Processes following the sucessful pattern of "ZAM"
+
+    Implementing prototypes and operational versions of:
+    Risk Management, Management by Objectives (MBO), 
+    Talent-Management, agenda items and formal protocols.
+
+    Establishing a new internal full-stack support team.
+
+    Using Jira as an agile process- and service platform.
+
+    Boran contributes als Process Consultant and Architect
+KTSbash_2018_06:
+- 📦 KTS-bash
+
+- |
+    migrating from Java / RDF / XSLT 
+    to jq programs and shell scripts
+    for widest possible options to host in CLI
+    / terminal / headless environments,
+    such as CD pipelines, busybox or Termux
+
+    software implementation uses Graphviz for rendering
+
+    Jira is one of the supported systems for data entry 
+    and graph storage 
+
+    Boran continues serving as Product Owner,
+    Architect and Developer
+
+  htmlTooltip: |-
+    📦 KTS-bash: migrating from Java / RDF / XSLT 
+    to jq programs and shell scripts
+    for widest possible options to host in CLI
+    / terminal / headless environments,
+    such as CD pipelines, busybox or Termux
+
+    software implementation uses Graphviz for rendering
+
+    Jira is one of the supported systems for data entry 
+    and graph storage 
+
+    Boran continues serving as Product Owner,
+    Architect and Developer
+ParaglidingInstructor_2018_11:
+- "🎓\_Paragliding\_Instructor"
+
+- |
+
+    license to coach paragliding students
+    issued by DHV, DE
+
+  htmlTooltip: "🎓\_Paragliding\_Instructor: \nlicense to coach paragliding students\nissued by DHV, DE"
+lhmsCMDB_2019_02:
+- Implementing SACM
+
+- |
+
+    LHM Services is an internal IT Service Provider 
+    for the City of Munich.
+
+    LHM-S introduces a new process and a new tool in
+    Service Asset & Configuration Management (SACM)
+    for their highly distributed services.
+
+    Project tasks in this phase include the process description,
+    a draft for the new CMDB model and the analysis of
+    specific requirements for the new CMDB and process tool.
+
+    Boran contributes as Configuration Management 
+    and Process Management expert
+
+  htmlTooltip: |-
+    Implementing SACM: 
+    LHM Services is an internal IT Service Provider 
+    for the City of Munich.
+
+    LHM-S introduces a new process and a new tool in
+    Service Asset & Configuration Management (SACM)
+    for their highly distributed services.
+
+    Project tasks in this phase include the process description,
+    a draft for the new CMDB model and the analysis of
+    specific requirements for the new CMDB and process tool.
+
+    Boran contributes as Configuration Management 
+    and Process Management expert
+BusinessServiceManagement_2019_08:
+
+
+
+lhmsCMDB_2019_09:
+
+
+
+bitvCMDB_2019_10:
+- CMDB Workshop for ITSM Consultants
+
+- |
+
+    bitvoodoo serves customers with expertise in
+    Jira and Confluence installations. To complete 
+    their portfolio, we look into Jira as a CMDB.
+
+    Boran contributes as Configuration Management expert
+
+  htmlTooltip: |-
+    CMDB Workshop for ITSM Consultants: 
+    bitvoodoo serves customers with expertise in
+    Jira and Confluence installations. To complete 
+    their portfolio, we look into Jira as a CMDB.
+
+    Boran contributes as Configuration Management expert
+AfICMDB_2019_11:
+- CMDB Design
+
+- |
+
+    planning and prototyping for a CMDB as 
+    Knowledge Base for IT Services that are served 
+    in a multi-tenant and multi-client fashion
+
+  htmlTooltip: |-
+    CMDB Design: 
+    planning and prototyping for a CMDB as 
+    Knowledge Base for IT Services that are served 
+    in a multi-tenant and multi-client fashion
+TandemPilot_2020_07:
+- Tandem Pilot
+
+- |
+
+    commercial paragliding flights with guests;
+
+    supervising flight and education activities
+    on site as a paragliding instructor
+
+  htmlTooltip: |-
+    Tandem Pilot: 
+    commercial paragliding flights with guests;
+
+    supervising flight and education activities
+    on site as a paragliding instructor
+AfICMDB_2020_08:
+
+
+
+Symsuite_2020_09:
+- Symsuite
+
+- |
+    creating an integrated platform
+    to support the most vital business processes
+    for any small or medium sized enterprise (SME)
+
+    based on a multi-tenant Knowledge Graph;
+
+    involves Enterprise Architecture, Process Design,
+    IT Architecture and related implementations;
+
+    use of Jira as CMDB and agile process management tool,
+    with KTS-bash as backend for routine visualization,
+    ad-hoc queries and complex government tasks such as
+    validating strictly role-based authentication;
+
+    Boran contributes Knowledge Management expertise
+    and graph-related software implementation
+
+  htmlTooltip: |-
+    Symsuite: creating an integrated platform
+    to support the most vital business processes
+    for any small or medium sized enterprise (SME)
+
+    based on a multi-tenant Knowledge Graph;
+
+    involves Enterprise Architecture, Process Design,
+    IT Architecture and related implementations;
+
+    use of Jira as CMDB and agile process management tool,
+    with KTS-bash as backend for routine visualization,
+    ad-hoc queries and complex government tasks such as
+    validating strictly role-based authentication;
+
+    Boran contributes Knowledge Management expertise
+    and graph-related software implementation
+SwedenToFrance_2022_05:
+- Sweden to Bretagne
+
+  rdfDescription: solo sailing trip from Sweden to Bretagne on small hybrid katamaran Maru
+
+  htmlTooltip: >-
+    Sweden to Bretagne: solo sailing trip from Sweden to Bretagne on small
+    hybrid katamaran Maru
+PerpetualTraveller_2022_05:
+- ⛺ Perpetual Traveller
+
+- |
+
+    living and traveling beyond 
+    and without registered residence
+
+  htmlTooltip: |-
+    ⛺ Perpetual Traveller: 
+    living and traveling beyond 
+    and without registered residence
+SwedenToFrance_2022_10:
+
+
+
+Symsuite_2022_10:
+
+
+
+ProjectManagement_2022_11:
+- Project Management
+
+- |
+    orchestrating project management tasks
+    for a set of related, national and international projects;
+
+    involves maintenance of Business Cases and
+    performing Business Impact Analysis (BIA)
+
+    using KTS to track complex inter-dependencies
+
+  htmlTooltip: |-
+    Project Management: orchestrating project management tasks
+    for a set of related, national and international projects;
+
+    involves maintenance of Business Cases and
+    performing Business Impact Analysis (BIA)
+
+    using KTS to track complex inter-dependencies
+KTSjs_2023_01:
+- 📦 KTS-js
+
+- |
+    migrating jq + shell scripts 
+    to Javascript for hosting in node-js backends
+    as well as pure browser-based rendering
+    and for rapid prototying on ObservableHQ
+
+    software implementation uses a  Javascript
+    cross-compilation of Graphviz for rendering
+
+    see https://www.npmjs.com/search?q=%40kxfm
+    / https://github.com/wissenswandler/kts-js
+
+    Boran continues serving as Product Owner,
+    Architect and Developer
+
+  htmlTooltip: |-
+    📦 KTS-js: migrating jq + shell scripts 
+    to Javascript for hosting in node-js backends
+    as well as pure browser-based rendering
+    and for rapid prototying on ObservableHQ
+
+    software implementation uses a  Javascript
+    cross-compilation of Graphviz for rendering
+
+    see https://www.npmjs.com/search?q=%40kxfm
+    / https://github.com/wissenswandler/kts-js
+
+    Boran continues serving as Product Owner,
+    Architect and Developer
+ValueMaps_2023_02:
+- "📦 Value\_Maps for Jira"
+
+- |
+    product development 
+    to integrate KTS Value Maps seamlessly into
+    Atlassian's Jira user interface via AddOn
+
+    software implementation is based on KTS-js
+
+    see https://observablehq.com/collection/@bogo/kts-value-maps-demos
+
+  htmlTooltip: "📦 Value\_Maps for Jira: product development \nto integrate KTS Value Maps seamlessly into\nAtlassian's Jira user interface via AddOn\n\nsoftware implementation is based on KTS-js\n\nsee https://observablehq.com/collection/@bogo/kts-value-maps-demos"
+ValueMaps_2023_03:
+
+
+  htmlTooltip: "end of \"📦 Value\_Maps for Jira\""
+Timelines_2023_04:
+- 📦 Timelines
+
+- |
+    developing an Ontology, 
+    markdown syntax and visual language
+    to map shared events between entities
+    along large timespans
+
+    software implementation is based on KTS-js
+
+    useful for long-term storytelling, such as 
+    in diaries, biographies or CVs
+
+    see https://observablehq.com/collection/@bogo/kts-timeline-demos
+
+  htmlTooltip: |-
+    📦 Timelines: developing an Ontology, 
+    markdown syntax and visual language
+    to map shared events between entities
+    along large timespans
+
+    software implementation is based on KTS-js
+
+    useful for long-term storytelling, such as 
+    in diaries, biographies or CVs
+
+    see https://observablehq.com/collection/@bogo/kts-timeline-demos
+ProjectManagement_2023_06:
+
+
+
+EmotionalIntelligence_2023_11:
+- Emotional Intelligence Workshop
+
+- |
+    delivering a method 
+    (Angstregulierung) and performing exercises 
+    to manage anxiety in potentially stressful situations
+
+    see https://observablehq.com/@bogo/angstbewaeltigung
+
+    Boran contributes as Coach
+
+  htmlTooltip: |-
+    Emotional Intelligence Workshop: delivering a method 
+    (Angstregulierung) and performing exercises 
+    to manage anxiety in potentially stressful situations
+
+    see https://observablehq.com/@bogo/angstbewaeltigung
+
+    Boran contributes as Coach
+Timelines_2024_02:
+
+
+

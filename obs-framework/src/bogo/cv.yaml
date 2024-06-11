@@ -12,10 +12,14 @@ LithotrackJ_2002
 ITILServiceManager_2003  eFF_2003_03
 MapIT_2004_04 MapIT_2004_12  
 BPMspace_2005 
-BüroGemschftSeefeld_2006 UIS_2006_03  RUP_2006_04 LithotrackJ_2006_06
+# BüroGemschftSeefeld_2006 
+UIS_2006_03  RUP_2006_04 LithotrackJ_2006_06
 ItilLectures_2007
-ITILv3Expert_2007  ITSMreq_2007_02 ITSMreq_2007_05  BPMspace_2007_08  DeploymentAutomation_2007_12  
+ITSMreq_2007_02 ITSMreq_2007_05  
+ITILv3Expert_2007_06  
+BPMspace_2007_08  DeploymentAutomation_2007_12  
 ITGovernance_2008_02  
+ItilLectures_2008_12
 itsmTraining_2009_01 itsmTraining_2009_04
 QualityClimbingSession1_2011_05  bitCMDB_2011_07 bitCMDB_2011_09 SAPonCloud_2011_10 
 SAPonCloud_2013_03 ParaglidingPilot_2013_06   
@@ -55,7 +59,7 @@ TUM        ComputerScience_1989 ComputerScience_1993 - "rdfLabel":"TU München",
 
 EXIN ITILServiceManager_2003 - school
 
-Axelos ITILv3Expert_2007 - school
+Axelos ITILv3Expert_2007_06 - school
 
 DHV ParaglidingPilot_2013_06 PassengerPermit_2015_08 ParaglidingInstructor_2018_11 - "labelPrefix":"🏢","rdfType":"school"
 
@@ -71,9 +75,9 @@ Michael SAPonCloud_2011_10 SAPonCloud_2013_03 - rdfType: person, node: URL="http
 
 # Ulrich  SAPonCloud_2011_10 SAPonCloud_2013_03 GlobalContainerPipeline_2018_01 GlobalContainerPipeline_2018_03 ProjectManagement_2022_11 ProjectManagement_2023_06 - "rdfType":"person","endNode":"ING_future"
 
-Michael BüroGemschftSeefeld_2006 Symsuite_2020_09 Symsuite_2022_10 - "rdfType":"person","endNode":"SymGmbH_future"
+# Michael BüroGemschftSeefeld_2006 Symsuite_2020_09 Symsuite_2022_10 - "rdfType":"person","endNode":"SymGmbH_future"
 
-Christoph                        Symsuite_2020_09 Symsuite_2022_10 - "rdfType":"person","endNode":"SymGmbH_future"
+# Christoph                        Symsuite_2020_09 Symsuite_2022_10 - "rdfType":"person","endNode":"SymGmbH_future"
 
 Frank   
 LDI_2015_04 LDI_2017_02  ZAM_2017_04 ZAM_2017_06  BusinessServiceManagement_2018_04 BusinessServiceManagement_2019_08 - "rdfType":"person","endNode":"AOKP_future"
@@ -149,8 +153,8 @@ ITProjectManager_1999_06
 ITILServiceManager_2003
 RUP_2006_04
 ItilLectures_2007
-ITILv3Expert_2007
 ITSMreq_2007_02 ITSMreq_2007_05 
+ITILv3Expert_2007_06
 DeploymentAutomation_2007_12
 ITGovernance_2008_02
 ItilLectures_2008_12
@@ -384,23 +388,29 @@ GymnasticsCoach_1987:
 - 🎓 Gymnastics Coach
 - |
 
-  license to coach Gymnastics 
+  license to teach Gymnastics 
   (Fachübungsleiter Geräteturnen
   issued by BLSV, DE)
 
+ComputerScience_1989:
+- 🎓 Computer Science
+- |
+    study
+    with major in "Informatik" 
+    and minor in Psychology;
+    dropped out without diploma
+ComputerScience_1993: finish
 
 Magellan_1993_10:
-- Magellan suite for AutoCAD
+- 📦 Magellan suite for AutoCAD
 - |
 
   working with Logitech (USA) to create a toolset
   for intuitive designing and viewing of 3D models
   within the AutoCAD software application
 
-  Boran serves as 3D Consultant + Solution Architect`,
-
+  Boran serves as 3D Consultant + Solution Architect
 Magellan_1994_03: finish
-
 
 MagicMotion_1995:
 - 📀 Magic Motion
@@ -420,7 +430,6 @@ MagicMotion_1995:
   Boran serves as Solution Architect
   and Software Developer
 
-
 Cybertennis_1996:
 - 📦 Cybertennis
 - |
@@ -434,9 +443,8 @@ Cybertennis_1996:
   and viewed in the HMD.
 
   Boran serves as Solution Architect 
-  and Software Developer`
+  and Software Developer
  
-
 Lithotrack_1997:
 - 📦 Lithotrack
 - |
@@ -450,7 +458,6 @@ Lithotrack_1997:
 
   Boran manages project on supplier’s side
   and contributes as Solution Architect
-
 Lithotrack_2001_12: finish
 
 LithotrackJ_2002:
@@ -460,8 +467,500 @@ LithotrackJ_2002:
   from 'PC' to 'Pocket-PC' hardware platform, and
   from C++ based CDK to Java based 3D toolkit
   to enable a much leaner form factor
-
 LithotrackJ_2006_06: finish
+
+ITProjectManager_1997_12:
+- IT Project Manager
+- |
+  delivering 
+  projects for middleware and web applications
+
+  analysing and documenting requirements;
+  selecting and leading partners;
+  reviewing detailed software design; 
+  managing test cases and product quality
+
+  Boran manages projects on customer’s side
+ITProjectManager_1999_06: finish
+
+CoSo_1999_09:
+- 🏢 Continental Software GmbH
+CoSo_2016_07:
+  cssClasslist: global_type_CoSo
+  graphvizShape: none
+  graphvizLabel: ⬛
+  htmlTooltip: Termination of Continental Software GmbH for the sake of leaner management
+
+
+UIS_1999_10:
+- UIS
+- |
+    Universal Internet Services
+
+    middleware services for clusters of
+    Microsoft Internet Application Servers
+
+    analysing requirements of web applications 
+    which execute on a clustered farm of IIS servers;
+
+    designing a solution for centralised 
+    middleware services to manage session state 
+    and serve content which is 'localized' in 
+    different languages but also for different 
+    geographical regions and for different brands 
+    (BMW, Rover, Mini…)
+
+    calculating all financial services (lease, loan...)
+    based on Gillardon's FinanceCore component
+
+    implementing all services in Java (2)
+    Enterprise Edition (EJB) with COM proxies
+
+    Boran manages project on supplier’s side
+    and contributes as solution architect
+UIS_2006_03: finish
+
+FoundInSpace_2001:
+- 📦 Found in Space
+- |
+  3D Viewer for Knowledge Graphs
+
+  creating shapes for 'shapeless' data
+
+  various applications in data mining, data
+  warehousing, reporting and visualizing; 
+  works best for datasets that quickly change
+  in structure or size,
+  such as Configuration Items in an active
+  Service Provider organization 
+  -> frequently used in CMDB workshops
+
+  see https://youtu.be/bQgxX6pwGWY
+
+eFF_2001_09:
+- eFinanceFactory
+- |
+
+    developing business logic and web applications for
+    calculating financial products (lease and loan);
+
+    implementation based on Java Enterprise Edition (J2EE)
+    and Gillardon’s FinanceCore
+
+    Boran manages project on supplier’s side
+    and contributes as IT Architect
+eFF_2003_03: finish
+
+ITILServiceManager_2003:
+- "🎓\_ITIL\_Service\_Manager"
+- |
+
+    ITIL (v2) Service Manager 
+    certificate issued by EXIN, NL
+
+MapIT_2004_04:
+- Map IT
+- |
+  IT Governance / CMDB
+
+  Solution for modelling Business Processes (BP)
+  and supporting IT Assets (application systems,
+  databases, infrastructure) of 
+  BMW Financial Services worldwide within ARIS;
+
+  developing scripts for queries, 
+  automated import from external data sources 
+  and automated analyses:
+   Application Map (Bebauungsplan),
+   Fault Tree / CFIA for 
+   Business Continuity Management (BCM);
+
+  Writing process manuals and training material;
+  Conducting train-the-trainer sessions for 
+  Configuration Analysts who rolled out the
+  solution to BMW FS subsidiaries worldwide.
+
+  nominated for the Process Excellence Award 
+  by IDS Scheer
+
+  Boran contributes as Solution Architect
+MapIT_2004_12: finish
+
+BPMspace_2005:
+- 📦 BPMspace
+- |
+  designing and implementing a
+  custom toolsuite for process modelling 
+  and configuration management in a
+  joint venture between mITSM GmbH 
+  and Continental Software GmbH;
+
+  used for prototyping in ITSM consulting
+  projects as well as inhouse tool
+  for ERP, CRM and ITSM
+
+  Boran contributes as Product Owner
+BPMspace_2007_08: finish
+
+RUP_2006_04:
+- RUP & ITIL
+- |
+  develop and conduct 
+  custom integrated training course
+
+  "Rational Unified Process (RUP) 
+  and ITIL Application Management"
+
+  including ITIL Foundation certification
+
+ITILv3Expert_2007_06:
+- "🎓\_ITIL\_Expert"
+- |
+
+  ITIL (v3) Expert
+  certificate issued by Axelos, UK
+
+ItilLectures_2007:
+- ITIL Lectures
+- |
+  teaching Service Management 
+  practices, based on ITIL and ISO 20.000,
+  as part of an MBA study
+  'Strategisches Informationsmanagement'
+ 
+  Boran serves as Lecturer
+ItilLectures_2008_12: finish
+
+ITSMreq_2007_02:
+- Requirement Specification for ITSM Tool
+- |
+
+  analysing tool requirements based on process
+  workflow models; documenting generic and 
+  specific requirements for a tool or tool suite.
+
+  Boran contributes as Process Consultant
+  and Requirements Engineer
+ITSMreq_2007_05: finish
+
+DeploymentAutomation_2007_12:
+- IT Deployment Process Automation
+- |
+
+  identify potential for automating SW Deployment
+  in complex datacenter operations (50+ tasks 
+  in 10+ teams for every single deployment)
+
+  prototyping implementations to orchestrate many 
+  linked tasks and gradually automate simple tasks
+  based on jBPM and ALBPM workflow engines 
+  with interfaces to internal ticket system
+
+Fusion_2008:
+- =
+- |
+  AOK Sachsen 
+  und AOK Thüringen 
+  fusionieren zur AOK PLUS 
+  und gründen zusammen mit der
+  AOK Bayern die kubus IT
+
+ITGovernance_2008_02:
+- IT Governance Consulting
+- |
+
+    analysing training needs for Information Security department;
+
+    conducting training workshops based on CobiT;
+    moderating self-assessment workshops based on CMMI 
+    and CobiT concepts of process maturity;
+
+    reviewing IT architecture from a Governance perspective
+
+    Boran contributes as Consultant, Trainer / Coach
+
+itsmTraining_2009_01:
+- Custom ITSM and Servicedesk Training
+- |
+
+  creating training concept to deliver knowledge 
+  about custom ITSM process implementation and 
+  underlying tool support to 650 staff members; 
+
+  conduct pilot trainings; train additional trainers
+
+  Boran contributes as Author, Trainer / Coach
+itsmTraining_2009_04: finish
+
+QualityClimbingSession1_2011_05:
+- Quality Climbing
+- |
+  Management Training with 
+  50% practical exercises in a rock-climbing gym
+
+  Climbing as a highly motivating example of
+  Risk- , Incident- and Service Management
+  with "skin in the game" and lots of fun.
+
+  Boran contributes as autor and coach
+
+bitCMDB_2011_07:
+- Configuration Modelling workshops
+- |
+
+  delivering workshops and conceptional review for
+  providing key skills in analyzing and modelling
+  a Configuration Management System (CMS) / CMDB;
+
+  accessing various data sources to collect
+  business objects / Configuration Items (CIs):
+  BMC (Atrium, Patrol, Remedy), AixpertSoft 
+  (AixBOMS), SAP, Microsoft (Excel);
+
+  re-engineering a cross-departemental service model;
+  defining information ownership and maintenance concept; 
+
+  "Bundesamt für Informatik und Telekommunikation" is a
+  shared IT service unit for the Swiss federal goverment.
+
+  Boran contributes as Consultant, Trainer / Coach
+bitCMDB_2011_09: finish
+
+SAPonCloud_2011_10:
+- SAP on Cloud
+- |
+  Migration of large, complex and frequently changing 
+  SAP system landscapes into private and public cloud environments 
+  which are first assembled, then conserved as Cloud Templates,
+  distributed to regional data centers, deployed there 
+  and finally consumed by regional users;
+
+  Organizational facts (responsibility and accountability; milestones),
+  licensing and infrastructure details, software products and
+  release versions, stages and links in a supply chain
+  are all kept in a CMDB / Configuration Management System (CMS).
+
+  The CMS is implemented as an RDF triple store (repository)
+  with extensive use of the SPARQL language to generate complex reports.
+SAPonCloud_2013_03: finish
+
+ParaglidingPilot_2013_06:
+- 🎓 Pilot
+- |
+    license 
+    for solo paragliding
+    (issued by DHV, DE)
+
+Ethikfilter_2014:
+- ❤️ Ethics Filter
+- |
+
+  from this point on, all my clients and project goals
+  are officially filtered according to my personal
+  ethical standards, e.g. no defense/military/weapons,
+  no bribing, no coal/oil/gas (and other criteria)
+
+CSI_2014_02:
+- CSI
+- |
+  Configuration Management subproject of CSI
+  (= Configuration-Managment, Service-Level-Management
+  and Servicedesk)
+
+  analyzing service models between Business Processes 
+  and supporting IT Infrastructure;
+
+  designing data model for federated CMDB between 
+  IBM Maximo and various data providers such as
+  VM-Ware, HP-SIM, Enteo, Stablenet…
+
+  designing standard IT Architecures and blueprints;
+
+  devloping Conviz (based on KTS) to visualize
+  complex configuration models automatically;
+
+  reviewing ITSM processes according to COBIT framework;
+
+  Boran contributes as Configuration Management expert
+CSI_2016_10: finish
+
+ClimbingInstructor_2014_05:
+- 🎓 Climbing Instructor
+- |
+  license 
+  to coach rock climbing 
+  (Trainer-C, issued by DAV, DE)
+
+QualityClimbingSession2_2014_08:
+- Quality Climbing
+- |
+  Management Training with 
+  50% practical exercises in a rock-climbing gym
+
+  Climbing as a highly motivating example of
+  Risk- , Incident- and Service Management
+  with "skin in the game" and lots of fun.
+
+  Boran contributes as autor and coach
+
+LDI_2015_04:
+- Infrastructure Capability Analysis
+- |
+
+  'Leistungsfähigkeit der Infrastruktur (LDI)'
+
+  Identifying the existing Enterprise Architecture
+  top-down from Values and Goals, to business 
+  processes and capabilities, to supporting IT
+  applications and infrastructure at kubus IT
+  and other providers.
+
+  Documenting all facts in a causal map.
+
+  Prototyping to connect the IT providers's 
+  CMDB and Service Catalogue with the 
+  Business Process Map from ARIS.
+
+  Boran contributes as Analyst und Architect
+LDI_2017_02: finish
+
+PassengerPermit_2015_08:
+- 🎓 Passenger Permit
+- |
+
+  license to paraglide with a passenger
+  (tandem / biplace) issued by DHV, DE
+
+KTSjava_2016:
+- 📦 KTS-Java
+- |
+
+  software product development using:
+  OWL/RDF for persistence;
+  SPARQL for complex queries 
+  that implement methods like FMEA and BIA;
+  massive XSLT to transform 
+  query results into presentation objects;
+  and Servlets for rendering the UI.
+
+  OWL ontology drives UI to offer creation of
+  required subjects / edges, and supports
+  powerful graph transformations
+  (mostly to reduce graph complexity)
+
+  software implementation uses OpenRDF Sesame 
+  (RDF4J) as graph database 
+  and Graphviz (DOT language) for rendering
+
+  Boran contributes as Solution Architect
+  and Developer.
+
+ZAM_2017_04:
+- Centralized Demand Management
+- |
+
+  'Zentrales Anforderungsmanagement'
+
+  Migrating 4 previously independent but similar business
+  processes into 1 new, "centralized demand management".
+
+  Turning output from the LDI project into an implementation.
+
+  Workflows for requirements, projects, budget requests,
+  requirement specifications and IT requests help recording,
+  assessing and implementing all types of demand.
+
+  Using Jira as an agile process- and service platform.
+
+  Boran contributes als Process Consultant and Architect
+ZAM_2017_06: finish
+
+ITSM20_2017_10:
+- CMDB Gap Analysis
+- |
+  subproject of a major ITSM relauch
+
+  analyzing the current CMDB model and the Configuration
+  Management process for gaps and potential solutions;
+
+  ServiceNow used as CMDB and process tool;
+
+  Boran contributes as Configuration Management expert
+ITSM20_2017_12: finish
+
+GlobalContainerPipeline_2018_01:
+- Global Container Pipeline
+- |
+
+  Planning and visualizing
+  a secure, container-based
+  Continuous Delivery workflow
+GlobalContainerPipeline_2018_03: finish
+
+BusinessServiceManagement_2018_04:
+- Agile Management Processes
+- |
+
+  designing and implementing additional Management 
+  Processes following the sucessful pattern of "ZAM"
+
+  Implementing prototypes and operational versions of:
+  Risk Management, Management by Objectives (MBO), 
+  Talent-Management, agenda items and formal protocols.
+
+  Establishing a new internal full-stack support team.
+
+  Using Jira as an agile process- and service platform.
+
+  Boran contributes als Process Consultant and Architect
+BusinessServiceManagement_2019_08: finish
+
+KTSbash_2018_06:
+- 📦 KTS-bash
+- |
+  migrating KTS
+  from Java / RDF / XSLT to jq programs 
+  and shell scripts for widest possible
+  options for hosting a server and CLI /
+  terminal / headless environment, such 
+  as CD pipelines, busybox or Termux
+
+  uses Graphviz for rendering
+
+  Jira is one of the supported systems 
+  for data entry and storage 
+
+  Boran continues serving as Product Owner,
+  Architect and Developer
+
+ParaglidingInstructor_2018_11:
+- 🎓 Paragliding Instructor
+- |
+
+  license to coach students
+  issued by DHV, DE
+
+lhmsCMDB_2019_02:
+- Implementing SACM
+- |
+
+  LHM-S introduces a new process and a new tool in
+  Service Asset & Configuration Management (SACM)
+  for their highly distributed services.
+
+  Project tasks in this phase include the process 
+  description, a draft for the new CMDB model and 
+  the analysis of specific requirements for the 
+  new CMDB and process tool.
+
+  LHM Services is an internal IT Service Provider 
+  for the City of Munich.
+
+  Boran contributes as Configuration Management 
+  and Process Management expert
+lhmsCMDB_2019_09: finish
+
+
 
 
 
@@ -474,4 +973,4 @@ EmotionalIntelligence_2023_11:
 
   see https://observablehq.com/@bogo/angstbewaeltigung
 
-  Boran contributes as Coach`
+  Boran contributes as Coach

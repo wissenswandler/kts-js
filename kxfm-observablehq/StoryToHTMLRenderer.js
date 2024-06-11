@@ -1,11 +1,12 @@
-import    * as Inputs         from "@observablehq/inputs"
-import    * as d3             from "d3"
-import    * as htl            from "htl";
+import    * as Inputs           from "@observablehq/inputs"
+import    * as d3               from "d3"
+import {  html                } from "htl"
 
 import {  
           Text                ,
           KTS4HTML            ,
           StoryToDotRenderer  ,
+          only_shared_events  ,
                               } from '@kxfm/one'
 import {
           set_input_value     ,
@@ -34,6 +35,17 @@ add_dictionary( dict ) {  this.dictionary = Object.assign( this.dictionary, dict
 
 translate = ( name, fallback = Text.capitalize(name) ) =>
 Text.translate( name, this.dictionary, fallback )
+
+html_link_bookmark( selected_entities, date_range, diagram_toggles, project_lod )
+{
+  return html`<p><a class="screenonly" href="?details=${
+selected_entities.join(',')
+}&date_range=${
+date_range.join(',')
+}&only_shared_events=${
+diagram_toggles.includes( only_shared_events )
+}&lod=${ project_lod == StoryToDotRenderer.lod_options[0] ? 0 : 1 }">bookmark current set of details</a></p>`
+}
 
 /*
  * deprecated "custom" table,
@@ -134,10 +146,10 @@ Inputs.button
     acc.concat
     (
     [
-    [ htl.html`<a title=" no ${ this.translate( type ) }">- ${ Text.truncate( this.translate( type ),string_truncate_length) }</a>`, () => 
+    [ html`<a title=" no ${ this.translate( type ) }">- ${ Text.truncate( this.translate( type ),string_truncate_length) }</a>`, () => 
       set_input_value( view, model.filter( x => ! this.story.keep_types( ""+type ).includes(x) )  )  // ""+type casts "undefined" to String
     ],
-    [ htl.html`<a title="all ${ this.translate( type ) }">+ ${ Text.truncate( this.translate( type ),string_truncate_length) }</a>`, () => 
+    [ html`<a title="all ${ this.translate( type ) }">+ ${ Text.truncate( this.translate( type ),string_truncate_length) }</a>`, () => 
       set_input_value( view, model.concat(        this.story.keep_types( ""+type )             )  ) 
     ]
     ] 
@@ -158,7 +170,7 @@ create_daterange_input ( values_if_not_passed_in_url = ['',''] )
       create_date_text_input( " until ", values_if_not_passed_in_url, 1, this.story.get_date_labels().pop()  )
     ],
     {
-      template: inputs => htl.html`
+      template: inputs => html`
         <details class="date_range" open>
           <summary>date range shows events ...</summary>
           <div>
@@ -205,14 +217,14 @@ create_daterange_input ( values_if_not_passed_in_url = ['',''] )
   }
 } // end of create_daterange_input()
 
-create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</span> elements, grouped by type</span>`, values_if_not_passed_in_url )
+create_grouped_input( label = html`<span>select<span class="printonly">ed</span> elements, grouped by type</span>`, values_if_not_passed_in_url )
 {
   const groups = new Set;
   const format = (d) => 
   {
     const group = d[1].options.rdfType
     const name =  d[0]
-    const label = htl.html` <span>${name}</span>`;
+    const label = html` <span>${name}</span>`;
     (groups[group] || (groups[group] = [])).push(label);
     return label;
   };
@@ -236,7 +248,7 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
   const parent = input.lastElementChild;
   const scope = UID.uid().id;
   input.classList.add(`${scope}-input`);
-  const style = htl.html`<style>
+  const style = html`<style>
 .${scope}-head {
   font:13px/1.2 var(--sans-serif);
   margin-bottom: 1em;
@@ -269,18 +281,18 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
 
   for( const [name, nodes] of Object.entries(groups) )
   {
-    const wrap = htl.html`<div>`;
+    const wrap = html`<div>`;
     wrap.append( ...nodes.map( (n) => n.parentElement) );
-    const g = htl.html`<div class="${scope}-group type_${name}">`
+    const g = html`<div class="${scope}-group type_${name}">`
     g.append
     (
-      htl.html`
+      html`
       <span class="screenonly">show&nbsp;</span>${
         Object.entries(groups).length>1 
         && 
         name != 'undefined' 
         ?
-        htl.html`<strong>${
+        html`<strong>${
           this.translate( name ) 
         }</strong>`
         :
@@ -292,7 +304,7 @@ create_grouped_input( label = htl.html`<span>select<span class="printonly">ed</s
     parent.appendChild(g);
   }
   
-  const widget = htl.html`<div>
+  const widget = html`<div>
     <span class="${scope}-head">${label}</span>
     <div class="${scope}-body">${input}</div>
     ${style}

@@ -21,8 +21,8 @@ import {
 //                          } from "@kxfm/one"
 
 import { 
-        StoryToHTMLRenderer ,
-        cv                  ,
+           CvToHTMLRenderer
+     as StoryToHTMLRenderer ,
                             } from "./libob/index.js"
 //                          } from "@kxfm/observablehq"
 
@@ -41,11 +41,6 @@ showing ${ myReducedStory.n_topics } out of total ${ myStory.n_topics } topics
 const myStory = new Story( story_text )
 const storyToHTMLRenderer = 
 new   StoryToHTMLRenderer( myStory )
-      storyToHTMLRenderer.dictionary = 
-  {
-    "label":"Project / Product / Topic" ,
-    "OU": "Client"                      ,
-  }
 ```
 
 ```js
@@ -60,14 +55,6 @@ const reducedStoryRenderer = new StoryToHTMLRenderer( myReducedStory )
 
 const
 storyToDotRenderer = new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod )
-storyToDotRenderer.style = // custom edge styles which are better suited for the elements of a CV than those of a general Timeline diagram
-{
-    future_pointer_minlen : 2 // more visible future pointers
-    ,
-    places_edge_style : "solid" // topics (=projects) should be the most prominent timelines in this diagram
-    ,
-    entity_edge_style : "dashed" // entities rather dashed (than solid) because skills are "dormant" between projects
-}
 ```
 
 ```js
@@ -108,7 +95,7 @@ reducedStoryRenderer.tabular_view( ["client","skill"], ["Client / School","Skill
 ## Appendix
 
 ```js
-cv.how_to_read `_This particular diagram is the template for a curriculum vitae (CV) with an emphasis on 'professional' events. It has subtle visual variations from other Timeline diagrams (projects' timelines shown with solid lines, entities with dashed lines)._`
+StoryToHTMLRenderer.how_to_read `_This particular diagram is the template for a curriculum vitae (CV) with an emphasis on 'professional' events. It has subtle visual variations from other Timeline diagrams (projects' timelines shown with solid lines, entities with dashed lines)._`
 ```
 
 ## advanced authoring tools
@@ -122,7 +109,15 @@ const diagram_toggles = view( Inputs.checkbox
   } 
 ) )
 
-const project_lod = view( Inputs.radio(["title only", "full description"], {label: "level of detail", value: "title only"}) )
+const project_lod_input = Inputs.radio
+(
+  StoryToDotRenderer.lod_options, 
+  {
+    label: "level of detail", 
+    value: StoryToDotRenderer.lod_options[ get_url_param( "lod", '0' )[0] ]
+  }
+) 
+const project_lod       = view( project_lod_input )
 ```
 
 ```js
@@ -130,16 +125,8 @@ reducedStoryRenderer.create_button_to_apply_visible_entities_as_new_filter( sele
 ```
 
 ```js
-htl.html`<p><a class="screenonly" href="?details=${
-selected_entities.join(',')
-}&date_range=${
-date_range.join(',')
-}&only_shared_events=${
-diagram_toggles.includes( only_shared_events )
-}">bookmark current set of details</a></p>`
+reducedStoryRenderer.html_link_bookmark( selected_entities, date_range, diagram_toggles, project_lod )
 ```
-
-
 
 ```js
 const story_text = `

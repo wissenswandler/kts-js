@@ -1,4 +1,5 @@
 import {  html                } from "htl"
+
 import {  StoryToHTMLRenderer
                               } from "./StoryToHTMLRenderer.js"
 
@@ -20,6 +21,13 @@ constructor(  story, diagram_toggles, project_lod )
     "begin" : "Start"                     ,
     "label" :"Project / Product / Topic"  ,
   }
+
+  this.set_dot_style(
+  {
+    future_pointer_minlen : 2         , // more visible future pointers
+    places_edge_style     : "solid"   , // topics (=projects) should be the most prominent timelines in this diagram
+    entity_edge_style     : "dashed"  , // entities rather dashed (than solid) because they could be "dormant" between projects
+  } )
 }
 
 /* tag function for customizing the note */
@@ -28,7 +36,7 @@ static how_to_read( strings, ... keys )
   return how_to_read_note(  strings.reduce( (a, c) => a + keys.shift() + c )  )
 }
 
-static get style ()
+static get html_style ()
 {
   return html`
 <style>
