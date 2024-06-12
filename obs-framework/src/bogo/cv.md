@@ -1,4 +1,5 @@
 ---
+style: /cv.css
 toc: true
 ---
 <div class="grid grid-cols-2">
@@ -32,12 +33,6 @@ import{
         set_input_value     ,
         visco               ,
                             } from "@kxfm/browser"
-```
-
-```js
-// TODO: fix this huge flash of unstyled, large profile photo
-// by providing the style in a faster way than reactive rendering
-StoryToHTMLRenderer.html_style
 ```
 
 ```js
@@ -129,22 +124,29 @@ Inputs.button
   ] ,
   [ "all skills", () => set_input_value(  selected_entities_input, myStory.keep_types( [ "skill" ] )  )   ]
   ,
-  ["all clients", () => set_input_value(  selected_entities_input, myStory.keep_types( [ "OU"    ] )  )   ]
-  ,
-  ["linear CV (Boran's timeline)", () => set_input_value(  selected_entities_input, ["Boran"] ) ]
-  ,
-  ["Social CV (all people's timelines)", () => 
-    {
-      set_input_value(  selected_entities_input, myStory.keep_types( ["person"] )  );
-      set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0]       );
-    }  
+  [ "all clients", () => {
+    set_input_value(  selected_entities_input, myStory.keep_types( [ "OU"    ] ))
+    set_input_value(  diagram_toggles_input, [only_shared_events], '-'          )
+   }
   ] ,
-  ["People & Clients", () => set_input_value( selected_entities_input, myStory.keep_types( ["person","OU"] ) )]
+  [ "linear CV (Boran's timeline)", () => set_input_value(  selected_entities_input, ["Boran"] ) ]
   ,
-  ["everything", () => 
-   {
-     set_input_value(  selected_entities_input, myStory.entity_keys );
-     set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0] );
+  [ "Social CV (all people's timelines)", () => {
+    set_input_value(  selected_entities_input, myStory.keep_types( ["person"] ) )
+    set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0]      )
+    set_input_value(  diagram_toggles_input, [only_shared_events], '+'          )
+   }  
+  ] ,
+  [ "People & Clients", () => {
+    set_input_value(  selected_entities_input, myStory.keep_types( ["person","OU"] )  )
+    set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0]      )
+    set_input_value(  diagram_toggles_input, [only_shared_events], '+'          )
+   }
+  ] ,
+  [ "everything", () => {
+    set_input_value(  selected_entities_input, myStory.entity_keys              )
+    set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0]      )
+    set_input_value(  diagram_toggles_input, [only_shared_events], '-'          )
    }
   ] ,
 ] )
@@ -233,13 +235,15 @@ StoryToHTMLRenderer.how_to_read `_This particular diagram's central story is Bor
 ## authoring tools
 
 ```js
-const diagram_toggles = view( Inputs.checkbox
+const diagram_toggles_input = Inputs.checkbox
 (
   [ only_shared_events, StoryToDotRenderer.highlight_all_timelines_of_event ], 
   {
     value: get_url_param( "only_shared_events", false )[0]==='true' ? [only_shared_events] : []
   } 
-) )
+)
+const diagram_toggles = 
+view( diagram_toggles_input )
 
 const project_lod_input = Inputs.radio
 (
@@ -249,7 +253,8 @@ const project_lod_input = Inputs.radio
     value: StoryToDotRenderer.lod_options[ get_url_param( "lod", '0' )[0] ]
   }
 ) 
-const project_lod       = view( project_lod_input )
+const project_lod       = 
+view( project_lod_input )
 ```
 
 ```js

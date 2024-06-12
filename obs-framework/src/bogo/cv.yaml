@@ -39,17 +39,17 @@ AfICMDB_2020_08
 Symsuite_2020_09  
 MaruEngineConversion_2021_10
 CrossingBaltic_2021_11
+BoatConversion_2022_01 BoatConversion_2022_04
 SwedenToFrance_2022_05
+Symsuite_2022_09  
 SwedenToFrance_2022_10
-Symsuite_2022_10  
 ProjectManagement_2022_11 
 KTSjs_2023_01 
 ValueMaps_2023_02 ValueMaps_2023_03 Timelines_2023_04 
 ProjectManagement_2023_06 
 EmotionalIntelligence_2023_11
-Timelines_2024_02 
-${bogo_most_recent} 
-- "edge":"color=forestgreen","rdfType":"person"
+Timelines_2024_06 
+- edge: color=forestgreen, rdfType: person
 
 #
 # schools
@@ -75,16 +75,16 @@ Michael SAPonCloud_2011_10 SAPonCloud_2013_03 - rdfType: person, node: URL="http
 
 # Ulrich  SAPonCloud_2011_10 SAPonCloud_2013_03 GlobalContainerPipeline_2018_01 GlobalContainerPipeline_2018_03 ProjectManagement_2022_11 ProjectManagement_2023_06 - "rdfType":"person","endNode":"ING_future"
 
-# Michael BüroGemschftSeefeld_2006 Symsuite_2020_09 Symsuite_2022_10 - "rdfType":"person","endNode":"SymGmbH_future"
+# Michael BüroGemschftSeefeld_2006 Symsuite_2020_09 Symsuite_2022_09 - "rdfType":"person","endNode":"SymGmbH_future"
 
-# Christoph                        Symsuite_2020_09 Symsuite_2022_10 - "rdfType":"person","endNode":"SymGmbH_future"
+# Christoph                        Symsuite_2020_09 Symsuite_2022_09 - "rdfType":"person","endNode":"SymGmbH_future"
 
 Frank   
 LDI_2015_04 LDI_2017_02  ZAM_2017_04 ZAM_2017_06  BusinessServiceManagement_2018_04 BusinessServiceManagement_2019_08 - "rdfType":"person","endNode":"AOKP_future"
 
-# Tino  BusinessServiceManagement_2018_04 BusinessServiceManagement_2019_08 Symsuite_2020_09 Symsuite_2022_10 - "rdfType":"person","endNode":"SymGmbH_future"
+# Tino  BusinessServiceManagement_2018_04 BusinessServiceManagement_2019_08 Symsuite_2020_09 Symsuite_2022_09 - "rdfType":"person","endNode":"SymGmbH_future"
 
-# Robin BusinessServiceManagement_2018_04 BusinessServiceManagement_2019_08 Symsuite_2020_09 Symsuite_2022_10 - "rdfType":"person","endNode":"SymGmbH_future"
+# Robin BusinessServiceManagement_2018_04 BusinessServiceManagement_2019_08 Symsuite_2020_09 Symsuite_2022_09 - "rdfType":"person","endNode":"SymGmbH_future"
 
 Katerina QualityClimbingSession2_2014_08 - "rdfType":"person"
 
@@ -95,9 +95,9 @@ Katerina QualityClimbingSession2_2014_08 - "rdfType":"person"
 Sailing
 MaruEngineConversion_2021_10
 CrossingBaltic_2021_11
-SwedenToFrance_2022_05
-SwedenToFrance_2022_10
-- edge: style=dotted, labelPrefix: ⛵, rdfType: skill, endNode: Boran_future
+BoatConversion_2022_01 BoatConversion_2022_04
+SwedenToFrance_2022_05 SwedenToFrance_2022_10
+- edge: style=dotted, labelPrefix: ⛵, rdfType: skill
 
 Coaching 
 GymnasticsCoach_1987 
@@ -122,7 +122,7 @@ KTSbash_2018_06
 lhmsCMDB_2019_02 lhmsCMDB_2019_09     
 bitvCMDB_2019_10  
 AfICMDB_2019_11 AfICMDB_2020_08 
-Symsuite_2020_09  Symsuite_2022_10
+Symsuite_2020_09  Symsuite_2022_09
 KTSjs_2023_01 ValueMaps_2023_02 ValueMaps_2023_03
 - skill
 
@@ -130,9 +130,9 @@ KnowledgeManagement
 SAPonCloud_2011_10 SAPonCloud_2013_03 
 KTSjava_2016 
 KTSbash_2018_06
-Symsuite_2020_09 Symsuite_2022_10
+Symsuite_2020_09 Symsuite_2022_09
 KTSjs_2023_01
-ValueMaps_2023_02 ValueMaps_2023_03 Timelines_2023_04 Timelines_2024_02 
+ValueMaps_2023_02 ValueMaps_2023_03 Timelines_2023_04 Timelines_2024_06 
 - "rdfLabel":"Knowledge Management","rdfDescription":"including Semantic Technologies such as Graph Databases, SPARQL/OWL/RDF","labelPrefix":"🔧","rdfType":"skill","edge":"style=dotted"
 
 EnterpriseArchitecture  
@@ -142,7 +142,7 @@ SAPonCloud_2011_10 SAPonCloud_2013_03
 LDI_2015_04 LDI_2017_02  
 ZAM_2017_04 ZAM_2017_06  
 BusinessServiceManagement_2018_04 BusinessServiceManagement_2019_08  
-Symsuite_2020_09 Symsuite_2022_10 
+Symsuite_2020_09 Symsuite_2022_09 
 ValueMaps_2023_02 ValueMaps_2023_03
 - "edge":"style=dotted","labelPrefix":"🔧","rdfType":"skill"
 
@@ -161,7 +161,7 @@ ItilLectures_2008_12
 itsmTraining_2009_01 itsmTraining_2009_04
 QualityClimbingSession1_2011_05
 QualityClimbingSession2_2014_08
-Symsuite_2020_09 Symsuite_2022_10
+Symsuite_2020_09 Symsuite_2022_09
 - "edge":"style=dotted","labelPrefix":"🔧","rdfType":"skill"
 
 SwEngineering
@@ -184,7 +184,7 @@ GlobalContainerPipeline_2018_01 GlobalContainerPipeline_2018_03
 KTSbash_2018_06
 KTSjs_2023_01
 ValueMaps_2023_02 ValueMaps_2023_03
-Timelines_2023_04 Timelines_2024_02
+Timelines_2023_04 Timelines_2024_06
 - "edge":"style=dotted","labelPrefix":"🔧","rdfLabel":"Software Engineering","rdfType":"skill","endNode":"Boran_future"
 
 Visualization
@@ -200,7 +200,7 @@ GlobalContainerPipeline_2018_01 GlobalContainerPipeline_2018_03
 KTSbash_2018_06
 KTSjs_2023_01
 ValueMaps_2023_02 ValueMaps_2023_03
-Timelines_2023_04 Timelines_2024_02
+Timelines_2023_04 Timelines_2024_06
 - "edge":"style=dotted","labelPrefix":"🔧","rdfType":"skill","endNode":"Boran_future"
 
 #
@@ -242,7 +242,7 @@ KTSjava_2016
 - "labelPrefix":"☕","rdfType":"skill","edge":"style=dotted"
 
 Javascript 
-KTSjs_2023_01 ValueMaps_2023_02 ValueMaps_2023_03 Timelines_2023_04 Timelines_2024_02
+KTSjs_2023_01 ValueMaps_2023_02 ValueMaps_2023_03 Timelines_2023_04 Timelines_2024_06
 - "labelPrefix":"🔧","rdfType":"skill","edge":"style=dotted"
 
 KTS
@@ -254,11 +254,11 @@ LDI_2017_02
 BusinessServiceManagement_2018_04
 KTSbash_2018_06
 BusinessServiceManagement_2019_08
-Symsuite_2020_09 Symsuite_2022_10
+Symsuite_2020_09 Symsuite_2022_09
 ProjectManagement_2022_11
 KTSjs_2023_01 ValueMaps_2023_02 ValueMaps_2023_03 Timelines_2023_04 
 ProjectManagement_2023_06
-Timelines_2024_02 
+Timelines_2024_06 
 - "edge":"style=dotted","labelPrefix":"🔧","rdfType":"skill","endNode":"Wissenswandler_future","rdfDescription":"KTS = Knowledge Transformation System = a set of tools for ETL (= extract-tranform-load) of data/information so that it creates relevant knowledge for a certain audience in a particular use case;\\n\\nKTS includes different Ontologies, some of which aware of Causality, thus enabling queries like Impact Analysis or Root Cause Analysis;\\n\\nKTS applies a common visual style to the output diagrams, so that readers recognize a common visual language\\n\\nKTS frontend UIs include VisCo (= Visual Cortex) = responsive system for intuitive exploration of connections in a Knowledge Graph"
 
 Graphviz
@@ -267,7 +267,7 @@ GlobalContainerPipeline_2018_01 GlobalContainerPipeline_2018_03
 KTSbash_2018_06
 KTSjs_2023_01
 ValueMaps_2023_02 ValueMaps_2023_03
-Timelines_2023_04 Timelines_2024_02
+Timelines_2023_04 Timelines_2024_06
 - "edge":"style=dotted","labelPrefix":"🔧","rdfType":"skill"
 
 Jira   
@@ -276,7 +276,7 @@ GlobalContainerPipeline_2018_01 GlobalContainerPipeline_2018_03
 BusinessServiceManagement_2018_04 
 KTSbash_2018_06
 BusinessServiceManagement_2019_08  
-Symsuite_2020_09 Symsuite_2022_10 
+Symsuite_2020_09 Symsuite_2022_09 
 KTSjs_2023_01 ValueMaps_2023_02 ValueMaps_2023_03
 - "rdfLabel":"Jira","edge":"style=dotted","labelPrefix":"🔧","rdfType":"skill"
 
@@ -287,7 +287,7 @@ ProjectManagement_2022_11 ProjectManagement_2023_06
 
 ObservableHQ 
 KTSjs_2023_01
-Timelines_2023_04 Timelines_2024_02 - "edge":"style=dotted","labelPrefix":"🔧","rdfType":"skill"
+Timelines_2023_04 Timelines_2024_06 - "edge":"style=dotted","labelPrefix":"🔧","rdfType":"skill"
 
 #
 # Clients, sorted by industry, then name
@@ -371,13 +371,13 @@ Völkl Cybertennis_1996 ISPO_1996b - OU
 
 # other / Service providers
 
-SymGmbH Symsuite_2020_09 Symsuite_2022_10 - rdfLabel: Sym GmbH, rdfType: OU
+SymGmbH Symsuite_2020_09 Symsuite_2022_09 - rdfLabel: Sym GmbH, rdfType: OU
 
 # self
 
 CoSo FoundInSpace_2001 - rdfType: OU, rdfLabel: Continental Software GmbH
 
-Wissenswandler KTSjava_2016 KTSbash_2018_06 KTSjs_2023_01 ValueMaps_2023_02 ValueMaps_2023_03 Timelines_2023_04 Timelines_2024_02 - OU
+Wissenswandler KTSjava_2016 KTSbash_2018_06 KTSjs_2023_01 ValueMaps_2023_02 ValueMaps_2023_03 Timelines_2023_04 Timelines_2024_06 - OU
 
 - - -
 
@@ -657,13 +657,12 @@ DeploymentAutomation_2007_12:
   with interfaces to internal ticket system
 
 Fusion_2008:
-- =
+- +
 - |
-  AOK Sachsen 
-  und AOK Thüringen 
-  fusionieren zur AOK PLUS 
-  und gründen zusammen mit der
-  AOK Bayern die kubus IT
+  AOK Sachsen and
+  AOK Thüringen merging into
+  AOK PLUS and together with 
+  AOK Bayern founding kubus IT
 
 ITGovernance_2008_02:
 - IT Governance Consulting
@@ -960,17 +959,168 @@ lhmsCMDB_2019_02:
   and Process Management expert
 lhmsCMDB_2019_09: finish
 
+bitvCMDB_2019_10:
+- CMDB Workshop for ITSM Consultants
+- |
 
+  bitvoodoo specialize in consulting and support
+  for Jira and Confluence installations. To complete 
+  their portfolio, we look into Jira as a CMDB.
 
+  Boran contributes as Configuration Management expert
 
+AfICMDB_2019_11:
+- CMDB Design
+- |
+
+  planning and prototyping a CMDB as 
+  Knowledge Base for IT Services that are served 
+  in a multi-tenant and multi-client fashion
+AfICMDB_2020_08: finish
+
+TandemPilot_2020_07:
+- Tandem Pilot
+- |
+
+  commercial paragliding flights with guests;
+
+  supervising flight and education activities
+  on site as a paragliding instructor
+
+Symsuite_2020_09:
+- Symsuite
+- |
+  creating an integrated platform
+  to support the most vital business processes
+  for any small or medium sized enterprise (SME)
+
+  based on a multi-tenant Knowledge Graph;
+
+  involves Enterprise Architecture, Process Design,
+  IT Architecture and related implementations;
+
+  using Jira as CMDB and agile process management tool,
+  with KTS-bash as backend for automatic visualization,
+  ad-hoc queries and complex government tasks such as
+  validating strictly role-based authentication;
+
+  Boran contributes Knowledge Management expertise
+  and graph-related software implementation
+Symsuite_2022_09: finish
+
+MaruEngineConversion_2021_10:
+- Engine Conversion
+- |
+
+  replacing the petrol engine 
+  on sailboat 'Maru' with 
+  batteries & electric engine
+
+CrossingBaltic_2021_11:
+- Baltic Sea Crossing
+- |
+  solo
+  sailing from Fehmarn (DE) to
+  Simrishamn (SE) by fair means
+  on hybrid catamaran 'Maru'
+
+BoatConversion_2022_01:
+- Boat Conversion
+- |
+  completing
+  the conversion for sustainable,
+  solo and autonomous sailing 
+  by changing details of the rig 
+  and adding solar panels, a wind
+  mill, auto pilot, AIS, electric
+  stove and water filter to hybrid
+  sailing catamaran  'Maru'
+BoatConversion_2022_04: finish
+
+SwedenToFrance_2022_05:
+- Sweden to Bretagne
+- |
+  solo sailing
+  from Sweden to Bretagne on
+  small hybrid catamaran 'Maru'
+SwedenToFrance_2022_10: finish
+
+PerpetualTraveller_2022_06:
+- ⛺ Perpetual Traveller
+- |
+
+  living and traveling beyond 
+  and without registered residence
+
+ProjectManagement_2022_11:
+- Project Portfolio Management
+- |
+
+  orchestrating project management tasks
+  for a set of related, national and 
+  international projects;
+
+  involves maintenance of Business Cases and
+  performing Business Impact Analysis (BIA)
+
+  using KTS to track complex dependencies
+ProjectManagement_2023_06: finish
+
+KTSjs_2023_01:
+- 📦 KTS-js
+- |
+  migrating jq + shell scripts 
+  to Javascript for hosting in node-js backends
+  as well as pure browser-based rendering
+  and for rapid prototying on ObservableHQ
+
+  software implementation uses a  Javascript
+  cross-compilation of Graphviz for rendering
+
+  see https://www.npmjs.com/search?q=%40kxfm
+  / https://github.com/wissenswandler/kts-js
+
+  Boran continues serving as Product Owner,
+  Architect and Developer
+
+ValueMaps_2023_02:
+- "📦 Value\_Maps for Jira"
+- |
+  product development 
+  to integrate KTS Value Maps seamlessly into
+  Atlassian's Jira user interface via AddOn
+
+  software implementation is based on KTS-js
+
+  see https://observablehq.com/collection/@bogo/kts-value-maps-demos
+ValueMaps_2023_03: finish
+
+Timelines_2023_04:
+- 📦 Timelines
+- |
+    developing an Ontology, 
+    markdown syntax and visual language
+    to map shared events between entities
+    along large timespans
+
+    software implementation is based on KTS-js
+
+    useful for long-term storytelling, such as 
+    in diaries, biographies or CVs
+
+    see 
+    https://observablehq.com/collection/@bogo/kts-timeline-demos
+Timelines_2024_06: finish
 
 EmotionalIntelligence_2023_11:
 - Emotional Intelligence Workshop
 - |
-  delivering a method 
-  (Angstregulierung) and performing exercises 
-  to manage anxiety in potentially stressful situations
 
-  see https://observablehq.com/@bogo/angstbewaeltigung
+  delivering a method (Angstregulierung) 
+  and exercises to manage anxiety 
+  in potentially stressful situations
+
+  see
+  https://observablehq.com/@bogo/angstbewaeltigung
 
   Boran contributes as Coach

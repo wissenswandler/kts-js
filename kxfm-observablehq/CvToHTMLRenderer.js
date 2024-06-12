@@ -36,26 +36,6 @@ static how_to_read( strings, ... keys )
   return how_to_read_note(  strings.reduce( (a, c) => a + keys.shift() + c )  )
 }
 
-static get html_style ()
-{
-  return html`
-<style>
-
-  /* limit the summary card to the width of the photo and give remaining width to the main content */
-  div:has( div img ) { grid-template-columns: auto min-content!important }
-               img   { width: 210px }
-
-  /* let the content selection buttons use all width, then wrap */
-  details form 
-  {
-    flex-wrap: wrap !important ;
-    --input-width: 100% !important ;
-  }
-
-</style>
-`
-}
-
 } // end of class StoryToHTMLRenderer
 
 
