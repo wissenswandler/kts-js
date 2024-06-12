@@ -17,15 +17,13 @@ import {
         ReducedStory        ,
         SharedEventFilter   ,
         DaterangeFilter     ,
-                            } from "../lib/index.js"
-//                          } from "@kxfm/one"
+                            } from "@kxfm/one"
 
 import { 
            CvToHTMLRenderer
      as StoryToHTMLRenderer ,
 //      StoryToHTMLRenderer ,
-                            } from "../libob/index.js"
-//                          } from "@kxfm/observablehq"
+                            } from "@kxfm/observablehq"
 
 import{ 
         dot2svg             ,
@@ -33,6 +31,8 @@ import{
         set_input_value     ,
         visco               ,
                             } from "@kxfm/browser"
+
+const story_text = await FileAttachment( "/bogo/cv.yaml" ).text()
 ```
 
 ```js
@@ -49,56 +49,40 @@ const total_topics =  myStory.n_topics
 
 **${ n_topics<total_topics ? 'customized ':""}curriculum vitae** 
 
-(see data-driven, interactive version at https://observablehq.com/@bogo/cv for more details)
+see data-driven, interactive version at <br/>https://bogo.observablehq.cloud/cv<br/>for more details
 
 </span>
 
 ## 1. Content Filter
 
-```js
-const selected_entities_input = storyToHTMLRenderer.create_grouped_input
-(
-  htl.html`select<span class="printonly">ed</span> CV elements:` ,
-  "EXIN,Axelos,ConfigManagement,AfI,BIT,bitvoodoo,kubus,mITSM,AOKS,LHMS,DZB,SymGmbH,Wissenswandler".split(',')
-) 
-const selected_entities = 
-view( selected_entities_input )
-```
-
-<details name="entity_selection"     ><summary>by type</summary>
+<details name="entity_selection" open><summary>by skillset</summary>
 
 ```js
 // WARNING: "name" attribute not supported by Firefox as of 2024 - see https://caniuse.com/mdn-html_elements_details_name
 // make sure that at least upon page load that only one of the details group is open
-storyToHTMLRenderer.create_type_buttons( selected_entities_input, selected_entities, 9 )
-```
-</details>
-
-<details name="entity_selection" open><summary>by skillset</summary>
-
-```js
 Inputs.button
 (
   [
     [
-      "Paragliding"   , () => set_input_value(  selected_entities_input, "DHV,Paragliding,SkyAdventures".split( ',' )  )
+      "Paragliding"             , () => 
+      set_input_value(  selected_entities_input, "DHV,Paragliding,SkyAdventures".split( ',' )  )
     ] ,
     [
-      "Coaching"      , () => set_input_value(  selected_entities_input, "Coaching"                     .split( ',' )  )
+      "Coaching"                , () => 
+      set_input_value(  selected_entities_input, "DHV,DAV,Coaching,ADP,BIT"                                             .split( ',' )  )
     ] ,
     [
-      "Visualization" , () => set_input_value(  selected_entities_input, "CDK,Java3D,_3DS,Visualization,Graphviz,ArsEdition,ING,Storz"          .split( ',' )  )
+      "Visualization"           , () => 
+      set_input_value(  selected_entities_input, "Visualization,_3DS,CDK,Java3D,Graphviz,ArsEdition,kubus,Storz,BMWBank,ING,Völkl"          .split( ',' )  )
     ] ,
     [
-      "Enterprise Architecture"
-                      , () => set_input_value(  selected_entities_input, "TUM,EXIN,Axelos,EnterpriseArchitecture,AOKP,BMWBank,mITSM,SAP,SymGmbH".split( ',' )  )
+      "Enterprise Architecture" , () => 
+      set_input_value(  selected_entities_input, "TUM,EXIN,Axelos,EnterpriseArchitecture,AOKP,BMWBank,mITSM,SAP,SymGmbH".split( ',' )  )
     ] ,
     [
       "Config Management", // Configuration Management
-      () => set_input_value
-      (
-        selected_entities_input, 
-          "EXIN,Axelos,ConfigManagement,AfI,AOKS,BIT,bitvoodoo,DZB,kubus,LHMS,mITSM,SymGmbH,Wissenswandler".split(',')
+      () => set_input_value (
+      selected_entities_input, "EXIN,Axelos,ConfigManagement,AfI,AOKS,BIT,bitvoodoo,DZB,kubus,LHMS,mITSM,SymGmbH,Wissenswandler".split(',')
       )
     ] ,
     [
@@ -126,6 +110,7 @@ Inputs.button
   ,
   [ "all clients", () => {
     set_input_value(  selected_entities_input, myStory.keep_types( [ "OU"    ] ))
+    set_input_value(  project_lod_input, StoryToDotRenderer.lod_options[0]      )
     set_input_value(  diagram_toggles_input, [only_shared_events], '-'          )
    }
   ] ,
@@ -151,8 +136,17 @@ Inputs.button
   ] ,
 ] )
 ```
-
 </details>
+
+```js
+const selected_entities_input = storyToHTMLRenderer.create_grouped_input
+(
+  htl.html`<span class="screenonly">... or </span>select<span class="printonly">ed</span> CV elements<span class="screenonly"> individually</span>:` ,
+  "EXIN,Axelos,ConfigManagement,AfI,BIT,bitvoodoo,kubus,mITSM,AOKS,LHMS,DZB,SymGmbH,Wissenswandler".split(',')
+) 
+const selected_entities = 
+view( selected_entities_input )
+```
 
 ```js
 const date_range_input = storyToHTMLRenderer.create_daterange_input()
@@ -209,13 +203,13 @@ const myReducedStory = new ReducedStory
 .addFilter(  new DaterangeFilter  ( date_range                          )  )
 .addFilter(  new SharedEventFilter( diagram_toggles, only_shared_events )  )
 
-const reducedStoryRenderer = new StoryToHTMLRenderer( myReducedStory )
+const reducedStoryRenderer = new StoryToHTMLRenderer( myReducedStory, diagram_toggles, project_lod )
 ```
 
 ```js
 dot2svg
 (
-  new StoryToDotRenderer( myReducedStory, diagram_toggles, project_lod ) ,
+  reducedStoryRenderer ,
   { domId:'diagram' , fit:'auto' , width } 
 )
 ```
@@ -298,9 +292,4 @@ window.addEventListener('afterprint', (event) => {
     }
   }
 })
-```
-
-```js
-const story_text = 
-   await FileAttachment( "./cv.yaml" ).text()
 ```

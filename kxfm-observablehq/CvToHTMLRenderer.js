@@ -6,7 +6,6 @@ import {  StoryToHTMLRenderer
 import                  markdownit  from "markdown-it"
 const markdowner = new  markdownit( {html: true} );
 
-
 export
 class CvToHTMLRenderer extends StoryToHTMLRenderer
 {
@@ -22,12 +21,12 @@ constructor(  story, diagram_toggles, project_lod )
     "label" :"Project / Product / Topic"  ,
   }
 
-  this.set_dot_style(
+  this.dot_style =
   {
     future_pointer_minlen : 2         , // more visible future pointers
     places_edge_style     : "solid"   , // topics (=projects) should be the most prominent timelines in this diagram
     entity_edge_style     : "dashed"  , // entities rather dashed (than solid) because they could be "dormant" between projects
-  } )
+  }
 }
 
 /* tag function for customizing the note */

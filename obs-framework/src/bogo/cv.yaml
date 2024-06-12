@@ -49,6 +49,9 @@ ValueMaps_2023_02 ValueMaps_2023_03 Timelines_2023_04
 ProjectManagement_2023_06 
 EmotionalIntelligence_2023_11
 Timelines_2024_06 
+aiRolloutGovernance_2024_07
+aiRolloutGovernance_2024_12
+available_2025
 - edge: color=forestgreen, rdfType: person
 
 #
@@ -133,7 +136,7 @@ KTSbash_2018_06
 Symsuite_2020_09 Symsuite_2022_09
 KTSjs_2023_01
 ValueMaps_2023_02 ValueMaps_2023_03 Timelines_2023_04 Timelines_2024_06 
-- "rdfLabel":"Knowledge Management","rdfDescription":"including Semantic Technologies such as Graph Databases, SPARQL/OWL/RDF","labelPrefix":"🔧","rdfType":"skill","edge":"style=dotted"
+- rdfLabel: Knowledge Management, rdfDescription: including Semantic Technologies such as Graph Databases; SPARQL/OWL/RDF, labelPrefix: 🔧, rdfType: skill, edge: style=dotted
 
 EnterpriseArchitecture  
 MapIT_2004_04 MapIT_2004_12  
@@ -195,7 +198,9 @@ FoundInSpace_2001
 Lithotrack_2001_12 LithotrackJ_2002
 MapIT_2004_04 MapIT_2004_12
 LithotrackJ_2006_06
+CSI_2014_02  
 KTSjava_2016
+CSI_2016_10  
 GlobalContainerPipeline_2018_01 GlobalContainerPipeline_2018_03
 KTSbash_2018_06
 KTSjs_2023_01
@@ -979,7 +984,7 @@ AfICMDB_2019_11:
 AfICMDB_2020_08: finish
 
 TandemPilot_2020_07:
-- Tandem Pilot
+- Tandem Flying
 - |
 
   commercial paragliding flights with guests;
@@ -1124,3 +1129,8 @@ EmotionalIntelligence_2023_11:
   https://observablehq.com/@bogo/angstbewaeltigung
 
   Boran contributes as Coach
+
+aiRolloutGovernance_2024_07:
+- AI Rollout Governance
+
+aiRolloutGovernance_2024_12: finish

@@ -9,7 +9,7 @@ constructor( story, diagram_toggles, project_lod )
 {
   super( project_lod )
 
-  this.set_dot_style( 
+  this.dot_style =
   {
     future_pointer_minlen : 1 ,
     entryArrowtail        : "crow"  , // for a nicer distinction between the entity's name and its first event along the timeline
@@ -18,7 +18,7 @@ constructor( story, diagram_toggles, project_lod )
 //  entity_edge_style     : "dashed",
 //  showExit              : false   , // a river e.g. never extends beyond its estuary
 //  render_terminal_event_boxed : true, // show the last event in a box
-  } )
+  }
 
   this.title_dot = "" // to be included near the top of DOT source - can be used to implement a title or supplementary graphics
 
@@ -40,7 +40,7 @@ constructor( story, diagram_toggles, project_lod )
 
 static get highlight_all_timelines_of_event() { return "highlight all timelines of event" }
 
-set_dot_style( style )
+set dot_style( style )
 {
   this.diagram_options = Object.assign( this.diagram_options ?? {}, style )
 }
