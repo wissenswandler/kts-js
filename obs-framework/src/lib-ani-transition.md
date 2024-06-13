@@ -6,11 +6,9 @@ smooth transitions in changes between diagrams, thanks to [Magnus Jacobsson](htt
 import {  KTS4Dot } from "@kxfm/one"
 
 import {
+          animinit        ,
           animate_content ,  
                           } from "@kxfm/browser"
-import {
-          animinit        ,
-                          } from "./libbr/Tdot2svgAnim.js"
 
 const transformer = animinit()
 

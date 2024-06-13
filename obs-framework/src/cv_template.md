@@ -17,14 +17,12 @@ import {
         ReducedStory        ,
         SharedEventFilter   ,
         DaterangeFilter     ,
-                            } from "./lib/index.js"
-//                          } from "@kxfm/one"
+                            } from "@kxfm/one"
 
 import { 
            CvToHTMLRenderer
      as StoryToHTMLRenderer ,
-                            } from "./libob/index.js"
-//                          } from "@kxfm/observablehq"
+                            } from "@kxfm/observablehq"
 
 import{ 
         dot2svg             ,

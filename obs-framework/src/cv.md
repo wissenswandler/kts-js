@@ -1,6 +1,8 @@
 ---
 style: /cv.css
 toc: true
+title: CV
+sidebar: false
 ---
 <div class="grid grid-cols-2">
 <div class="card">
@@ -49,7 +51,7 @@ const total_topics =  myStory.n_topics
 
 **${ n_topics<total_topics ? 'customized ':""}curriculum vitae** 
 
-see data-driven, interactive version at <br/>https://bogo.observablehq.cloud/cv<br/>for more details
+see data-driven, interactive version at <br/>https://bogo.observablehq.cloud/1/cv<br/>for more details
 
 </span>
 

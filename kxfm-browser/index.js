@@ -12,6 +12,9 @@ export {
           dotReplaceWithSvg   ,
           default_options     ,
                               } from "./Tdot2svgDOM.js"
+export {
+          animinit            ,
+                              } from "./Tdot2svgAnim.js"
 export    
           * as visco               
                                 from "./visco.js"

@@ -182,7 +182,7 @@ dot_fragment_2_dot_string = (fragment,options) => `strict digraph ${options?.tit
 
 ```js
 graphviz = {
-  const GraphvizModule = await import ( 'https://unpkg.com/@hpcc-js/wasm' + hpcc_js_wasm_version + '/dist/graphviz?module' );
+//const GraphvizModule = await import ( 'https://unpkg.com/@hpcc-js/wasm' + hpcc_js_wasm_version + '/dist/graphviz?module' );
   return GraphvizModule.Graphviz.load();
 }
 ```

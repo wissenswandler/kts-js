@@ -15,12 +15,10 @@ import {
           ReducedStory        ,
           SharedEventFilter   ,
           DaterangeFilter     ,
-                              } from "./lib/index.js"
-//                            } from "@kxfm/one"
+                              } from "@kxfm/one"
 import { 
           StoryToHTMLRenderer ,
-                              } from "./libob/StoryToHTMLRenderer.js"
-//                            } from "@kxfm/observablehq"
+                              } from "@kxfm/observablehq"
 
 import { 
           dot2svg             ,
@@ -28,8 +26,7 @@ import {
           timelines           ,
           set_input_value     ,
           default_options     ,
-                              } from "./libbr/index.js"
-//                            } from "@kxfm/browser"
+                              } from "@kxfm/browser"
 ```
 
 <div class="card">

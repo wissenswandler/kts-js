@@ -4,7 +4,7 @@
     <title>SVG from fetched DOT</title>
     <meta charset="utf-8" />
     <base target="ktsdetail" />
-    <link rel="stylesheet" href="/lib/graph.css" />
+    <link rel="stylesheet" href="/graph.css" />
 </head>
 <body>
 <div class="fullpage">KTS loading...</div>
@@ -12,7 +12,7 @@
 <script type="module">
   import { dot2svg } from "@kxfm/browser"
 
-  fetch( "./data/wissenswandler.atlassian.net/CEP/graph.dot" )
+  fetch( "/data/wissenswandler.atlassian.net/CEP/graph.dot" )
     .then(    response => response.text()  )
     .then
     ( dot_string => 
