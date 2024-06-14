@@ -1,9 +1,8 @@
 // See https://observablehq.com/framework/config for documentation.
 export default {
-  // The project’s title; used in the sidebar and webpage titles.
-//title: "KTS",
-  title: "Boran Gögetap",
-  pager: false, // whether to show previous & next links in the footer
+
+  title: "KTS",
+//title: "Boran Gögetap",   // used in the sidebar and webpage titles
 
   // The pages and sections in the sidebar. If you don’t specify this option,
   // all pages will be listed in alphabetical order. Listing pages explicitly
@@ -22,7 +21,7 @@ export default {
       pages: 
       [
         {name: "Sinking of Rainbow Warrior"     , path: "/rainbow-warrior"        },
-        {name: "Boran's CV (i)"                 , path: "/cv"                     },
+        {name: "Boran's CV (i)"                 , path: "/cv" , pager: false      },
       ]
     } ,
     { name: "2a Value Maps demos",
@@ -62,16 +61,17 @@ export default {
     } ,
   ],
 
-  root : "src", // path to the source root for preview
-  theme: "dashboard", // try "light", "dark", "slate", etc.
-  style: "kxfm.css",
+  root  : "src",        // path to the source root for preview
+  theme : "dashboard",  // try "light", "dark", "slate", etc.
+  style : "kxfm.css",
 
-  // header: "", // what to show in the header (HTML)
-  //footer: '<script src="/lib/graph.js"></script>', // what to show in the footer (HTML)
+//pager : true,         // whether to show previous & next links in the footer
+//header: "",           // what to show in the header (HTML)
+  footer: "",           // what to show in the footer (HTML)
 
-  search: true, // activate search
-  toc: false, // whether to show the table of contents
+  search: true,         // activate search
+  toc   : false,        // whether to show the table of contents
 
-  // output: "dist", // path to the output root for build
+//output: "dist",       // path to the output root for build
 
 };
