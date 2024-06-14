@@ -1,7 +1,7 @@
 ---
 style: /cv.css
 toc: true
-title: CV
+title: Boran's CV
 sidebar: false
 ---
 <div class="grid grid-cols-2">
@@ -51,7 +51,13 @@ const total_topics =  myStory.n_topics
 
 **${ n_topics<total_topics ? 'customized ':""}curriculum vitae** 
 
-see data-driven, interactive version at <br/>https://bogo.observablehq.cloud/1/cv<br/>for more details
+```js
+html`
+see data-driven, interactive version at <br/>
+<a href="https://bogo.observablehq.cloud/1/cv?${ reducedStoryRenderer.html_urlparameters_bookmark( selected_entities, date_range, diagram_toggles, project_lod ) }">https://bogo.observablehq.cloud/1/cv</a>
+<br/>for more details
+`
+```
 
 </span>
 
@@ -162,16 +168,15 @@ const date_range = view( date_range_input )
 
 [boran@goegetap.name](mailto:boran@goegetap.name)
 
-🇬🇧 English: fluent, professional<br/>
-🇩🇪 German: native<br/>
-🇫🇷 French, Italian, Spanish: basic
-
 Sailor, Alpinist, Pilot 🎓
 
 Knowledge Manager,<br/>
-Product Owner,<br/>
-Scrum Master,<br/>
+Agile Coach,<br/>
 ITIL V3 Expert 🎓
+
+🇬🇧 English: fluent, professional<br/>
+🇩🇪 German: native<br/>
+🇫🇷 French, Italian, Spanish: basic
 
 born ${dob[0]} (age ${age})
 
@@ -260,7 +265,6 @@ reducedStoryRenderer.create_button_to_apply_visible_entities_as_new_filter( sele
 ```js
 reducedStoryRenderer.html_link_bookmark( selected_entities, date_range, diagram_toggles, project_lod )
 ```
-
 </span>
 
 ```js

@@ -18,7 +18,7 @@ constructor(  story, diagram_toggles, project_lod )
   {
     "OU"    : "Client"                    ,
     "begin" : "Start"                     ,
-    "label" :"Project / Product / Topic"  ,
+    "label" :"Project / Product"  ,
   }
 
   this.dot_style =

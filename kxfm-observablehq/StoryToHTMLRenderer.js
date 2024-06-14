@@ -38,13 +38,20 @@ Text.translate( name, this.dictionary, fallback )
 
 html_link_bookmark( selected_entities, date_range, diagram_toggles, project_lod )
 {
-  return html`<p><a class="screenonly" href="?details=${
+  return html`<p><a class="screenonly" href="?${
+  this.html_urlparameters_bookmark( selected_entities, date_range, diagram_toggles, project_lod )
+}">bookmark current set of details</a></p>`
+}
+
+html_urlparameters_bookmark( selected_entities, date_range, diagram_toggles, project_lod )
+{
+  return `details=${
 selected_entities.join(',')
 }&date_range=${
 date_range.join(',')
 }&only_shared_events=${
 diagram_toggles.includes( only_shared_events )
-}&lod=${ project_lod == StoryToDotRenderer.lod_options[0] ? 0 : 1 }">bookmark current set of details</a></p>`
+}&lod=${ project_lod == StoryToDotRenderer.lod_options[0] ? 0 : 1 }`
 }
 
 /*
