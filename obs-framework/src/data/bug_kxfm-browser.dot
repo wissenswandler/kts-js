@@ -1,0 +1,53 @@
+htmlpage [label="demo-cdn.html"]
+
+obspage [label="give-and-take" URL="https://observablehq.com/@bogo/give-and-take"]
+
+kxfmbrowserimport [
+label="https://unpkg.com/@kxfm/browser?module"
+  URL="https://unpkg.com/@kxfm/browser?module"
+tooltip="problem exists with version 1.2.0; working well with 1.1.10!"
+]
+
+kxfmbrowser120 [
+label="https://unpkg.com/@kxfm/browser@1.2.0/index.js?module"
+  URL="https://unpkg.com/@kxfm/browser@1.2.0/index.js?module"
+]
+
+kxfmbrowser1110 [
+label="https://unpkg.com/@kxfm/browser@1.1.10/index.js?module"
+  URL="https://unpkg.com/@kxfm/browser@1.1.10/index.js?module"
+]
+
+
+typeerror [tooltip="Uncaught TypeError: Failed to fetch dynamically imported module: 
+https://unpkg.com/@kxfm/browser?module"]
+
+runtimeerror [tooltip="RuntimeError: Failed to fetch dynamically imported module: 
+https://unpkg.com/@kxfm/browser?module"]
+
+error404 [tooltip="GET https://unpkg.com/@hpcc-js/wasm@2.16.2/graphviz?module net::ERR_ABORTED 404 (Not Found)
+"]
+
+d3graphvizimport [label="https://unpkg.com/d3-graphviz@5.4.0/src/graphviz.js?module" tooltip="contains: import { Graphviz as hpccWasmGraphviz } from 
+'https://unpkg.com/@hpcc-js/wasm@^2.16.2/graphviz?module';
+"]
+
+wasm216import [label="https://unpkg.com/@hpcc-js/wasm@2.16.2/graphviz?module"]
+
+wasmbase [label="https://unpkg.com/@hpcc-js/wasm/dist/graphviz"]
+wasm216working [label="https://unpkg.com/@hpcc-js/wasm@2.16.2/dist/graphviz.js"]
+
+wasm216import -> error404 -> d3graphvizimport -> kxfmbrowser120 -> typeerror -> htmlpage
+
+wasmbase -> wasm216working [label=redirect]
+wasm216working -> HTTP_200
+
+subgraph cluster_graphviz {wasm216import wasm216working}
+
+subgraph cluster_errors {label=errors runtimeerror typeerror kxfmbrowser120}
+
+subgraph cluster_symptoms {label=fails obspage htmlpage}
+
+kxfmbrowser120 -> runtimeerror -> obspage
+
+{kxfmbrowser1110 kxfmbrowser120} -> kxfmbrowserimport

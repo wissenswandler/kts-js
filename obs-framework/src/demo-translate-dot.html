@@ -17,7 +17,7 @@
   <div id="ktsConsole">KTS loading...</div>
   <link rel="stylesheet" href="https://unpkg.com/@kxfm/one/graph.css" />
   <script type="module">
-    const kxfm = await import('https://unpkg.com/@kxfm/browser?module')
+    const kxfm = await import('https://unpkg.com/@kxfm/browser@1.1.10?module')
     const dotReplaceWithSvg = kxfm.dotReplaceWithSvg
     dotReplaceWithSvg( undefined  ) // translating the default tags (.dotcontainer class, digraph tag)
     dotReplaceWithSvg( 'small'    ) // translating a custom tag
