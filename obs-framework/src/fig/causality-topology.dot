@@ -4,7 +4,7 @@ graph [labelloc=B fontsize=12]
 # node definitions (mostly labels)
 #
 { node [label=cause   ]
-  c
+# c
   cr  [label=root   ] # define this here for the intended sequence of clusters, which is based on document order of nodes
   tc1 [label=water  ]
   tc2 [label=energy ]
@@ -17,7 +17,7 @@ graph [labelloc=B fontsize=12]
   n9
 }
 { node [label=effect  ]
-  e
+# e
   ef1
   n4 n8
 }
@@ -34,23 +34,23 @@ nc3 [label=feedback]
 # cluster and graph definitions
 #
 
-subgraph cluster_simple
-{ label=mini c->e }
+#subgraph cluster_simple
+#{ label=mini c->e }
 
 subgraph cluster_chain 
 { label=chain cr-> intermediate -> symptom }
 
 subgraph cluster_tree 
-{ label=tree {tc1 tc2} -> te }
+{ label="tree (join)" {tc1 tc2} -> te }
 
 subgraph cluster_fork 
 { label=fork cf-> {ef1 ef2} }
 
 subgraph cluster_graph1 
-{ label="net 1" n1 -> {n2 n3} -> n4 }
+{ label="fork - join" n1 -> {n2 n3} -> n4 }
 
 subgraph cluster_graph2
-{ label="net 2" {n5 n6} -> n7 -> {n8 n9} }
+{ label="join - fork" {n5 n6} -> n7 -> {n8 n9} }
 
 subgraph cluster_cycle
 { label="cycle" nc1->nc2->nc3 nc3->nc1 # [label=feedback] # is this label useful or distracting?

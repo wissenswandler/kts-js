@@ -43,8 +43,9 @@ pre > code
     margin          : unset;
 }
 
-
-.ktscontainer {
+div > span.ktscontainer > svg ,
+            p > img
+{
   box-shadow: 0 0 8px 1px rgba(0,0,0,.2);
 }
 

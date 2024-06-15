@@ -161,8 +161,9 @@ async dot2svg ( dot_string_generator, options = default_options )
   else
   {
     visco.on_svg_load( {document:span} )
-    span.explore                  = elm => visco.explore                  ( elm, span )
+    span.explore                  = elm => visco.explore                  ( elm, span             )
     span.execute_command_sequence = seq => visco.execute_command_sequence ( seq, span )
+    span.e                        = cmd => visco.e                        ( cmd, span )
     console.debug( "KTS: visco initialized" )
   }
 

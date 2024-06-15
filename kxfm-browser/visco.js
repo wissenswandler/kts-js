@@ -78,20 +78,20 @@ var panZoomInstance
  * convenience function to execute either a click- or a press-command
  * which is mostly used in the URL interface for passing a (sequence of) command(s)
  */
-function e( symbol )
+function e( symbol, document = globalThis.document)
 {
   let command = kts_actions[ symbol ];
   if( command )
   {
-    press( symbol );
-    return;
+    press( symbol, {document} );
+    return document
   }
 
-  let elm = document.getElementById( symbol );
+  let elm = globalThis.document.getElementById( symbol );
   if( elm )
   {
-    on_click( elm );
-    return;
+    on_click( elm, {document} );
+    return document
   }
 
   console.warn( "don't know how to execute statement ==>" + symbol + "<== (may be OK for multi-diagram document)" );
@@ -1616,7 +1616,7 @@ function execute_url_commands()
 function execute_command_sequence( command_sequence, document )
 {
   if( command_sequence == "" ) return document
-  command_sequence.split( "," ).forEach( (command) => e( command, document ) )
+  command_sequence.split( "," ).forEach( (command) => e( command, {document} ) )
   return document
 }
 
