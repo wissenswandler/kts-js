@@ -1,0 +1,42 @@
+{
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf src/.observablehq/cache",
+    "build": "rimraf dist && observable build",
+    "dev": "observable preview",
+    "deploy": "observable deploy",
+    "observable": "observable",
+    "prime-one": "npm install $(npm pack ../kxfm-one/          | tail -1)",
+    "prime-bro": "npm install $(npm pack ../kxfm-browser/      | tail -1)",
+    "prime-obs": "npm install $(npm pack ../kxfm-observablehq/ | tail -1)",
+    "link-kts": "echo linked npm packages will NOT be revolved by bundlers!",
+    "update-kts": "npm run update-one && npm run update-bro && npm run update-obs",
+    "update-one": "rm -r src/.observablehq/cache/_node/@kxfm/one*; cp ../kxfm-one/*.*          node_modules/@kxfm/one/         ",
+    "update-bro": "rm -r src/.observablehq/cache/_node/@kxfm/bro*; cp ../kxfm-browser/*.*      node_modules/@kxfm/browser/     ",
+    "update-obs": "rm -r src/.observablehq/cache/_node/@kxfm/obs*; cp ../kxfm-observablehq/*.* node_modules/@kxfm/observablehq/",
+    "prime-android": "npm install @rollup/rollup-android-arm64"
+  },
+  "dependencies": {
+    "@hpcc-js/wasm": "^2.15.1",
+    "@kxfm/browser": "latest",
+    "@kxfm/observablehq": "latest",
+    "@kxfm/one": "latest",
+    "@observablehq/framework": "latest",
+    "@observablehq/inputs": "^0.10.6",
+    "canvas-confetti": "^1.9.2",
+    "d3": "^7.9.0",
+    "d3-dsv": "^3.0.1",
+    "d3-graphviz": "^5.3.0",
+    "d3-require": "^1.3.0",
+    "d3-time-format": "^4.1.0",
+    "htl": "^0.3.1",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
