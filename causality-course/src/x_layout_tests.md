@@ -1,10 +1,10 @@
-# X Layout Tests
+# x Layout Tests
 
 ```js 
 import{ digraph, digraph2svg, visco } from "@kxfm/browser"
 ```
 ## a
-Leanest case: ${digraph`root -> intermediate -> result ` } inline client-side diagram 
+Leanest case: ${digraph`root -> intermediate -> result`} inline client-side diagram 
 
 ## b
 Client-side diagram from fenced code block:
@@ -15,7 +15,7 @@ digraph`more[label="more ..."] root -> intermediate -> more -> symptom`
 ## c
 Client-side diagram from fenced code block, plus Visco initialization:
 ```js
-digraph2svg( `more[label="..."] root -> intermediate -> more -> result  node[label="side effect"] root->side1 intermediate->side2 `)
+digraph` more[label="..."] root -> intermediate -> more -> result  node[label="side effect"] root->side1 intermediate->side2 `
 .then( d => d
   .explore( 'root' )
   .explore( 'result' )
