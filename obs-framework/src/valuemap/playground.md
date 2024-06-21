@@ -11,7 +11,11 @@ import {
 import {  digraph2svg   ,
                         } from "@kxfm/browser"
 
-
+/* fails to import:
+import {  Base91, Zstd  } from "@hpcc-js/wasm"
+const base91 = await Base91.load()
+const zstd   = await   Zstd.load()
+*/
 ```
 
 <div class="card">
@@ -46,6 +50,22 @@ const dot_source = view( Inputs.textarea(
 
 ```js
 htl.html`<p><a class="screenonly" href="?dot=${
-encodeURIComponent( dot_source )
+encodeURIComponent( shorten( dot_source ) )
 }">bookmark current diagram</a></p>`
+```
+
+```js
+const shorten = text => text
+  .replaceAll(  /\[ \t]+/g        , ' '  )
+  .replaceAll(  /\s?(->)\s?/g , '$1' ) 
+  .replaceAll(  /\s?([[{}\]])\s?/g , '$1' ) 
+
+```
+
+```js
+/*
+htl.html`<p><a class="screenonly" href="?cdot=${
+base91.encode(   zstd.compress(  new TextEncoder().encode( dot_source )  )   )
+}">bookmark current diagram</a></p>`
+*/
 ```
