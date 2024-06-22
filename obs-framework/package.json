@@ -19,9 +19,9 @@
   },
   "dependencies": {
     "@hpcc-js/wasm": "^2.15.1",
-    "@kxfm/browser": "latest",
-    "@kxfm/observablehq": "latest",
-    "@kxfm/one": "latest",
+    "@kxfm/browser"     : ">=1.2.0",
+    "@kxfm/observablehq": ">=1.2.0",
+    "@kxfm/one"         : ">=1.2.0",
     "@observablehq/framework": "latest",
     "@observablehq/inputs": "^0.10.6",
     "canvas-confetti": "^1.9.2",
