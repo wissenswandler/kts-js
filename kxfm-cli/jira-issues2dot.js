@@ -4,7 +4,7 @@
  * CLI entry into lightweight KTS lib
  */
 
-import { Tjira2dot } from '@kxfm/jira2dot';
+import { Tjira2dot } from '@kxfm/one';
 
 let input = "";
 process.stdin.on
