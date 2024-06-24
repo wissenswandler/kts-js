@@ -37,6 +37,7 @@ export default {
       pages: 
       [
         {name: "Casablanca"                     , path: "/casablanca"             },
+        {name: "Timelines Playground"           , path: "/timelines/playground"   },
       ]
     } ,
     { name: "3a Value Maps (+ kxfm) library",
