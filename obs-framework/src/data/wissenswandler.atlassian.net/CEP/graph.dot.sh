@@ -1,1 +1,2 @@
-jira-issues2dot < $(dirname $0)/issues.json
+cd $(dirname $0)
+jira_extract_issues | jira-issues2dot
