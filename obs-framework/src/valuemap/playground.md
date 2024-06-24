@@ -56,10 +56,9 @@ encodeURIComponent( shorten( dot_source ) )
 
 ```js
 const shorten = text => text
-  .replaceAll(  /\[ \t]+/g        , ' '  )
-  .replaceAll(  /\s?(->)\s?/g , '$1' ) 
+  .replaceAll(  /\[ \t]+/g         , ' '  )
+  .replaceAll(  /\s?(->)\s?/g      , '$1' ) 
   .replaceAll(  /\s?([[{}\]])\s?/g , '$1' ) 
-
 ```
 
 ```js
