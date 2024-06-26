@@ -1,6 +1,6 @@
 .DS_Store
 dist/
-src/.observablehq/cache/
+manuscript/.observablehq/cache/
 node_modules/
 yarn-error.log
 *.swp

@@ -19,7 +19,7 @@ export default {
   ],
   */
 
-  root  : "src",        // path to the source root for preview
+  root  : "manuscript", // path to the source root for preview
   theme : "dashboard",  // try "light", "dark", "slate", etc.
   style : "book.css",
 
