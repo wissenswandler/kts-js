@@ -51,4 +51,8 @@ There are two reasons why this is not a useful workflow for a manuscript which i
 
 1. Inserting the SVG from a source which had produced it is a manual process. It is just easier to generate an SVG by a dataloader, as in test case c.
 
+- - -
 
+external link: [Leanpub](https://leanpub.com/)
+
+*shall appear with "external" icon, per CSS*

@@ -20,6 +20,19 @@
 
 /*
  *
+ *  generic rules for all (HTML) pages
+ *
+ */
+
+/* results in: ✘ [ERROR] No loader is configured for ".svg" files
+a[href^="http"] {
+  background:url(img/external.svg) center right no-repeat;
+  padding-right:15px
+}
+*/
+
+/*
+ *
  * Obs-Framework specific style from here on
  *
  */
